@@ -16,6 +16,6 @@ export class HomeComponent {
   }
 
   test() {
-    this.router.navigate([RouterPath.Test]);
+    this.router.navigate([RouterPath.Home, RouterPath.Test]);
   }
 }

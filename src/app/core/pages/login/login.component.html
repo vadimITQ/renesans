@@ -1,16 +1,28 @@
 
-<div class="login-form">
-  <label>Вход в WEB-интерфейс PE 2.0</label>
-  <div class="login">
+<div class="login-form" [formGroup]="loginForm">
+  <div class="login-form__title">
+    <h4>Вход в WEB-интерфейс PE 2.0</h4>
+  </div>
+  <div class="login-form__login">
     <label>Логин</label>
-    <input />
+    <input 
+      class="form-control" 
+      [(ngModel)]="authentificationData.login" 
+      type="text"
+      formControlName="login" />
   </div>
-  <div class="password">
+  <div class="login-form__password">
     <label>Пароль</label>
-    <input />
+    <input 
+      class="form-control" 
+      [(ngModel)]="authentificationData.password" 
+      type="password"
+      formControlName="password" />
   </div>
-  <div class="login-error">
-    {{ errorMessage }}
+  <div *ngIf="showErrorMessage" class="login-form__error">
+    <label class="alert login-form__alert-error">{{ errorMessage }}</label>
   </div>
-  <button (click)="login()">Вход</button>
+  <div class="login-form__login-button">
+    <button class="btn btn-success" (click)="tryAuthenticateUser()">Вход</button>
+  </div>
 </div>

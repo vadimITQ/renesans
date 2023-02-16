@@ -8,6 +8,9 @@ import { HomeComponent } from './core/pages/home/home.component';
 import { TestComponent } from './core/pages/test/test.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModuleModule } from './shared/modules/shared-module/shared-module.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -19,8 +22,11 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule, 
+    ReactiveFormsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    SharedModuleModule,
+    BrowserAnimationsModule,
+    CalendarModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

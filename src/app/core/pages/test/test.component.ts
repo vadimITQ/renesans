@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterPath } from '../../shared/enums/router.enums';
+import { RouterPath } from '../../../shared/enums/router.enums';
 
 @Component({
   selector: 'app-test',

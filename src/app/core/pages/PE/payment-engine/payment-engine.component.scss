@@ -1,0 +1,34 @@
+
+.paymentEngine {
+    padding: 10px 20px 10px 20px;
+
+    &__menuLink {
+        display: inline-block;
+        a {
+            color: rgb(104, 150, 189);
+            text-decoration: underline;
+            cursor: pointer;
+            user-select: none;
+            text-transform: uppercase;
+            &:hover {
+                color: rgba(104, 150, 189, 0.8);
+            }
+        }
+    }
+
+    &__separator {
+        display: inline;
+        font-weight: bold;
+        margin: 0px 10px 0px 10px;
+        user-select: none;
+    }
+
+    &__menuLink_clicked {
+        color: rgba(130, 168, 201, 0.8) !important;
+    }
+
+    &__content {
+        margin-top: 15px;
+    }
+    
+}

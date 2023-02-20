@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+.c-pointer {
+    cursor: pointer;
+}
+
+.btn-success {
+    &:hover {
+        background: #4caf50;
+        opacity: 0.8;
+    }
+    background-color: rgb(76, 175, 80);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+}

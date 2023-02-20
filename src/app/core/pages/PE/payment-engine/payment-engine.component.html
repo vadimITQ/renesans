@@ -1,0 +1,17 @@
+
+<div class="paymentEngine">
+  <div class="paymentEngine__menuLink" *ngFor="let paymentLink of paymentMenu; let idx = index">
+    <a 
+      (click)="clickMenuLink(paymentLink)" 
+      [ngClass]="{ 'paymentEngine__menuLink_clicked': paymentLink.clicked }">
+      {{ paymentLink.name }}
+    </a> 
+    <div class="paymentEngine__separator" *ngIf="idx != paymentMenu.length - 1">|</div>
+  </div>
+
+  <div class="paymentEngine__content">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { RouterPath } from '../../../shared/enums/router.enums';
 
 @Component({
@@ -7,14 +7,31 @@ import { RouterPath } from '../../../shared/enums/router.enums';
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss'],
 })
-export class TestComponent {
-  title = 'renesans';
+export class TestComponent implements OnInit {
+
+  title = '';
 
   constructor(private router: Router) {
-    console.log('123');
+    const state = this.router?.getCurrentNavigation()?.extras?.state;
+    console.log(state);
+    if (state){
+      this.title = state["name"] ?? "";
+    }
   }
 
-  goHome() {
-    this.router.navigate([RouterPath.Home]);
+  ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd){
+        const state = this.router?.getCurrentNavigation()?.extras?.state;
+        console.log(state);
+        if (state){
+          this.title = state["name"] ?? "";
+        }
+      }
+    })
+  }
+
+  goToPayment() {
+    this.router.navigate([RouterPath.PaymentEngine]);
   }
 }

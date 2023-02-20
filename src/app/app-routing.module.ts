@@ -1,27 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './core/pages/login/login.component';
-import { HomeComponent } from './core/pages/home/home.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { TestComponent } from './core/pages/test/test.component';
 import { RouterPath } from './shared/enums/router.enums';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
+import { PaymentEngine } from './core/pages/PE/payment-engine/payment-engine.component';
+import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.component';
 
 const routes: Routes = [
   { path: RouterPath.Login, component: LoginComponent },
   {
-    path: RouterPath.Home,
+    path: RouterPath.PaymentEngine,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
+    component: PaymentEngine,
     children: [
-      { path: '', component: HomeComponent },
-      { path: RouterPath.Test, component: TestComponent },
+      { path: RouterPath.Test, component: TestComponent  },
+      { path: RouterPath.MonitoringStandingOrders, component: MonitoringStandingOrdersComponent }
     ],
   },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: RouterPath.Home,
+    redirectTo: RouterPath.PaymentEngine,
   },
   { path: RouterPath.NotFound, component: NotFoundComponent },
 ];

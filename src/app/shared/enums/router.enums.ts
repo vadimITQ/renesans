@@ -1,6 +1,7 @@
 export enum RouterPath {
-  Home = 'home',
+  PaymentEngine = 'paymentEngine',
   Login = 'login',
   Test = 'test',
+  MonitoringStandingOrders = "monitoringStandingOrders",
   NotFound = '**',
 }

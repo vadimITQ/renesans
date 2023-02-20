@@ -15,6 +15,11 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.component';
 import { MonitoringStandingOrdersFilterComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders-filter/monitoring-standing-orders-filter.component';
+import { NumberOfOrdersTableComponent } from './core/pages/PE/monitoring-standing-orders/number-of-orders-table/number-of-orders-table.component';
+import { TableModule } from 'primeng/table';
+import { HttpClientModule } from '@angular/common/http';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,10 @@ import { MonitoringStandingOrdersFilterComponent } from './core/pages/PE/monitor
     TestComponent, 
     NotFoundComponent, 
     MonitoringStandingOrdersComponent, 
-    MonitoringStandingOrdersFilterComponent
+    MonitoringStandingOrdersFilterComponent, 
+    NumberOfOrdersTableComponent, 
+    NumberOfOrdersTableComponent, 
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule, 
@@ -34,9 +42,11 @@ import { MonitoringStandingOrdersFilterComponent } from './core/pages/PE/monitor
     BrowserAnimationsModule,
     CalendarModule,
     ToastModule,
-    
+    TableModule,
+    HttpClientModule,
+    ProgressSpinnerModule
   ],
-  providers: [AuthGuard, MessageService],
+  providers: [AuthGuard, MessageService,],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

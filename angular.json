@@ -31,6 +31,7 @@
             ],
             "styles": [
               "src/styles.scss",
+              "src/app/shared/styles/buttons.scss",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/saga-green/theme.css",

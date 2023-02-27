@@ -1,0 +1,36 @@
+
+:host ::ng-deep .loading-spinner .p-progress-spinner-circle {
+    animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes custom-progress-spinner-color {
+    100%,
+    0% {
+        stroke: rgb(2, 176, 2);
+    }
+    40% {
+        stroke: rgb(2, 176, 2);
+    }
+    66% {
+        stroke: rgb(2, 176, 2);
+    }
+    80%,
+    90% {
+        stroke: rgb(2, 176, 2);
+    }
+}
+
+@keyframes custom-progress-spinner-dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+    }
+}

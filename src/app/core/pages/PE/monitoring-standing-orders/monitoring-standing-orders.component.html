@@ -1,2 +1,23 @@
 
-<app-monitoring-standing-orders-filter></app-monitoring-standing-orders-filter>
+<div class="mso">
+    <app-monitoring-standing-orders-filter (OnRefreshData)="onRefreshingData($event)"></app-monitoring-standing-orders-filter>
+
+    <div class="mb-4"></div>
+    
+    <app-number-of-orders-table [standingOrderStatData]="standingOrderStat" (OnFilteringByOrdersStat)="onFilteringByOrdersStat($event)"></app-number-of-orders-table>
+    
+    <div class="mb-4"></div>
+    
+    <app-transfer-payment-history-by-status-table [monitoringDataRecord]="monitoringDataRecord"></app-transfer-payment-history-by-status-table>
+    
+    <div class="mb-4"></div>
+    
+    <div class="mso__buttons mb-4" *ngIf="standingOrderStat">
+        <button class="btn btn-success btn-round mx-1" (click)="back()">Назад</button>
+        <button class="btn btn-success btn-round mx-1" (click)="cancelStandingOrder()">Отменить распоряжение</button>
+        <button class="btn btn-success btn-round mx-1" (click)="processStandingOrderRequest()">Отклонить операцию по распоряжению</button>
+        <button class="btn btn-success btn-round mx-1" (click)="cancelOperation()">Повторить обработку по распоряжению</button>
+        <button class="btn btn-success btn-round"      (click)="generateAReport()">Сформировать отчёт</button>
+    </div>
+</div>
+

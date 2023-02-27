@@ -7,13 +7,13 @@
             Дата исполнения
         </div>
         <div class="col-auto my-auto me-1">
-            <p-calendar [(ngModel)]="date" #calendar></p-calendar>
+            <p-calendar [(ngModel)]="executionDate" #calendar></p-calendar>
         </div>
         <div class="col-auto my-auto me-4 c-pointer">
             <i class="pi pi-calendar" (click)="openCalendar()"></i>
         </div>
         <div class="col-auto my-auto">
-            <button class="btn btn-success">Обновить</button>
+            <button class="btn btn-success" (click)="refreshData()">Обновить</button>
         </div>
     </div>
 </div>

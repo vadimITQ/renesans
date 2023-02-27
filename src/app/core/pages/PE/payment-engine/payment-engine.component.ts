@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { RouterPath } from '../../../../shared/enums/router.enums';
-import { paymentEngineLinks } from "../../../../shared/variables/paymentSearchMenu"
-import { PaymentEngineMenuLink } from 'src/app/shared/models/PaymentEngineMenu';
+import { paymentEngineLinks } from "../../../../shared/variables/payment-search-menu"
+import { PaymentEngineMenuLink } from 'src/app/shared/models/payment-engine-menu';
 
 @Component({
   selector: 'app-payment-engine',

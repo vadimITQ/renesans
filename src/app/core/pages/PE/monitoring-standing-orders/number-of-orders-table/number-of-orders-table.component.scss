@@ -1,0 +1,15 @@
+
+.noo-table {
+    &__td-delimiter {
+        border-right: 3px solid lightgray !important;
+    }
+    &__spinner {
+        stroke: green!important;
+    }
+    &__row-gray {
+        background-color: lightgray!important;
+    }
+    &__text-hover:hover {
+        color: rgba(73, 80, 87, 0.7) !important;
+    }
+}

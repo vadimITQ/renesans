@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { tableValuesMock } from '../../../../../shared/mocks/number-of-orders-table.mock'
-import { MonitoringStandingOrdersService } from '../../../../services/monitoring-standing-orders/monitoring-standing-orders.service'
-import { StandingOrderStatResponse } from '../../../../../shared/models/MonitoringStandingOrders'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { OrdersStat } from 'src/app/shared/enums/orders-Stat.enums';
+import { StandingOrderStatResponse } from '../../../../../shared/models/monitoring-standing-orders';
 
 @Component({
   selector: 'app-number-of-orders-table',
@@ -10,14 +9,17 @@ import { StandingOrderStatResponse } from '../../../../../shared/models/Monitori
 })
 export class NumberOfOrdersTableComponent implements OnInit {
 
-  constructor(private monitoringStandingOrdersService: MonitoringStandingOrdersService){ }
+  constructor(){ }
 
-  standingOrderStatResponse: StandingOrderStatResponse = { } as StandingOrderStatResponse;
+  public readonly ordersStat = OrdersStat;
 
-  ngOnInit(): void {
-    this.monitoringStandingOrdersService.getStandingOrderStat().subscribe(response => {
-      this.standingOrderStatResponse = response;
-    });
+  @Input() standingOrderStatData!: StandingOrderStatResponse | null;
+  @Output() OnFilteringByOrdersStat: EventEmitter<OrdersStat> = new EventEmitter();
+
+  ngOnInit(): void { }
+
+  ordersStatRowClicked(ordersStat: OrdersStat) {
+    this.OnFilteringByOrdersStat.emit(ordersStat);
   }
   
 }

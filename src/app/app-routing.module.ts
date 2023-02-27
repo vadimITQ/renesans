@@ -7,6 +7,7 @@ import { RouterPath } from './shared/enums/router.enums';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
 import { PaymentEngine } from './core/pages/PE/payment-engine/payment-engine.component';
 import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.component';
+import { MonitoringStandingOrdersGuard } from './shared/guards/monitoring-standing-orders.guard';
 
 const routes: Routes = [
   { path: RouterPath.Login, component: LoginComponent },
@@ -17,7 +18,7 @@ const routes: Routes = [
     component: PaymentEngine,
     children: [
       { path: RouterPath.Test, component: TestComponent  },
-      { path: RouterPath.MonitoringStandingOrders, component: MonitoringStandingOrdersComponent }
+      { path: RouterPath.MonitoringStandingOrders, component: MonitoringStandingOrdersComponent, canActivate: [MonitoringStandingOrdersGuard] }
     ],
   },
   {

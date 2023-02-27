@@ -1,0 +1,39 @@
+
+<div class="noo-table">
+    <h5 class="mb-3">Количество распоряжений</h5>
+
+    <p-table
+        *ngIf="standingOrderStatData"
+        [value]="[{}]" 
+        styleClass="p-datatable-striped"
+        [tableStyle]="{'max-width': '450px', 'border': '3px solid lightgray'}">
+        <ng-template pTemplate="body" let-order>
+            <tr class="noo-table__row-gray">
+                <td class="w-50 noo-table__td-delimiter">Всего действующих распоряжений</td>
+                <td class="w-25 text-center">{{ standingOrderStatData.standingOrdersCount }}</td>
+            </tr>
+            <tr>
+                <td class="w-50 noo-table__td-delimiter">Распоряжений с указанной датой</td>
+                <td class="w-25 text-center">{{ standingOrderStatData.plannedForDateCount }}</td>
+            </tr>
+            <tr>
+                <td class="w-50 noo-table__td-delimiter c-pointer noo-table__text-hover" (click)="ordersStatRowClicked(ordersStat.ProcessedOrder)">Обработано в указанную дату</td>
+                <td class="w-25 text-center">{{ standingOrderStatData.processedCount }}</td>
+            </tr>
+            <tr>
+                <td class="w-50 noo-table__td-delimiter ps-4 c-pointer noo-table__text-hover" (click)="ordersStatRowClicked(ordersStat.SuccessfullyProcessed)">-Обработано успешно</td>
+                <td class="w-25 text-center ps-4">{{ standingOrderStatData.successfullyProcessedCount }}</td>
+            </tr>
+            <tr>
+                <td class="w-50 noo-table__td-delimiter ps-4 c-pointer noo-table__text-hover" (click)="ordersStatRowClicked(ordersStat.FailedProcessed)">-Обработано с ошибкой</td>
+                <td class="w-25 text-center ps-4">{{ standingOrderStatData.failedProcessedCount }}</td>
+            </tr>
+            <tr>
+                <td class="w-50 noo-table__td-delimiter ps-4 c-pointer noo-table__text-hover" (click)="ordersStatRowClicked(ordersStat.Processing)">-В обработке</td>
+                <td class="w-25 text-center ps-4">{{ standingOrderStatData.processingCount }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <app-loading-spinner *ngIf="!standingOrderStatData" [contentHeight]="'330px'"></app-loading-spinner>
+</div>
+

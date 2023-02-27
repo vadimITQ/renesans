@@ -12,7 +12,7 @@ import { SharedModuleModule } from './shared/modules/shared-module/shared-module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.component';
 import { MonitoringStandingOrdersFilterComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders-filter/monitoring-standing-orders-filter.component';
 import { NumberOfOrdersTableComponent } from './core/pages/PE/monitoring-standing-orders/number-of-orders-table/number-of-orders-table.component';
@@ -20,6 +20,10 @@ import { TableModule } from 'primeng/table';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import { TransferPaymentHistoryByStatusTableComponent } from './core/pages/PE/monitoring-standing-orders/transfer-payment-history-by-status-table/transfer-payment-history-by-status-table.component';
+import { DatePipe } from '@angular/common';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MonitoringStandingOrdersGuard } from 'src/app/shared/guards/monitoring-standing-orders.guard';
 
 @NgModule({
   declarations: [
@@ -32,7 +36,8 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     MonitoringStandingOrdersFilterComponent, 
     NumberOfOrdersTableComponent, 
     NumberOfOrdersTableComponent, 
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent, 
+    TransferPaymentHistoryByStatusTableComponent
   ],
   imports: [
     BrowserModule, 
@@ -44,9 +49,10 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
     ToastModule,
     TableModule,
     HttpClientModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    ConfirmDialogModule
   ],
-  providers: [AuthGuard, MessageService,],
+  providers: [AuthGuard, DatePipe, MessageService, ConfirmationService, MonitoringStandingOrdersGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

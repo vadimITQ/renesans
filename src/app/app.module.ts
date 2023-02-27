@@ -24,6 +24,14 @@ import { TransferPaymentHistoryByStatusTableComponent } from './core/pages/PE/mo
 import { DatePipe } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MonitoringStandingOrdersGuard } from 'src/app/shared/guards/monitoring-standing-orders.guard';
+import { ManualChecksComponent } from './core/pages/PE/manual-checks/manual-checks.component';
+import { PaymentEngineRolesGuard } from './shared/guards/payment-engine-roles.guard';
+import { ManualChecksFilterComponent } from './core/pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.component';
+import { ManualChecksResultComponent } from './core/pages/PE/manual-checks/manual-checks-result/manual-checks-result.component';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { ClickToDirective } from './shared/directives/click-to.directive';
+import { PeInputComponent } from './shared/components/controls/pe-input/pe-input.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +45,12 @@ import { MonitoringStandingOrdersGuard } from 'src/app/shared/guards/monitoring-
     NumberOfOrdersTableComponent, 
     NumberOfOrdersTableComponent, 
     LoadingSpinnerComponent, 
-    TransferPaymentHistoryByStatusTableComponent
+    TransferPaymentHistoryByStatusTableComponent, 
+    ManualChecksComponent, 
+    ManualChecksFilterComponent, 
+    ManualChecksResultComponent,
+    ClickToDirective,
+    PeInputComponent
   ],
   imports: [
     BrowserModule, 
@@ -50,9 +63,18 @@ import { MonitoringStandingOrdersGuard } from 'src/app/shared/guards/monitoring-
     TableModule,
     HttpClientModule,
     ProgressSpinnerModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DropdownModule,
+    InputTextModule
   ],
-  providers: [AuthGuard, DatePipe, MessageService, ConfirmationService, MonitoringStandingOrdersGuard],
-  bootstrap: [AppComponent],
+  providers: [
+    AuthGuard, 
+    DatePipe, 
+    MessageService, 
+    ConfirmationService, 
+    MonitoringStandingOrdersGuard, 
+    PaymentEngineRolesGuard
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

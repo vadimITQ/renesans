@@ -1,0 +1,29 @@
+
+.ms-filter {
+
+    &__forms {
+       display: flex;
+       align-items: center;
+       margin-bottom: 15px;
+       div {
+            > label {
+                white-space: nowrap;
+                margin-right: 20px;
+            }
+            > input, p-calendar, p-dropdown, i {
+                 margin-right: 15px;
+            }
+            > i {
+                font-size: 1.7rem;
+            }
+       }
+       div:first-child {
+        width: 125px;
+       }
+    }
+
+    &__buttons {
+        display: flex;
+    }
+
+}

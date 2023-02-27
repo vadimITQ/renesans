@@ -1,7 +1,8 @@
+import { RolesList } from "../enums/roles.enums";
 
 export const userHasRoles = [
-    "AP.PEWeb.ManualChecks",
-    "AP.STORDAPP",
+    RolesList.ManualChecks,
+    RolesList.STORDAPP
 ];
 
 export const userNoRoles = [

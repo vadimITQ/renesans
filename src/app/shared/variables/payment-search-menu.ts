@@ -39,7 +39,7 @@ export const paymentEngineLinks: PaymentEngineMenuLink[] = [
     },
     { 
         name: "Ручной разбор ошибочных переводов и платежей",
-        navigation: RouterPath.Test,
+        navigation: RouterPath.ManualChecks,
         clicked: false
     },
     { 

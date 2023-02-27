@@ -3,5 +3,6 @@ export enum RouterPath {
   Login = 'login',
   Test = 'test',
   MonitoringStandingOrders = "monitoringStandingOrders",
+  ManualChecks = "manualChecks",
   NotFound = '**',
 }

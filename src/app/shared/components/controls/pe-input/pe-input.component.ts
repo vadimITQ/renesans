@@ -6,18 +6,20 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./pe-input.component.scss'],
 })
 export class PeInputComponent {
-  @Input() label: string = '';
+
+  constructor() { }
 
   _value: string = '';
-  @Input()
-  get value() {
+
+  @Input() label: string = '';
+  @Input() get value() {
     return this._value;
   }
-
-  @Output() valueChange = new EventEmitter();
+  @Output() ValueChange = new EventEmitter();
 
   set value(newValue) {
     this._value = newValue;
-    this.valueChange.emit(this.value);
+    this.ValueChange.emit(this.value);
   }
+
 }

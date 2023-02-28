@@ -1,39 +1,57 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Calendar } from 'primeng/calendar';
+import { Observable } from 'rxjs';
+import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
+import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
 
 @Component({
   selector: 'app-manual-checks-filter',
   templateUrl: './manual-checks-filter.component.html',
   styleUrls: ['./manual-checks-filter.component.scss']
 })
-export class ManualChecksFilterComponent {
+export class ManualChecksFilterComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private mcService: ManualChecksService) { }
+
+  @ViewChild("dateFromRef") dateFromRef!: Calendar;
+  @ViewChild("dateToRef") dateToRef!: Calendar;
 
   public dateFrom: Date = new Date();
   public dateTo: Date = new Date();
-  public transferTypes = manualChecksTransferTypes;
+  public transferTypes = this.getTransferTypes();
+  public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
+  public filter: ManualChecksFilter = {
+    dateFrom: new Date(),
+    dateTo: new Date(),
+    timeFrom: new Date(),
+    timeTo: new Date()
+  };
 
-  public msFilterFormGroup: FormGroup = this.fb.group({
-    ID_PE: new FormControl(""),
-    ID_PT: new FormControl(""),
-    ID_PH: new FormControl(""),
-    ID_NC: new FormControl(""),
-    dateFrom: new FormControl(new Date()),
-    timeFrom: new FormControl(new Date()),
-    dateTo: new FormControl(new Date()),
-    timeTo: new FormControl(new Date()),
-    status: new FormControl(""),
-    transferType: new FormControl(""),
-  });
+  ngOnInit(): void {
+    console.log(this.transferTypes);  
+  }
 
   openDateFromCalendar() {
-    
+    this.dateFromRef?.inputfieldViewChild?.nativeElement?.click();
   }
   
   openDateToCalendar() {
+    this.dateToRef?.inputfieldViewChild?.nativeElement?.click();
+  }
 
+  clearFilter() {
+    this.filter = { };
+  }
+
+  searchPayments() {
+    this.mcService
+      .getPayments(this.filter)
+      .subscribe();
+  }
+
+  getTransferTypes() {
+    return [ { type: "Выберите тип перевода", id: -1 }, ...manualChecksTransferTypes?.map((type , id) => ({ type, id }))] ?? [];
   }
 
 }

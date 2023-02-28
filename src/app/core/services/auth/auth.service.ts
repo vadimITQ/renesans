@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router, private rolesService: RolesService) { }
 
-  private _isLoggedIn: boolean = true;
+  private _isLoggedIn: boolean = false;
   private _successToken: string | null = null;
 
   public get isLoggedIn(){

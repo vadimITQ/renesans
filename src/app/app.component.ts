@@ -10,6 +10,6 @@ export class AppComponent {
   title = 'renesans';
 
   constructor(private authService: AuthService){
-    this.authService.login();
+    // this.authService.login();
   }
 }

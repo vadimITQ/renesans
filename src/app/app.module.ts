@@ -32,6 +32,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ClickToDirective } from './shared/directives/click-to.directive';
 import { PeInputComponent } from './shared/components/controls/pe-input/pe-input.component';
+import { AllowedInputCharactersDirective } from './shared/directives/allowed-input-characters.directive';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { PeInputComponent } from './shared/components/controls/pe-input/pe-input
     ManualChecksFilterComponent, 
     ManualChecksResultComponent,
     ClickToDirective,
-    PeInputComponent
+    PeInputComponent,
+    AllowedInputCharactersDirective
   ],
   imports: [
     BrowserModule, 

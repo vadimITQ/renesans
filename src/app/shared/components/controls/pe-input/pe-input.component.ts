@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { defaultExpr } from '../../../variables/pe-input-validations';
 
 @Component({
   selector: 'pe-input',
@@ -8,18 +9,21 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class PeInputComponent {
 
   constructor() { }
+  
+  @Input() regExprValidation: RegExp = defaultExpr;
+  @Input() maxLength: number = 250;
 
-  _value: string = '';
+  _value!: any;
 
   @Input() label: string = '';
   @Input() get value() {
     return this._value;
   }
-  @Output() ValueChange = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
 
   set value(newValue) {
     this._value = newValue;
-    this.ValueChange.emit(this.value);
+    this.valueChange.emit(this.value);
   }
 
 }

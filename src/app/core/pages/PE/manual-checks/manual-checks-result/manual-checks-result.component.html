@@ -2,6 +2,10 @@
 <div class="ms-result">
     <h5>Результат поиска</h5>
 
-    
+    <div *ngIf="paymentResponse">
+        {{ paymentResponse | json }}
+    </div>    
+
+    <app-loading-spinner *ngIf="paymentResponse === null"></app-loading-spinner>
 
 </div>

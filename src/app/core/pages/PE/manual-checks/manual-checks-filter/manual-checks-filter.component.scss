@@ -1,6 +1,10 @@
 
 .ms-filter {
 
+    border: 2px solid lightgray;
+    padding: 15px 25px 15px 25px;
+    border-radius: 9px;
+
     &__forms {
        display: flex;
        align-items: center;

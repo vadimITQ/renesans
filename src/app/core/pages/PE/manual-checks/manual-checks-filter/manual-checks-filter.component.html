@@ -1,30 +1,29 @@
 
-<div [formGroup]="msFilterFormGroup" class="ms-filter">
+<div class="ms-filter">
     <h5>Ручной разбор ошибочных переводов/платежей</h5>
 
     <div class="ms-filter__forms">
-        <pe-input label="ID PE" />
-        <pe-input label="ID_PE" />
-        <pe-input label="ID_PT" />
-        <pe-input label="ID_PH" />
-        <pe-input label="ID_NC" />
+        <pe-input label="ID PE"   [(value)]="filter.paymentID" />
+        <pe-input label="ID_PT"   [(value)]="filter.applicationID" />
+        <pe-input label="ID_PH"   [(value)]="filter.paymentHubPaymentId" />
+        <pe-input label="account" [(value)]="filter.account" />
     </div>
     <div class="ms-filter__forms">
         <div>
             <label>Дата/Время с</label>
         </div>
         <div>
-            <p-calendar formControlName="dateFrom" #dateFromRef></p-calendar>
+            <p-calendar [(ngModel)]="filter.dateFrom" #dateToRef></p-calendar>
         </div>
         <div>
-            <i class="pi pi-calendar c-pointer" (click)="openDateFromCalendar()" [clickTo]="null"></i>
+            <i class="pi pi-calendar c-pointer" (click)="openDateToCalendar()"></i>
         </div>
         <div>
             <p-calendar
-                formControlName="timeFrom"
                 [timeOnly]="true"
                 hourFormat="24"
-                [style]="{ 'width': '60px' }">
+                [style]="{ 'width': '60px' }"
+                [(ngModel)]="filter.timeFrom">
             </p-calendar>
         </div>
     </div>
@@ -33,17 +32,17 @@
             <label>Дата/Время по</label>
         </div>
         <div>
-            <p-calendar formControlName="dateFrom" #dateFromRef></p-calendar>
+            <p-calendar [(ngModel)]="filter.dateTo" #dateFromRef></p-calendar>
         </div>
         <div>
-            <i class="pi pi-calendar c-pointer" (click)="openDateToCalendar()"></i>
+            <i class="pi pi-calendar c-pointer" (click)="openDateFromCalendar()"></i>
         </div>
         <div>
             <p-calendar
-                formControlName="timeFrom"
                 [timeOnly]="true"
                 hourFormat="24"
-                [style]="{ 'width': '60px' }">
+                [style]="{ 'width': '60px' }"
+                [(ngModel)]="filter.timeTo">
             </p-calendar>
         </div>
     </div>
@@ -52,7 +51,7 @@
             <label>Статус</label>
         </div>
         <div>
-            <input pInputText type="text" formControlName="status" />
+            <input pInputText [(ngModel)]="filter.statusCode" type="text"/>
         </div>
     </div>
     <div class="ms-filter__forms">
@@ -60,13 +59,17 @@
             <label>Тип перевода</label>
         </div>
         <div>
-            <p-dropdown formControlName="transferType" [options]="transferTypes" optionLabel="name"></p-dropdown>
+            <p-dropdown
+                [options]="transferTypes" 
+                optionLabel="type"
+                [(ngModel)]="filter.type">
+            </p-dropdown>
         </div>
     </div>
 
     <div class="ms-filter__buttons">
-        <button class="btn btn-success me-2">Очистить</button>
-        <button class="btn btn-success">Найти</button>
+        <button class="btn btn-success me-2" (click)="clearFilter()">Очистить</button>
+        <button class="btn btn-success" (click)="searchPayments()">Найти</button>
     </div>
 
 </div>

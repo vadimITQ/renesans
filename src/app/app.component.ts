@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './core/services/auth/auth.service';
+import { LoadingService } from './shared/services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,11 @@ import { AuthService } from './core/services/auth/auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'renesans';
+  
+  title = 'PE';
 
   constructor(private authService: AuthService){
-    // this.authService.login();
+    // authService.login();
   }
+
 }

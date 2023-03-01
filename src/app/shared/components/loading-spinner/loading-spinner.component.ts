@@ -8,5 +8,6 @@ import { Component, Input } from '@angular/core';
 export class LoadingSpinnerComponent {
   
   @Input() contentHeight: string | "auto" = "auto";
+  @Input() marginTop: string = "0px";
 
 }

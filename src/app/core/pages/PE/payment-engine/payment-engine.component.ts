@@ -32,12 +32,4 @@ export class PaymentEngine {
     }
   }
 
-  // logout() {
-  //   this.authService.logout();
-  // }
-
-  // test() {
-  //   this.router.navigate([RouterPath.PaymentEngine, RouterPath.Test]);
-  // }
-
 }

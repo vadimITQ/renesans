@@ -9,7 +9,7 @@ export interface ManualChecksFilter {
     timeFrom?: string | Date;
     timeTo?: string | Date;
     statusCode?: string;
-    type?: string;
+    type?: string | number;
 }
 
 export interface GetPaymentsResponse {

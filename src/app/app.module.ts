@@ -33,6 +33,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ClickToDirective } from './shared/directives/click-to.directive';
 import { PeInputComponent } from './shared/components/controls/pe-input/pe-input.component';
 import { AllowedInputCharactersDirective } from './shared/directives/allowed-input-characters.directive';
+import { CheckboxModule } from 'primeng/checkbox';
+import { AppLoadingComponent } from './shared/components/app-loading/app-loading.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { AllowedInputCharactersDirective } from './shared/directives/allowed-inp
     ManualChecksResultComponent,
     ClickToDirective,
     PeInputComponent,
-    AllowedInputCharactersDirective
+    AllowedInputCharactersDirective,
+    AppLoadingComponent
   ],
   imports: [
     BrowserModule, 
@@ -67,7 +70,8 @@ import { AllowedInputCharactersDirective } from './shared/directives/allowed-inp
     ProgressSpinnerModule,
     ConfirmDialogModule,
     DropdownModule,
-    InputTextModule
+    InputTextModule,
+    CheckboxModule
   ],
   providers: [
     AuthGuard, 

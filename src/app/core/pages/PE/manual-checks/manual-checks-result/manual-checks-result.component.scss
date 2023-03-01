@@ -1,0 +1,21 @@
+
+
+.ms-result {
+    &__select-all {
+        > p-checkbox {
+            margin-right: 10px;
+        }
+    }
+    &__commentary {
+        margin-top: 20px;
+        label {
+            margin-right: 10px;
+        }
+        input {
+            width: 60%;
+        }
+    }
+    &__buttons {
+        margin-top: 20px;
+    }
+}

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { defaultExpr } from '../../../variables/pe-input-validations';
+import { defaultExpr, defaultLength } from '../../../variables/pe-input-validations';
 
 @Component({
   selector: 'pe-input',
@@ -11,7 +11,7 @@ export class PeInputComponent {
   constructor() { }
   
   @Input() regExprValidation: RegExp = defaultExpr;
-  @Input() maxLength: number = 250;
+  @Input() maxLength: number = defaultLength;
 
   _value!: any;
 

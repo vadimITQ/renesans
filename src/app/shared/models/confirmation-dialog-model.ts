@@ -5,10 +5,10 @@ export interface ConfirmationDialogModel {
     header: string,
     accept: {
         label: string,
-        handler: () => any,
+        handler?: () => any,
     },
     reject: {
         label: string,
-        handler: () => any,
+        handler?: () => any,
     }
 };

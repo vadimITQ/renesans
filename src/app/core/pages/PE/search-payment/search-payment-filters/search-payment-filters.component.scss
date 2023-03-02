@@ -1,0 +1,23 @@
+.search-payment-filter {
+  display: grid;
+  grid-template-rows: repeat(5, auto);
+  grid-gap: 20px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 20px;
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.checkboxes-row {
+  display: flex;
+  align-items: center;
+  gap: 45px
+}

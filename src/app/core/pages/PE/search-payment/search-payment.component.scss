@@ -1,0 +1,11 @@
+.search-payment {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > * {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 15px
+  }
+}

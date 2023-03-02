@@ -7,9 +7,8 @@ import { defaultExpr, defaultLength } from '../../../variables/pe-input-validati
   styleUrls: ['./pe-input.component.scss'],
 })
 export class PeInputComponent {
+  constructor() {}
 
-  constructor() { }
-  
   @Input() regExprValidation: RegExp = defaultExpr;
   @Input() maxLength: number = defaultLength;
 
@@ -25,5 +24,4 @@ export class PeInputComponent {
     this._value = newValue;
     this.valueChange.emit(this.value);
   }
-
 }

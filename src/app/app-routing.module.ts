@@ -9,6 +9,7 @@ import { PaymentEngine } from './core/pages/PE/payment-engine/payment-engine.com
 import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.component';
 import { ManualChecksComponent } from './core/pages/PE/manual-checks/manual-checks.component';
 import { PaymentEngineRolesGuard } from './shared/guards/payment-engine-roles.guard';
+import { SearchPaymentComponent } from './core/pages/PE/search-payment/search-payment.component';
 
 const routes: Routes = [
   { path: RouterPath.Login, component: LoginComponent },
@@ -18,9 +19,14 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     component: PaymentEngine,
     children: [
-      { path: RouterPath.Test, component: TestComponent  },
-      { path: RouterPath.MonitoringStandingOrders, component: MonitoringStandingOrdersComponent, canActivate: [PaymentEngineRolesGuard] },
-      { path: RouterPath.ManualChecks, component: ManualChecksComponent, canActivate: [PaymentEngineRolesGuard] }
+      { path: RouterPath.Test, component: TestComponent },
+      {
+        path: RouterPath.MonitoringStandingOrders,
+        component: MonitoringStandingOrdersComponent,
+        canActivate: [PaymentEngineRolesGuard] },
+      { path: RouterPath.ManualChecks, component: ManualChecksComponent, canActivate: [PaymentEngineRolesGuard],
+      },
+      { path: RouterPath.SearchPayment, component: SearchPaymentComponent },
     ],
   },
   {

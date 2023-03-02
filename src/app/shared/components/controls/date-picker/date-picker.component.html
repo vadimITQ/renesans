@@ -1,0 +1,9 @@
+<div [class]="{ 'date-picker-container': true, error: !!validationMessage }">
+  <label>{{ label }}</label>
+  <div class="date-with-error-container">
+    <p-calendar [(ngModel)]="dateValue" dateFormat="dd/mm/yy" #datePickerRef ></p-calendar>
+    <span class="error-message" *ngIf="!!validationMessage">{{ validationMessage }}</span>
+  </div>
+  <i class="pi pi-calendar c-pointer" (click)="datePickerRef.toggle()"></i>
+  <p-calendar *ngIf="showTime" [(ngModel)]="timeValue" [timeOnly]="true" hourFormat="24" [style]="{ width: '60px' }"> </p-calendar>
+</div>

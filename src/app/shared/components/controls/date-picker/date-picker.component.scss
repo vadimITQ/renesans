@@ -1,0 +1,28 @@
+$errorColor:  #f44336;
+
+.date-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  > i {
+    font-size: 1.7rem;
+  }
+}
+
+.date-with-error-container {
+  position: relative;
+}
+
+.error-message {
+  color: $errorColor;
+  position: absolute;
+  width: 180%;
+  top: 40px;
+  left: 3px;
+  z-index: 999;
+}
+
+::ng-deep  .error .p-inputwrapper .p-inputtext {
+  border-color: $errorColor !important;
+}

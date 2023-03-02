@@ -9,7 +9,7 @@ import { TestComponent } from './core/pages/test/test.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModuleModule } from './shared/modules/shared-module/shared-module.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -32,33 +32,44 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ClickToDirective } from './shared/directives/click-to.directive';
 import { PeInputComponent } from './shared/components/controls/pe-input/pe-input.component';
-import { AllowedInputCharactersDirective } from './shared/directives/allowed-input-characters.directive';
+import { SearchPaymentComponent } from './core/pages/PE/search-payment/search-payment.component';
+import { SearchPaymentFiltersComponent } from './core/pages/PE/search-payment/search-payment-filters/search-payment-filters.component';
+import { PeMultiCheckboxComponent } from './shared/components/controls/pe-multi-checkbox/pe-multi-checkbox.component';
 import { CheckboxModule } from 'primeng/checkbox';
+import { SearchPaymentTableComponent } from './core/pages/PE/search-payment/search-payment-table/search-payment-table.component';
+import { AllowedInputCharactersDirective } from './shared/directives/allowed-input-characters.directive';
+import { DatePickerComponent } from './shared/components/controls/date-picker/date-picker.component';
 import { AppLoadingComponent } from './shared/components/app-loading/app-loading.component';
 
 @NgModule({
   declarations: [
-    AppComponent, 
-    PaymentEngine, 
-    LoginComponent, 
-    TestComponent, 
-    NotFoundComponent, 
-    MonitoringStandingOrdersComponent, 
-    MonitoringStandingOrdersFilterComponent, 
-    NumberOfOrdersTableComponent, 
-    NumberOfOrdersTableComponent, 
-    LoadingSpinnerComponent, 
-    TransferPaymentHistoryByStatusTableComponent, 
-    ManualChecksComponent, 
-    ManualChecksFilterComponent, 
+    AppComponent,
+    PaymentEngine,
+    LoginComponent,
+    TestComponent,
+    NotFoundComponent,
+    MonitoringStandingOrdersComponent,
+    MonitoringStandingOrdersFilterComponent,
+    NumberOfOrdersTableComponent,
+    NumberOfOrdersTableComponent,
+    LoadingSpinnerComponent,
+    TransferPaymentHistoryByStatusTableComponent,
+    ManualChecksComponent,
+    ManualChecksFilterComponent,
     ManualChecksResultComponent,
     ClickToDirective,
+    SearchPaymentComponent,
+    SearchPaymentFiltersComponent,
     PeInputComponent,
     AllowedInputCharactersDirective,
-    AppLoadingComponent
+    AppLoadingComponent,
+    PeMultiCheckboxComponent,
+    SearchPaymentTableComponent,
+    AllowedInputCharactersDirective,
+    DatePickerComponent,
   ],
   imports: [
-    BrowserModule, 
+    BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
     SharedModuleModule,
@@ -71,16 +82,9 @@ import { AppLoadingComponent } from './shared/components/app-loading/app-loading
     ConfirmDialogModule,
     DropdownModule,
     InputTextModule,
-    CheckboxModule
+    CheckboxModule,
   ],
-  providers: [
-    AuthGuard, 
-    DatePipe, 
-    MessageService, 
-    ConfirmationService, 
-    MonitoringStandingOrdersGuard, 
-    PaymentEngineRolesGuard
-  ],
-  bootstrap: [AppComponent]
+  providers: [AuthGuard, DatePipe, MessageService, ConfirmationService, MonitoringStandingOrdersGuard, PaymentEngineRolesGuard],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,39 @@
+<div class="search-payment-filter">
+  <h5 class="mb-3">Найденные платежи</h5>
+
+  <div>
+    <p-table
+      [value]="tableData"
+      (onRowSelect)="onRowSelected($event)"
+      styleClass="p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr class="tps-by-status__row-gray">
+          <th style="width: 4rem"></th>
+          <th *ngFor="let column of tableColumns">
+            {{column.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-searchPaymentItem>
+        <tr>
+          <td>
+            <p-tableRadioButton [value]="searchPaymentItem"></p-tableRadioButton>
+          </td>
+          <td *ngFor="let column of tableColumns">
+            {{searchPaymentItem[column.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <div>
+    <pe-input label="Комментарий к операции" />
+  </div>
+
+  <div>
+    <button class="btn btn-success me-2">Сформировать отчет</button>
+    <button class="btn btn-success">Сформировать отчет СБП</button>
+  </div>
+
+</div>

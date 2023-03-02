@@ -1,0 +1,57 @@
+<div class="search-payment-filter">
+  <h5 class="mb-3">Поиск платежа</h5>
+
+  <div class="input-row">
+    <pe-input label="ID РЕ" [(value)]="filters.paymentId" />
+    <pe-input label="ID Заявки" [(value)]="filters.applicationID" />
+    <pe-input label="ID РН" [(value)]="filters.idPH" />
+    <pe-input label="ID АБС" [(value)]="filters.docID" />
+    <pe-input label="ID Чека" [(value)]="filters.linkedChequeId" />
+  </div>
+
+  <div class="input-row">
+    <pe-input label="Номер документа" [(value)]="filters.docNum" />
+    <pe-input label="Номер счета" [(value)]="filters.account" />
+    <pe-input label="IP Адрес" [(value)]="filters.channelIP" />
+    <pe-input label="User Agent" [(value)]="filters.userAgent" />
+  </div>
+
+  <div class="input-row">
+    <pe-input label="Номер чека" [(value)]="filters.chequeNumber" />
+    <pe-input label="Статус" [(value)]="filters.statusCode" />
+  </div>
+  <div class="date-row">
+    <date-picker [(date)]="filters.dateFrom" [validationMessage]="filtersValidation['dateFrom']" label="Дата/Время с"></date-picker>
+    <date-picker [(date)]="filters.dateTo" [validationMessage]="filtersValidation['dateTo']" label="Дата/Время по"></date-picker>
+  </div>
+  <div class="date-row">
+    <date-picker [(date)]="filters.plannedDate" label="Плановая дата" [showTime]="false"></date-picker>
+  </div>
+  <div class="checkboxes-row">
+    <pe-multi-checkbox
+      [vertical]="true"
+      [values]="receivingChanelOptions"
+      [value]="filters.channelName"
+      title="Канал поступления заявки"
+    ></pe-multi-checkbox>
+    <pe-multi-checkbox
+      [vertical]="true"
+      [values]="objectTypeOptions"
+      [value]="filters.parentType"
+      title="Тип объекта создавшего запрос"
+    ></pe-multi-checkbox>
+  </div>
+  <div style="display: flex; flex-direction: column">
+    <div>
+      <label>Тип перевода</label>
+    </div>
+    <div>
+      <p-dropdown [(ngModel)]="filters.type" [options]="transferTypes" style="width: 100%" optionLabel="name"></p-dropdown>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-success me-2">Очистить</button>
+    <button class="btn btn-success me-2" (click)="onSearch()">Найти</button>
+    <button class="btn btn-success">Найти и сформировать отчет СБП</button>
+  </div>
+</div>

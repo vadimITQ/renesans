@@ -9,11 +9,11 @@ export class RolesService {
 
   private _userRoles: string[] = [];
 
-  get userRoles(){
+  get userRoles(): string[]{
     return this._userRoles;
   }
 
-  set userRoles(roles: string[]){
+  set userRoles(roles: string[] | undefined){
     this._userRoles = roles ?? [];
   }
 

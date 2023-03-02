@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { lastValueFrom, Observable, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 export class LoadingService {
 
     private $loadingState: Subject<boolean> = new Subject();
-    private loadingShowing!: boolean;
+    public loadingShowing!: boolean;
 
     constructor(){ }
 
@@ -25,7 +25,14 @@ export class LoadingService {
         return this.$loadingState;
     }
 
-    public attach(promise: Promise<any>): Promise<any> {
+    public attach(stream: Promise<any> | Observable<any>): Promise<any> {
+        let promise: Promise<any>;
+        if (stream instanceof Observable){
+            promise = lastValueFrom(stream);
+        }
+        else{
+            promise = stream;
+        }
         this.showLoading();
         return promise.then(res => {
             this.hideLoading();

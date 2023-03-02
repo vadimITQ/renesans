@@ -72,7 +72,7 @@ export class ManualChecksResultComponent implements OnInit {
       header: "Подтверждение",
       accept: {
         label: "Да",
-        handler: () => this.loadingService.attach(lastValueFrom(this.paymentOrderW.resumePayment()))
+        handler: () => this.loadingService.attach(this.paymentOrderW.resumePayment())
       },
       reject: {
         label: "Нет"

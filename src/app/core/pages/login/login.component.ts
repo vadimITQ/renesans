@@ -5,6 +5,7 @@ import { RouterPath } from 'src/app/shared/enums/router.enums';
 import { AuthService } from '../../services/auth/auth.service';
 import { LoginModel } from '../../../shared/models/login-models';
 import { ToastService } from '../../../shared/services/toast.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,13 @@ import { ToastService } from '../../../shared/services/toast.service';
 })
 export class LoginComponent {
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router, private toastService: ToastService) { }
+  constructor(
+    private authService: AuthService, 
+    private fb: FormBuilder, 
+    private router: Router, 
+    private toastService: ToastService,
+    private loadingService: LoadingService
+  ) { }
 
   authentificationData: LoginModel = {
     login: '',
@@ -46,17 +53,28 @@ export class LoginComponent {
       this.showErrorMessage = true;
       return;
     }
-
-    this.authService.login().subscribe(response => {
-      if (response.success){
-        this.toastService.showSuccessToast("Аутентификация пользователя прошла успешно");
-        this.router.navigate([RouterPath.PaymentEngine]);
-      }
-      else{
-        this.showErrorMessage = true;
-        return;
-      }
-    });
+    this.loadingService.showLoading();
+    this.authService
+      .login({ connectionName: this._loginForm.value, connectionPassword: this._passwordForm.value })
+      .subscribe({
+        next: (response) => {
+          if (response?.auth){
+            this.toastService.showSuccessToast("Аутентификация пользователя прошла успешно");
+            this.router.navigate([RouterPath.PaymentEngine]);
+          }
+          else{
+            this.showErrorMessage = true;
+            return;
+          }
+        },
+        error: (error) => {
+          this.showErrorMessage = true;
+          this.loadingService.hideLoading();
+        },
+        complete: () => {
+          this.loadingService.hideLoading();
+        }
+      });
   }
 
 }

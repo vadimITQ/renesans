@@ -50,20 +50,28 @@
         <div>
             <label>Статус</label>
         </div>
-        <div>
-            <input pInputText [(ngModel)]="filter.statusCode" type="text"/>
+        <div class="ms-filter__multiselect">
+            <p-multiSelect
+                [options]="paymentStatuses"
+                [(ngModel)]="filter.status"
+                optionLabel="label"
+                defaultLabel="Выберите статус"
+                display="chip"
+            ></p-multiSelect>
         </div>
     </div>
     <div class="ms-filter__forms">
         <div>
             <label>Тип перевода</label>
         </div>
-        <div>
-            <p-dropdown
-                [options]="transferTypes" 
-                optionLabel="type"
-                [(ngModel)]="filter.type">
-            </p-dropdown>
+        <div class="ms-filter__multiselect">
+            <p-multiSelect
+                [options]="transferTypes"
+                [(ngModel)]="filter.types"
+                optionLabel="label"
+                defaultLabel="Выберите тип перевода"
+                display="chip"
+            ></p-multiSelect>
         </div>
     </div>
 

@@ -8,8 +8,8 @@ export interface ManualChecksFilter {
     dateTo?: Date;
     timeFrom?: string | Date;
     timeTo?: string | Date;
-    statusCode?: string;
-    type?: string | number;
+    status?: string[] | number[];
+    types?: string[] | number[];
 }
 
 export interface GetPaymentsResponse {

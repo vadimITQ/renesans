@@ -40,6 +40,7 @@ import { SearchPaymentTableComponent } from './core/pages/PE/search-payment/sear
 import { AllowedInputCharactersDirective } from './shared/directives/allowed-input-characters.directive';
 import { DatePickerComponent } from './shared/components/controls/date-picker/date-picker.component';
 import { AppLoadingComponent } from './shared/components/app-loading/app-loading.component';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { AppLoadingComponent } from './shared/components/app-loading/app-loading
     PeMultiCheckboxComponent,
     SearchPaymentTableComponent,
     AllowedInputCharactersDirective,
-    DatePickerComponent,
+    DatePickerComponent
   ],
   imports: [
     BrowserModule,
@@ -83,6 +84,7 @@ import { AppLoadingComponent } from './shared/components/app-loading/app-loading
     DropdownModule,
     InputTextModule,
     CheckboxModule,
+    MultiSelectModule
   ],
   providers: [AuthGuard, DatePipe, MessageService, ConfirmationService, MonitoringStandingOrdersGuard, PaymentEngineRolesGuard],
   bootstrap: [AppComponent],

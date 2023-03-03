@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Calendar } from 'primeng/calendar';
 import { Observable } from 'rxjs';
 import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
-import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
+import { manualChecksStatuses, manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
 
 @Component({
@@ -19,7 +19,8 @@ export class ManualChecksFilterComponent implements OnInit {
 
   public dateFrom: Date = new Date();
   public dateTo: Date = new Date();
-  public transferTypes = this.getTransferTypes();
+  public transferTypes = manualChecksTransferTypes;
+  public paymentStatuses = manualChecksStatuses;
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
   public filter: ManualChecksFilter = {
     dateFrom: new Date(),
@@ -45,13 +46,10 @@ export class ManualChecksFilterComponent implements OnInit {
   }
 
   searchPayments() {
+    console.log(this.filter);
     this.mcService
       .getPayments(this.filter)
       .subscribe();
-  }
-
-  getTransferTypes() {
-    return [ { type: "Выберите тип перевода", id: -1 }, ...manualChecksTransferTypes?.map((type , id) => ({ type, id }))] ?? [];
   }
 
 }

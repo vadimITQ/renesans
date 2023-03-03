@@ -7,6 +7,9 @@
         <p-table
             [value]="paymentResponse"
             [(selection)]="selection"
+            [globalFilterFields]="paymentResponseProps"
+            [paginator]="true"
+            [rows]="10"
             (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
             (onRowSelect)="onRowSelected($event)"
             sortMode="multiple"
@@ -25,6 +28,38 @@
                     <th pSortableColumn="type">Тип перевода</th>
                     <th pSortableColumn="statusPE">Статус PE</th>
                     <th pSortableColumn="errorType">Тип ошибки</th>
+                </tr>
+                <tr>
+                    <th>
+                        
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="paymentID" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="applicationID" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="paymentHubPaymentId" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="pmtCreationTime" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="plannedDate" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="statusPE" display="menu"></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="errorType" display="menu"></p-columnFilter>
+                    </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-paymentItem>

@@ -80,4 +80,8 @@ export class ManualChecksResultComponent implements OnInit {
     });
   }
 
+  get paymentResponseProps(): string[] {
+    return Object.getOwnPropertyNames(this.paymentResponse);
+  }
+
 }

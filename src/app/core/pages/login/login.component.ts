@@ -60,7 +60,7 @@ export class LoginComponent {
         next: (response) => {
           if (response?.auth){
             this.toastService.showSuccessToast("Аутентификация пользователя прошла успешно");
-            this.router.navigate([RouterPath.PaymentEngine]);
+            this.router.navigate([RouterPath.PaymentEngine, RouterPath.SearchPayment]);
           }
           else{
             this.showErrorMessage = true;

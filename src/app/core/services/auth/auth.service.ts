@@ -24,10 +24,12 @@ export class AuthService {
   }
 
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
+    return this.AUTH_FOR_TESTING();
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe
     (tap({
       next: (response) => {
         const cookie = response.headers.get("Set-Cookie");
+        console.log(cookie);
         const body = response.body as UserResponse;
         this._isLoggedIn = body.auth;
         this.rolesService.userRoles = body.roles;
@@ -36,6 +38,12 @@ export class AuthService {
       },
       error: (error) => { }
     }), delay(200), switchMap(response => of(response.body)));
+  }
+
+  private AUTH_FOR_TESTING(): Observable<UserResponse>{
+    this._isLoggedIn = true;
+    this.rolesService.userRoles = userHasRoles;
+    return of({auth:true, roles: []});
   }
 
   public logout(): void {

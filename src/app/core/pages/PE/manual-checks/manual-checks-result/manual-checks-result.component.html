@@ -5,6 +5,7 @@
     <div *ngIf="paymentResponse">
     
         <p-table
+            #manualChecksTable
             [value]="paymentResponse"
             [(selection)]="selection"
             [globalFilterFields]="paymentResponseProps"
@@ -29,38 +30,38 @@
                     <th pSortableColumn="statusPE">Статус PE</th>
                     <th pSortableColumn="errorType">Тип ошибки</th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th>
                         
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="paymentID" display="menu"></p-columnFilter>
+                        <p-columnFilter type="numeric" field="paymentID" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="applicationID" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="applicationID" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="paymentHubPaymentId" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="paymentHubPaymentId" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="pmtCreationTime" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="pmtCreationTime" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="plannedDate" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="plannedDate" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="amount" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="amount" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="type" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="type" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="statusPE" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="statusPE" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="errorType" display="menu"></p-columnFilter>
+                        <p-columnFilter type="text" field="errorType" ></p-columnFilter>
                     </th>
-                </tr>
+                </tr> -->
             </ng-template>
             <ng-template pTemplate="body" let-paymentItem>
                 <tr>

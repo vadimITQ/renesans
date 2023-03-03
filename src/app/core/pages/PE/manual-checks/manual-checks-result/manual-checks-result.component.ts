@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ManualChecksService } from 'src/app/core/services/manual-checks/manual-checks.service';
 import { PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/shared/services/loading.service';
 import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-input-validations';
 import { PaymentOrderWService } from '../../../../services/payment-order-w/payment-order-w.service';
 import { lastValueFrom } from 'rxjs';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -31,6 +32,8 @@ export class ManualChecksResultComponent implements OnInit {
   public selectedAll: boolean = false;
   public selection: any[] = [];
   public commentary: string = "";
+
+  @ViewChild("manualChecksTable") manualChecksTable!: Table;
 
   ngOnInit(): void {
     this.mcService.$paymentResponseState.subscribe(paymentData => {

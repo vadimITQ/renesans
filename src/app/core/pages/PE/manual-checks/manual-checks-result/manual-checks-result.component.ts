@@ -33,6 +33,18 @@ export class ManualChecksResultComponent implements OnInit {
   public selection: any[] = [];
   public commentary: string = "";
 
+  public cols = [
+    {field: 'paymentID', header: 'ID PE'},
+    {field: 'applicationID', header: 'ID заявки'},
+    {field: 'paymentHubPaymentId', header: 'ID PH'},
+    {field: 'pmtCreationTime', header: 'Дата заявки в PE'},
+    {field: 'plannedDate', header: 'Дата исполнения платежа'},
+    {field: 'amount', header: 'Сумма'},
+    {field: 'type', header: 'Тип перевода'},
+    {field: 'statusPE', header: 'Статус PE'},
+    {field: 'errorType', header: 'Тип ошибки'}
+  ]
+
   @ViewChild("manualChecksTable") manualChecksTable!: Table;
 
   ngOnInit(): void {

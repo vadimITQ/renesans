@@ -10,25 +10,21 @@
             [(selection)]="selection"
             [globalFilterFields]="paymentResponseProps"
             [paginator]="true"
+            [reorderableColumns]="true"
             [rows]="10"
+            [columns]="cols"
             (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
             (onRowSelect)="onRowSelected($event)"
             sortMode="multiple"
             styleClass="p-datatable-striped">
-            <ng-template pTemplate="header">
+            <ng-template pTemplate="header" let-columns> 
                 <tr class="ms-result__row-gray">
-                    <th style="width: 4rem">
+                    <th pReorderableColumn="" style="width: 4rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
-                    <th pSortableColumn="paymentID">ID PE</th>
-                    <th pSortableColumn="applicationID">ID заявки</th>
-                    <th pSortableColumn="paymentHubPaymentId">ID PH</th>
-                    <th pSortableColumn="pmtCreationTime">Дата заявки в PE</th>
-                    <th pSortableColumn="plannedDate">Дата исполнения платежа</th>
-                    <th pSortableColumn="amount">Сумма</th>
-                    <th pSortableColumn="type">Тип перевода</th>
-                    <th pSortableColumn="statusPE">Статус PE</th>
-                    <th pSortableColumn="errorType">Тип ошибки</th>
+                    <th *ngFor="let col of columns" pReorderableColumn>
+                        {{col.header}}
+                    </th>
                 </tr>
                 <!-- <tr>
                     <th>

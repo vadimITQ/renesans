@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { searchPaymentTableColumns } from './search-payment-table.constants';
+import { searchPaymentMock } from '../search-payment.mock';
 
 @Component({
   selector: 'app-search-payment-table',
@@ -8,7 +9,7 @@ import { searchPaymentTableColumns } from './search-payment-table.constants';
 })
 export class SearchPaymentTableComponent {
   tableColumns = searchPaymentTableColumns;
-  tableData = [];
+  tableData = searchPaymentMock;
 
   onRowSelected(e: any) {
     console.log(e);

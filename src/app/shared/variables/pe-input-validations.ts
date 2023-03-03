@@ -1,5 +1,4 @@
-
-export const defaultExpr = /^([а-яa-z0-9ё\s-_]+)$/i;
+export const defaultExpr = /^([а-яА-Яa-zA-Z0-9\s-_]+)$/i;
 
 export const defaultLength = 10000;
 

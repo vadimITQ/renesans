@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { format, isValid, parse } from 'date-fns';
 import { ValidationMessage } from '../../../validation/types';
+import { dateFormat, dateFormatWithTime, timeFormat } from './date-picker.constants';
 
 @Component({
   selector: 'date-picker',
@@ -46,13 +47,11 @@ export class DatePickerComponent implements OnInit {
   set dateValue(newValue) {
     this._dateValue = newValue;
 
-    if (!this._timeValue) {
+    if (!this._timeValue || !newValue) {
       this._timeValue = newValue;
     }
     const formattedDate = DatePickerComponent.prepareDates(newValue, this._timeValue);
-    if (formattedDate) {
-      this.date = formattedDate;
-    }
+    this.dateChange.emit(formattedDate);
   }
 
   _timeValue: Date | null = null;
@@ -69,19 +68,17 @@ export class DatePickerComponent implements OnInit {
     }
 
     const formattedDate = DatePickerComponent.prepareDates(this._dateValue, newValue);
-    if (formattedDate) {
-      this.dateChange.emit(formattedDate);
-    }
+    this.dateChange.emit(formattedDate);
   }
 
-  private static prepareDates(date: Date | null, time: Date | null): string | null {
+  private static prepareDates(date: Date | null, time: Date | null): string {
     const dateArr = [];
     if (isValid(date)) {
-      dateArr.push(format(date!, 'dd/MM/yyyy'));
+      dateArr.push(format(date!, dateFormat));
     }
 
     if (isValid(time)) {
-      dateArr.push(format(time!, 'HH:mm'));
+      dateArr.push(format(time!, timeFormat));
     }
 
     return dateArr.join(' ');
@@ -89,7 +86,7 @@ export class DatePickerComponent implements OnInit {
 
   private parseDate(dateString: string): Date {
     const parsedDateString = this.showTime ? dateString : dateString.split(' ')[0];
-    const dateFormat = this.showTime ? 'dd/MM/yyyy HH:mm' : 'dd/MM/yyyy';
-    return parse(parsedDateString, dateFormat, new Date());
+    const format = this.showTime ? dateFormatWithTime : dateFormat;
+    return parse(parsedDateString, format, new Date());
   }
 }

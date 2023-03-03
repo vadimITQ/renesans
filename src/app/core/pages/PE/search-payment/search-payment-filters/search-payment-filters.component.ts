@@ -5,29 +5,9 @@ import { SearchPaymentService } from '../../../../services/search-payment/search
 import { FormBuilder } from '@angular/forms';
 import { earlierThen, laterThen } from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
-
-interface IFilters {
-  paymentId: string;
-  applicationID: string;
-  idPH: string;
-  docID: string;
-  linkedChequeId: string;
-  docNum: string;
-  account: string;
-  channelIP: string;
-  userAgent: string;
-  chequeNumber: string;
-  statusCode: string;
-  appCreationTime?: string;
-  /// must be one field?
-  dateFrom: string | null;
-  dateTo: string | null;
-  ///
-  plannedDate: string | null;
-  channelName: string[];
-  parentType: string[];
-  type: string;
-}
+import { ISearchPaymentFilters } from './search-payment-filters.types';
+import { ToastService } from '../../../../../shared/services/toast.service';
+import { anyFieldFilledValidator, defineDefaultFiltersValues } from './search-payment-filters.utils';
 
 @Component({
   selector: 'app-search-payment-filters',
@@ -35,25 +15,7 @@ interface IFilters {
   styleUrls: ['./search-payment-filters.component.scss'],
 })
 export class SearchPaymentFiltersComponent {
-  public filters: IFilters = {
-    paymentId: 'asda',
-    applicationID: '',
-    idPH: '',
-    docID: '',
-    linkedChequeId: '',
-    docNum: '',
-    account: '',
-    channelIP: '',
-    userAgent: 'asdas',
-    chequeNumber: '',
-    statusCode: '',
-    dateFrom: null,
-    dateTo: null,
-    plannedDate: null,
-    channelName: [],
-    parentType: [],
-    type: '',
-  };
+  public filters: ISearchPaymentFilters = defineDefaultFiltersValues();
 
   public filtersValidation: Validation = {
     dateFrom: null,
@@ -64,7 +26,9 @@ export class SearchPaymentFiltersComponent {
   objectTypeOptions = objectTypeOptions;
   transferTypes = manualChecksTransferTypes;
 
-  constructor(private searchPaymentService: SearchPaymentService, private fb: FormBuilder) {}
+  constructor(private searchPaymentService: SearchPaymentService, private fb: FormBuilder, private toastService: ToastService) {
+    console.log(defineDefaultFiltersValues());
+  }
 
   // form: FormGroup = this.fb.group({
   //   dateFrom: new FormControl(this.filters.dateFrom, earlierThen('dateTo')),
@@ -80,6 +44,17 @@ export class SearchPaymentFiltersComponent {
   openPlanDateCalendar() {}
 
   onSearch() {
+    console.log(this.filters);
+    const anyFilledValidation = anyFieldFilledValidator(this.filters);
+
+    if (anyFilledValidation) {
+      this.filtersValidation = { ...anyFilledValidation };
+      this.toastService.showErrorToast(
+        'Заполните хотя бы одно из полей Идентификатор платежа, Идентификатор заявки, Идентификатор документа, Номер документа',
+      );
+      return;
+    }
+
     const [dateFromValidation, dateToValidation] = [
       earlierThen(this.filters.dateFrom, this.filters.dateTo),
       laterThen(this.filters.dateFrom, this.filters.dateTo),
@@ -89,8 +64,8 @@ export class SearchPaymentFiltersComponent {
       dateFrom: dateFromValidation,
       dateTo: dateToValidation,
     };
-
-    console.log(this.filtersValidation);
+    //
+    // console.log(this.filtersValidation);
     // this.searchPaymentService.getPayments();
   }
 }

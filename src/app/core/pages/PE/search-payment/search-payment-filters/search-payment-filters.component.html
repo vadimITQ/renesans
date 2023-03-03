@@ -2,22 +2,22 @@
   <h5 class="mb-3">Поиск платежа</h5>
 
   <div class="input-row">
-    <pe-input label="ID РЕ" [(value)]="filters.paymentId" />
-    <pe-input label="ID Заявки" [(value)]="filters.applicationID" />
-    <pe-input label="ID РН" [(value)]="filters.idPH" />
-    <pe-input label="ID АБС" [(value)]="filters.docID" />
-    <pe-input label="ID Чека" [(value)]="filters.linkedChequeId" />
+    <pe-input label="ID РЕ" [(value)]="filters.paymentId" [validationMessage]="filtersValidation['paymentId']" />
+    <pe-input label="ID Заявки" [(value)]="filters.applicationID" [validationMessage]="filtersValidation['applicationID']" />
+    <pe-input label="ID РН" [(value)]="filters.idPH" [validationMessage]="filtersValidation['idPH']" />
+    <pe-input label="ID АБС" [(value)]="filters.docID" [validationMessage]="filtersValidation['docID']" />
+    <pe-input label="ID Чека" [(value)]="filters.linkedChequeId" [validationMessage]="filtersValidation['linkedChequeId']" />
   </div>
 
   <div class="input-row">
-    <pe-input label="Номер документа" [(value)]="filters.docNum" />
-    <pe-input label="Номер счета" [(value)]="filters.account" />
+    <pe-input label="Номер документа" [(value)]="filters.docNum" [validationMessage]="filtersValidation['docNum']" />
+    <pe-input label="Номер счета" [(value)]="filters.account" [validationMessage]="filtersValidation['account']" />
     <pe-input label="IP Адрес" [(value)]="filters.channelIP" />
     <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
 
   <div class="input-row">
-    <pe-input label="Номер чека" [(value)]="filters.chequeNumber" />
+    <pe-input label="Номер чека" [(value)]="filters.chequeNumber" [validationMessage]="filtersValidation['chequeNumber']" />
     <pe-input label="Статус" [(value)]="filters.statusCode" />
   </div>
   <div class="date-row">

@@ -1,13 +1,17 @@
-
-<span class="p-float-label">
-  <input
-    #peInput
-    pInputText
-    id="input"
-    type="text"
-    style="width: 100%"
-    [maxLength]="maxLength"
-    [(ngModel)]="value"
-    [allowedInputCharactersReg]="regExprValidation"/>
-  <label for="input">{{ label }}</label>
-</span>
+<div class="input-with-error-container">
+  <span class="p-float-label">
+    <input
+      #peInput
+      pInputText
+      id="input"
+      type="text"
+      style="width: 100%"
+      [class]="{'input-error': !!validationMessage}"
+      [maxLength]="maxLength"
+      [(ngModel)]="value"
+      [allowedInputCharactersReg]="regExprValidation"
+    />
+    <label for="input">{{ label }}</label>
+  </span>
+  <span class="error-message" *ngIf="!!validationMessage">{{ validationMessage }}</span>
+</div>

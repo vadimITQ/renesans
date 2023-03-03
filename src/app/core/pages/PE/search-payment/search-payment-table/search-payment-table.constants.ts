@@ -129,6 +129,30 @@ export const searchPaymentTableColumns: IColumn[] = [
     field: 'sbpMtel',
   },
   {
+    header: 'ABS Приемник',
+    field: 'targetSystem',
+  },
+  {
+    header: 'Номер документа - ABS Приемник',
+    field: 'docNum',
+  },
+  {
+    header: 'ID ABS Приемник',
+    field: 'docID',
+  },
+  {
+    header: 'Статус документа в ABS приемник',
+    field: 'docStatus',
+  },
+  {
+    header: 'Номер счета ABS Приемник',
+    field: 'account',
+  },
+  {
+    header: 'Номер телефона получателя в формате 0079101234567',
+    field: 'sbpMtel',
+  },
+  {
     header: 'Номер документа GL',
     field: 'docNum',
   },
@@ -136,6 +160,20 @@ export const searchPaymentTableColumns: IColumn[] = [
     header: 'ID GL',
     field: 'docID',
   },
+  // todo: update me
+  {
+    header: 'Статус GL',
+    field: '',
+  },
+  {
+    header: 'Счет по дебету GL',
+    field: '',
+  },
+  {
+    header: 'Счет по кредиту GL',
+    field: '',
+  },
+  //
   {
     header: 'БИК банка- получателя',
     field: 'bankBIC',
@@ -183,6 +221,11 @@ export const searchPaymentTableColumns: IColumn[] = [
   {
     header: 'IP адрес',
     field: 'channelIP',
+  },
+  // todo: update me
+  {
+    header: 'Данные о браузере пользователя',
+    field: '',
   },
   {
     header: 'Сообщение получателю',

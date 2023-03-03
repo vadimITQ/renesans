@@ -3,7 +3,7 @@ import { objectTypeOptions, receivingChanelOptions } from './search-payment-filt
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
 import { FormBuilder } from '@angular/forms';
-import { earlierThen, laterThen } from '../../../../../shared/validation/validators';
+import { earlierThen, laterThen, lessThanDateDiapason } from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { ToastService } from '../../../../../shared/services/toast.service';
@@ -56,8 +56,8 @@ export class SearchPaymentFiltersComponent {
     }
 
     const [dateFromValidation, dateToValidation] = [
-      earlierThen(this.filters.dateFrom, this.filters.dateTo),
-      laterThen(this.filters.dateFrom, this.filters.dateTo),
+      earlierThen(this.filters.dateFrom, this.filters.dateTo) || lessThanDateDiapason(this.filters.dateFrom, this.filters.dateTo, 40),
+      laterThen(this.filters.dateFrom, this.filters.dateTo) || lessThanDateDiapason(this.filters.dateFrom, this.filters.dateTo, 40),
     ];
 
     this.filtersValidation = {

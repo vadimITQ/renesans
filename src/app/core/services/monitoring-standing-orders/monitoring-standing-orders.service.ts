@@ -14,7 +14,7 @@ export class MonitoringStandingOrdersService {
 
   constructor(private http: HttpClient) { }
 
-  getStandingOrderStat(): Observable<StandingOrderStatResponse>{
+  public getStandingOrderStat(): Observable<StandingOrderStatResponse>{
     return of(tableValuesMock).pipe(delay(1000));
   }
 

@@ -21,7 +21,6 @@ export class PeMultiCheckboxComponent {
   @Output() valueChange = new EventEmitter();
 
   set value(newValue) {
-    console.log(newValue);
     this._value = newValue;
     this.valueChange.emit(this.value);
   }

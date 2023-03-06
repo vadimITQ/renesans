@@ -22,6 +22,18 @@
   gap: 45px
 }
 
+.multiselect-row {
+  > div {
+    white-space: nowrap;
+    :not(:last-child) {
+      margin-bottom: 20px;
+    }
+    > label {
+      margin-right: 25px;
+    }
+  }
+}
+
 :host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
   max-width: 100%;
 }

@@ -5,8 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class RolesService {
 
-  constructor() { }
-
   private _userRoles: string[] = [];
 
   get userRoles(): string[]{
@@ -17,11 +15,15 @@ export class RolesService {
     this._userRoles = roles ?? [];
   }
 
-  hasRole(role: string): boolean {
+  public hasRole(role: string): boolean {
     return this._userRoles.some(_role => _role === role);
   }
+  
+  public hasRoles(roles: string[]): boolean {
+    return roles.every(role => this.hasRole(role));
+  }
 
-  clearRoles(): void {
+  public clearRoles(): void {
     this._userRoles = [];
   }
  

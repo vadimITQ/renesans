@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { delay, Observable, of, switchMap, tap } from 'rxjs';
@@ -10,17 +10,13 @@ import { BASE_URL } from '../../../shared/variables/http-constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  
   constructor(private http: HttpClient, private router: Router, private rolesService: RolesService) {}
 
   private _isLoggedIn: boolean = false;
-  private _successToken: string | null = null;
 
   public get isLoggedIn() {
     return this._isLoggedIn;
-  }
-
-  public get successToken() {
-    return this._successToken;
   }
 
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
@@ -29,14 +25,12 @@ export class AuthService {
       tap({
         next: response => {
           // const cookie = response.headers.get('Set-Cookie');
-          console.log(response.headers);
           const cookie = response.headers.get('Access-Control-Allow-Credentials');
           console.log("cookie", cookie);
           const body = response.body as UserResponse;
           this._isLoggedIn = body.auth;
           this.rolesService.userRoles = body.roles;
           // this.rolesService.userRoles = userHasRoles;
-          console.log(cookie);
         },
         error: error => {},
       }),
@@ -45,29 +39,10 @@ export class AuthService {
     );
   }
 
-  private AUTH_FOR_TESTING(): Observable<UserResponse> {
-    this._isLoggedIn = true;
-    this.rolesService.userRoles = userHasRoles;
-    return of({ auth: true, roles: [] });
-  }
-
   public logout(): void {
     this._isLoggedIn = false;
     this.rolesService.clearRoles();
     this.router.navigate([RouterPath.Login]);
-  }
-
-  private saveAuthTokenInStorage() {
-    if (this._successToken) {
-      localStorage.setItem('successToken', this._successToken);
-    }
-  }
-
-  private clearToken() {
-    if (this._successToken) {
-      this._successToken = null;
-      localStorage.removeItem('successToken');
-    }
   }
 
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<HttpResponse<any>> {
@@ -77,4 +52,11 @@ export class AuthService {
     const url = BASE_URL + '/user';
     return this.http.get(url, { params: { connectionName, connectionPassword }, headers: headers, observe: 'response', withCredentials: true });
   }
+
+  private AUTH_FOR_TESTING(): Observable<UserResponse> {
+    this._isLoggedIn = true;
+    this.rolesService.userRoles = userHasRoles;
+    return of({ auth: true, roles: [] });
+  }
+  
 }

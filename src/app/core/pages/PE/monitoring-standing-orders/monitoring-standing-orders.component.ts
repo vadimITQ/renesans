@@ -31,7 +31,7 @@ export class MonitoringStandingOrdersComponent implements OnInit {
       .$selectedMonitoringDataRecord
       .subscribe((selectedMonitoringDataRecord: MonitoringDataRecord) => {
         if (!!selectedMonitoringDataRecord){
-          console.log(selectedMonitoringDataRecord);
+          
         }
       });
   }

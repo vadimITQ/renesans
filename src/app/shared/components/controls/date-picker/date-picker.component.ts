@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { format, isValid, parse } from 'date-fns';
 import { ValidationMessage } from '../../../validation/types';
+import { DatePickerHelper } from './date-picker-helper';
 import { dateFormat, dateFormatWithTime, timeFormat } from './date-picker.constants';
 
 @Component({
@@ -14,16 +15,18 @@ export class DatePickerComponent implements OnInit {
   @Input() validationMessage: ValidationMessage = null;
   @Input() minDate: Date | null = null;
   @Input() maxDate: Date | null = null;
+  @Input() labelStyle?: { [styleKey: string]: string };
 
   _date: string | null = null;
 
-  @Input() get date(): string | null {
-    return this._date;
-  }
-  set date(newValue) {
+  @Input() set date(newValue) {
     this._date = newValue;
-
+    this.dateValue = DatePickerHelper.convertToDate(newValue);
     this.dateChange.emit(newValue);
+  }
+
+  get date(): string | null {
+    return this._date;
   }
 
   @Output() dateChange = new EventEmitter<string | null>();

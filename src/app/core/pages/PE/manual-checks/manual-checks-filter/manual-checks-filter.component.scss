@@ -9,7 +9,7 @@
        display: flex;
        align-items: center;
        min-width: 0;
-       margin-bottom: 15px;
+       margin-bottom: 30px;
        div {
             > label {
                 white-space: nowrap;
@@ -23,7 +23,7 @@
             }
        }
        div:first-child {
-        width: 125px;
+        width: 150px;
        }
     }
 

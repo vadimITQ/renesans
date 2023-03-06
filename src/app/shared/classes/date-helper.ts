@@ -1,0 +1,41 @@
+
+
+export class DateHelper {
+
+    public static dateValid(date: Date | null): boolean{
+        return date !== null && !Number.isNaN(date.getTime());
+    }
+
+    public static getDiffInDays(dateFrom: Date | null, dateTo: Date | null): number | null {
+        if (DateHelper.dateValid(dateFrom) && DateHelper.dateValid(dateTo)){
+            const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+            const utc1 = Date.UTC(dateFrom!.getFullYear(), dateFrom!.getMonth(), dateFrom!.getDate());
+            const utc2 = Date.UTC(dateTo!.getFullYear(), dateTo!.getMonth(), dateTo!.getDate());
+            return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+        }
+        else{
+            return null;
+        }
+    }
+
+    public static validateDates(dateFrom: Date | null, dateTo: Date | null, maxDiffInDays?: number): DatesValidationReasons {
+        if (!DateHelper.dateValid(dateFrom) || !DateHelper.dateValid(dateTo))
+            return DatesValidationReasons.DatesInvalid;
+
+        if (dateFrom!.getTime() > dateTo!.getTime())
+            return DatesValidationReasons.DateFromMoreThanDateTo;
+
+        if (maxDiffInDays && ((DateHelper.getDiffInDays(dateFrom, dateTo) ?? 0) > maxDiffInDays))
+            return DatesValidationReasons.InvalidDatesDifference;
+
+        return DatesValidationReasons.DatesValid;
+    }
+
+}
+
+export enum DatesValidationReasons {
+    DatesValid = "Даты корректны",
+    DatesInvalid = "Недействительная «Дата/Время с» или «Дата/Время по»",
+    DateFromMoreThanDateTo = "«Дата/Время с» превышает «Дата/Время по»",
+    InvalidDatesDifference = "Невалидная разница между датами"
+}

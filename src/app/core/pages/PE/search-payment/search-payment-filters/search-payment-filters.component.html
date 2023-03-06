@@ -27,25 +27,29 @@
   <div class="date-row">
     <date-picker [(date)]="filters.plannedDate" label="Плановая дата" [showTime]="false"></date-picker>
   </div>
-  <div class="checkboxes-row">
-    <pe-multi-checkbox
-      [vertical]="true"
-      [values]="receivingChanelOptions"
-      [value]="filters.channelName"
-      title="Канал поступления заявки"
-    ></pe-multi-checkbox>
-    <pe-multi-checkbox
-      [vertical]="true"
-      [values]="objectTypeOptions"
-      [value]="filters.parentType"
-      title="Тип объекта создавшего запрос"
-    ></pe-multi-checkbox>
-  </div>
-  <div style="display: flex; flex-direction: column; min-width: 0;">
+  <div class="multiselect-row">
     <div>
-      <label>Тип перевода</label>
+      <label>Канал поступления заявки</label>
+        <p-multiSelect
+          [options]="receivingChanelOptions"
+          [(ngModel)]="filters.channelName"
+          optionLabel="label"
+          defaultLabel="Выберите канал поступления заявки"
+          display="chip">
+        </p-multiSelect>
     </div>
     <div>
+      <label>Тип объекта создавшего запрос</label>
+      <p-multiSelect
+          [options]="objectTypeOptions"
+          [(ngModel)]="filters.parentType"
+          optionLabel="label"
+          defaultLabel="Выберите тип объекта создавшего запрос"
+          display="chip">
+      </p-multiSelect>
+    </div>
+    <div>
+      <label>Тип перевода</label>
       <p-multiSelect
         [options]="transferTypes"
         [(ngModel)]="filters.types"
@@ -53,7 +57,6 @@
         defaultLabel="Выберите тип перевода"
         display="chip"
       ></p-multiSelect>
-      <!-- <p-dropdown [(ngModel)]="filters.type" [options]="transferTypes" style="width: 100%" optionLabel="name"></p-dropdown> -->
     </div>
   </div>
   <div>

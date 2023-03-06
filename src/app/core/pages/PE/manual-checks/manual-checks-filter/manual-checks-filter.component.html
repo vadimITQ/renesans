@@ -9,10 +9,22 @@
         <pe-input label="account" [(value)]="filter.account" />
     </div>
     <div class="ms-filter__forms">
-        <date-picker [(date)]="filter.dateFrom" [validationMessage]="filtersValidation['dateFrom']" label="Дата/Время с"></date-picker>
+        <date-picker 
+            [(date)]="filter.dateFrom" 
+            [validationMessage]="validations['dateFrom']" 
+            label="Дата/Время с"
+            (dateChange)="onDateChange(filter.dateFrom, filter.dateTo)"
+            [labelStyle]="{ 'width': '125px' }">
+        </date-picker>
     </div>
     <div class="ms-filter__forms">
-        <date-picker [(date)]="filter.dateFrom" [validationMessage]="filtersValidation['dateFrom']" label="Дата/Время по"></date-picker>
+        <date-picker 
+            [(date)]="filter.dateTo" 
+            [validationMessage]="validations['dateTo']" 
+            label="Дата/Время по"
+            (dateChange)="onDateChange(filter.dateFrom, filter.dateTo)"
+            [labelStyle]="{ 'width': '125px' }">
+        </date-picker>
     </div>
     <div class="ms-filter__forms">
         <div>

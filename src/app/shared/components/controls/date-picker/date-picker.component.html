@@ -1,5 +1,5 @@
 <div [class]="{ 'date-picker-container': true, error: !!validationMessage }">
-  <label>{{ label }}</label>
+  <label [ngStyle]="labelStyle">{{ label }}</label>
   <div class="date-with-error-container">
     <p-calendar [(ngModel)]="dateValue" dateFormat="dd/mm/yy" #datePickerRef ></p-calendar>
     <span class="error-message" *ngIf="!!validationMessage">{{ validationMessage }}</span>

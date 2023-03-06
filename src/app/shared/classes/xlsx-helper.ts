@@ -31,7 +31,6 @@ export class XlsxHelper {
         arrayOfArrays.push(heading);
         arrayOfArrays = arrayOfArrays[0].map((_, colIndex) => arrayOfArrays.map(row => row[colIndex]));
         let maxes = arrayOfArrays.map((array, i)  => Math.max(...array.map((item: any) => item?.toString()?.length ?? 0)));
-        console.log(arrayOfArrays, maxes);
         return  maxes.map(item => ({ wch: item }))
     }
 

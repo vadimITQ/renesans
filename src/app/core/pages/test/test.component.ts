@@ -13,7 +13,6 @@ export class TestComponent implements OnInit {
 
   constructor(private router: Router) {
     const state = this.router?.getCurrentNavigation()?.extras?.state;
-    console.log(state);
     if (state){
       this.title = state["name"] ?? "";
     }
@@ -23,7 +22,6 @@ export class TestComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd){
         const state = this.router?.getCurrentNavigation()?.extras?.state;
-        console.log(state);
         if (state){
           this.title = state["name"] ?? "";
         }

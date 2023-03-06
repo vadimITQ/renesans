@@ -6,8 +6,8 @@ export interface ManualChecksFilter {
     account?: number;
     dateFrom: string | null;
     dateTo: string | null;
-    timeFrom: string | Date;
-    timeTo: string | Date;
+    timeFrom?: string | Date;
+    timeTo?: string | Date;
     status?: string[] | number[];
     types?: string[] | number[];
 }

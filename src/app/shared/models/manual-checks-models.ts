@@ -4,10 +4,10 @@ export interface ManualChecksFilter {
     applicationID?: number;
     paymentHubPaymentId?: number;
     account?: number;
-    dateFrom?: Date;
-    dateTo?: Date;
-    timeFrom?: string | Date;
-    timeTo?: string | Date;
+    dateFrom: string | null;
+    dateTo: string | null;
+    timeFrom: string | Date;
+    timeTo: string | Date;
     status?: string[] | number[];
     types?: string[] | number[];
 }

@@ -16,5 +16,5 @@ export interface ISearchPaymentFilters {
   plannedDate: string | null;
   channelName: string[];
   parentType: string[];
-  type: string;
+  types: string[];
 }

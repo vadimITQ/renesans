@@ -68,8 +68,8 @@ export class ManualChecksService {
       return false;
     }
     if (filterHasDates){
-      const dateFrom = filter.dateFrom;
-      const dateTo = filter.dateTo;
+      const dateFrom = new Date(filter.dateFrom as string);
+      const dateTo = new Date(filter.dateTo as string);
       const datesInvalid: boolean = dateFrom!.getTime() > dateTo!.getTime();
       const diffDatesInDays = this.dateDiffInDays(dateFrom as Date, dateTo as Date);
       console.log(diffDatesInDays);

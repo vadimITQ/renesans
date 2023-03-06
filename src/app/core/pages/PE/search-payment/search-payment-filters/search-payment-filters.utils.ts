@@ -23,7 +23,7 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     plannedDate: null,
     channelName: [],
     parentType: [],
-    type: '',
+    types: [],
   };
 }
 

@@ -9,42 +9,10 @@
         <pe-input label="account" [(value)]="filter.account" />
     </div>
     <div class="ms-filter__forms">
-        <div>
-            <label>Дата/Время с</label>
-        </div>
-        <div>
-            <p-calendar [(ngModel)]="filter.dateFrom" #dateToRef></p-calendar>
-        </div>
-        <div>
-            <i class="pi pi-calendar c-pointer" (click)="openDateToCalendar()"></i>
-        </div>
-        <div>
-            <p-calendar
-                [timeOnly]="true"
-                hourFormat="24"
-                [style]="{ 'width': '60px' }"
-                [(ngModel)]="filter.timeFrom">
-            </p-calendar>
-        </div>
+        <date-picker [(date)]="filter.dateFrom" [validationMessage]="filtersValidation['dateFrom']" label="Дата/Время с"></date-picker>
     </div>
     <div class="ms-filter__forms">
-        <div>
-            <label>Дата/Время по</label>
-        </div>
-        <div>
-            <p-calendar [(ngModel)]="filter.dateTo" #dateFromRef></p-calendar>
-        </div>
-        <div>
-            <i class="pi pi-calendar c-pointer" (click)="openDateFromCalendar()"></i>
-        </div>
-        <div>
-            <p-calendar
-                [timeOnly]="true"
-                hourFormat="24"
-                [style]="{ 'width': '60px' }"
-                [(ngModel)]="filter.timeTo">
-            </p-calendar>
-        </div>
+        <date-picker [(date)]="filter.dateFrom" [validationMessage]="filtersValidation['dateFrom']" label="Дата/Время по"></date-picker>
     </div>
     <div class="ms-filter__forms">
         <div>

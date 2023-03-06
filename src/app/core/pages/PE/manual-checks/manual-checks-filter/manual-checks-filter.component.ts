@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Calendar } from 'primeng/calendar';
 import { Observable } from 'rxjs';
 import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
+import { Validation } from 'src/app/shared/validation/types';
 import { manualChecksStatuses, manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
 
@@ -17,14 +18,17 @@ export class ManualChecksFilterComponent implements OnInit {
   @ViewChild("dateFromRef") dateFromRef!: Calendar;
   @ViewChild("dateToRef") dateToRef!: Calendar;
 
-  public dateFrom: Date = new Date();
-  public dateTo: Date = new Date();
+  public filtersValidation: Validation = {
+    dateFrom: null,
+    dateTo: null,
+  };
+
   public transferTypes = manualChecksTransferTypes;
   public paymentStatuses = manualChecksStatuses;
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
   public filter: ManualChecksFilter = {
-    dateFrom: new Date(),
-    dateTo: new Date(),
+    dateFrom: "",
+    dateTo: "",
     timeFrom: new Date(),
     timeTo: new Date()
   };
@@ -42,7 +46,12 @@ export class ManualChecksFilterComponent implements OnInit {
   }
 
   clearFilter() {
-    this.filter = { };
+    this.filter = { 
+      dateFrom: "",
+      dateTo: "",
+      timeFrom: "",
+      timeTo: ""
+    };
   }
 
   searchPayments() {

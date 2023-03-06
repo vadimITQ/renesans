@@ -41,12 +41,19 @@
       title="Тип объекта создавшего запрос"
     ></pe-multi-checkbox>
   </div>
-  <div style="display: flex; flex-direction: column">
+  <div style="display: flex; flex-direction: column; min-width: 0;">
     <div>
       <label>Тип перевода</label>
     </div>
     <div>
-      <p-dropdown [(ngModel)]="filters.type" [options]="transferTypes" style="width: 100%" optionLabel="name"></p-dropdown>
+      <p-multiSelect
+        [options]="transferTypes"
+        [(ngModel)]="filters.types"
+        optionLabel="label"
+        defaultLabel="Выберите тип перевода"
+        display="chip"
+      ></p-multiSelect>
+      <!-- <p-dropdown [(ngModel)]="filters.type" [options]="transferTypes" style="width: 100%" optionLabel="name"></p-dropdown> -->
     </div>
   </div>
   <div>

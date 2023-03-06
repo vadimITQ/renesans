@@ -8,6 +8,7 @@
     &__forms {
        display: flex;
        align-items: center;
+       min-width: 0;
        margin-bottom: 15px;
        div {
             > label {
@@ -31,8 +32,8 @@
     }
 
     &__multiselect {
-        max-width: 87%;
-        width: 87%;
+        max-width: calc(100% - 122px);
+        width: calc(100% - 122px);
     }
 
 }

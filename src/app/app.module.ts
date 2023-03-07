@@ -41,6 +41,7 @@ import { AllowedInputCharactersDirective } from './shared/directives/allowed-inp
 import { DatePickerComponent } from './shared/components/controls/date-picker/date-picker.component';
 import { AppLoadingComponent } from './shared/components/app-loading/app-loading.component';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -84,9 +85,17 @@ import { MultiSelectModule } from 'primeng/multiselect';
     DropdownModule,
     InputTextModule,
     CheckboxModule,
-    MultiSelectModule
+    MultiSelectModule,
+    TranslateModule.forRoot()
   ],
-  providers: [AuthGuard, DatePipe, MessageService, ConfirmationService, MonitoringStandingOrdersGuard, PaymentEngineRolesGuard],
+  providers: [
+    AuthGuard, 
+    DatePipe, 
+    MessageService, 
+    ConfirmationService, 
+    MonitoringStandingOrdersGuard, 
+    PaymentEngineRolesGuard
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

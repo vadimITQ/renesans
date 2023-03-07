@@ -23,6 +23,6 @@ $errorColor:  #f44336;
   z-index: 999;
 }
 
-::ng-deep  .error .p-inputwrapper .p-inputtext {
+:host ::ng-deep .error .p-inputwrapper .p-inputtext {
   border-color: $errorColor !important;
 }

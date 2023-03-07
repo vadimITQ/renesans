@@ -32,14 +32,17 @@
                     <th>
                         
                     </th>
+                    <!-- <th *ngFor="let col of columns">
+                        <p-columnFilter type="text" [field]="col.field" ></p-columnFilter>
+                    </th> -->
                     <th>
-                        <p-columnFilter type="text" field="paymentID" ></p-columnFilter>
+                        <p-columnFilter type="numeric" field="paymentID" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="applicationID" ></p-columnFilter>
+                        <p-columnFilter type="numeric" field="applicationID" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="paymentHubPaymentId" ></p-columnFilter>
+                        <p-columnFilter type="numeric" field="paymentHubPaymentId" ></p-columnFilter>
                     </th>
                     <th>
                         <p-columnFilter type="text" field="pmtCreationTime" ></p-columnFilter>
@@ -48,7 +51,7 @@
                         <p-columnFilter type="text" field="plannedDate" ></p-columnFilter>
                     </th>
                     <th>
-                        <p-columnFilter type="text" field="amount" ></p-columnFilter>
+                        <p-columnFilter type="numeric" field="amount" ></p-columnFilter>
                     </th>
                     <th>
                         <p-columnFilter type="text" field="type" ></p-columnFilter>

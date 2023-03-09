@@ -13,9 +13,9 @@ export class AppComponent {
   
   title = 'PE';
 
-  constructor(private translateService: TranslateService, private config: PrimeNGConfig, private authService: AuthService){
-    this.translateService.setDefaultLang("en");
-    this.translateService.use("en");
+  constructor(private translateService: TranslateService, private config: PrimeNGConfig){
+    this.translateService.setDefaultLang("ru");
+    this.translateService.use("ru");
     this.translateService
       .get('primeng')
       .subscribe(
@@ -24,7 +24,6 @@ export class AppComponent {
           this.config.setTranslation(res);
         }
       );
-    // authService.login();
   }
 
 }

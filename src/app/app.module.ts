@@ -17,7 +17,7 @@ import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-st
 import { MonitoringStandingOrdersFilterComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders-filter/monitoring-standing-orders-filter.component';
 import { NumberOfOrdersTableComponent } from './core/pages/PE/monitoring-standing-orders/number-of-orders-table/number-of-orders-table.component';
 import { TableModule } from 'primeng/table';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { TransferPaymentHistoryByStatusTableComponent } from './core/pages/PE/monitoring-standing-orders/transfer-payment-history-by-status-table/transfer-payment-history-by-status-table.component';
@@ -41,7 +41,8 @@ import { AllowedInputCharactersDirective } from './shared/directives/allowed-inp
 import { DatePickerComponent } from './shared/components/controls/date-picker/date-picker.component';
 import { AppLoadingComponent } from './shared/components/app-loading/app-loading.component';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'src/app/shared/localization/loader-factory';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,13 @@ import { TranslateModule } from '@ngx-translate/core';
     InputTextModule,
     CheckboxModule,
     MultiSelectModule,
-    TranslateModule.forRoot()
+    TranslateModule.forRoot({
+      loader:{
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     AuthGuard, 

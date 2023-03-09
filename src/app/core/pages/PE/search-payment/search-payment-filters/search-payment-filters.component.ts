@@ -43,6 +43,10 @@ export class SearchPaymentFiltersComponent {
 
   openPlanDateCalendar() {}
 
+  clearFilter() {
+    this.filters = { } as ISearchPaymentFilters;
+  }
+
   onSearch() {
     const anyFilledValidation = anyFieldFilledValidator(this.filters);
 

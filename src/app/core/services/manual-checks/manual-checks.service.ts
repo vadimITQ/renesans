@@ -30,7 +30,7 @@ export class ManualChecksService {
       }));
     }
     else {
-      this.toastService.showErrorToast(filterValidation.validationMessage);
+      this.toastService.showErrorToast(filterValidation.validationMessage!);
       return of([]);
     }
   }

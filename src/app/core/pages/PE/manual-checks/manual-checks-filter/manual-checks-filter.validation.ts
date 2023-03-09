@@ -2,9 +2,9 @@
 import { ManualChecksFilter } from '../../../../../shared/models/manual-checks-models';
 import { DatePickerHelper } from '../../../../../shared/components/controls/date-picker/date-picker-helper';
 import { DateHelper, DatesValidationReasons } from '../../../../../shared/classes/date-helper';
-import { Validation } from 'src/app/shared/validation/types';
+import { Validation, ValidationMessage } from 'src/app/shared/validation/types';
 
-export function validateFilter(filter: ManualChecksFilter): { success: boolean, validationMessage: string } {
+export function validateFilter(filter: ManualChecksFilter): { success: boolean, validationMessage: ValidationMessage } {
     const noFilter: boolean = !filter;
     const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateFrom) && !!DatePickerHelper.convertToDate(filter.dateTo);
     const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.paymentHubPaymentId || !!filter.account;
@@ -57,7 +57,7 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
     ];
     switch(DateHelper.validateDates(_dateFrom, _dateTo, 40)) {
       case(DatesValidationReasons.DateFromMoreThanDateTo): {
-        validations["dateFromValidation"] = "«Дата/Время с» больше «Дата/Время по»"; 
+        validations["dateFromValidation"] = "«Дата/Время с» превышает «Дата/Время по»"; 
         break;
       }
       case(DatesValidationReasons.InvalidDatesDifference): {
@@ -71,4 +71,21 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
       }
     };
     return validations;
+}
+
+export function validateFilterOnEmpty(filter: ManualChecksFilter): Validation | null {
+  const noFilter: boolean = !filter;
+    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateFrom) && !!DatePickerHelper.convertToDate(filter.dateTo);
+    const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.paymentHubPaymentId || !!filter.account;
+    if (noFilter || (!filterHasDates && !filterHasId)){
+        return {
+            dateFrom: "",
+            dateTo: "",
+            paymentID: "",
+            applicationID: "",
+            paymentHubPaymentId: "",
+            account: ""
+        };
+    }
+    return null;
 }

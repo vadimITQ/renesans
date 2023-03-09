@@ -17,11 +17,7 @@ import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-st
 import { MonitoringStandingOrdersFilterComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders-filter/monitoring-standing-orders-filter.component';
 import { NumberOfOrdersTableComponent } from './core/pages/PE/monitoring-standing-orders/number-of-orders-table/number-of-orders-table.component';
 import { TableModule } from 'primeng/table';
-<<<<<<< HEAD
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-=======
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
->>>>>>> 3bbb8f30812547f221ff6eb8fd6b521813c3fcf3
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { TransferPaymentHistoryByStatusTableComponent } from './core/pages/PE/monitoring-standing-orders/transfer-payment-history-by-status-table/transfer-payment-history-by-status-table.component';
@@ -103,7 +99,6 @@ import { PeHttpInterceptor } from './shared/interceptors/http.interceptor';
         deps: [HttpClient]
       }
     })
-    TranslateModule.forRoot(),
   ],
   providers: [
     AuthGuard,

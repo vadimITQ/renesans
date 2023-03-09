@@ -21,24 +21,20 @@ export class AuthService {
   }
 
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
-    // return this.AUTH_FOR_TESTING();
+    return this.AUTH_FOR_TESTING();
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
       tap({
         next: response => {
           // const cookie = response.headers.get('Cookie');
-          console.log(response.headers.getAll('Cookie'));
-          // console.log("cookie", cookie);
-          console.log('response', response);
-          const body = response.body as UserResponse;
-          this._isLoggedIn = body.auth;
-          this.rolesService.userRoles = body.roles;
+          console.log(response);
+          this._isLoggedIn = response.auth;
+          this.rolesService.userRoles = response.roles;
           this._user = credentials;
           // this.rolesService.userRoles = userHasRoles;
         },
         error: error => {},
       }),
       delay(200),
-      switchMap(response => of(response.body)),
     );
   }
 
@@ -49,17 +45,15 @@ export class AuthService {
     this.router.navigate([RouterPath.Login]);
   }
 
-  private authenticateUser(connectionName: string, connectionPassword: string): Observable<HttpResponse<any>> {
+  private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('x-ibm-client-id', '75819d26-bd68-46bb-b9c9-4ce8ca4e4e83');
     headers = headers.append('x-ibm-client-secret', 'uA2yL2hE3qI8oP0sG4xY2hO4wG3iX3lR5pA8nA6mU4kC3bD8hF');
 
     const url = BASE_URL + '/user';
-    return this.http.get(url, {
+    return this.http.get<UserResponse>(url, {
       params: { connectionName, connectionPassword },
-      headers: headers,
-      observe: 'response',
-      withCredentials: true,
+      headers: headers
     });
   }
 

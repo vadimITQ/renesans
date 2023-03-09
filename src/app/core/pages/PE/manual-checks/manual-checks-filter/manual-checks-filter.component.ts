@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { sub } from 'date-fns';
 import { Calendar } from 'primeng/calendar';
 import { Observable } from 'rxjs';
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
@@ -38,12 +39,11 @@ export class ManualChecksFilterComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(DatePickerHelper.convertToDatePicker(new Date()));
-    setTimeout(() => {
-      this.filter = {
-        dateFrom: DatePickerHelper.convertToDatePicker(new Date()),
-        dateTo: DatePickerHelper.convertToDatePicker(new Date())
-      } 
-    });
+    this.filter = {
+      dateFrom: DatePickerHelper.convertToDatePicker(sub(new Date(), { days: 3 })),
+      dateTo: DatePickerHelper.convertToDatePicker(new Date())
+    };
+    this.changeDetectionRef.detectChanges();
   }
 
   openDateFromCalendar() {

@@ -1,9 +1,17 @@
 
 .ms-filter {
 
-    border: 2px solid lightgray;
-    padding: 15px 25px 15px 25px;
-    border-radius: 9px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 15px;
+
+    h5 {
+        margin-bottom: 36px;
+    }
+    
+    pe-input {
+        margin-right: 20px;
+    }
 
     &__forms {
        display: flex;

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ManualChecksService } from 'src/app/core/services/manual-checks/manual-checks.service';
 import { PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
@@ -7,17 +7,18 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-input-validations';
 import { PaymentOrderWService } from '../../../../services/payment-order-w/payment-order-w.service';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
 import { RouterPath } from '../../../../../shared/enums/router.enums';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-manual-checks-result',
   templateUrl: './manual-checks-result.component.html',
   styleUrls: ['./manual-checks-result.component.scss'],
 })
-export class ManualChecksResultComponent implements OnInit {
+export class ManualChecksResultComponent implements OnInit, OnDestroy {
   constructor(
     private mcService: ManualChecksService,
     private paymentOrderW: PaymentOrderWService,
@@ -25,6 +26,7 @@ export class ManualChecksResultComponent implements OnInit {
     private dialogService: DialogService,
     private loadingService: LoadingService,
     private router: Router,
+    private toasterService: ToastService
   ) {}
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
@@ -34,6 +36,7 @@ export class ManualChecksResultComponent implements OnInit {
   public selectedAll: boolean = false;
   public selection: any[] = [];
   public commentary: string = '';
+  private paymentResponseStateSubscribtion!: Subscription;
 
   public cols = [
     {field: 'paymentID', header: 'ID PE'},
@@ -50,9 +53,15 @@ export class ManualChecksResultComponent implements OnInit {
   @ViewChild('manualChecksTable') manualChecksTable!: Table;
 
   ngOnInit(): void {
-    this.mcService.$paymentResponseState.subscribe(paymentData => {
+    this.paymentResponseStateSubscribtion = this.mcService.$paymentResponseState.subscribe(paymentData => {
       this.paymentResponse = paymentData;
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.paymentResponseStateSubscribtion){
+      this.paymentResponseStateSubscribtion.unsubscribe();
+    }
   }
 
   onRowSelected(e: any) {
@@ -75,21 +84,25 @@ export class ManualChecksResultComponent implements OnInit {
       header: 'Подтверждение',
       accept: {
         label: 'Да',
-        handler: () => this.loadingService.attach(lastValueFrom(this.paymentOrderW.cancelPayment())),
+        handler: () => this.loadingService.attach(this.paymentOrderW.cancelPayment()).then(() => {
+          this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно");
+        }),
       },
       reject: {
         label: 'Нет',
       },
     });
   }
-
+  
   resumePayments() {
     this.dialogService.showConfirmDialog({
       message: 'Вы действительно хотите отменить платеж/перевод?',
       header: 'Подтверждение',
       accept: {
         label: 'Да',
-        handler: () => this.loadingService.attach(this.paymentOrderW.resumePayment()),
+        handler: () => this.loadingService.attach(this.paymentOrderW.resumePayment()).then(() => {
+          this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно");
+        }),
       },
       reject: {
         label: 'Нет',

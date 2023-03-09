@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { objectTypeOptions, receivingChanelOptions } from './search-payment-filters.constants';
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
@@ -8,14 +8,16 @@ import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import { anyFieldFilledValidator, defineDefaultFiltersValues } from './search-payment-filters.utils';
+import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 
 @Component({
   selector: 'app-search-payment-filters',
   templateUrl: './search-payment-filters.component.html',
   styleUrls: ['./search-payment-filters.component.scss'],
 })
-export class SearchPaymentFiltersComponent {
-  public filters: ISearchPaymentFilters = defineDefaultFiltersValues();
+export class SearchPaymentFiltersComponent implements OnInit {
+
+  public filters!: ISearchPaymentFilters;
 
   public filtersValidation: Validation = {
     dateFrom: null,
@@ -26,8 +28,16 @@ export class SearchPaymentFiltersComponent {
   objectTypeOptions = objectTypeOptions;
   transferTypes = manualChecksTransferTypes;
 
-  constructor(private searchPaymentService: SearchPaymentService, private fb: FormBuilder, private toastService: ToastService) {
+  constructor(
+    private searchPaymentService: SearchPaymentService, 
+    private fb: FormBuilder, 
+    private toastService: ToastService,
+    private changeDetectionRef: ChangeDetectorRef
+  ) {  }
 
+  ngOnInit(): void {
+    this.filters = defineDefaultFiltersValues();
+    this.changeDetectionRef.detectChanges();
   }
 
   // form: FormGroup = this.fb.group({
@@ -67,6 +77,13 @@ export class SearchPaymentFiltersComponent {
       dateTo: dateToValidation,
     };
 
-    this.searchPaymentService.getPayments();
+    this.searchPaymentService.getPayments().subscribe();
   }
+
+  searchAndGenerateDoc() {
+    this.searchPaymentService.getPayments().subscribe(response => {
+      XlsxHelper.exportArrayToExcel(response, Object.getOwnPropertyNames(response[0]), "Выгрузка_в_excel_test");
+    });
+  }
+
 }

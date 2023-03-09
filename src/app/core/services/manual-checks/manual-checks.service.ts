@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, delay, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, delay, Observable, of, tap } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { GetPaymentsResponse, ManualChecksFilter } from '../../../shared/models/manual-checks-models';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
@@ -18,21 +18,31 @@ export class ManualChecksService {
 
   public $paymentResponseState: BehaviorSubject<GetPaymentsResponse[] | null | undefined> = new BehaviorSubject<GetPaymentsResponse[] | null | undefined>(undefined);
 
-  public getPayments(filter: ManualChecksFilter): Observable<GetPaymentsResponse[]>{
+  public getPayments(filter: ManualChecksFilter) {
     const filterValidation = validateFilter(filter);
     if (filterValidation.success){
       this.$paymentResponseState.next(null);
-      return this.paymentOrderWService.getPayments().pipe(
-        delay(2000), 
+      return this.paymentOrderWService.getPayments("ManualChecks").pipe(
         tap(response => {
-          const sortedData = sortPaymentData(response);
-          this.$paymentResponseState.next(sortedData);
-      }));
+          if (this.instanceOfGetPayments(response)){
+            const sortedData = sortPaymentData(response);
+            this.$paymentResponseState.next(sortedData);
+          }
+      }),
+      catchError((error) => {
+        this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
+        return error;
+      }),
+      delay(2000));
     }
     else {
       this.toastService.showErrorToast(filterValidation.validationMessage!);
       return of([]);
     }
+  }
+
+  private instanceOfGetPayments(object:any): object is GetPaymentsResponse[] {
+    return !!object && 'amount' in object[0];
   }
   
 }

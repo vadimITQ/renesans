@@ -16,7 +16,7 @@ export const manualChecksTableData: GetPaymentsResponse[] = [
     status: 'Успешные статусы платежа/перевода',
   },
   {
-    paymentID: 2,
+    paymentID: "2",
     applicationID: 'IBS_7713',
     paymentHubPaymentId: 0,
     pmtCreationTime: new Date(2023, 1, 1, 7, 44, 14),
@@ -30,7 +30,7 @@ export const manualChecksTableData: GetPaymentsResponse[] = [
     status: 'Ошибочные статусы платежа/перевода',
   },
   {
-    paymentID: 1,
+    paymentID: "1",
     applicationID: 'IBS_7512',
     paymentHubPaymentId: 0,
     pmtCreationTime: new Date(2023, 1, 1, 0, 0, 1),

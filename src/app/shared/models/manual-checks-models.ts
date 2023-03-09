@@ -12,7 +12,7 @@ export interface ManualChecksFilter {
 }
 
 export interface GetPaymentsResponse {
-    paymentID?: number;
+    paymentID?: string;
     applicationID?: string;
     paymentHubPaymentId?: number;
     pmtCreationTime?: Date;

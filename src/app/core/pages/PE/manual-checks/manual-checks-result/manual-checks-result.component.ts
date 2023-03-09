@@ -9,21 +9,23 @@ import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-in
 import { PaymentOrderWService } from '../../../../services/payment-order-w/payment-order-w.service';
 import { lastValueFrom } from 'rxjs';
 import { Table } from 'primeng/table';
+import { Router } from '@angular/router';
+import { RouterPath } from '../../../../../shared/enums/router.enums';
 
 @Component({
   selector: 'app-manual-checks-result',
   templateUrl: './manual-checks-result.component.html',
-  styleUrls: ['./manual-checks-result.component.scss']
+  styleUrls: ['./manual-checks-result.component.scss'],
 })
 export class ManualChecksResultComponent implements OnInit {
-
   constructor(
-    private mcService: ManualChecksService, 
-    private paymentOrderW: PaymentOrderWService, 
+    private mcService: ManualChecksService,
+    private paymentOrderW: PaymentOrderWService,
     private location: Location,
     private dialogService: DialogService,
-    private loadingService: LoadingService
-  ){ }
+    private loadingService: LoadingService,
+    private router: Router,
+  ) {}
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
   public readonly COMMENTARY_LENGTH = commentaryLength;
@@ -31,7 +33,7 @@ export class ManualChecksResultComponent implements OnInit {
   public types = PaymentTypes;
   public selectedAll: boolean = false;
   public selection: any[] = [];
-  public commentary: string = "";
+  public commentary: string = '';
 
   public cols = [
     {field: 'paymentID', header: 'ID PE'},
@@ -45,7 +47,7 @@ export class ManualChecksResultComponent implements OnInit {
     {field: 'errorType', header: 'Тип ошибки'}
   ]
 
-  @ViewChild("manualChecksTable") manualChecksTable!: Table;
+  @ViewChild('manualChecksTable') manualChecksTable!: Table;
 
   ngOnInit(): void {
     this.mcService.$paymentResponseState.subscribe(paymentData => {
@@ -53,7 +55,7 @@ export class ManualChecksResultComponent implements OnInit {
     });
   }
 
-  onRowSelected(e: any) { 
+  onRowSelected(e: any) {
     console.log(e);
     console.log(this.selection);
   }
@@ -67,31 +69,31 @@ export class ManualChecksResultComponent implements OnInit {
     this.location.back();
   }
 
-  cancelPayments(){
+  cancelPayments() {
     this.dialogService.showConfirmDialog({
-      message: "Вы действительно хотите отменить платеж/перевод?",
-      header: "Подтверждение",
+      message: 'Вы действительно хотите отменить платеж/перевод?',
+      header: 'Подтверждение',
       accept: {
-        label: "Да",
-        handler: () => this.loadingService.attach(lastValueFrom(this.paymentOrderW.cancelPayment()))
+        label: 'Да',
+        handler: () => this.loadingService.attach(lastValueFrom(this.paymentOrderW.cancelPayment())),
       },
       reject: {
-        label: "Нет"
-      }
+        label: 'Нет',
+      },
     });
   }
-  
-  resumePayments(){
+
+  resumePayments() {
     this.dialogService.showConfirmDialog({
-      message: "Вы действительно хотите отменить платеж/перевод?",
-      header: "Подтверждение",
+      message: 'Вы действительно хотите отменить платеж/перевод?',
+      header: 'Подтверждение',
       accept: {
-        label: "Да",
-        handler: () => this.loadingService.attach(this.paymentOrderW.resumePayment())
+        label: 'Да',
+        handler: () => this.loadingService.attach(this.paymentOrderW.resumePayment()),
       },
       reject: {
-        label: "Нет"
-      }
+        label: 'Нет',
+      },
     });
   }
 
@@ -99,4 +101,7 @@ export class ManualChecksResultComponent implements OnInit {
     return Object.getOwnPropertyNames(this.paymentResponse);
   }
 
+  paymentIdClick(id: string) {
+    this.router.navigate([RouterPath.PaymentEngine, RouterPath.ViewTransferDetails, id]);
+  }
 }

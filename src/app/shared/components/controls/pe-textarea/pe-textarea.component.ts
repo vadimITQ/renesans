@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { defaultExpr, defaultLength } from '../../../variables/pe-input-validations';
 
 @Component({
-  selector: 'pe-input',
-  templateUrl: './pe-input.component.html',
-  styleUrls: ['./pe-input.component.scss'],
+  selector: 'pe-textarea',
+  templateUrl: './pe-textarea.component.html',
+  styleUrls: ['./pe-textarea.component.scss'],
 })
-export class PeInputComponent {
+export class PeTextareaComponent {
   @Input() validationMessage: string | null = null;
   @Input() disabled: boolean = false;
   @Input() regExprValidation: RegExp = defaultExpr;

@@ -4,6 +4,7 @@ export enum RouterPath {
   Test = 'test',
   MonitoringStandingOrders = 'monitoringStandingOrders',
   SearchPayment = 'searchPayment',
-  ManualChecks = "manualChecks",
+  ViewTransferDetails = 'viewTransferDetails',
+  ManualChecks = 'manualChecks',
   NotFound = '**',
 }

@@ -12,6 +12,7 @@ import { dateFormat, dateFormatWithTime, timeFormat } from './date-picker.consta
 export class DatePickerComponent implements OnInit {
   @Input() label: string = '';
   @Input() showTime: boolean = true;
+  @Input() disabled: boolean = false;
   @Input() validationMessage: ValidationMessage = null;
   @Input() minDate: Date | null = null;
   @Input() maxDate: Date | null = null;
@@ -23,6 +24,16 @@ export class DatePickerComponent implements OnInit {
     this._date = newValue;
     this.dateValue = DatePickerHelper.convertToDate(newValue);
     this.dateChange.emit(newValue);
+
+    if (!this._date) {
+      this.dateValue = null;
+      this.timeValue = null;
+      return;
+    }
+    const currentDate = this.parseDate(this._date);
+
+    this.dateValue = currentDate;
+    this.timeValue = currentDate;
   }
 
   get date(): string | null {

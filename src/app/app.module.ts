@@ -17,7 +17,11 @@ import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-st
 import { MonitoringStandingOrdersFilterComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders-filter/monitoring-standing-orders-filter.component';
 import { NumberOfOrdersTableComponent } from './core/pages/PE/monitoring-standing-orders/number-of-orders-table/number-of-orders-table.component';
 import { TableModule } from 'primeng/table';
+<<<<<<< HEAD
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+=======
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+>>>>>>> 3bbb8f30812547f221ff6eb8fd6b521813c3fcf3
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { TransferPaymentHistoryByStatusTableComponent } from './core/pages/PE/monitoring-standing-orders/transfer-payment-history-by-status-table/transfer-payment-history-by-status-table.component';
@@ -43,6 +47,9 @@ import { AppLoadingComponent } from './shared/components/app-loading/app-loading
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'src/app/shared/localization/loader-factory';
+import { ViewTransferDetailsComponent } from './core/pages/PE/view-transfer-details/view-transfer-details.component';
+import { PeTextareaComponent } from './shared/components/controls/pe-textarea/pe-textarea.component';
+import { PeHttpInterceptor } from './shared/interceptors/http.interceptor';
 
 @NgModule({
   declarations: [
@@ -69,7 +76,9 @@ import { HttpLoaderFactory } from 'src/app/shared/localization/loader-factory';
     PeMultiCheckboxComponent,
     SearchPaymentTableComponent,
     AllowedInputCharactersDirective,
-    DatePickerComponent
+    DatePickerComponent,
+    ViewTransferDetailsComponent,
+    PeTextareaComponent,
   ],
   imports: [
     BrowserModule,
@@ -94,14 +103,20 @@ import { HttpLoaderFactory } from 'src/app/shared/localization/loader-factory';
         deps: [HttpClient]
       }
     })
+    TranslateModule.forRoot(),
   ],
   providers: [
-    AuthGuard, 
-    DatePipe, 
-    MessageService, 
-    ConfirmationService, 
-    MonitoringStandingOrdersGuard, 
-    PaymentEngineRolesGuard
+    AuthGuard,
+    DatePipe,
+    MessageService,
+    ConfirmationService,
+    MonitoringStandingOrdersGuard,
+    PaymentEngineRolesGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PeHttpInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

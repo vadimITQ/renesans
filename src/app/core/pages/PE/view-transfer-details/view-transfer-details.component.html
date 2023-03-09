@@ -1,0 +1,52 @@
+<div class="view-transfer-details-container">
+  <div>
+    <h5 class="mb-5">Просмотр деталей по переводу/платежу</h5>
+
+    <div class="transfer-details-columns-container">
+      <div class="transfer-details-column">
+        <pe-input label="ID РЕ" [(value)]="transferDetails.idPE" [disabled]="true" />
+        <pe-input label="ФИО плательщика" [(value)]="transferDetails.senderName" [disabled]="true" />
+        <pe-input label="ФИО получателя/Наименование организации" [(value)]="transferDetails.recipientName" [disabled]="true" />
+        <pe-input label="ИНН получателя" [(value)]="transferDetails.recipientInn" [disabled]="true" />
+        <pe-input label="Наименование агрегатора" [(value)]="transferDetails.aggregatorName" [disabled]="true" />
+        <pe-input label="ID РН" [(value)]="transferDetails.idPH" [disabled]="true" />
+        <pe-input label="Сумма перевода" [(value)]="transferDetails.amount" [disabled]="true" />
+      </div>
+      <div class="transfer-details-column">
+        <date-picker [(date)]="transferDetails.creationDate" label="Дата и время создания заявки" [disabled]="true"></date-picker>
+        <pe-input label="Счет списания" [(value)]="transferDetails.withdrawalAccount" [disabled]="true" />
+        <pe-input label="Счет получателя" [(value)]="transferDetails.recipientAccount" [disabled]="true" />
+        <pe-input label="БИК Банка получателя" [(value)]="transferDetails.recipientBankBIC" [disabled]="true" />
+        <pe-input label="Наименование бенефициара" [(value)]="transferDetails.beneficiaryName" [disabled]="true" />
+        <pe-textarea label="Назначение" [(value)]="transferDetails.appointment" [disabled]="true" />
+      </div>
+    </div>
+  </div>
+
+  <div class="transfer-history-container">
+    <h5>История перевода/платежа постатусно</h5>
+
+    <div>
+      <p-table [value]="transferDetails.transferHistory" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr class="tps-by-status__row-gray">
+            <th *ngFor="let column of tableColumns">
+              {{ column.header }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-transferHistoryItem>
+          <tr>
+            <td *ngFor="let column of tableColumns">
+              {{ transferHistoryItem[column.field] }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div>
+      <button class="btn btn-success" (click)="onBack()">Назад</button>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { delay, Observable, of, switchMap, tap } from 'rxjs';
@@ -30,6 +30,7 @@ export class AuthService {
           this._isLoggedIn = response.auth;
           this.rolesService.userRoles = response.roles;
           this._user = credentials;
+          localStorage.setItem('token', response.token);
           // this.rolesService.userRoles = userHasRoles;
         },
         error: error => {},
@@ -46,21 +47,21 @@ export class AuthService {
   }
 
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {
-    let headers: HttpHeaders = new HttpHeaders();
-    headers = headers.append('x-ibm-client-id', '75819d26-bd68-46bb-b9c9-4ce8ca4e4e83');
-    headers = headers.append('x-ibm-client-secret', 'uA2yL2hE3qI8oP0sG4xY2hO4wG3iX3lR5pA8nA6mU4kC3bD8hF');
-
     const url = BASE_URL + '/user';
     return this.http.get<UserResponse>(url, {
       params: { connectionName, connectionPassword },
-      headers: headers
     });
   }
 
   private AUTH_FOR_TESTING(): Observable<UserResponse> {
     this._isLoggedIn = true;
     this.rolesService.userRoles = userHasRoles;
-    return of({ auth: true, roles: [] });
+    return of({
+      auth: true,
+      roles: [],
+      token:
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZXJtZXMiLCJyb2xlcyI6IltdIiwiZXhwIjoxNjc4NDM1ODc1LCJpYXQiOjE2NzgzNDk0NzUsInVzZXJuYW1lIjoiaGVybWVzIn0.JTGZgnRpeL4s7Vg8SqhVIV2-8EBFXUBxXTQOpxaLFz3jsuHYQe0RN8DoEf59vJoBpK4NOn8XH2T5BBkpDqxs8w',
+    });
   }
 
   public handleUnauthorized() {

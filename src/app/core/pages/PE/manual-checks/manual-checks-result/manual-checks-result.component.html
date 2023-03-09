@@ -3,7 +3,7 @@
     <h5>Результат поиска</h5>
 
     <div *ngIf="paymentResponse">
-    
+
         <p-table
             #manualChecksTable
             [value]="paymentResponse"
@@ -11,7 +11,7 @@
             [globalFilterFields]="paymentResponseProps"
             [paginator]="true"
             [reorderableColumns]="true"
-            [resizableColumns]="true" 
+            [resizableColumns]="true"
             [autoLayout]="true"
             [rows]="10"
             [columns]="cols"
@@ -19,7 +19,7 @@
             (onRowSelect)="onRowSelected($event)"
             sortMode="multiple"
             styleClass="p-datatable-striped">
-            <ng-template pTemplate="header" let-columns> 
+            <ng-template pTemplate="header" let-columns>
                 <tr class="ms-result__row-gray">
                     <th pReorderableColumn="" style="width: 4rem">
                         <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
@@ -30,7 +30,7 @@
                 </tr>
                 <tr>
                     <th>
-                        
+
                     </th>
                     <!-- <th *ngFor="let col of columns">
                         <p-columnFilter type="text" [field]="col.field" ></p-columnFilter>
@@ -69,7 +69,7 @@
                     <td>
                         <p-tableCheckbox [value]="paymentItem"></p-tableCheckbox>
                     </td>
-                    <td>{{ paymentItem.paymentID }}</td>
+                  <td><a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a></td>
                     <td>{{ paymentItem.applicationID }}</td>
                     <td>{{ paymentItem.paymentHubPaymentId }}</td>
                     <td>{{ paymentItem.pmtCreationTime | date: 'yyyy.MM.dd HH:mm:ss' }}</td>
@@ -83,9 +83,9 @@
         </p-table>
         <div class="ms-result__commentary">
             <label>Комментарий к операции</label>
-            <input pInputText 
+            <input pInputText
                 [(ngModel)]="commentary"
-                [maxLength]="COMMENTARY_LENGTH" 
+                [maxLength]="COMMENTARY_LENGTH"
                 [allowedInputCharactersReg]="COMMENTARY_EXPR" />
         </div>
         <div class="ms-result__buttons">
@@ -93,7 +93,7 @@
             <button class="btn btn-success me-2" (click)="cancelPayments()">Отклонить</button>
             <button class="btn btn-success"      (click)="resumePayments()">Возобновить обработку</button>
         </div>
-        
+
     </div>
 
     <app-loading-spinner *ngIf="paymentResponse === null" [marginTop]="'10px'"></app-loading-spinner>

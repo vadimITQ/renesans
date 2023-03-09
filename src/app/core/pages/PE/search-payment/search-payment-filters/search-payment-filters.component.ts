@@ -27,7 +27,7 @@ export class SearchPaymentFiltersComponent {
   transferTypes = manualChecksTransferTypes;
 
   constructor(private searchPaymentService: SearchPaymentService, private fb: FormBuilder, private toastService: ToastService) {
-    
+
   }
 
   // form: FormGroup = this.fb.group({
@@ -35,13 +35,16 @@ export class SearchPaymentFiltersComponent {
   //   dateTo: new FormControl(this.filters.dateTo, laterThen('dateFrom')),
   // });
 
-  openDateFromCalendar() {
-    
+  onClear() {
+    this.filters = {
+      ...defineDefaultFiltersValues(),
+      dateFrom: null,
+      dateTo: null,
+    };
+
+    this.filtersValidation = {};
+
   }
-
-  openDateToCalendar() {}
-
-  openPlanDateCalendar() {}
 
   onSearch() {
     const anyFilledValidation = anyFieldFilledValidator(this.filters);
@@ -63,7 +66,7 @@ export class SearchPaymentFiltersComponent {
       dateFrom: dateFromValidation,
       dateTo: dateToValidation,
     };
-    //
-    // this.searchPaymentService.getPayments();
+
+    this.searchPaymentService.getPayments();
   }
 }

@@ -1,18 +1,18 @@
-<div class="input-with-error-container">
+<div class="textarea-with-error-container">
   <span class="p-float-label">
-    <input
-      #peInput
-      pInputText
-      id="input"
+    <textarea
+      #peTextarea
+      pInputTextarea
+      id="textarea"
       type="text"
       style="width: 100%"
-      [class]="{'input-error': !!validationMessage}"
+      [class]="{'textarea-error': !!validationMessage}"
       [maxLength]="maxLength"
       [disabled]="disabled"
       [(ngModel)]="value"
       [allowedInputCharactersReg]="regExprValidation"
-    />
-    <label for="input">{{ label }}</label>
+    ></textarea>
+    <label for="textarea">{{ label }}</label>
   </span>
   <span class="error-message" *ngIf="!!validationMessage">{{ validationMessage }}</span>
 </div>

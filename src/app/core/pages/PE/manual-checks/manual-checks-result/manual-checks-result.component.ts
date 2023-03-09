@@ -7,11 +7,12 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-input-validations';
 import { PaymentOrderWService } from '../../../../services/payment-order-w/payment-order-w.service';
-import { lastValueFrom, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
 import { RouterPath } from '../../../../../shared/enums/router.enums';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -19,6 +20,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
   styleUrls: ['./manual-checks-result.component.scss'],
 })
 export class ManualChecksResultComponent implements OnInit, OnDestroy {
+
   constructor(
     private mcService: ManualChecksService,
     private paymentOrderW: PaymentOrderWService,
@@ -37,6 +39,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   public selection: any[] = [];
   public commentary: string = '';
   private paymentResponseStateSubscribtion!: Subscription;
+  public rowStatusesColors = rowStatusesColors;
 
   public cols = [
     {field: 'paymentID', header: 'ID PE'},

@@ -4,10 +4,11 @@ import { Calendar } from 'primeng/calendar';
 import { Observable } from 'rxjs';
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
+import { ToastService } from 'src/app/shared/services/toast.service';
 import { Validation } from 'src/app/shared/validation/types';
 import { manualChecksStatuses, manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
-import { validateDates } from './manual-checks-filter.validation';
+import { validateDates, validateFilterOnEmpty } from './manual-checks-filter.validation';
 
 @Component({
   selector: 'app-manual-checks-filter',
@@ -18,7 +19,8 @@ export class ManualChecksFilterComponent implements OnInit {
 
   constructor(
     private mcService: ManualChecksService,
-    private changeDetectionRef: ChangeDetectorRef
+    private changeDetectionRef: ChangeDetectorRef,
+    private toastService: ToastService
   ) { }
 
   @ViewChild("dateFromRef") dateFromRef!: Calendar;
@@ -63,9 +65,16 @@ export class ManualChecksFilterComponent implements OnInit {
   }
 
   searchPayments() {
-    this.mcService
-      .getPayments(this.filter)
-      .subscribe();
+    const validateEmpty = validateFilterOnEmpty(this.filter);
+    if (validateEmpty){
+      this.validations = {...this.validations, ...validateEmpty}
+      this.toastService.showErrorToast("Заполните хотя бы одно из полей ID PE, ID PH, ID заявки, Номер счета");
+    }
+    else {
+      this.mcService
+        .getPayments(this.filter)
+        .subscribe();
+    }
   }
 
   onDateChange(dateFrom: string | null, dateTo: string | null) {

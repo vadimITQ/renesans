@@ -35,5 +35,13 @@
 }
 
 :host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
-  max-width: 100%;
+  max-width: 800px;
+}
+
+:host {
+  overflow: hidden;
+}
+
+p-multiSelect {
+  max-width: 600px;
 }

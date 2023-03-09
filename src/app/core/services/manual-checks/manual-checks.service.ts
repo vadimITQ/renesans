@@ -4,7 +4,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { GetPaymentsResponse, ManualChecksFilter } from '../../../shared/models/manual-checks-models';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { validateFilter } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.validation';
-import { sortPaymentData } from '../../pages/PE/manual-checks/manual-checks-result/manual-checks-result.utils';
+import { sortPaymentData, setRowStatuses } from '../../pages/PE/manual-checks/manual-checks-result/manual-checks-result.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class ManualChecksService {
       return this.paymentOrderWService.getPayments("ManualChecks").pipe(
         tap(response => {
           if (this.instanceOfGetPayments(response)){
-            const sortedData = sortPaymentData(response);
+            const sortedData = sortPaymentData(setRowStatuses(response));
             this.$paymentResponseState.next(sortedData);
           }
       }),

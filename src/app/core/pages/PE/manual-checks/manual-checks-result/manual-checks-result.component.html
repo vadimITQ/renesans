@@ -65,7 +65,7 @@
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-paymentItem>
-                <tr>
+                <tr [ngStyle]="{ 'color': rowStatusesColors[paymentItem.rowStatus] }">
                     <td>
                         <p-tableCheckbox [value]="paymentItem"></p-tableCheckbox>
                     </td>

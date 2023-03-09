@@ -25,4 +25,5 @@ export interface GetPaymentsResponse {
     channelIP?: string;
     manualParse?: number;
     status?: string;
+    rowStatus?: "erroneous" | "successful";
 }

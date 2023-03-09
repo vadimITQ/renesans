@@ -28,3 +28,15 @@ export function sortPaymentData(paymentData: GetPaymentsResponse[] | null | unde
       return 0;
     });
 };
+
+export function setRowStatuses(paymentData: GetPaymentsResponse[] | null | undefined): GetPaymentsResponse[] | null | undefined {
+  paymentData?.forEach(payment => {
+    if (payment.manualParse === 1){
+      return;
+    }
+    if ([2, 3].includes(payment.manualParse ?? -1)){
+      payment.status === "Ошибочные статусы платежа/перевода" ? payment.rowStatus = "erroneous": payment.status = "Успешные статусы платежа/перевода" ? payment.rowStatus = "successful": "";
+    }
+  })
+  return paymentData;
+}

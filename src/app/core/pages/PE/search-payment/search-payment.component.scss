@@ -15,3 +15,14 @@
   }
 
 }
+:host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
+  max-width: 100%;
+}
+// ::ng-deep p-multiselect .p-multiselect-label{
+//   display: flex;
+//   flex-wrap: wrap;
+// }
+
+// ::ng-deep p-multiselect .p-multiselect-token{
+//   margin-bottom: .5rem
+// }

@@ -79,12 +79,12 @@ export function validateFilterOnEmpty(filter: ManualChecksFilter): Validation | 
     const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.paymentHubPaymentId || !!filter.account;
     if (noFilter || (!filterHasDates && !filterHasId)){
         return {
-            dateFrom: "",
-            dateTo: "",
-            paymentID: "",
-            applicationID: "",
-            paymentHubPaymentId: "",
-            account: ""
+            dateFrom: " ",
+            dateTo: " ",
+            paymentID: " ",
+            applicationID: " ",
+            paymentHubPaymentId: " ",
+            account: " "
         };
     }
     return null;

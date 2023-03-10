@@ -120,4 +120,10 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   paymentIdClick(id: string) {
     this.router.navigate([RouterPath.PaymentEngine, RouterPath.ViewTransferDetails, id]);
   }
+
+
+  tableCheckboxDisabled(paymentItem: GetPaymentsResponse) {
+    return paymentItem.rowStatus === 'successful'
+  }
+
 }

@@ -15,8 +15,8 @@ export interface GetPaymentsResponse {
     paymentID?: string;
     applicationID?: string;
     paymentHubPaymentId?: number;
-    pmtCreationTime?: Date;
-    plannedDate?: Date;
+    pmtCreationTime?: string;
+    plannedDate?: string;
     amount?: number;
     type?: string;
     statusPE?: string;

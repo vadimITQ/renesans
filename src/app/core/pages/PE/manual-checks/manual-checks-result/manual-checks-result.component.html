@@ -67,13 +67,13 @@
             <ng-template pTemplate="body" let-paymentItem>
                 <tr [ngStyle]="{ 'color': rowStatusesColors[paymentItem.rowStatus] }">
                     <td>
-                        <p-tableCheckbox [value]="paymentItem"></p-tableCheckbox>
+                        <p-tableCheckbox [value]="paymentItem" [disabled]="tableCheckboxDisabled(paymentItem)"></p-tableCheckbox>
                     </td>
                   <td><a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a></td>
                     <td>{{ paymentItem.applicationID }}</td>
                     <td>{{ paymentItem.paymentHubPaymentId }}</td>
-                    <td>{{ paymentItem.pmtCreationTime | date: 'yyyy.MM.dd HH:mm:ss' }}</td>
-                    <td>{{ paymentItem.plannedDate | date: 'yyyy.MM.dd HH:mm:ss' }}</td>
+                    <td>{{ paymentItem.pmtCreationTime }}</td>
+                    <td>{{ paymentItem.plannedDate }}</td>
                     <td>{{ paymentItem.amount }}</td>
                     <td>{{ paymentItem.type }}</td>
                     <td>{{ paymentItem.statusPE }}</td>
@@ -82,11 +82,12 @@
             </ng-template>
         </p-table>
         <div class="ms-result__commentary">
-            <label>Комментарий к операции</label>
-            <input pInputText
-                [(ngModel)]="commentary"
-                [maxLength]="COMMENTARY_LENGTH"
-                [allowedInputCharactersReg]="COMMENTARY_EXPR" />
+            <pe-input 
+                [label]="'Комментарий к операции'" 
+                [(value)]="commentary" 
+                [maxLength]="COMMENTARY_LENGTH" 
+                [regExprValidation]="COMMENTARY_EXPR">
+            </pe-input>
         </div>
         <div class="ms-result__buttons">
             <button class="btn btn-success me-2" (click)="back()">Назад</button>

@@ -78,6 +78,7 @@ export class ManualChecksFilterComponent implements OnInit {
   }
 
   onDateChange(dateFrom: string | null, dateTo: string | null) {
+    console.log(dateFrom, dateTo);
     const { dateFromValidation, dateToValidation } = validateDates(dateFrom, dateTo);
     this.validations["dateFrom"] = dateFromValidation;
     this.validations["dateTo"] = dateToValidation;

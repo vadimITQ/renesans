@@ -17,6 +17,7 @@ export class DatePickerComponent implements OnInit {
   @Input() minDate: Date | null = null;
   @Input() maxDate: Date | null = null;
   @Input() labelStyle?: { [styleKey: string]: string };
+  @Input() showSeconds: boolean = false;
 
   _date: string | null = null;
 

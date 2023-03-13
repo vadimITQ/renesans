@@ -9,8 +9,8 @@ export class DateHelper {
     public static getDiffInDays(dateFrom: Date | null, dateTo: Date | null): number | null {
         if (DateHelper.dateValid(dateFrom) && DateHelper.dateValid(dateTo)){
             const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-            const utc1 = Date.UTC(dateFrom!.getFullYear(), dateFrom!.getMonth(), dateFrom!.getDate());
-            const utc2 = Date.UTC(dateTo!.getFullYear(), dateTo!.getMonth(), dateTo!.getDate());
+            const utc1 = Date.UTC(dateFrom!.getFullYear(), dateFrom!.getMonth(), dateFrom!.getDate(), dateFrom!.getHours(), dateFrom!.getMinutes(), dateFrom!.getSeconds());
+            const utc2 = Date.UTC(dateTo!.getFullYear(), dateTo!.getMonth(), dateTo!.getDate(), dateTo!.getHours(), dateTo!.getMinutes(), dateTo!.getSeconds());
             return Math.floor((utc2 - utc1) / _MS_PER_DAY);
         }
         else{

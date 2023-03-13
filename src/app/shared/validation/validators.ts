@@ -44,3 +44,7 @@ export function lessThanDateDiapason(from: string | null, to: string | null, dia
   const { fromDate, toDate } = parsedDates;
   return differenceInCalendarDays(toDate, fromDate) > diapason ? `Диапозон дат не должен превышать ${diapason} дней.` : null;
 }
+
+export function required(value: unknown): ValidationMessage {
+  return !value ? 'Поле обязательно к заполнению' : null;
+}

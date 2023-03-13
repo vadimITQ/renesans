@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
+import { ITransferDetails } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service
 export class ViewTransferDetailsService {
   constructor(private paymentOrderWService: PaymentOrderWService) {}
 
-  public $transferDetailsState: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public $transferDetailsState: BehaviorSubject<ITransferDetails | null> = new BehaviorSubject<ITransferDetails | null>(null);
 
   public getTransferDetails(id: string) {
     this.$transferDetailsState.next(null);

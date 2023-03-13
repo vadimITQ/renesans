@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
-    return this.AUTH_FOR_TESTING();
+    return this.AUTH_FOR_TESTING(credentials);
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
       tap({
         next: response => {
@@ -53,18 +53,23 @@ export class AuthService {
     });
   }
 
-  private AUTH_FOR_TESTING(): Observable<UserResponse> {
+  private AUTH_FOR_TESTING(credentials: UserCredentials): Observable<UserResponse> {
+    const token =
+      'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZXJtZXMiLCJyb2xlcyI6IltdIiwiZXhwIjoxNjc4Nzc0ODQzLCJpYXQiOjE2Nzg2ODg0NDMsInVzZXJuYW1lIjoiaGVybWVzIn0.ZTpxWEsP2HcDY_tE4q5_-I45cFA8isM9brL6WUXm76FjMdHgTw-qVG6G02Q_PxRFeHCHmLHHzK_5L2vb1PbqAw';
+    localStorage.setItem('token', token);
     this._isLoggedIn = true;
+    this._user = credentials;
     this.rolesService.userRoles = userHasRoles;
     return of({
       auth: true,
       roles: [],
-      token:
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZXJtZXMiLCJyb2xlcyI6IltdIiwiZXhwIjoxNjc4NDM1ODc1LCJpYXQiOjE2NzgzNDk0NzUsInVzZXJuYW1lIjoiaGVybWVzIn0.JTGZgnRpeL4s7Vg8SqhVIV2-8EBFXUBxXTQOpxaLFz3jsuHYQe0RN8DoEf59vJoBpK4NOn8XH2T5BBkpDqxs8w',
+      token,
     });
   }
 
   public handleUnauthorized() {
+    console.log(this._user);
+
     if (this._user) {
       this.login(this._user);
     } else {

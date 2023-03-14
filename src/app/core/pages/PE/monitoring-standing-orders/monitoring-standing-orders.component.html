@@ -13,11 +13,11 @@
     <div class="mb-4"></div>
     
     <div class="mso__buttons mb-4" *ngIf="standingOrderStat">
-        <button class="btn btn-success btn-round mx-1" (click)="back()">Назад</button>
-        <button class="btn btn-success btn-round mx-1" (click)="cancelStandingOrder()">Отменить распоряжение</button>
-        <button class="btn btn-success btn-round mx-1" (click)="processStandingOrderRequest()">Отклонить операцию по распоряжению</button>
-        <button class="btn btn-success btn-round mx-1" (click)="cancelOperation()">Повторить обработку по распоряжению</button>
-        <button class="btn btn-success btn-round"      (click)="generateAReport()">Сформировать отчёт</button>
+        <button pButton class="pe-button btn-round mr-1"        [label]="'Назад'"                                 (click)="back()"></button>
+        <button pButton class="pe-button btn-round ml-1 mr-1"   [label]="'Отменить распоряжение'"                 (click)="cancelStandingOrder()"></button>
+        <button pButton class="pe-button btn-round ml-1 mr-1"   [label]="'Отклонить операцию по распоряжению'"    (click)="processStandingOrderRequest()"></button>
+        <button pButton class="pe-button btn-round ml-1 mr-1"   [label]="'Повторить обработку по распоряжению'"   (click)="cancelOperation()"></button>
+        <button pButton class="pe-button btn-round"             [label]="'Сформировать отчёт'"                    (click)="generateAReport()"></button>
     </div>
 </div>
 

@@ -49,6 +49,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     {field: 'plannedDate', header: 'Дата исполнения платежа'},
     {field: 'amount', header: 'Сумма'},
     {field: 'type', header: 'Тип перевода'},
+    {field: 'statusCodePE', header: 'Код статуса'},
     {field: 'statusPE', header: 'Статус PE'},
     {field: 'errorType', header: 'Тип ошибки'}
   ]

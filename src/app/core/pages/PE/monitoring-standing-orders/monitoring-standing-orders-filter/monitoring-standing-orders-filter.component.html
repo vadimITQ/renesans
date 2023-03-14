@@ -3,17 +3,17 @@
     <h5 class="mb-3">Мониторинг на регулярные переводы и платежи</h5>
 
     <div class="row">
-        <div class="col-auto my-auto me-4">
+        <div class="mr-3">
             Дата исполнения
         </div>
-        <div class="col-auto my-auto me-1">
+        <div class="mr-3">
             <p-calendar [(ngModel)]="executionDate" #calendar></p-calendar>
         </div>
-        <div class="col-auto my-auto me-4 c-pointer">
+        <div class="mr-3 c-pointer">
             <i class="pi pi-calendar" (click)="openCalendar()"></i>
         </div>
-        <div class="col-auto my-auto">
-            <button class="btn btn-success" (click)="refreshData()">Обновить</button>
+        <div>
+            <button pButton class="pe-button" [label]="'Обновить'" (click)="refreshData()"></button>
         </div>
     </div>
 </div>

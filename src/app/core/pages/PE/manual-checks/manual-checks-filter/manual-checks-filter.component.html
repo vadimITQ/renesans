@@ -30,6 +30,20 @@
     </div>
     <div class="ms-filter__forms">
         <div>
+            <label>Канал поступления заявки</label>
+        </div>
+        <div class="ms-filter__multiselect">
+            <p-multiSelect
+                [options]="receivingChanelOptions"
+                [(ngModel)]="filter.channelName"
+                optionLabel="label"
+                defaultLabel="Выберите канал поступления заявки"
+                display="chip"
+            ></p-multiSelect>
+        </div>
+    </div>
+    <div class="ms-filter__forms">
+        <div>
             <label>Статус</label>
         </div>
         <div class="ms-filter__multiselect">
@@ -58,8 +72,8 @@
     </div>
 
     <div class="ms-filter__buttons">
-        <button class="btn btn-success me-2" (click)="clearFilter()">Очистить</button>
-        <button class="btn btn-success" (click)="searchPayments()">Найти</button>
+        <button pButton class="pe-button"      [label]="'Очистить'" (click)="clearFilter()"></button>
+        <button pButton class="pe-button ml-2" [label]="'Найти'"    (click)="searchPayments()"></button>
     </div>
 
 </div>

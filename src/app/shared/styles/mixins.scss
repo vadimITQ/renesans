@@ -1,0 +1,22 @@
+
+@use "sass:list";
+
+$headersSizes: (
+    1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4
+);
+
+$unit: rem;
+
+@mixin typographyHeaders($depth) {
+    @for $_depth from calc($depth) to 0 {
+        h#{calc(($depth + 1) - $_depth)}{
+            font-size: #{list.nth($headersSizes, $_depth)}#{$unit} !important;
+            margin-bottom: 0.5rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+            color: inherit;
+            margin-top: 0px;
+        } 
+    }
+}

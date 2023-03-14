@@ -1,0 +1,45 @@
+@use "sass:list";
+
+$spacers: (
+    .25, .5, 1, 1.5, 3, 4, 5, 6
+);
+
+$unit: rem;
+
+@mixin margin($class-name, $direction, $depth) {
+    @for $_depth from 1 to calc($depth + 1) {
+        .#{$class-name}-#{$_depth} {
+            margin-#{$direction}: #{list.nth($spacers, $_depth)}#{$unit} !important;
+        }
+    }
+    .#{$class-name}-auto {
+        margin-#{$direction}: auto !important;
+    }
+    .#{$class-name}-0 {
+        margin-#{$direction}: 0px !important;
+    }
+}
+
+@mixin padding($class-name, $direction, $depth) {
+    @for $_depth from 1 to calc($depth + 1) {
+        .#{$class-name}-#{$_depth} {
+            padding-#{$direction}: #{list.nth($spacers, $_depth)}#{$unit} !important;
+        }
+    }
+    .#{$class-name}-auto {
+        padding-#{$direction}: auto !important;
+    }
+    .#{$class-name}-0 {
+        padding-#{$direction}: 0px !important;
+    }
+}
+
+@include margin(mb, bottom, 5);
+@include margin(mt, top, 5);
+@include margin(ml, left, 5);
+@include margin(mr, right, 5);
+
+@include padding(pb, bottom, 5);
+@include padding(pt, top, 5);
+@include padding(pl, left, 5);
+@include padding(pr, right, 5);

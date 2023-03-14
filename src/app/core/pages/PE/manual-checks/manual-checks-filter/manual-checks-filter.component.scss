@@ -31,7 +31,7 @@
             }
        }
        div:first-child {
-        width: 150px;
+        width: 235px;
        }
     }
 
@@ -40,8 +40,8 @@
     }
 
     &__multiselect {
-        max-width: calc(100% - 150px);
-        width: calc(100% - 150px);
+        max-width: calc(100% - 235px);
+        width: calc(100% - 235px);
     }
 
 }

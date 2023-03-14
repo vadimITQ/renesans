@@ -11,6 +11,11 @@
     outline: none !important;
 }
 
+.pe-button {
+    border-radius: 5px !important;
+    @extend .btn-success;
+}
+
 .btn-round {
     border-radius: 25px !important;
 }

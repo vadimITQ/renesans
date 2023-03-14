@@ -28,7 +28,7 @@
     <date-picker [(date)]="filters.plannedDate" label="Плановая дата" [showTime]="false"></date-picker>
   </div>
   <div class="multiselect-row">
-    <div>
+    <div class="mb-3">
       <label>Канал поступления заявки</label>
         <p-multiSelect
           [options]="receivingChanelOptions"
@@ -38,7 +38,7 @@
           display="chip">
         </p-multiSelect>
     </div>
-    <div>
+    <div class="mb-3">
       <label>Тип объекта создавшего запрос</label>
       <p-multiSelect
           [options]="objectTypeOptions"
@@ -60,8 +60,8 @@
     </div>
   </div>
   <div>
-    <button class="btn btn-success me-2" (click)="onClear()">Очистить</button>
-    <button class="btn btn-success me-2" (click)="onSearch()">Найти</button>
-    <button class="btn btn-success" (click)="searchAndGenerateDoc()">Найти и сформировать отчет СБП</button>
+    <button pButton class="pe-button"      [label]="'Очистить'"                       (click)="onClear()"></button>
+    <button pButton class="pe-button ml-2" [label]="'Найти'"                          (click)="onSearch()"></button>
+    <button pButton class="pe-button ml-2" [label]="'Найти и сформировать отчет СБП'" (click)="searchAndGenerateDoc()"></button>
   </div>
 </div>

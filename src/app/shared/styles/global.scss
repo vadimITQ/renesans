@@ -1,4 +1,14 @@
 
+@import "./buttons.scss";
+@import "./indents.scss";
+@import "./typography.scss";
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
 p-columnfilter p-inputnumber .p-inputnumber-button-group {
     display: none !important;
 }
@@ -6,3 +16,8 @@ p-columnfilter p-inputnumber .p-inputnumber-button-group {
 .c-pointer {
     cursor: pointer;
 }
+
+
+
+
+

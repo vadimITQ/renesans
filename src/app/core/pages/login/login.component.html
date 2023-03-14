@@ -6,7 +6,8 @@
   <div class="login-form__login">
     <label>Логин</label>
     <input 
-      class="form-control" 
+      pInputText
+      class="form-control"
       [(ngModel)]="authentificationData.login" 
       type="text"
       formControlName="login" />
@@ -14,6 +15,7 @@
   <div class="login-form__password">
     <label>Пароль</label>
     <input 
+      pInputText
       class="form-control" 
       [(ngModel)]="authentificationData.password" 
       type="password"
@@ -23,6 +25,6 @@
     <label class="alert login-form__alert-error">{{ errorMessage }}</label>
   </div>
   <div class="login-form__login-button">
-    <button class="btn btn-success" (click)="tryAuthenticateUser()">Вход</button>
+    <button pButton class="p-button-success p-button-rounded" [label]="'Вход'" (click)="tryAuthenticateUser()"></button>
   </div>
 </div>

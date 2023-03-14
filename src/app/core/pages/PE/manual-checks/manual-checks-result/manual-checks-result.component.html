@@ -1,10 +1,10 @@
 
 <div class="ms-result">
-    <h5>Результат поиска</h5>
+    <h5 class="mb-3">Результат поиска</h5>
 
     <div *ngIf="paymentResponse">
 
-        <p-table
+    <p-table
             #manualChecksTable
             [value]="paymentResponse"
             [(selection)]="selection"
@@ -57,6 +57,9 @@
                         <p-columnFilter type="text" field="type" ></p-columnFilter>
                     </th>
                     <th>
+                        <p-columnFilter type="numeric" field="statusCodePE" ></p-columnFilter>
+                    </th>
+                    <th>
                         <p-columnFilter type="text" field="statusPE" ></p-columnFilter>
                     </th>
                     <th>
@@ -76,6 +79,7 @@
                     <td>{{ paymentItem.plannedDate }}</td>
                     <td>{{ paymentItem.amount }}</td>
                     <td>{{ paymentItem.type }}</td>
+                    <td>{{ paymentItem.statusCodePE }}</td>
                     <td>{{ paymentItem.statusPE }}</td>
                     <td>{{ paymentItem.errorType }}</td>
                 </tr>
@@ -90,9 +94,9 @@
             </pe-input>
         </div>
         <div class="ms-result__buttons">
-            <button class="btn btn-success me-2" (click)="back()">Назад</button>
-            <button class="btn btn-success me-2" (click)="cancelPayments()">Отклонить</button>
-            <button class="btn btn-success"      (click)="resumePayments()">Возобновить обработку</button>
+            <button pButton class="pe-button" [label]="'Назад'"                 (click)="back()"></button>
+            <button pButton class="pe-button ml-2" [label]="'Отклонить'"             (click)="cancelPayments()"></button>
+            <button pButton class="pe-button ml-2" [label]="'Возобновить обработку'" (click)="resumePayments()"></button>
         </div>
 
     </div>

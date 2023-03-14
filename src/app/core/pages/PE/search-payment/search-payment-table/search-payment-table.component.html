@@ -1,6 +1,6 @@
 <div class="search-payment-filter">
 
-  <h5 class="mb-3">Найденные платежи</h5>
+  <h5>Найденные платежи</h5>
 
   <ng-container *ngIf="tableData">
     <div>
@@ -34,8 +34,8 @@
     </div>
   
     <div>
-      <button class="btn btn-success me-2" (click)="generateReport()">Сформировать отчет</button>
-      <button class="btn btn-success" (click)="generateReport()">Сформировать отчет СБП</button>
+      <button pButton class="pe-button mr-2" [label]="'Сформировать отчет'"      (click)="generateReport()"></button>
+      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateReport()"></button>
     </div>
   </ng-container>
 

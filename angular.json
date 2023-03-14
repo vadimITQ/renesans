@@ -20,6 +20,7 @@
             "outputPath": "dist/renesans",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "allowedCommonJsDependencies": ["xlsx", "file-saver"],
             "polyfills": [
               "zone.js"
             ],
@@ -33,15 +34,16 @@
             "styles": [
               "src/styles.scss",
               "src/app/shared/styles/global.scss",
-              "src/app/shared/styles/buttons.scss",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/saga-green/theme.css",
               "node_modules/primeng/resources/primeng.min.css"
             ],
-            "scripts": [
-              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/shared/styles"
+              ]
+            },
+            "scripts": [ ]
           },
           "configurations": {
             "production": {

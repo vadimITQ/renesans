@@ -8,6 +8,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { Validation } from 'src/app/shared/validation/types';
 import { manualChecksStatuses, manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
+import { receivingChanelOptions } from '../../search-payment/search-payment-filters/search-payment-filters.constants';
 import { validateDates, validateFilterOnEmpty } from './manual-checks-filter.validation';
 
 @Component({
@@ -33,6 +34,7 @@ export class ManualChecksFilterComponent implements OnInit {
 
   public transferTypes = manualChecksTransferTypes;
   public paymentStatuses = manualChecksStatuses;
+  public receivingChanelOptions = receivingChanelOptions;
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
   public filter: ManualChecksFilter = {
     dateFrom: null,

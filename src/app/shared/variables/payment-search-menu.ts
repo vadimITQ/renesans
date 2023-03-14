@@ -67,11 +67,11 @@ export const paymentEngineLinks: PaymentEngineMenuLink[] = [
   //   navigation: RouterPath.Test,
   //   clicked: false,
   // },
-  // {
-  //   name: 'Мониторинг длительных поручений',
-  //   navigation: RouterPath.MonitoringStandingOrders,
-  //   clicked: false,
-  // },
+  {
+    name: 'Мониторинг длительных поручений',
+    navigation: RouterPath.MonitoringStandingOrders,
+    clicked: false,
+  },
   // {
   //   name: 'Заявки по длительным поручениям',
   //   navigation: RouterPath.Test,

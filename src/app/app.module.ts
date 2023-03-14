@@ -46,6 +46,7 @@ import { HttpLoaderFactory } from 'src/app/shared/localization/loader-factory';
 import { ViewTransferDetailsComponent } from './core/pages/PE/view-transfer-details/view-transfer-details.component';
 import { PeTextareaComponent } from './shared/components/controls/pe-textarea/pe-textarea.component';
 import { PeHttpInterceptor } from './shared/interceptors/http.interceptor';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { PeHttpInterceptor } from './shared/interceptors/http.interceptor';
     InputTextModule,
     CheckboxModule,
     MultiSelectModule,
+    ButtonModule,
     TranslateModule.forRoot({
       loader:{
         provide: TranslateLoader,

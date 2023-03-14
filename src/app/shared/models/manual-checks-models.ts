@@ -9,6 +9,7 @@ export interface ManualChecksFilter {
   timeTo?: string | Date;
   status?: string[] | number[];
   types?: string[] | number[];
+  channelName?: string;
 }
 
 export interface GetPaymentsResponse {
@@ -23,6 +24,7 @@ export interface GetPaymentsResponse {
     errorType?: string;
     channelIP?: string;
     manualParse?: number;
+    statusCodePE?: number;
     status?: string;
     rowStatus?: "erroneous" | "successful";
 }

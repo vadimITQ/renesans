@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { format, isValid, parse } from 'date-fns';
+import { format, formatISO, isValid, parse, parseISO } from 'date-fns';
 import { ValidationMessage } from '../../../validation/types';
 import { DatePickerHelper } from './date-picker-helper';
 import { dateFormat, dateFormatWithTime, timeFormat } from './date-picker.constants';
@@ -21,6 +21,7 @@ export class DatePickerComponent implements OnInit {
   _date: string | null = null;
 
   @Input() set date(newValue) {
+    console.log(newValue);
     this._date = newValue;
     this.dateValue = DatePickerHelper.convertToDate(newValue);
     this.dateChange.emit(newValue);
@@ -64,7 +65,7 @@ export class DatePickerComponent implements OnInit {
     if (!this._timeValue || !newValue) {
       this._timeValue = newValue;
     }
-    const formattedDate = DatePickerComponent.prepareDates(newValue, this._timeValue);
+    const formattedDate = this.prepareDates(newValue, this._timeValue);
     this.dateChange.emit(formattedDate);
   }
 
@@ -81,11 +82,12 @@ export class DatePickerComponent implements OnInit {
       this._dateValue = newValue;
     }
 
-    const formattedDate = DatePickerComponent.prepareDates(this._dateValue, newValue);
+    const formattedDate = this.prepareDates(this._dateValue, newValue);
     this.dateChange.emit(formattedDate);
   }
 
-  private static prepareDates(date: Date | null, time: Date | null): string {
+  private prepareDates(date: Date | null, time: Date | null): string | null {
+    console.log(date, time);
     const dateArr = [];
     if (isValid(date)) {
       dateArr.push(format(date!, dateFormat));
@@ -95,12 +97,16 @@ export class DatePickerComponent implements OnInit {
       dateArr.push(format(time!, timeFormat));
     }
 
-    return dateArr.join(' ');
+    const dateString = dateArr.join(' ');
+    return dateString.length ? parse(dateString, this.showTime ? dateFormatWithTime : dateFormat, new Date()).toISOString() : null;
+    // return dateArr.join(' ');
   }
 
   private parseDate(dateString: string): Date {
-    const parsedDateString = this.showTime ? dateString : dateString.split(' ')[0];
-    const format = this.showTime ? dateFormatWithTime : dateFormat;
-    return parse(parsedDateString, format, new Date());
+    const dateFromISO = new Date(dateString);
+    const formatString = this.showTime ? dateFormatWithTime : dateFormat;
+
+    const parsedDateString = format(dateFromISO, formatString);
+    return parse(parsedDateString, formatString, new Date());
   }
 }

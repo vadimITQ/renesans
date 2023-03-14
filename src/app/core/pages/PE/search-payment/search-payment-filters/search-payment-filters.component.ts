@@ -3,11 +3,11 @@ import { objectTypeOptions, receivingChanelOptions } from './search-payment-filt
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
 import { FormBuilder } from '@angular/forms';
-import { earlierThen, laterThen, lessThanDateDiapason } from '../../../../../shared/validation/validators';
+import { earlierThen, laterThen, lessThanDateDiapason, required } from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { anyFieldFilledValidator, defineDefaultFiltersValues } from './search-payment-filters.utils';
+import { anyFieldFilledValidator, defineDefaultFiltersValues, prepareSearchFilters } from './search-payment-filters.utils';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 
 @Component({
@@ -16,12 +16,11 @@ import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
   styleUrls: ['./search-payment-filters.component.scss'],
 })
 export class SearchPaymentFiltersComponent implements OnInit {
-
   public filters!: ISearchPaymentFilters;
 
   public filtersValidation: Validation = {
-    dateFrom: null,
-    dateTo: null,
+    dateTimeFrom: null,
+    dateTimeTo: null,
   };
 
   receivingChanelOptions = receivingChanelOptions;
@@ -29,11 +28,11 @@ export class SearchPaymentFiltersComponent implements OnInit {
   transferTypes = manualChecksTransferTypes;
 
   constructor(
-    private searchPaymentService: SearchPaymentService, 
-    private fb: FormBuilder, 
+    private searchPaymentService: SearchPaymentService,
+    private fb: FormBuilder,
     private toastService: ToastService,
-    private changeDetectionRef: ChangeDetectorRef
-  ) {  }
+    private changeDetectionRef: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.filters = defineDefaultFiltersValues();
@@ -48,15 +47,14 @@ export class SearchPaymentFiltersComponent implements OnInit {
   onClear() {
     this.filters = {
       ...defineDefaultFiltersValues(),
-      dateFrom: null,
-      dateTo: null,
+      dateTimeFrom: null,
+      dateTimeTo: null,
     };
 
     this.filtersValidation = {};
-
   }
 
-  onSearch() {
+  validate(): boolean {
     const anyFilledValidation = anyFieldFilledValidator(this.filters);
 
     if (anyFilledValidation) {
@@ -64,12 +62,16 @@ export class SearchPaymentFiltersComponent implements OnInit {
       this.toastService.showErrorToast(
         'Заполните хотя бы одно из полей Идентификатор платежа, Идентификатор заявки, Идентификатор документа, Номер документа',
       );
-      return;
+      return false;
     }
 
     const [dateFromValidation, dateToValidation] = [
-      earlierThen(this.filters.dateFrom, this.filters.dateTo) || lessThanDateDiapason(this.filters.dateFrom, this.filters.dateTo, 40),
-      laterThen(this.filters.dateFrom, this.filters.dateTo) || lessThanDateDiapason(this.filters.dateFrom, this.filters.dateTo, 40),
+      required(this.filters.dateTimeFrom) ||
+        earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
+        lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
+      required(this.filters.dateTimeTo) ||
+        laterThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
+        lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
     ];
 
     this.filtersValidation = {
@@ -77,13 +79,23 @@ export class SearchPaymentFiltersComponent implements OnInit {
       dateTo: dateToValidation,
     };
 
-    this.searchPaymentService.getPayments().subscribe();
+    return Object.values(this.filtersValidation).some(Boolean);
+  }
+
+  onSearch() {
+    if (!this.validate()) {
+      return;
+    }
+
+    this.searchPaymentService.getPayments(prepareSearchFilters(this.filters)).subscribe();
   }
 
   searchAndGenerateDoc() {
-    this.searchPaymentService.getPayments().subscribe(response => {
-      XlsxHelper.exportArrayToExcel(response, Object.getOwnPropertyNames(response[0]), "Выгрузка_в_excel_test");
+    if (!this.validate()) {
+      return;
+    }
+    this.searchPaymentService.getPayments(prepareSearchFilters(this.filters)).subscribe(response => {
+      XlsxHelper.exportArrayToExcel(response, Object.getOwnPropertyNames(response[0]), 'Выгрузка_в_excel_test');
     });
   }
-
 }

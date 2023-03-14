@@ -1,14 +1,14 @@
-import { TransferDetail } from './view-transfer-details.types';
 import { IColumn } from '../search-payment/search-payment-table/search-payment-table.constants';
+import { IViewTransferDetails } from './view-transfer-details.types';
 
 export const tableColumns: IColumn[] = [
   {
     header: 'Время',
-    field: 'time',
+    field: 'appCreationTime',
   },
   {
     header: 'Код статуса',
-    field: 'code',
+    field: 'statusCode',
   },
   {
     header: 'Статус РЕ',
@@ -16,7 +16,7 @@ export const tableColumns: IColumn[] = [
   },
   {
     header: 'Детали',
-    field: 'details',
+    field: '',
   },
   {
     header: 'Тип ошибки',
@@ -24,19 +24,19 @@ export const tableColumns: IColumn[] = [
   },
 ];
 
-export const transferDetailDefaultValue: TransferDetail = {
-  idPE: '',
-  senderName: '',
-  recipientName: '',
-  recipientInn: '',
-  aggregatorName: '',
+export const transferDetailDefaultValue: IViewTransferDetails = {
+  amount: 0,
+  appCreationTime: null,
   idPH: '',
-  amount: '',
-  creationDate: null,
-  withdrawalAccount: '',
-  recipientAccount: '',
-  recipientBankBIC: '',
-  beneficiaryName: '',
-  appointment: '',
-  transferHistory: [],
+  operatorLegalName: '',
+  payeeAccount: '',
+  payeeBankBIC: '',
+  payeeInn: '',
+  payeeName: '',
+  payerAccount: '',
+  payerName: '',
+  paymentID: '',
+  paymentPurpose: '',
+  serviceName: '',
+  statusHistory: [],
 };

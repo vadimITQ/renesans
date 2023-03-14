@@ -25,20 +25,19 @@ export class PeHttpInterceptor implements HttpInterceptor {
     const interceptedReq = req.clone({ setHeaders: { ...headers } });
 
     return next.handle(interceptedReq).pipe(
-      retry({
-        delay: error =>
-          error.pipe(
-            mergeMap((error: HttpErrorResponse, index) => {
-              if (error.status === 401) {
-                this.authService.handleUnauthorized();
-              }
-              if (index < 2) {
-                return of(error).pipe(delay(500));
-              }
+      retryWhen(error => {
+        return error.pipe(
+          mergeMap((error, index) => {
+            if (error.status === 401) {
+              this.authService.handleUnauthorized();
+            }
+            if (index < 2) {
+              return of(error).pipe(delay(2000));
+            }
 
-              throw error;
-            }),
-          ),
+            throw error;
+          }),
+        );
       }),
     );
   }

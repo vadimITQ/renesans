@@ -1,24 +1,11 @@
-export type TransferHistory = {
-  time: string;
-  code: string;
-  status: string;
-  details: string;
-  errorType: string;
-};
+import { ITransferDetails, StatusHistory } from '../../../services/view-transfer-details/types';
 
-export type TransferDetail = {
-  idPE: string;
-  senderName: string;
-  recipientName: string;
-  recipientInn: string;
-  aggregatorName: string;
-  idPH: string;
-  amount: string;
-  creationDate: string | null;
-  withdrawalAccount: string;
-  recipientAccount: string;
-  recipientBankBIC: string;
-  beneficiaryName: string;
-  appointment: string;
-  transferHistory: TransferHistory[];
-};
+export interface IViewStatusHistory extends Omit<StatusHistory, 'appCreationTime'> {
+  appCreationTime: string;
+}
+
+export interface IViewTransferDetails extends Omit<ITransferDetails, 'appCreationTime' | 'statusHistory'> {
+  appCreationTime: string | null;
+
+  statusHistory: IViewStatusHistory[];
+}

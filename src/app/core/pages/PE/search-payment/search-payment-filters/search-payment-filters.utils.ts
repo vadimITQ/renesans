@@ -1,13 +1,14 @@
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { format, sub } from 'date-fns';
-import { dateFormat, dateFormatWithTime } from '../../../../../shared/components/controls/date-picker/date-picker.constants';
+import { dateFormatWithTime } from '../../../../../shared/components/controls/date-picker/date-picker.constants';
 import { Validation } from '../../../../../shared/validation/types';
+import { ISearchPaymentsPayload } from '../../../../services/search-payment/types';
 
 export function defineDefaultFiltersValues(): ISearchPaymentFilters {
   const dateTo = new Date();
   const dateFrom = sub(dateTo, { days: 3 });
   return {
-    paymentId: '',
+    paymentID: '',
     applicationID: '',
     idPH: '',
     docID: '',
@@ -18,24 +19,33 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     userAgent: '',
     chequeNumber: '',
     statusCode: '',
-    dateFrom: format(dateFrom, dateFormatWithTime),
-    dateTo: format(dateTo, dateFormatWithTime),
+    dateTimeFrom: format(dateFrom, dateFormatWithTime),
+    dateTimeTo: format(dateTo, dateFormatWithTime),
     plannedDate: null,
     channelName: [],
     parentType: [],
-    types: [],
+    type: [],
   };
 }
 
 export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validation | null {
-  const { paymentId, applicationID, idPH, docID, linkedChequeId, docNum, account, chequeNumber, dateFrom, dateTo } = filters;
-  const isAnyFieldFilled = [paymentId, applicationID, idPH, docID, linkedChequeId, docNum, account, chequeNumber, dateFrom, dateTo].some(
-    value => !!value,
-  );
+  const { paymentID, applicationID, idPH, docID, linkedChequeId, docNum, account, chequeNumber, dateTimeFrom, dateTimeTo } = filters;
+  const isAnyFieldFilled = [
+    paymentID,
+    applicationID,
+    idPH,
+    docID,
+    linkedChequeId,
+    docNum,
+    account,
+    chequeNumber,
+    dateTimeFrom,
+    dateTimeTo,
+  ].some(value => !!value);
 
   if (!isAnyFieldFilled) {
     return {
-      paymentId: ' ',
+      paymentID: ' ',
       applicationID: ' ',
       idPH: ' ',
       docID: ' ',
@@ -51,6 +61,40 @@ export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validat
   return null;
 }
 
-// export function validateSearchPaymentFilters(filters: ISearchPaymentFilters): Validation | null {
-//   const validationErrors = {};
-// }
+export function prepareSearchFilters({
+  paymentID,
+  applicationID,
+  idPH,
+  docID,
+  linkedChequeId,
+  docNum,
+  account,
+  channelIP,
+  userAgent,
+  chequeNumber,
+  statusCode,
+  dateTimeFrom,
+  dateTimeTo,
+  plannedDate,
+  channelName,
+  parentType,
+  type,
+}: ISearchPaymentFilters): ISearchPaymentsPayload {
+  return {
+    dateTimeFrom: dateTimeFrom ?? '',
+    dateTimeTo: dateTimeTo ?? '',
+    paymentID,
+    applicationID,
+    idPH,
+    docID,
+    account,
+    channelIP,
+    chequeNumber,
+    linkedChequeId,
+    statusCode,
+    plannedDate: plannedDate ?? '',
+    channelName,
+    parentType,
+    type,
+  };
+}

@@ -1,12 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TransferDetail } from './view-transfer-details.types';
-import { transferDetailMock } from './view-transfer-details.mock';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { tap } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { tableColumns, transferDetailDefaultValue } from './view-transfer-details.constants';
 import { RouterPath } from '../../../../shared/enums/router.enums';
 import { ViewTransferDetailsService } from '../../../services/view-transfer-details/view-transfer-details.service';
 import { LoadingService } from '../../../../shared/services/loading.service';
+import { defineTransferDetailsData } from './view-transfer-details.utils';
+import { IViewTransferDetails } from './view-transfer-details.types';
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -14,7 +13,7 @@ import { LoadingService } from '../../../../shared/services/loading.service';
   styleUrls: ['./view-transfer-details.component.scss'],
 })
 export class ViewTransferDetailsComponent implements OnInit {
-  transferDetails: TransferDetail = transferDetailDefaultValue;
+  transferDetails: IViewTransferDetails = transferDetailDefaultValue;
   tableColumns = tableColumns;
 
   constructor(
@@ -32,12 +31,15 @@ export class ViewTransferDetailsComponent implements OnInit {
     }
 
     this.loadingService.showLoading();
-    this.viewTransferDetailsService.getTransferDetails(currentTransferDetailsId).subscribe(console.log);
-    // this.viewTransferDetailsService.$transferDetailsState.subscribe(value => {
-    //   // this.transferDetails = value;
-    //   console.log(value);
-    // });
-    this.loadingService.hideLoading();
+    this.viewTransferDetailsService.getTransferDetails(currentTransferDetailsId).subscribe();
+    this.viewTransferDetailsService.$transferDetailsState.subscribe(value => {
+      this.loadingService.hideLoading();
+
+      if (!value) {
+        return;
+      }
+      this.transferDetails = defineTransferDetailsData(value);
+    });
   }
 
   onBack() {

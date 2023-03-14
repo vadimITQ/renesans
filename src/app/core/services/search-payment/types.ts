@@ -1,18 +1,16 @@
-export interface ISearchPaymentFilters {
+export interface ISearchPaymentsPayload {
+  dateTimeFrom: string;
+  dateTimeTo: string;
   paymentID: string;
   applicationID: string;
   idPH: string;
   docID: string;
-  linkedChequeId: string;
-  docNum: string;
   account: string;
   channelIP: string;
-  userAgent: string;
   chequeNumber: string;
+  linkedChequeId: string;
   statusCode: string;
-  dateTimeFrom: string | null;
-  dateTimeTo: string | null;
-  plannedDate: string | null;
+  plannedDate: string;
   channelName: string[];
   parentType: string[];
   type: string[];

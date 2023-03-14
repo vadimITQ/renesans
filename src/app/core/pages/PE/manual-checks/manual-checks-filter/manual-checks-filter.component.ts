@@ -37,7 +37,6 @@ export class ManualChecksFilterComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    console.log(DatePickerHelper.convertToDatePicker(new Date()));
     this.filter = {
       dateFrom: DatePickerHelper.convertToDatePicker(sub(new Date(), { days: 3 })),
       dateTo: DatePickerHelper.convertToDatePicker(new Date()),

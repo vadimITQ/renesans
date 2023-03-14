@@ -3,6 +3,7 @@ import { format, sub } from 'date-fns';
 import { dateFormatWithTime } from '../../../../../shared/components/controls/date-picker/date-picker.constants';
 import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentsPayload } from '../../../../services/search-payment/types';
+import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 
 export function defineDefaultFiltersValues(): ISearchPaymentFilters {
   const dateTo = new Date();
@@ -19,8 +20,8 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     userAgent: '',
     chequeNumber: '',
     statusCode: '',
-    dateTimeFrom: format(dateFrom, dateFormatWithTime),
-    dateTimeTo: format(dateTo, dateFormatWithTime),
+    dateTimeFrom: DatePickerHelper.convertToDatePicker(dateFrom),
+    dateTimeTo: DatePickerHelper.convertToDatePicker(dateTo),
     plannedDate: null,
     channelName: [],
     parentType: [],

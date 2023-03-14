@@ -21,7 +21,6 @@ export class DatePickerComponent implements OnInit {
   _date: string | null = null;
 
   @Input() set date(newValue) {
-    console.log(newValue);
     this._date = newValue;
     this.dateValue = DatePickerHelper.convertToDate(newValue);
     this.dateChange.emit(newValue);
@@ -87,7 +86,6 @@ export class DatePickerComponent implements OnInit {
   }
 
   private prepareDates(date: Date | null, time: Date | null): string | null {
-    console.log(date, time);
     const dateArr = [];
     if (isValid(date)) {
       dateArr.push(format(date!, dateFormat));

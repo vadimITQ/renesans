@@ -4,10 +4,7 @@ export class DatePickerHelper {
 
     public static convertToDate(datePickerDate: string | null): Date | null {
         if (!datePickerDate){ return null; }
-        let [ _date, _time ] = datePickerDate.split(" ");
-        let validDate = _date.split("/").reverse().join("-");
-        let validTime = `T${ _time }`;
-        let result = new Date(`${ validDate }${ validTime }`);
+        let result = new Date(datePickerDate);
         return Number.isNaN(result.getTime()) ? null: result;
     }
 
@@ -26,25 +23,28 @@ export class DatePickerHelper {
         if (!date || !DateHelper.dateValid(date))
             return null;
 
-        let [ day, month, year, minutes, hours, seconds ] = 
+        return date.toISOString();
 
-        DatePickerHelper.convertDateSegmentToValidLength(
-            date.getDate(),
-            date.getMonth() + 1,
-            date.getFullYear(),
-            date.getMinutes(),
-            date.getHours(),
-            date.getSeconds()
-        );
+        // let [ day, month, year, minutes, hours, seconds ] = 
 
-        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        // DatePickerHelper.convertDateSegmentToValidLength(
+        //     date.getDate(),
+        //     date.getMonth() + 1,
+        //     date.getFullYear(),
+        //     date.getMinutes(),
+        //     date.getHours(),
+        //     date.getSeconds()
+        // );
+
+        // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     }
 
-    private static convertDateSegmentToValidLength(...dateSegment: (number | string)[]): string[] {
-        const result: string[] = dateSegment.map(segment => {
-            const stringSegment = segment.toString();
-            return stringSegment.length === 1 ? `0${stringSegment}`: stringSegment
-        });
-        return result;
-    }
+    // private static convertDateSegmentToValidLength(...dateSegment: (number | string)[]): string[] {
+    //     const result: string[] = dateSegment.map(segment => {
+    //         const stringSegment = segment.toString();
+    //         return stringSegment.length === 1 ? `0${stringSegment}`: stringSegment
+    //     });
+    //     return result;
+    // }
+    
 }

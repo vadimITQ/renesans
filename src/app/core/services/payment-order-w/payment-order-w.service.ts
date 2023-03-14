@@ -27,7 +27,7 @@ export class PaymentOrderWService {
     const mockData = form === 'SearchPayment' ? searchPaymentMock : form === 'ManualChecks' ? manualChecksTableData : null;
     if (mockData) {
       // return this.http.get(BASE_URL + '/searchPayments'); //of(mockData).pipe(delay(2000));
-      return of(mockData);
+      return of(mockData).pipe(delay(2000));
     } else {
       return of([]);
     }

@@ -20,7 +20,6 @@ export class AppComponent {
       .get('primeng')
       .subscribe(
         res => {
-          console.log(res);
           this.config.setTranslation(res);
         }
       );

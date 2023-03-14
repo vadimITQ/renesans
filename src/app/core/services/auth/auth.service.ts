@@ -68,8 +68,7 @@ export class AuthService {
   }
 
   public handleUnauthorized() {
-    console.log(this._user);
-
+    console.log("unauthorized", this._user);
     if (this._user) {
       this.login(this._user);
     } else {

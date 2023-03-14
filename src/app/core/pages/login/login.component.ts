@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { RouterPath } from 'src/app/shared/enums/router.enums';
 import { AuthService } from '../../services/auth/auth.service';
 import { LoginModel } from '../../../shared/models/login-models';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
+import { PeNavigationService } from '../../services/pe-navigation/pe-navigation.service';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +15,10 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService, 
-    private fb: FormBuilder, 
-    private router: Router, 
+    private fb: FormBuilder,
     private toastService: ToastService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private peNavigationService: PeNavigationService
   ) { }
 
   authentificationData: LoginModel = {
@@ -60,7 +59,7 @@ export class LoginComponent {
         next: (response) => {
           if (response?.auth){
             this.toastService.showSuccessToast("Аутентификация пользователя прошла успешно");
-            this.router.navigate([RouterPath.PaymentEngine, RouterPath.SearchPayment]);
+            this.peNavigationService.goToSearchPayment();
           }
           else{
             this.showErrorMessage = true;

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { tableColumns, transferDetailDefaultValue } from './view-transfer-details.constants';
-import { RouterPath } from '../../../../shared/enums/router.enums';
 import { ViewTransferDetailsService } from '../../../services/view-transfer-details/view-transfer-details.service';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { defineTransferDetailsData } from './view-transfer-details.utils';
 import { IViewTransferDetails } from './view-transfer-details.types';
+import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -18,9 +18,9 @@ export class ViewTransferDetailsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private viewTransferDetailsService: ViewTransferDetailsService,
     private loadingService: LoadingService,
+    private peNavigationService: PeNavigationService
   ) {}
 
   ngOnInit() {
@@ -43,6 +43,6 @@ export class ViewTransferDetailsComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate([RouterPath.PaymentEngine, RouterPath.ManualChecks]);
+    this.peNavigationService.goBack();
   }
 }

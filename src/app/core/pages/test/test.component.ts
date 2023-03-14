@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { RouterPath } from '../../../shared/enums/router.enums';
+import { PeNavigationService } from '../../services/pe-navigation/pe-navigation.service';
 
 @Component({
   selector: 'app-test',
@@ -11,7 +11,7 @@ export class TestComponent implements OnInit {
 
   title = '';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private peNavigationService: PeNavigationService ) {
     const state = this.router?.getCurrentNavigation()?.extras?.state;
     if (state){
       this.title = state["name"] ?? "";
@@ -30,6 +30,6 @@ export class TestComponent implements OnInit {
   }
 
   goToPayment() {
-    this.router.navigate([RouterPath.PaymentEngine]);
+    this.peNavigationService.goToHome();
   }
 }

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../services/auth/auth.service';
-import { Router } from '@angular/router';
-import { RouterPath } from '../../../../shared/enums/router.enums';
 import { paymentEngineLinks } from "../../../../shared/variables/payment-search-menu"
 import { PaymentEngineMenuLink } from 'src/app/shared/models/payment-engine-menu';
+import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 
 @Component({
   selector: 'app-payment-engine',
@@ -12,18 +10,15 @@ import { PaymentEngineMenuLink } from 'src/app/shared/models/payment-engine-menu
 })
 export class PaymentEngine {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private peNavigationService: PeNavigationService) { }
 
   paymentMenu = paymentEngineLinks;
 
   clickMenuLink(paymentLink: PaymentEngineMenuLink) {
     paymentLink.clicked = true;
     if (paymentLink.navigation) {
-      this.router.navigate(
-        [
-          RouterPath.PaymentEngine, 
-          paymentLink.navigation
-        ], 
+      this.peNavigationService.goToSpecificPath(
+        [paymentLink.navigation],
         { 
           state: { name: paymentLink.name }, 
           onSameUrlNavigation: "reload" 

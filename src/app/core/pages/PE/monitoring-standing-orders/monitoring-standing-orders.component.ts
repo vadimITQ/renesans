@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DatePipe, Location } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MonitoringStandingOrdersService } from 'src/app/core/services/monitoring-standing-orders/monitoring-standing-orders.service';
 import { MonitoringDataRecord, StandingOrderStatResponse } from 'src/app/shared/models/monitoring-standing-orders';
 import { OrdersStat } from 'src/app/shared/enums/orders-Stat.enums';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 import { DialogService } from '../../../../shared/services/dialog.service';
+import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 
 @Component({
   selector: 'app-monitoring-standing-orders',
@@ -15,10 +16,10 @@ import { DialogService } from '../../../../shared/services/dialog.service';
 export class MonitoringStandingOrdersComponent implements OnInit {
 
   constructor(
-    private msoService: MonitoringStandingOrdersService, 
-    private location: Location, 
+    private msoService: MonitoringStandingOrdersService,
     private datePipe: DatePipe,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private peNavigationService: PeNavigationService
   ) {}
 
   public $standingOrderStat: Observable<StandingOrderStatResponse> | null = null;
@@ -74,7 +75,7 @@ export class MonitoringStandingOrdersComponent implements OnInit {
   }
 
   back() {
-    this.location.back();
+    this.peNavigationService.goBack();
   }
 
   onFilteringByOrdersStat(ordersStat: any) {

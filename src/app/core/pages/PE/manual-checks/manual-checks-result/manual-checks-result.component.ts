@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ManualChecksService } from 'src/app/core/services/manual-checks/manual-checks.service';
 import { PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
@@ -9,10 +8,9 @@ import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-in
 import { PaymentOrderWService } from '../../../../services/payment-order-w/payment-order-w.service';
 import { Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
-import { Router } from '@angular/router';
-import { RouterPath } from '../../../../../shared/enums/router.enums';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
+import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -24,11 +22,10 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   constructor(
     private mcService: ManualChecksService,
     private paymentOrderW: PaymentOrderWService,
-    private location: Location,
     private dialogService: DialogService,
     private loadingService: LoadingService,
-    private router: Router,
-    private toasterService: ToastService
+    private toasterService: ToastService,
+    private peNavigationService: PeNavigationService
   ) {}
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
@@ -79,7 +76,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    this.location.back();
+    this.peNavigationService.goBack();
   }
 
   cancelPayments() {
@@ -119,7 +116,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   paymentIdClick(id: string) {
-    this.router.navigate([RouterPath.PaymentEngine, RouterPath.ViewTransferDetails, id]);
+    this.peNavigationService.goToViewTransferDetails(id);
   }
 
 

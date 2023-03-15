@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginComponent } from './core/pages/login/login.component';
-import { PaymentEngine } from './core/pages/PE/payment-engine/payment-engine.component';
+import { PaymentEngine } from './core/pages/PE/payment-engine.component';
 import { TestComponent } from './core/pages/test/test.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -47,6 +47,8 @@ import { ViewTransferDetailsComponent } from './core/pages/PE/view-transfer-deta
 import { PeTextareaComponent } from './shared/components/controls/pe-textarea/pe-textarea.component';
 import { PeHttpInterceptor } from './shared/interceptors/http.interceptor';
 import { ButtonModule } from 'primeng/button';
+import { PeHeaderComponent } from './core/pages/PE/pe-header/pe-header.component';
+import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { ButtonModule } from 'primeng/button';
     DatePickerComponent,
     ViewTransferDetailsComponent,
     PeTextareaComponent,
+    PeHeaderComponent,
+    PeFooterComponent,
   ],
   imports: [
     BrowserModule,

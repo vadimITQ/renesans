@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { paymentEngineLinks } from "../../../../shared/variables/payment-search-menu"
+import { paymentEngineLinks } from "../../../shared/variables/payment-search-menu"
 import { PaymentEngineMenuLink } from 'src/app/shared/models/payment-engine-menu';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 

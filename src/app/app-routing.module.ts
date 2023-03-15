@@ -5,7 +5,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { TestComponent } from './core/pages/test/test.component';
 import { RouterPath } from './shared/enums/router.enums';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
-import { PaymentEngine } from './core/pages/PE/payment-engine/payment-engine.component';
+import { PaymentEngine } from './core/pages/PE/payment-engine.component';
 import { MonitoringStandingOrdersComponent } from './core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.component';
 import { ManualChecksComponent } from './core/pages/PE/manual-checks/manual-checks.component';
 import { PaymentEngineRolesGuard } from './shared/guards/payment-engine-roles.guard';

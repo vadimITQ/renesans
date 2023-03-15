@@ -22,7 +22,7 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     statusCode: '',
     dateTimeFrom: DatePickerHelper.convertToDatePicker(dateFrom),
     dateTimeTo: DatePickerHelper.convertToDatePicker(dateTo),
-    plannedDate: null,
+    plannedDate: DatePickerHelper.convertToDatePicker(new Date(), false),
     channelName: [],
     parentType: [],
     type: [],

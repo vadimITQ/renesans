@@ -18,12 +18,17 @@ export class DatePickerHelper {
         }
     }
     
-    public static convertToDatePicker(date: Date | null): string | null {
+    public static convertToDatePicker(date: Date | null, withTime: boolean = true): string | null {
 
         if (!date || !DateHelper.dateValid(date))
             return null;
 
-        return date.toISOString();
+        if (withTime){
+            return date.toISOString();
+        }
+        else {
+            return date.toISOString().split("T")[0];
+        }
 
         // let [ day, month, year, minutes, hours, seconds ] = 
 

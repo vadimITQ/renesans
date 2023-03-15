@@ -91,7 +91,7 @@ export class DatePickerComponent implements OnInit {
       dateArr.push(format(date!, dateFormat));
     }
 
-    if (isValid(time)) {
+    if (isValid(time) && this.showTime) {
       dateArr.push(format(time!, timeFormat));
     }
 

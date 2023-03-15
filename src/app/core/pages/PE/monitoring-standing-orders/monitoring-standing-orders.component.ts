@@ -7,6 +7,8 @@ import { OrdersStat } from 'src/app/shared/enums/orders-Stat.enums';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 import { DialogService } from '../../../../shared/services/dialog.service';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
+import { RolesService } from 'src/app/core/services/auth/roles.service';
+import { RolesList } from 'src/app/shared/enums/roles.enums';
 
 @Component({
   selector: 'app-monitoring-standing-orders',
@@ -19,7 +21,8 @@ export class MonitoringStandingOrdersComponent implements OnInit {
     private msoService: MonitoringStandingOrdersService,
     private datePipe: DatePipe,
     private dialogService: DialogService,
-    private peNavigationService: PeNavigationService
+    private peNavigationService: PeNavigationService,
+    private rolesService: RolesService
   ) {}
 
   public $standingOrderStat: Observable<StandingOrderStatResponse> | null = null;
@@ -35,6 +38,10 @@ export class MonitoringStandingOrdersComponent implements OnInit {
           
         }
       });
+  }
+
+  get hasAccessToComponent(): boolean {
+    return this.rolesService.hasRole(RolesList.STORDAPP);
   }
 
   onRefreshingData(executionDate: Date) {

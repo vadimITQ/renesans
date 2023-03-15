@@ -1,5 +1,5 @@
 
-<div class="mso">
+<div class="mso" *ngIf="hasAccessToComponent">
     <app-monitoring-standing-orders-filter (OnRefreshData)="onRefreshingData($event)"></app-monitoring-standing-orders-filter>
 
     <div class="mb-4"></div>

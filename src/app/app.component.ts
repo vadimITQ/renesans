@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from './core/services/auth/auth.service';
-import { LoadingService } from './shared/services/loading.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
 

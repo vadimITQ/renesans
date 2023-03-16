@@ -17,6 +17,7 @@ export class SearchPaymentTableComponent implements OnInit {
 
   public tableColumns: IColumn[] = searchPaymentTableColumns;
   public tableData: ISearchPayment[] | null = null;
+  public loading: boolean = false;
 
   private paymentResponseStateSubscription!: Subscription;
 
@@ -32,10 +33,22 @@ export class SearchPaymentTableComponent implements OnInit {
     XlsxHelper.exportArrayToExcel(this.tableData, Object.getOwnPropertyNames(this.tableData[0]), 'Выгрузка_в_excel_test');
   }
 
+  generateSbpReport() {
+    if (!this.tableData) {
+      return;
+    }
+
+    XlsxHelper.exportArrayToExcel(this.tableData, Object.getOwnPropertyNames(this.tableData[0]), 'Выгрузка_в_excel_test');
+  }
+
   ngOnInit(): void {
     this.paymentResponseStateSubscription = this.searchPaymentService.$paymentResponseState.subscribe(paymentResponse => {
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse) : null;
       console.log(this.tableData);
+    });
+
+    this.searchPaymentService.$loading.subscribe(loading => {
+      this.loading = loading;
     });
   }
 }

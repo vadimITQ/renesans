@@ -14,12 +14,15 @@ export class SearchPaymentService {
   public $paymentResponseState: BehaviorSubject<ISearchPaymentsResponse[] | null> = new BehaviorSubject<ISearchPaymentsResponse[] | null>(
     null,
   );
+  public $loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   public getSearchPayments(payload: ISearchPaymentsPayload) {
     this.$paymentResponseState.next(null);
+    this.$loading.next(true)
     return this.paymentOrderWService.getSearchPayments(payload).pipe(
       tap(response => {
         this.$paymentResponseState.next(response);
+        this.$loading.next(false)
       }),
     );
   }

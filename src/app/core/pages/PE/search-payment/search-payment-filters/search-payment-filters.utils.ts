@@ -81,13 +81,14 @@ export function prepareSearchFilters({
   type,
 }: ISearchPaymentFilters): ISearchPaymentsPayload {
   return {
-    dateTimeFrom: dateTimeFrom ?? null,
-    dateTimeTo: dateTimeTo ?? null,
+    // dateTimeFrom: dateTimeFrom ?? null,
+    // dateTimeTo: dateTimeTo ?? null,
+    // paymentId: paymentID ?? null,
+
     // todo: fix me
-    // dateTimeFrom: '2023-02-01T11:39:33.194Z',
-    // dateTimeTo: '2023-02-13T11:40:34.194Z',
-    // paymentId: '10fef8e7-e3cc-38b4-90c7-0e5f218c1dc7',
-    paymentID: paymentID ?? null,
+    dateTimeFrom: '2023-02-01T11:39:33.194Z',
+    dateTimeTo: '2023-02-13T11:40:34.194Z',
+    paymentId: '10fef8e7-e3cc-38b4-90c7-0e5f218c1dc7',
 
     applicationID: applicationID ?? null,
     idPH: idPH ?? null,

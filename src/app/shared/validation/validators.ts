@@ -32,7 +32,7 @@ export function laterThen(from: string | null, to: string | null): ValidationMes
     return null;
   }
 
-  return !isAfter(parsedFrom, parsedTo) ? `Должно быть позже, чем ${format(parsedFrom, dateFormat)}` : null;
+  return !isAfter(parsedTo, parsedFrom) ? `Должно быть позже, чем ${format(parsedFrom, dateFormat)}` : null;
 }
 
 export function lessThanDateDiapason(from: string | null, to: string | null, diapason: number): ValidationMessage {

@@ -2,7 +2,7 @@
 
   <h5>Найденные платежи</h5>
 
-  <ng-container *ngIf="tableData">
+  <ng-container *ngIf="tableData && !loading">
     <div class="table-container">
       <p-table
         [value]="tableData"
@@ -31,10 +31,10 @@
 
     <div>
       <button pButton class="pe-button mr-2" [label]="'Сформировать отчет'"      (click)="generateReport()"></button>
-<!--      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateReport()"></button>-->
+      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateSbpReport()"></button>
     </div>
   </ng-container>
+  <app-loading-spinner *ngIf="loading" [marginTop]="'10px'"></app-loading-spinner>
 
 </div>
 
-<app-loading-spinner *ngIf="tableData === null" [marginTop]="'10px'"></app-loading-spinner>

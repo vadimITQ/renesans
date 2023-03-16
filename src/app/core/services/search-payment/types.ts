@@ -1,7 +1,7 @@
 export interface ISearchPaymentsPayload {
   dateTimeFrom: string | null;
   dateTimeTo: string | null;
-  paymentID: string | null;
+  paymentId: string | null;
   applicationID: string | null;
   docNum: string | null;
   userAgent: string | null;

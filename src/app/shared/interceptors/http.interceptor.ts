@@ -1,12 +1,14 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, delay, mergeMap, Observable, retry, retryWhen } from 'rxjs';
+import { delay, mergeMap, Observable, retryWhen } from 'rxjs';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { of } from 'rxjs/internal/observable/of';
+import {ToastService} from "../services/toast.service";
 
 @Injectable()
 export class PeHttpInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,     private toastService: ToastService,
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const sessionId = localStorage.getItem('token');
@@ -35,7 +37,8 @@ export class PeHttpInterceptor implements HttpInterceptor {
               return of(error).pipe(delay(2000));
             }
 
-            throw error;
+            this.toastService.showErrorToast('В данный момент сервис недоступен. Обратитесь в тех. поддержку.')
+            throw error
           }),
         );
       }),

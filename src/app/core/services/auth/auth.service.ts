@@ -48,9 +48,7 @@ export class AuthService {
 
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {
     const url = BASE_URL + '/user';
-    return this.http.get<UserResponse>(url, {
-      params: { connectionName, connectionPassword },
-    });
+    return this.http.post<UserResponse>(url, { username: connectionName, password: connectionPassword });
   }
 
   private AUTH_FOR_TESTING(credentials: UserCredentials): Observable<UserResponse> {

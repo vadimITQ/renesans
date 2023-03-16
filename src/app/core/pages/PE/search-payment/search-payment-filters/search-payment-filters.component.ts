@@ -78,8 +78,8 @@ export class SearchPaymentFiltersComponent implements OnInit {
       dateFrom: dateFromValidation,
       dateTo: dateToValidation,
     };
-
-    return Object.values(this.filtersValidation).some(Boolean);
+    
+    return !Object.values(this.filtersValidation).some(Boolean);
   }
 
   onSearch() {

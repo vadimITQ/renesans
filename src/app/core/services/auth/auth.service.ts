@@ -25,13 +25,12 @@ export class AuthService {
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
       tap({
         next: response => {
-          // const cookie = response.headers.get('Cookie');
           console.log(response);
           this._isLoggedIn = response.auth;
           this.rolesService.userRoles = response.roles;
           this._user = credentials;
           localStorage.setItem('token', response.token);
-          // this.rolesService.userRoles = userHasRoles;
+          this.rolesService.userRoles = userHasRoles;
         },
         error: error => {},
       }),
@@ -52,8 +51,8 @@ export class AuthService {
   }
 
   private AUTH_FOR_TESTING(credentials: UserCredentials): Observable<UserResponse> {
-    const token =
-      'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZXJtZXMiLCJyb2xlcyI6IltdIiwiZXhwIjoxNjc4Nzc0ODQzLCJpYXQiOjE2Nzg2ODg0NDMsInVzZXJuYW1lIjoiaGVybWVzIn0.ZTpxWEsP2HcDY_tE4q5_-I45cFA8isM9brL6WUXm76FjMdHgTw-qVG6G02Q_PxRFeHCHmLHHzK_5L2vb1PbqAw';
+
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZXJtZXMiLCJyb2xlcyI6IltdIiwiZXhwIjoxNjc4Nzc0ODQzLCJpYXQiOjE2Nzg2ODg0NDMsInVzZXJuYW1lIjoiaGVybWVzIn0.ZTpxWEsP2HcDY_tE4q5_-I45cFA8isM9brL6WUXm76FjMdHgTw-qVG6G02Q_PxRFeHCHmLHHzK_5L2vb1PbqAw';
     // localStorage.setItem('token', token);
     this._isLoggedIn = true;
     this._user = credentials;
@@ -63,6 +62,20 @@ export class AuthService {
       roles: [],
       token,
     });
+
+    return this.authenticateUser("tst_full_test", "yiqH9iR5").pipe(
+      tap({
+        next: response => {
+          console.log(response);
+          this._isLoggedIn = response.auth;
+          this.rolesService.userRoles = userHasRoles;
+          this._user = credentials;
+          localStorage.setItem('token', response.token);
+        },
+        error: error => {},
+      }),
+      delay(200),
+    );
   }
 
   public handleUnauthorized() {

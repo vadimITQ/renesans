@@ -6,11 +6,13 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-input-validations';
 import { PaymentOrderWService } from '../../../../services/payment-order-w/payment-order-w.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
+import { CancelReason } from 'src/app/core/services/payment-order-w/types';
+
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -25,7 +27,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private loadingService: LoadingService,
     private toasterService: ToastService,
-    private peNavigationService: PeNavigationService
+    private peNavigationService: PeNavigationService,
   ) {}
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
@@ -33,7 +35,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   public paymentResponse: GetPaymentsResponse[] | null | undefined = undefined;
   public types = PaymentTypes;
   public selectedAll: boolean = false;
-  public selection: any[] = [];
+  public selection: GetPaymentsResponse[] = [];
   public commentary: string = '';
   private paymentResponseStateSubscribtion!: Subscription;
   public rowStatusesColors = rowStatusesColors;
@@ -85,9 +87,29 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       header: 'Подтверждение',
       accept: {
         label: 'Да',
-        handler: () => this.loadingService.attach(this.paymentOrderW.cancelPayment()).then(() => {
-          this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно");
-        }),
+        handler: () => {
+          const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment({ 
+            cancelReason: CancelReason.CLIENT,
+            paymentID: selection.paymentID ?? "",
+            channelName: "PEW",
+            chennelUser: "USER_LOGIN",
+            description: this.commentary
+          })));
+          if (!$paymentsToCancel?.length){
+            this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на отмену");
+            return;
+          }
+          this.loadingService.attach(forkJoin($paymentsToCancel)).then((response) => {
+            if (response){
+              (<Array<Object>>response).some(element => !!element.hasOwnProperty("attr_errors"))
+                ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на отмену")
+                : this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно");
+            }
+          })
+          .catch(() => {
+            this.toasterService.showErrorToast("Ошибка сервера");
+          });
+        },
       },
       reject: {
         label: 'Нет',
@@ -101,9 +123,29 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       header: 'Подтверждение',
       accept: {
         label: 'Да',
-        handler: () => this.loadingService.attach(this.paymentOrderW.resumePayment()).then(() => {
-          this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно");
-        }),
+        handler: () => {
+          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment({ 
+            paymentID: selection.paymentID ?? "",
+            channelUser: "Test_User",
+            ResumeComment: this.commentary
+          })));
+          console.log($paymentsToResume?.length, !!$paymentsToResume?.length);
+          if (!$paymentsToResume?.length){
+            this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на возобновление");
+            return;
+          }
+          this.loadingService.attach(forkJoin($paymentsToResume)).then((response) => {
+            if (response){
+              (<Array<Object>>response).some(element => !!element.hasOwnProperty("attr_errors"))
+                ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на возобновление")
+                : this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно");
+            }
+            
+          })
+          .catch(() => {
+            this.toasterService.showErrorToast("Ошибка сервера");
+          });
+      },
       },
       reject: {
         label: 'Нет',
@@ -124,4 +166,13 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     return paymentItem.rowStatus === 'successful'
   }
 
+  onSelectionChange(selection: any) {
+    for (let i = selection.length - 1; i >= 1; i--) {
+      let data = selection[i];
+      if (this.tableCheckboxDisabled(data)) {
+        selection.splice(i, 1);
+      }
+    }
+    this.selection = selection;
+  }
 }

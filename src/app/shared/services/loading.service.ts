@@ -35,8 +35,10 @@ export class LoadingService {
         }
         this.showLoading();
         return promise.then(res => {
-            this.hideLoading();
             return res;
+        })
+        .finally(() => {
+            this.hideLoading();
         });
     }
 

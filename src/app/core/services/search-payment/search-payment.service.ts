@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
-import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
-import { ISearchPayment } from '../../pages/PE/search-payment/search-payment.types';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { ISearchPaymentsPayload, ISearchPaymentsResponse } from './types';
 

@@ -42,6 +42,7 @@ export class ManualChecksFilterComponent implements OnInit {
       dateTo: DatePickerHelper.convertToDatePicker(new Date()),
     };
     this.changeDetectionRef.detectChanges();
+    this.searchPayments();
   }
 
   openDateFromCalendar() {

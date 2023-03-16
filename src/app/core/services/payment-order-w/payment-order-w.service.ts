@@ -7,6 +7,7 @@ import { ISearchPayment } from '../../pages/PE/search-payment/search-payment.typ
 import { BASE_URL } from '../../../shared/variables/http-constants';
 import { ITransferDetails } from '../view-transfer-details/types';
 import { ISearchPaymentsPayload, ISearchPaymentsResponse } from '../search-payment/types';
+import { ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +15,16 @@ import { ISearchPaymentsPayload, ISearchPaymentsResponse } from '../search-payme
 export class PaymentOrderWService {
   constructor(private http: HttpClient) {}
 
-  public cancelPayment(): Observable<any> {
-    return of(null).pipe(delay(2000));
+  public cancelPayment(cancelPaymentPayload: ICancelPaymentPayload): Observable<ICancelPaymentResponse> {
+    return this.http.delete<ICancelPaymentResponse>(BASE_URL + '/cancelPayment', {
+      params: {
+        ...cancelPaymentPayload
+      }
+    });
   }
 
-  public resumePayment(): Observable<any> {
-    return of(null).pipe(delay(2000));
+  public resumePayment(resumePaymentBody: IResumePaymentPayload): Observable<any> {
+    return this.http.post<IResumePaymentResponse>(BASE_URL + '/resumePayment', resumePaymentBody);
   }
 
   public getPayments(form: 'ManualChecks'): Observable<GetPaymentsResponse[] | ISearchPayment[]> {

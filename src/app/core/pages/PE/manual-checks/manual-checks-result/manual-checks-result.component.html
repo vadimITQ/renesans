@@ -15,6 +15,7 @@
             [autoLayout]="true"
             [rows]="10"
             [columns]="cols"
+            (selectionChange)="onSelectionChange($event)"
             (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
             (onRowSelect)="onRowSelected($event)"
             sortMode="multiple"

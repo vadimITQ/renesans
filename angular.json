@@ -50,7 +50,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "1.2mb",
                   "maximumError": "1.5mb"
                 },
                 {
@@ -67,13 +67,22 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.dev.ts"
+              }]
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "renesans:build",
+            "port": 4200,
+            "proxyConfig": "src/proxy.test.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "renesans:build:production"

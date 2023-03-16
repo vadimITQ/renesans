@@ -5,6 +5,7 @@ import { GetPaymentsResponse, ManualChecksFilter } from '../../../shared/models/
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { validateFilter } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.validation';
 import { sortPaymentData, setRowStatuses } from '../../pages/PE/manual-checks/manual-checks-result/manual-checks-result.utils';
+import { ICancelPaymentPayload, IResumePaymentPayload } from '../payment-order-w/types';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,17 @@ export class ManualChecksService {
     }
   }
 
+  public cancelPayment(payload: ICancelPaymentPayload){
+    this.paymentOrderWService.cancelPayment(payload);
+  }
+
+  public resumePayment(payload: IResumePaymentPayload){
+    this.paymentOrderWService.resumePayment(payload);
+  }
+
   private instanceOfGetPayments(object:any): object is GetPaymentsResponse[] {
     return !!object && 'amount' in object[0];
   }
   
+
 }

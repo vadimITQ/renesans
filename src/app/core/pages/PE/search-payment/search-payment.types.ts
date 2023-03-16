@@ -6,18 +6,37 @@ export interface ISearchPayment {
   paymentSubType: string;
   budgetPaymentSubtype: string;
   paymentMethod: string;
-  amount: string;
-  fee: string;
-  ownFeeAmount: string;
-  creditFeeAmount: string;
-  bonusAmount: string;
-  bonusRub: string;
-  loyaltyRate: string;
+  amount: number;
+  fee: number;
+  ownFeeAmount: number;
+  creditFeeAmount: number;
+  bonusAmount: number;
+  bonusRub: number;
+  loyaltyRate: number;
   bonusTypeName: string;
-  bonusMaxPercent: string;
+  bonusMaxPercent: number;
   paymentId: string;
   idPH: string;
+  linkedChequeId: string;
   sourceSystem: string;
+
+  //источник
+  docNumSender: string;
+  docIDSender: string;
+  docStatusSender: string;
+  accountSender: string;
+  sbpMtelSender: string;
+
+  //приемник
+  targetSystem: string;
+  docNumReceiver: string;
+  docIDReceiver: string;
+  docStatusReceiver: string;
+  accountReceiver: string;
+  sbpMtelReceiver: string;
+
+  docNum: string;
+  docID: string;
   bankBIC: string;
   serviceName: string;
   operatorLegalName: string;
@@ -28,7 +47,6 @@ export interface ISearchPayment {
   parentType: string;
   chequeNumber: string;
   linkedChequeNumber: string;
-  linkedChequeId: string;
   channelIP: string;
   messageToReceiver: string;
   sbpTransactionId: string;

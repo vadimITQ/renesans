@@ -13,13 +13,13 @@ export class PeHttpInterceptor implements HttpInterceptor {
 
     const headers: { [p: string]: string } = sessionId
       ? {
-          'x-ibm-client-id': '75819d26-bd68-46bb-b9c9-4ce8ca4e4e83',
-          'x-ibm-client-secret': 'uA2yL2hE3qI8oP0sG4xY2hO4wG3iX3lR5pA8nA6mU4kC3bD8hF',
+          'x-ibm-client-id': 'f3beca6f-d9ec-432d-ba61-3122de09f4d9',
+          'x-ibm-client-secret': 'aL6uX7kN7vG1qP3nO6gV2vE2cA0mA1wC1rI4cS4vG6kR0nX7uV',
           SESSION_ID: sessionId,
         }
       : {
-          'x-ibm-client-id': '75819d26-bd68-46bb-b9c9-4ce8ca4e4e83',
-          'x-ibm-client-secret': 'uA2yL2hE3qI8oP0sG4xY2hO4wG3iX3lR5pA8nA6mU4kC3bD8hF',
+          'x-ibm-client-id': 'f3beca6f-d9ec-432d-ba61-3122de09f4d9',
+          'x-ibm-client-secret': 'aL6uX7kN7vG1qP3nO6gV2vE2cA0mA1wC1rI4cS4vG6kR0nX7uV',
         };
 
     const interceptedReq = req.clone({ setHeaders: { ...headers } });

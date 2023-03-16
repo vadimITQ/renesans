@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
-    return this.AUTH_FOR_TESTING(credentials);
+    // return this.AUTH_FOR_TESTING(credentials);
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
       tap({
         next: response => {
@@ -54,7 +54,7 @@ export class AuthService {
   private AUTH_FOR_TESTING(credentials: UserCredentials): Observable<UserResponse> {
     const token =
       'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZXJtZXMiLCJyb2xlcyI6IltdIiwiZXhwIjoxNjc4Nzc0ODQzLCJpYXQiOjE2Nzg2ODg0NDMsInVzZXJuYW1lIjoiaGVybWVzIn0.ZTpxWEsP2HcDY_tE4q5_-I45cFA8isM9brL6WUXm76FjMdHgTw-qVG6G02Q_PxRFeHCHmLHHzK_5L2vb1PbqAw';
-    localStorage.setItem('token', token);
+    // localStorage.setItem('token', token);
     this._isLoggedIn = true;
     this._user = credentials;
     this.rolesService.userRoles = userHasRoles;
@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   public handleUnauthorized() {
-    console.log("unauthorized", this._user);
+    console.log('unauthorized', this._user);
     if (this._user) {
       this.login(this._user);
     } else {

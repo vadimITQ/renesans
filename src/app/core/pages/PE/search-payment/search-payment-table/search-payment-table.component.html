@@ -3,7 +3,7 @@
   <h5>Найденные платежи</h5>
 
   <ng-container *ngIf="tableData">
-    <div>
+    <div class="table-container">
       <p-table
         [value]="tableData"
         (onRowSelect)="onRowSelected($event)"
@@ -28,14 +28,10 @@
         </ng-template>
       </p-table>
     </div>
-  
-    <div>
-      <pe-input label="Комментарий к операции" [maxLength]="COMMENTARY_LENGTH" />
-    </div>
-  
+
     <div>
       <button pButton class="pe-button mr-2" [label]="'Сформировать отчет'"      (click)="generateReport()"></button>
-      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateReport()"></button>
+<!--      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateReport()"></button>-->
     </div>
   </ng-container>
 

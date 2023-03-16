@@ -86,23 +86,23 @@ export const searchPaymentTableColumns: IColumn[] = [
   },
   {
     header: 'Номер документа - ABS источник',
-    field: 'docNum',
+    field: 'docNumSender',
   },
   {
     header: 'ID ABS Источник',
-    field: 'docID',
+    field: 'docIDSender',
   },
   {
     header: 'Статус документа в ABS источник',
-    field: 'docStatus',
+    field: 'docStatusSender',
   },
   {
     header: 'Номер счета ABS Источник',
-    field: 'account',
+    field: 'accountSender',
   },
   {
     header: 'Номер телефона отправителя в формате 0079101234567',
-    field: 'sbpMtel',
+    field: 'sbpMtelSender',
   },
   {
     header: 'ABS Приемник',
@@ -110,47 +110,23 @@ export const searchPaymentTableColumns: IColumn[] = [
   },
   {
     header: 'Номер документа - ABS Приемник',
-    field: 'docNum',
+    field: 'docNumReceiver',
   },
   {
     header: 'ID ABS Приемник',
-    field: 'docID',
+    field: 'docIDReceiver',
   },
   {
     header: 'Статус документа в ABS приемник',
-    field: 'docStatus',
+    field: 'docStatusReceiver',
   },
   {
     header: 'Номер счета ABS Приемник',
-    field: 'account',
+    field: 'accountReceiver',
   },
   {
     header: 'Номер телефона получателя в формате 0079101234567',
-    field: 'sbpMtel',
-  },
-  {
-    header: 'ABS Приемник',
-    field: 'targetSystem',
-  },
-  {
-    header: 'Номер документа - ABS Приемник',
-    field: 'docNum',
-  },
-  {
-    header: 'ID ABS Приемник',
-    field: 'docID',
-  },
-  {
-    header: 'Статус документа в ABS приемник',
-    field: 'docStatus',
-  },
-  {
-    header: 'Номер счета ABS Приемник',
-    field: 'account',
-  },
-  {
-    header: 'Номер телефона получателя в формате 0079101234567',
-    field: 'sbpMtel',
+    field: 'sbpMtelReceiver',
   },
   {
     header: 'Номер документа GL',

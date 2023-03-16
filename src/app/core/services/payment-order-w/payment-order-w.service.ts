@@ -4,10 +4,9 @@ import { delay, Observable, of, tap } from 'rxjs';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
 import { manualChecksTableData } from 'src/app/shared/mocks/manual-checks-table.mock';
 import { ISearchPayment } from '../../pages/PE/search-payment/search-payment.types';
-import { searchPaymentMock } from '../../pages/PE/search-payment/search-payment.mock';
 import { BASE_URL } from '../../../shared/variables/http-constants';
 import { ITransferDetails } from '../view-transfer-details/types';
-import { ISearchPaymentsPayload } from '../search-payment/types';
+import { ISearchPaymentsPayload, ISearchPaymentsResponse } from '../search-payment/types';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +22,8 @@ export class PaymentOrderWService {
     return of(null).pipe(delay(2000));
   }
 
-  public getPayments(form: 'SearchPayment' | 'ManualChecks'): Observable<GetPaymentsResponse[] | ISearchPayment[]> {
-    const mockData = form === 'SearchPayment' ? searchPaymentMock : form === 'ManualChecks' ? manualChecksTableData : null;
+  public getPayments(form: 'ManualChecks'): Observable<GetPaymentsResponse[] | ISearchPayment[]> {
+    const mockData = manualChecksTableData;
     if (mockData) {
       // return this.http.get(BASE_URL + '/searchPayments'); //of(mockData).pipe(delay(2000));
       return of(mockData).pipe(delay(2000));
@@ -33,8 +32,8 @@ export class PaymentOrderWService {
     }
   }
 
-  public getSearchPayments(data: ISearchPaymentsPayload): Observable<any> {
-    return this.http.post(BASE_URL + '/searchPayments', data);
+  public getSearchPayments(data: ISearchPaymentsPayload): Observable<ISearchPaymentsResponse[]> {
+    return this.http.post<ISearchPaymentsResponse[]>(BASE_URL + '/searchPayments', data);
   }
 
   public getTransferDetails(paymentID: string): Observable<ITransferDetails> {

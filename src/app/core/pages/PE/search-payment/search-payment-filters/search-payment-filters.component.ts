@@ -78,8 +78,8 @@ export class SearchPaymentFiltersComponent implements OnInit {
       dateFrom: dateFromValidation,
       dateTo: dateToValidation,
     };
-    
-    return !Object.values(this.filtersValidation).some(Boolean);
+
+    return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }
 
   onSearch() {
@@ -87,14 +87,14 @@ export class SearchPaymentFiltersComponent implements OnInit {
       return;
     }
 
-    this.searchPaymentService.getPayments(prepareSearchFilters(this.filters)).subscribe();
+    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe();
   }
 
   searchAndGenerateDoc() {
     if (!this.validate()) {
       return;
     }
-    this.searchPaymentService.getPayments(prepareSearchFilters(this.filters)).subscribe(response => {
+    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {
       XlsxHelper.exportArrayToExcel(response, Object.getOwnPropertyNames(response[0]), 'Выгрузка_в_excel_test');
     });
   }

@@ -57,6 +57,7 @@ export class ManualChecksFilterComponent implements OnInit {
     };
 
     this.validations = {};
+    this.mcService.$paymentResponseState.next(undefined);
     this.changeDetectionRef.detectChanges();
   }
 

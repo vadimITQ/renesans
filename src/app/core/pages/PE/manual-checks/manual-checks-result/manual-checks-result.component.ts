@@ -15,6 +15,7 @@ import { CancelReason } from 'src/app/core/services/payment-order-w/types';
 import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
 import { manualChecksTransferTypes } from 'src/app/shared/variables/manual-checks-transfer-types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -30,6 +31,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private toasterService: ToastService,
     private peNavigationService: PeNavigationService,
+    private authService: AuthService
   ) {}
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
@@ -95,7 +97,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
             cancelReason: CancelReason.CLIENT,
             paymentID: selection.paymentID ?? "",
             channelName: "PEW",
-            chennelUser: "USER_LOGIN",
+            chennelUser: this.authService.user?.connectionName ?? "Unknown_User",
             description: this.commentary
           })));
           if (!$paymentsToCancel?.length){
@@ -129,7 +131,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
         handler: () => {
           const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment({ 
             paymentID: selection.paymentID ?? "",
-            channelUser: "Test_User",
+            channelUser: this.authService.user?.connectionName ?? "Unknown_User",
             ResumeComment: this.commentary
           })));
           if (!$paymentsToResume?.length){

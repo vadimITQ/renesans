@@ -20,6 +20,15 @@ export class AuthService {
     return this._isLoggedIn;
   }
 
+  public get user(): UserCredentials | null {
+    if (this.isLoggedIn){
+      return this.user;
+    }
+    else{
+      return null;
+    }
+  }
+
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
     // return this.AUTH_FOR_TESTING(credentials);
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
@@ -29,7 +38,7 @@ export class AuthService {
           this.rolesService.userRoles = response.roles;
           this._user = credentials;
           localStorage.setItem('token', response.token);
-          this.rolesService.userRoles = userHasRoles;
+          this.GET_ALL_ROLES_FOR_TESTING();
         },
         error: error => {},
       }),
@@ -44,9 +53,22 @@ export class AuthService {
     this.router.navigate([RouterPath.Login]);
   }
 
+  public handleUnauthorized() {
+    console.log('unauthorized', this._user);
+    if (this._user) {
+      this.login(this._user);
+    } else {
+      this.logout();
+    }
+  }
+  
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {
     const url = BASE_URL + '/user';
     return this.http.post<UserResponse>(url, { username: connectionName, password: connectionPassword });
+  }
+
+  private GET_ALL_ROLES_FOR_TESTING(): void {
+    this.rolesService.userRoles = userHasRoles;
   }
 
   private AUTH_FOR_TESTING(credentials: UserCredentials): Observable<UserResponse> {
@@ -77,12 +99,4 @@ export class AuthService {
     );
   }
 
-  public handleUnauthorized() {
-    console.log('unauthorized', this._user);
-    if (this._user) {
-      this.login(this._user);
-    } else {
-      this.logout();
-    }
-  }
 }

@@ -4,11 +4,3 @@
   flex-direction: column;
   gap: 20px;
 }
-
-.table-container {
-  overflow: hidden;
-  max-height: 550px;
-  > * {
-    height: 100%;
-  }
-}

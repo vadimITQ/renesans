@@ -3,10 +3,12 @@
   <h5>Найденные платежи</h5>
 
   <ng-container *ngIf="tableData && !loading">
-    <div class="table-container">
       <p-table
         [value]="tableData"
         (onRowSelect)="onRowSelected($event)"
+        scrollHeight="550px"
+        [virtualScrollItemSize]="50"
+        [scrollable]="true"
         styleClass="p-datatable-striped">
         <ng-template pTemplate="header">
           <tr class="tps-by-status__row-gray">
@@ -17,7 +19,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-searchPaymentItem>
-          <tr>
+          <tr style="height:50px">
             <td>
               <p-tableRadioButton [value]="searchPaymentItem"></p-tableRadioButton>
             </td>
@@ -27,7 +29,6 @@
           </tr>
         </ng-template>
       </p-table>
-    </div>
 
     <div>
       <button pButton class="pe-button mr-2" [label]="'Сформировать отчет'"      (click)="generateReport()"></button>

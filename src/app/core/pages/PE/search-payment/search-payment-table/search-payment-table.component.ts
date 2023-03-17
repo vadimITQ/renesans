@@ -49,7 +49,8 @@ export class SearchPaymentTableComponent implements OnInit {
       if(paymentResponse && !paymentResponse.length) {
         this.toastService.showErrorToast('Ничего не найдено, проверьте параметры запроса и интервалы дат')
       }
-      this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse ?? []) : null;
+
+      this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse) : null;
     });
 
     this.searchPaymentService.$loading.subscribe(loading => {

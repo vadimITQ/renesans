@@ -6,9 +6,9 @@ export enum CancelReason {
 }
 
 export interface ICancelPaymentPayload {
-    channelName: string;
-    chennelUser: string;
-    description?: string;
+    АpplicationChannelName: string;
+    // chennelUser: string;
+    DESCRIPTION?: string;
     cancelReason: string;
     paymentID: string;
     // АpplicationChannelName: string;

@@ -1,0 +1,9 @@
+{
+    "/rencredit": {
+      "target": "https://srvap1307.rccf.ru/",
+      "secure": false,
+      "changeOrigin": true,
+      "hostRewrite": "localhost:4200",
+      "logLevel": "debug"
+    }
+}

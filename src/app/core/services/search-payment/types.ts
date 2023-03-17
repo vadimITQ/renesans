@@ -11,7 +11,7 @@ export interface ISearchPaymentsPayload {
   channelIP: string | null;
   chequeNumber: string | null;
   linkedChequeId: string | null;
-  statusCode: string[] | null;
+  statusCode: string | null;
   plannedDate: string | null;
   channelName: string[] | null;
   parentType: string[] | null;

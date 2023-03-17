@@ -48,6 +48,7 @@
             <p-multiSelect
                 [options]="paymentStatuses"
                 [(ngModel)]="filter.statusCode"
+                [selectionLimit]="1"
                 optionLabel="label"
                 defaultLabel="Выберите статус"
                 display="chip"

@@ -81,15 +81,9 @@ export function prepareSearchFilters({
   type,
 }: ISearchPaymentFilters): ISearchPaymentsPayload {
   return {
-    // dateTimeFrom: dateTimeFrom ?? null,
-    // dateTimeTo: dateTimeTo ?? null,
-    // paymentId: paymentID ?? null,
-
-    // todo: fix me
-    dateTimeFrom: '2023-02-01T11:39:33.194Z',
-    dateTimeTo: '2023-02-13T11:40:34.194Z',
-    paymentId: '10fef8e7-e3cc-38b4-90c7-0e5f218c1dc7',
-
+    dateTimeFrom: dateTimeFrom ?? null,
+    dateTimeTo: dateTimeTo ?? null,
+    paymentId: paymentID ?? null,
     applicationID: applicationID ?? null,
     idPH: idPH ?? null,
     docID: docID ?? null,
@@ -99,7 +93,7 @@ export function prepareSearchFilters({
     channelIP: channelIP ?? null,
     chequeNumber: chequeNumber ?? null,
     linkedChequeId: linkedChequeId ?? null,
-    statusCode: statusCode.length ? statusCode.map(v => v.value) : null,
+    statusCode: statusCode.length == 1 ? statusCode[0].value ?? null : null,
     plannedDate: plannedDate ?? null,
     channelName: channelName.length ? channelName.map(v => v.value) : null,
     parentType: parentType.length ? parentType.map(v => v.value) : null,

@@ -41,3 +41,13 @@ export function setRowStatuses(paymentData: ISearchPaymentsResponse[] | null | u
   })
   return paymentData;
 }
+
+export function checkObjectPropertiesOnEmpty(object: any): any{
+  Object.getOwnPropertyNames(object).forEach(key => {
+    console.log(key);
+    if (object[key] === undefined){
+      delete object[key];
+    }
+  })
+  return object;
+}

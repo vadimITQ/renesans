@@ -1,1 +1,6 @@
-export const BASE_URL = 'https://srvap1307.rccf.ru/rencredit/test10/webfacade/v1';
+import { environment } from 'src/environments/environment';
+
+// export const BASE_URL = environment.baseUrl;
+export const BASE_URL = environment.apiUrl;
+export const API_URL = environment.apiUrl;
+

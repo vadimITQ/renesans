@@ -16,6 +16,7 @@ import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/ty
 import { manualChecksTransferTypes } from 'src/app/shared/variables/manual-checks-transfer-types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { checkObjectPropertiesOnEmpty } from './manual-checks-result.utils';
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -93,13 +94,12 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
-          const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment({ 
+          const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment(checkObjectPropertiesOnEmpty({ 
             cancelReason: CancelReason.BANK_OPS,
             paymentID: selection.paymentID ?? "",
-            channelName: "PEW",
-            chennelUser: this.authService.user?.connectionName ?? "Unknown_User",
-            description: this.commentary ?? undefined
-          })));
+            АpplicationChannelName: "PEW",
+            DESCRIPTION: !!this.commentary ? this.commentary: undefined
+          }))));
           if (!$paymentsToCancel?.length){
             this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на отмену");
             return;
@@ -129,11 +129,11 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
-          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment({ 
+          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment(checkObjectPropertiesOnEmpty({ 
             paymentID: selection.paymentID ?? "",
             channelUser: this.authService.user?.connectionName ?? "Unknown_User",
-            ResumeComment: this.commentary ?? undefined
-          })));
+            ResumeComment: !!this.commentary ? this.commentary: undefined
+          }))));
           if (!$paymentsToResume?.length){
             this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на возобновление");
             return;

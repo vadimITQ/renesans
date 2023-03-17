@@ -1,13 +1,13 @@
 
-import { ManualChecksFilter } from '../../../../../shared/models/manual-checks-models';
 import { DatePickerHelper } from '../../../../../shared/components/controls/date-picker/date-picker-helper';
 import { DateHelper, DatesValidationReasons } from '../../../../../shared/classes/date-helper';
 import { Validation, ValidationMessage } from 'src/app/shared/validation/types';
+import { ISearchPaymentFilters } from '../../search-payment/search-payment-filters/search-payment-filters.types';
 
-export function validateFilter(filter: ManualChecksFilter): { success: boolean, validationMessage: ValidationMessage } {
+export function validateFilter(filter: ISearchPaymentFilters): { success: boolean, validationMessage: ValidationMessage } {
     const noFilter: boolean = !filter;
-    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateFrom) && !!DatePickerHelper.convertToDate(filter.dateTo);
-    const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.paymentHubPaymentId || !!filter.account;
+    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateTimeFrom) && !!DatePickerHelper.convertToDate(filter.dateTimeTo);
+    const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.idPH || !!filter.account;
     if (noFilter || (!filterHasDates && !filterHasId)){
         return {
             success: false,
@@ -16,8 +16,8 @@ export function validateFilter(filter: ManualChecksFilter): { success: boolean, 
     }
     if (filterHasDates){
       const [dateFrom, dateTo] = [
-        DatePickerHelper.convertToDate(filter.dateFrom),
-        DatePickerHelper.convertToDate(filter.dateTo)
+        DatePickerHelper.convertToDate(filter.dateTimeFrom),
+        DatePickerHelper.convertToDate(filter.dateTimeTo)
       ];
       switch (DateHelper.validateDates(dateFrom, dateTo, 40)) {
         case(DatesValidationReasons.DateFromMoreThanDateTo): {
@@ -73,10 +73,10 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
     return validations;
 }
 
-export function validateFilterOnEmpty(filter: ManualChecksFilter): Validation | null {
+export function validateFilterOnEmpty(filter: ISearchPaymentFilters): Validation | null {
   const noFilter: boolean = !filter;
-    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateFrom) && !!DatePickerHelper.convertToDate(filter.dateTo);
-    const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.paymentHubPaymentId || !!filter.account;
+    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateTimeFrom) && !!DatePickerHelper.convertToDate(filter.dateTimeTo);
+    const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.idPH || !!filter.account;
     if (noFilter || (!filterHasDates && !filterHasId)){
         return {
             dateFrom: " ",

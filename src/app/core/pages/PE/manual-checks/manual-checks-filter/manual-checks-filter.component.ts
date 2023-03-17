@@ -9,6 +9,8 @@ import { Validation } from 'src/app/shared/validation/types';
 import { manualChecksStatuses, manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
 import { receivingChanelOptions } from '../../search-payment/search-payment-filters/search-payment-filters.constants';
+import { ISearchPaymentFilters } from '../../search-payment/search-payment-filters/search-payment-filters.types';
+import { defineDefaultFiltersValues } from '../../search-payment/search-payment-filters/search-payment-filters.utils';
 import { validateDates, validateFilterOnEmpty } from './manual-checks-filter.validation';
 
 @Component({
@@ -31,18 +33,11 @@ export class ManualChecksFilterComponent implements OnInit {
   public paymentStatuses = manualChecksStatuses;
   public receivingChanelOptions = receivingChanelOptions;
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
-  public filter: ManualChecksFilter = {
-    dateFrom: null,
-    dateTo: null,
-  };
+  public filter!: ISearchPaymentFilters;
 
   ngOnInit(): void {
-    this.filter = {
-      dateFrom: DatePickerHelper.convertToDatePicker(sub(new Date(), { days: 3 })),
-      dateTo: DatePickerHelper.convertToDatePicker(new Date()),
-    };
+    this.filter = defineDefaultFiltersValues();
     this.changeDetectionRef.detectChanges();
-    this.searchPayments();
   }
 
   openDateFromCalendar() {
@@ -55,9 +50,12 @@ export class ManualChecksFilterComponent implements OnInit {
 
   clearFilter() {
     this.filter = {
-      dateFrom: '',
-      dateTo: '',
+      ...defineDefaultFiltersValues(),
+      dateTimeFrom: null,
+      dateTimeTo: null,
     };
+
+    this.validations = {};
     this.changeDetectionRef.detectChanges();
   }
 

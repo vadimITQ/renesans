@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ManualChecksService } from 'src/app/core/services/manual-checks/manual-checks.service';
-import { PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
+import { PaymentStatus, PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
@@ -12,7 +12,9 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { CancelReason } from 'src/app/core/services/payment-order-w/types';
-
+import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
+import { manualChecksTransferTypes } from 'src/app/shared/variables/manual-checks-transfer-types';
+import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -32,24 +34,27 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
   public readonly COMMENTARY_LENGTH = commentaryLength;
-  public paymentResponse: GetPaymentsResponse[] | null | undefined = undefined;
-  public types = PaymentTypes;
+  public paymentResponse: ISearchPaymentsResponse[] | null | undefined = undefined;
+  public types = this.prepareTypes(Object.entries(PaymentTypes));
+  public statues = paymentStatusObj;;
   public selectedAll: boolean = false;
   public selection: GetPaymentsResponse[] = [];
   public commentary: string = '';
   private paymentResponseStateSubscribtion!: Subscription;
   public rowStatusesColors = rowStatusesColors;
+  
 
   public cols = [
     {field: 'paymentID', header: 'ID PE'},
     {field: 'applicationID', header: 'ID заявки'},
-    {field: 'paymentHubPaymentId', header: 'ID PH'},
-    {field: 'pmtCreationTime', header: 'Дата заявки в PE'},
     {field: 'plannedDate', header: 'Дата исполнения платежа'},
     {field: 'amount', header: 'Сумма'},
     {field: 'type', header: 'Тип перевода'},
-    {field: 'statusCodePE', header: 'Код статуса'},
+    {field: 'statusCodePE', header: 'Код статуса'},    
     {field: 'statusPE', header: 'Статус PE'},
+    {field: 'paymentHubPaymentId', header: 'ID PH'},
+    {field: 'channelIP', header: 'IP адрес'},
+    {field: 'pmtCreationTime', header: 'Дата заявки в PE'},
     {field: 'errorType', header: 'Тип ошибки'}
   ]
 
@@ -68,13 +73,11 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   onRowSelected(e: any) {
-    console.log(e);
-    console.log(this.selection);
+
   }
 
   onHeaderCheckboxToggle(e: any) {
-    console.log(e);
-    console.log(this.selection);
+    
   }
 
   back() {
@@ -129,7 +132,6 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
             channelUser: "Test_User",
             ResumeComment: this.commentary
           })));
-          console.log($paymentsToResume?.length, !!$paymentsToResume?.length);
           if (!$paymentsToResume?.length){
             this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на возобновление");
             return;
@@ -175,4 +177,13 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     }
     this.selection = selection;
   }
+
+  prepareTypes(entries: any[]): any {
+    let obj: any = {};
+    entries.forEach(entry => {
+      obj[entry[0]] = entry[1];
+    });
+    return obj;
+  }
+
 }

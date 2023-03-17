@@ -25,7 +25,6 @@ export class AuthService {
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
       tap({
         next: response => {
-          console.log(response);
           this._isLoggedIn = response.auth;
           this.rolesService.userRoles = response.roles;
           this._user = credentials;

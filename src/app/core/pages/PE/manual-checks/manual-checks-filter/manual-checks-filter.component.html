@@ -5,24 +5,24 @@
     <div class="ms-filter__forms">
         <pe-input label="ID PE"    [(value)]="filter.paymentID"             [validationMessage]="validations['paymentID']" />
         <pe-input label="ID_PT"    [(value)]="filter.applicationID"         [validationMessage]="validations['applicationID']" />
-        <pe-input label="ID_PH"    [(value)]="filter.paymentHubPaymentId"   [validationMessage]="validations['paymentHubPaymentId']" />
+        <pe-input label="ID_PH"    [(value)]="filter.idPH"                  [validationMessage]="validations['paymentHubPaymentId']" />
         <pe-input label="account"  [(value)]="filter.account"               [validationMessage]="validations['account']" />
     </div>
     <div class="ms-filter__forms">
         <date-picker
-            [(date)]="filter.dateFrom"
+            [(date)]="filter.dateTimeFrom"
             [validationMessage]="validations['dateFrom']"
             label="Дата/Время с"
-            (dateChange)="onDateChange(filter.dateFrom, filter.dateTo)"
+            (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
             [labelStyle]="{ 'width': '125px' }">
         </date-picker>
     </div>
     <div class="ms-filter__forms">
         <date-picker
-            [(date)]="filter.dateTo"
+            [(date)]="filter.dateTimeTo"
             [validationMessage]="validations['dateTo']"
             label="Дата/Время по"
-            (dateChange)="onDateChange(filter.dateFrom, filter.dateTo)"
+            (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
             [labelStyle]="{ 'width': '125px' }">
         </date-picker>
     </div>
@@ -47,7 +47,7 @@
         <div class="ms-filter__multiselect">
             <p-multiSelect
                 [options]="paymentStatuses"
-                [(ngModel)]="filter.status"
+                [(ngModel)]="filter.statusCode"
                 optionLabel="label"
                 defaultLabel="Выберите статус"
                 display="chip"
@@ -61,7 +61,7 @@
         <div class="ms-filter__multiselect">
             <p-multiSelect
                 [options]="transferTypes"
-                [(ngModel)]="filter.types"
+                [(ngModel)]="filter.type"
                 optionLabel="label"
                 defaultLabel="Выберите тип перевода"
                 display="chip"

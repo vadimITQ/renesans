@@ -13,7 +13,7 @@
             [reorderableColumns]="true"
             [resizableColumns]="true"
             [autoLayout]="true"
-            [rows]="10"
+            [rows]="5"
             [columns]="cols"
             (selectionChange)="onSelectionChange($event)"
             (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
@@ -29,24 +29,12 @@
                         {{col.header}}
                     </th>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th>
 
                     </th>
-                    <!-- <th *ngFor="let col of columns">
-                        <p-columnFilter type="text" [field]="col.field" ></p-columnFilter>
-                    </th> -->
-                    <th>
-                        <p-columnFilter type="text" field="paymentID" ></p-columnFilter>
-                    </th>
                     <th>
                         <p-columnFilter type="text" field="applicationID" ></p-columnFilter>
-                    </th>
-                    <th>
-                        <p-columnFilter type="numeric" field="paymentHubPaymentId" ></p-columnFilter>
-                    </th>
-                    <th>
-                        <p-columnFilter type="text" field="pmtCreationTime" ></p-columnFilter>
                     </th>
                     <th>
                         <p-columnFilter type="text" field="plannedDate" ></p-columnFilter>
@@ -58,30 +46,43 @@
                         <p-columnFilter type="text" field="type" ></p-columnFilter>
                     </th>
                     <th>
+                        <p-columnFilter type="numeric" field="statusCode" ></p-columnFilter>
+                    </th>
+                    <th>
                         <p-columnFilter type="numeric" field="statusCodePE" ></p-columnFilter>
                     </th>
                     <th>
                         <p-columnFilter type="text" field="statusPE" ></p-columnFilter>
                     </th>
                     <th>
+                        <p-columnFilter type="numeric" field="paymentHubPaymentId" ></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="channelIP" ></p-columnFilter>
+                    </th>
+                    <th>
+                        <p-columnFilter type="text" field="pmtCreationTime" ></p-columnFilter>
+                    </th>
+                    <th>
                         <p-columnFilter type="text" field="errorType" ></p-columnFilter>
                     </th>
-                </tr>
+                </tr> -->
             </ng-template>
             <ng-template pTemplate="body" let-paymentItem>
                 <tr [ngStyle]="{ 'color': rowStatusesColors[paymentItem.rowStatus] }">
                     <td>
                         <p-tableCheckbox [value]="paymentItem" [disabled]="tableCheckboxDisabled(paymentItem)"></p-tableCheckbox>
                     </td>
-                  <td><a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a></td>
-                    <td>{{ paymentItem.applicationID }}</td>
-                    <td>{{ paymentItem.paymentHubPaymentId }}</td>
-                    <td>{{ paymentItem.pmtCreationTime }}</td>
-                    <td>{{ paymentItem.plannedDate }}</td>
-                    <td>{{ paymentItem.amount }}</td>
-                    <td>{{ paymentItem.type }}</td>
-                    <td>{{ paymentItem.statusCodePE }}</td>
-                    <td>{{ paymentItem.statusPE }}</td>
+                    <td><a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a></td>
+                    <td>{{ paymentItem.paymentApplication?.applicationID }}</td>
+                    <td>{{ paymentItem.plannedDate | date: "dd-MM-yyyy HH:mm:ss" }}</td>
+                    <td>{{ paymentItem.paymentApplication?.amount }}</td>
+                    <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
+                    <td>{{ statues[paymentItem.statusCode] }}</td>
+                    <td>{{ paymentItem.paymentApplication?.statusPE }}</td>
+                    <td>{{ paymentItem.ipt?.idPH }}</td>
+                    <td>{{ paymentItem.paymentApplication?.channelIP }}</td>
+                    <td>{{ paymentItem.pmtCreationTime | date: "yyyy-MM-dd HH:mm:ss" }}</td>
                     <td>{{ paymentItem.errorType }}</td>
                 </tr>
             </ng-template>

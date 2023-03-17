@@ -1,7 +1,8 @@
 
+import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
 import { GetPaymentsResponse } from '../../../../../shared/models/manual-checks-models';
 
-export function sortPaymentData(paymentData: GetPaymentsResponse[] | null | undefined): GetPaymentsResponse[] | null | undefined {
+export function sortPaymentData(paymentData: ISearchPaymentsResponse[] | null | undefined): ISearchPaymentsResponse[] | null | undefined {
     if (!paymentData)
       return paymentData;
     return paymentData.sort((a, b) => {
@@ -15,10 +16,10 @@ export function sortPaymentData(paymentData: GetPaymentsResponse[] | null | unde
         return 0;
       }
       if ((a.manualParse === 2 || a.manualParse === 3) && (b.manualParse === 2 || b.manualParse === 3)){
-        if (a.status === b.status){
+        if (a.statusCode === b.statusCode){
           return 0;
         }
-        if (a.status === "Успешные статусы платежа/перевода"){
+        if (a.statusCode === "Успешные статусы платежа/перевода"){
           return -1;
         }
         else {
@@ -29,13 +30,13 @@ export function sortPaymentData(paymentData: GetPaymentsResponse[] | null | unde
     });
 };
 
-export function setRowStatuses(paymentData: GetPaymentsResponse[] | null | undefined): GetPaymentsResponse[] | null | undefined {
+export function setRowStatuses(paymentData: ISearchPaymentsResponse[] | null | undefined): ISearchPaymentsResponse[] | null | undefined {
   paymentData?.forEach(payment => {
     if (payment.manualParse === 1){
       return;
     }
     if ([2, 3].includes(payment.manualParse ?? -1)){
-      payment.status === "Ошибочные статусы платежа/перевода" ? payment.rowStatus = "erroneous": payment.status = "Успешные статусы платежа/перевода" ? payment.rowStatus = "successful": "";
+      payment.statusCode === "Ошибочные статусы платежа/перевода" ? payment.rowStatus = "erroneous": payment.statusCode = "Успешные статусы платежа/перевода" ? payment.rowStatus = "successful": "";
     }
   })
   return paymentData;

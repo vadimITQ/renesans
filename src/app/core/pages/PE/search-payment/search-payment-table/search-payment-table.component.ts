@@ -25,7 +25,7 @@ export class SearchPaymentTableComponent implements OnInit {
   private paymentResponseStateSubscription!: Subscription;
 
   onRowSelected(e: any) {
-    console.log(e);
+    
   }
 
   generateReport() {

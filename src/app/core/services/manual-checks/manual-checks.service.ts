@@ -6,6 +6,9 @@ import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service
 import { validateFilter } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.validation';
 import { sortPaymentData, setRowStatuses } from '../../pages/PE/manual-checks/manual-checks-result/manual-checks-result.utils';
 import { ICancelPaymentPayload, IResumePaymentPayload } from '../payment-order-w/types';
+import { prepareSearchFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
+import { ISearchPaymentsPayload, ISearchPaymentsResponse } from '../search-payment/types';
+import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
 
 @Injectable({
   providedIn: 'root'
@@ -17,24 +20,39 @@ export class ManualChecksService {
     private toastService: ToastService
   ) { }
 
-  public $paymentResponseState: BehaviorSubject<GetPaymentsResponse[] | null | undefined> = new BehaviorSubject<GetPaymentsResponse[] | null | undefined>(undefined);
+  public $paymentResponseState: BehaviorSubject<ISearchPaymentsResponse[] | null | undefined> = new BehaviorSubject<ISearchPaymentsResponse[] | null | undefined>(undefined);
 
-  public getPayments(filter: ManualChecksFilter) {
+  public getPayments(filter: ISearchPaymentFilters) {
     const filterValidation = validateFilter(filter);
     if (filterValidation.success){
       this.$paymentResponseState.next(null);
-      return this.paymentOrderWService.getPayments("ManualChecks").pipe(
+      return this.paymentOrderWService.getSearchPayments(prepareSearchFilters(filter)).pipe(
         tap(response => {
-          if (this.instanceOfGetPayments(response)){
-            const sortedData = sortPaymentData(setRowStatuses(response));
-            this.$paymentResponseState.next(sortedData);
+          // const sortedData = sortPaymentData(setRowStatuses(response));
+          if (!response?.length){
+            this.toastService.showErrorToast("Ничего не найдено, проверьте параметры запроса и интервалы дат");
+            this.$paymentResponseState.next(undefined);
+            return;
           }
+          this.$paymentResponseState.next(response);
       }),
       catchError((error) => {
         this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
         return error;
       }),
       delay(2000));
+      // return this.paymentOrderWService.getPayments("ManualChecks").pipe(
+      //   tap(response => {
+      //     if (this.instanceOfGetPayments(response)){
+      //       const sortedData = sortPaymentData(setRowStatuses(response));
+      //       this.$paymentResponseState.next(sortedData);
+      //     }
+      // }),
+      // catchError((error) => {
+      //   this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
+      //   return error;
+      // }),
+      // delay(2000));
     }
     else {
       this.toastService.showErrorToast(filterValidation.validationMessage!);
@@ -48,10 +66,6 @@ export class ManualChecksService {
 
   public resumePayment(payload: IResumePaymentPayload){
     this.paymentOrderWService.resumePayment(payload);
-  }
-
-  private instanceOfGetPayments(object:any): object is GetPaymentsResponse[] {
-    return !!object && 'amount' in object[0];
   }
   
 

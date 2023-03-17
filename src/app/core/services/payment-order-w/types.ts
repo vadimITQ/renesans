@@ -1,7 +1,8 @@
 
 export enum CancelReason {
     CLIENT = "CLIENT",
-    FRAUD = "FRAUD"
+    FRAUD = "FRAUD",
+    BANK_OPS = "BANK_OPS"
 }
 
 export interface ICancelPaymentPayload {

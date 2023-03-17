@@ -22,7 +22,7 @@ export class AuthService {
 
   public get user(): UserCredentials | null {
     if (this.isLoggedIn){
-      return this.user;
+      return this._user;
     }
     else{
       return null;
@@ -61,7 +61,7 @@ export class AuthService {
       this.logout();
     }
   }
-  
+
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {
     const url = BASE_URL + '/user';
     return this.http.post<UserResponse>(url, { username: connectionName, password: connectionPassword });

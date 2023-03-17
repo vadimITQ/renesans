@@ -94,11 +94,11 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
         label: 'Да',
         handler: () => {
           const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment({ 
-            cancelReason: CancelReason.CLIENT,
+            cancelReason: CancelReason.BANK_OPS,
             paymentID: selection.paymentID ?? "",
             channelName: "PEW",
             chennelUser: this.authService.user?.connectionName ?? "Unknown_User",
-            description: this.commentary
+            description: this.commentary ?? undefined
           })));
           if (!$paymentsToCancel?.length){
             this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на отмену");
@@ -132,7 +132,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
           const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment({ 
             paymentID: selection.paymentID ?? "",
             channelUser: this.authService.user?.connectionName ?? "Unknown_User",
-            ResumeComment: this.commentary
+            ResumeComment: this.commentary ?? undefined
           })));
           if (!$paymentsToResume?.length){
             this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на возобновление");

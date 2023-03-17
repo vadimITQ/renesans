@@ -22,7 +22,7 @@ export class ManualChecksService {
 
   public $paymentResponseState: BehaviorSubject<ISearchPaymentsResponse[] | null | undefined> = new BehaviorSubject<ISearchPaymentsResponse[] | null | undefined>(undefined);
 
-  public getPayments(filter: ISearchPaymentFilters) {
+  public getPayments(filter: ISearchPaymentFilters): Observable<any> {
     const filterValidation = validateFilter(filter);
     if (filterValidation.success){
       this.$paymentResponseState.next(null);
@@ -38,7 +38,7 @@ export class ManualChecksService {
       }),
       catchError((error) => {
         this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
-        return error;
+        return of(error);
       }),
       delay(2000));
       // return this.paymentOrderWService.getPayments("ManualChecks").pipe(

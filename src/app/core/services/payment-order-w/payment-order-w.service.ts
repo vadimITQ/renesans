@@ -16,6 +16,7 @@ export class PaymentOrderWService {
   constructor(private http: HttpClient) {}
 
   public cancelPayment(cancelPaymentPayload: ICancelPaymentPayload): Observable<ICancelPaymentResponse> {
+    
     return this.http.delete<ICancelPaymentResponse>(BASE_URL + '/cancelPayment', {
       params: {
         ...cancelPaymentPayload
@@ -24,7 +25,7 @@ export class PaymentOrderWService {
   }
 
   public resumePayment(resumePaymentBody: IResumePaymentPayload): Observable<any> {
-    return this.http.post<IResumePaymentResponse>(BASE_URL + '/resumePayment', resumePaymentBody);
+    return this.http.post<IResumePaymentResponse>(BASE_URL + '/resumePayment', {}, {params: {...resumePaymentBody}});
   }
 
   public getPayments(form: 'ManualChecks'): Observable<GetPaymentsResponse[] | ISearchPayment[]> {

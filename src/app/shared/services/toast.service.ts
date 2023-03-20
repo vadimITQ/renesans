@@ -8,24 +8,24 @@ export class ToastService {
 
   constructor(private messageService: MessageService) { }
 
-  showSuccessToast(detail: string) {
-    this.messageService.add({ severity: 'success', summary: 'Успешно', detail: detail });
+  showSuccessToast(detail: string, header?: string) {
+    this.messageService.add({ severity: 'success', summary: header ? header: 'Успешно', detail: detail });
   }
 
-  showInfoToast(detail: string) {
-    this.messageService.add({ severity: 'info', summary: 'Информация', detail: detail });
+  showInfoToast(detail: string, header?: string) {
+    this.messageService.add({ severity: 'info', summary: header ? header: 'Информация', detail: detail });
   }
 
-  showWarnToast(detail: string) {
-    this.messageService.add({ severity: 'warn', summary: 'Осторожно', detail: detail });
+  showWarnToast(detail: string, header?: string) {
+    this.messageService.add({ severity: 'warn', summary: header ? header: 'Осторожно', detail: detail });
   }
 
-  showErrorToast(detail: string) {
-    this.messageService.add({ severity: 'error', summary: 'Ошибка', detail: detail });
+  showErrorToast(detail: string, header?: string) {
+    this.messageService.add({ severity: 'error', summary: header ? header: 'Ошибка', detail: detail });
   }
 
-  showCustomToast(detail: string) {
-    this.messageService.add({ severity: 'custom', summary: '', detail: detail, icon: 'pi-file' });
+  showCustomToast(detail: string, header?: string) {
+    this.messageService.add({ severity: 'custom', summary: header ? header: '', detail: detail, icon: 'pi-file' });
   }
 
 }

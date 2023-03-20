@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, delay, Observable, of, tap } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { GetPaymentsResponse, ManualChecksFilter } from '../../../shared/models/manual-checks-models';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { validateFilter } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.validation';
-import { sortPaymentData, setRowStatuses } from '../../pages/PE/manual-checks/manual-checks-result/manual-checks-result.utils';
 import { ICancelPaymentPayload, IResumePaymentPayload } from '../payment-order-w/types';
 import { prepareSearchFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
-import { ISearchPaymentsPayload, ISearchPaymentsResponse } from '../search-payment/types';
+import { ISearchPaymentsResponse } from '../search-payment/types';
 import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
 
 @Injectable({
@@ -30,7 +28,7 @@ export class ManualChecksService {
         tap(response => {
           // const sortedData = sortPaymentData(setRowStatuses(response));
           if (!response?.length){
-            this.toastService.showErrorToast("Ничего не найдено, проверьте параметры запроса и интервалы дат");
+            this.toastService.showWarnToast("Ничего не найдено, проверьте параметры запроса и интервалы дат", "Сообщение");
             this.$paymentResponseState.next(undefined);
             return;
           }
@@ -38,6 +36,7 @@ export class ManualChecksService {
       }),
       catchError((error) => {
         this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
+        this.$paymentResponseState.next(undefined);
         return of(error);
       }),
       delay(2000));

@@ -5,8 +5,8 @@ import { SearchPaymentService } from 'src/app/core/services/search-payment/searc
 import { Subscription } from 'rxjs';
 import { ISearchPayment } from '../search-payment.types';
 import { prepareSearchPaymentsData } from './search-payment-table.utils';
-import {PaymentTypes} from "../../../../../shared/enums/manual-checks.enums";
-import {ToastService} from "../../../../../shared/services/toast.service";
+import { PaymentTypes } from "../../../../../shared/enums/manual-checks.enums";
+import { ToastService } from "../../../../../shared/services/toast.service";
 
 @Component({
   selector: 'app-search-payment-table',
@@ -46,10 +46,6 @@ export class SearchPaymentTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentResponseStateSubscription = this.searchPaymentService.$paymentResponseState.subscribe(paymentResponse => {
-      if(paymentResponse && !paymentResponse.length) {
-        this.toastService.showErrorToast('Ничего не найдено, проверьте параметры запроса и интервалы дат')
-      }
-
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse) : null;
     });
 

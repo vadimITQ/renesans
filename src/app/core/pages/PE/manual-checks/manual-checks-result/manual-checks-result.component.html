@@ -33,13 +33,13 @@
                 <th>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="applicationID" ></p-columnFilter>
+                    <p-columnFilter type="text" field="paymentApplication.applicationID" ></p-columnFilter>
                 </th>
                 <th>
                     <p-columnFilter type="text" field="plannedDate" ></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="numeric" field="amount" ></p-columnFilter>
+                    <p-columnFilter type="numeric" field="paymentApplication.amount" ></p-columnFilter>
                 </th>
                 <th>
                     <p-columnFilter type="text" field="type" ></p-columnFilter>
@@ -51,13 +51,13 @@
                     <p-columnFilter type="numeric" field="statusCodePE" ></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="statusPE" ></p-columnFilter>
+                    <p-columnFilter type="text" field="paymentApplication.statusPE" ></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="numeric" field="paymentHubPaymentId" ></p-columnFilter>
+                    <p-columnFilter type="numeric" field="ipt.idPH" ></p-columnFilter>
                 </th>
                 <th>
-                    <p-columnFilter type="text" field="channelIP" ></p-columnFilter>
+                    <p-columnFilter type="text" field="aymentApplication.channelIP" ></p-columnFilter>
                 </th>
                 <th>
                     <p-columnFilter type="text" field="pmtCreationTime" ></p-columnFilter>
@@ -95,9 +95,9 @@
             </pe-input>
         </div>
         <div class="ms-result__buttons">
-            <button pButton class="pe-button"      [label]="'Назад'"                 (click)="back()"></button>
-            <button pButton class="pe-button ml-2" [label]="'Отклонить'"             (click)="cancelPayments()"></button>
-            <button pButton class="pe-button ml-2" [label]="'Возобновить обработку'" (click)="resumePayments()"></button>
+            <button pButton class="pe-button"      [disabled]="false"       [label]="'Назад'"                 (click)="back()"></button>
+            <button pButton class="pe-button ml-2" [disabled]="!commentary" [label]="'Отклонить'"             (click)="cancelPayments()"></button>
+            <button pButton class="pe-button ml-2" [disabled]="!commentary" [label]="'Возобновить обработку'" (click)="resumePayments()"></button>
         </div>
 
     </div>

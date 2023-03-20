@@ -7,6 +7,7 @@ import { RolesService } from './roles.service';
 import { UserResponse, UserCredentials } from '../../../shared/models/auth-models';
 import { userHasRoles } from '../../../shared/mocks/roles.mock';
 import { BASE_URL } from '../../../shared/variables/http-constants';
+import { RolesList } from 'src/app/shared/enums/roles.enums';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

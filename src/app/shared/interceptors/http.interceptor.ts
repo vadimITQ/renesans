@@ -32,6 +32,7 @@ export class PeHttpInterceptor implements HttpInterceptor {
           mergeMap((error, index) => {
             if (error.status === 401) {
               this.authService.handleUnauthorized();
+              throw error;
             }
             if (index < 2) {
               return of(error).pipe(delay(2000));

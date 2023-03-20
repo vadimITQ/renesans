@@ -19,10 +19,14 @@ export class RolesService {
     return this._userRoles.some(_role => _role === role);
   }
   
-  public hasRoles(roles: string[]): boolean {
+  public hasRoles(...roles: string[]): boolean {
     return roles.every(role => this.hasRole(role));
   }
 
+  public hasSomeOfRoles(...roles: string[]): boolean {
+    return roles.some(role => this.hasRole(role));
+  }
+ 
   public clearRoles(): void {
     this._userRoles = [];
   }

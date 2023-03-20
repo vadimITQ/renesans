@@ -11,7 +11,7 @@ export class MonitoringStandingOrdersGuard implements CanActivate {
     constructor(private rolesService: RolesService, private toastService: ToastService) {}
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (this.rolesService.hasRole(RolesList.STORDAPP)) {
+        if (this.rolesService.hasRoles(RolesList.AP_PEWeb_STORDAPP, RolesList.AP_TEST_PEWeb_STORDAPP)) {
             return true;
         }
         else{

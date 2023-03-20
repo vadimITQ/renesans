@@ -27,8 +27,8 @@ const routes: Routes = [
         canActivate: [PaymentEngineRolesGuard],
       },
       { path: RouterPath.ManualChecks, component: ManualChecksComponent, canActivate: [PaymentEngineRolesGuard] },
-      { path: RouterPath.SearchPayment, component: SearchPaymentComponent },
-      { path: `${RouterPath.ViewTransferDetails}/:id`, component: ViewTransferDetailsComponent },
+      { path: RouterPath.SearchPayment, component: SearchPaymentComponent, canActivate: [PaymentEngineRolesGuard] },
+      { path: `${RouterPath.ViewTransferDetails}/:id`, component: ViewTransferDetailsComponent, canActivate: [PaymentEngineRolesGuard]},
     ],
   },
   {

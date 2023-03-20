@@ -26,3 +26,7 @@ $errorColor:  #f44336;
 :host ::ng-deep .error .p-inputwrapper .p-inputtext {
   border-color: $errorColor !important;
 }
+
+:host ::ng-deep .p-datepicker table td {
+  padding: 0px;
+}

@@ -6,6 +6,7 @@ import { LoadingService } from '../../../../shared/services/loading.service';
 import { defineTransferDetailsData } from './view-transfer-details.utils';
 import { IViewTransferDetails } from './view-transfer-details.types';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
+import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -20,7 +21,8 @@ export class ViewTransferDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private viewTransferDetailsService: ViewTransferDetailsService,
     private loadingService: LoadingService,
-    private peNavigationService: PeNavigationService
+    private peNavigationService: PeNavigationService,
+    private peRolesService: PeRolesService
   ) {}
 
   ngOnInit() {
@@ -40,6 +42,10 @@ export class ViewTransferDetailsComponent implements OnInit {
       }
       this.transferDetails = defineTransferDetailsData(value);
     });
+  }
+
+  get hasAccessToComponent() {
+    return this.peRolesService.hasAccessToViewTransferDetails();
   }
 
   onBack() {

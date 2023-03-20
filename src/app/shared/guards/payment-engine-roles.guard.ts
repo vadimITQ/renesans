@@ -1,20 +1,28 @@
 
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
-import { RolesService } from '../../core/services/auth/roles.service';
 import { RouterPath } from '../enums/router.enums';
 import { ToastService } from '../services/toast.service';
-import { RolesList } from '../enums/roles.enums';
+import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 
 @Injectable()
 export class PaymentEngineRolesGuard implements CanActivate {
     
-    constructor(private rolesService: RolesService, private toastService: ToastService) {}
+    constructor(private peRolesService: PeRolesService, private toastService: ToastService) {}
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         switch(next?.url?.join("/") ?? ""){
+            case(RouterPath.SearchPayment): {
+                if (this.peRolesService.hasAccessToSearchPayment()){
+                    return true;
+                }
+                else{
+                    this.toastService.showErrorToast("Нет прав на взаимодействие с формой «Поиск платежей»");
+                    return false;
+                }
+            }
             case(RouterPath.ManualChecks): {
-                if (this.rolesService.hasRole(RolesList.ManualChecks)){
+                if (this.peRolesService.hasAccessToManualChecks()){
                     return true;
                 }
                 else{
@@ -22,8 +30,17 @@ export class PaymentEngineRolesGuard implements CanActivate {
                     return false;
                 }
             }
+            case(RouterPath.ViewTransferDetails): {
+                if (this.peRolesService.hasAccessToViewTransferDetails()){
+                    return true;
+                }
+                else{
+                    this.toastService.showErrorToast("Нет прав на взаимодействие с формой «Просмотр деталей по переводу/платежу»");
+                    return false;
+                }
+            }
             case(RouterPath.MonitoringStandingOrders): {
-                if (this.rolesService.hasRole(RolesList.STORDAPP)){
+                if (this.peRolesService.hasAccessToMonitoringStandingOrders()){
                     return true;
                 }
                 else {

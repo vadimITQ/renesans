@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { RolesService } from 'src/app/core/services/auth/roles.service';
-import { RolesList } from 'src/app/shared/enums/roles.enums';
+import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 
 @Component({
   selector: 'app-manual-checks',
@@ -9,10 +8,10 @@ import { RolesList } from 'src/app/shared/enums/roles.enums';
 })
 export class ManualChecksComponent {
 
-  constructor(private rolesService: RolesService){ }
+  constructor(private peRolesService: PeRolesService){ }
 
   get hasAccessToComponent(): boolean {
-    return this.rolesService.hasRole(RolesList.ManualChecks);
+    return this.peRolesService.hasAccessToManualChecks();
   }
 
 }

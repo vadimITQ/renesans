@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ManualChecksService } from 'src/app/core/services/manual-checks/manual-checks.service';
-import { PaymentStatus, PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
+import { PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
@@ -13,7 +13,6 @@ import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-st
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { CancelReason } from 'src/app/core/services/payment-order-w/types';
 import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
-import { manualChecksTransferTypes } from 'src/app/shared/variables/manual-checks-transfer-types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { checkObjectPropertiesOnEmpty } from './manual-checks-result.utils';
@@ -45,18 +44,17 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   public commentary: string = '';
   private paymentResponseStateSubscribtion!: Subscription;
   public rowStatusesColors = rowStatusesColors;
-  
 
   public cols = [
-    {field: 'paymentID', header: 'ID PE'},
-    {field: 'applicationID', header: 'ID заявки'},
-    {field: 'plannedDate', header: 'Дата исполнения платежа'},
-    {field: 'amount', header: 'Сумма'},
-    {field: 'type', header: 'Тип перевода'},
-    {field: 'statusCodePE', header: 'Код статуса'},    
-    {field: 'statusPE', header: 'Статус PE'},
-    {field: 'paymentHubPaymentId', header: 'ID PH'},
-    {field: 'channelIP', header: 'IP адрес'},
+    {field: 'paymentApplication.applicationID', header: 'ID PE'},
+    {field: 'plannedDate', header: 'ID заявки'},
+    {field: 'paymentApplication.amount', header: 'Дата исполнения платежа'},
+    {field: 'type', header: 'Сумма'},
+    {field: 'statusCode', header: 'Тип перевода'},
+    {field: 'statusCodePE', header: 'Статус PE'},
+    {field: 'paymentApplication.statusPE', header: 'Код статуса'},
+    {field: 'ipt.idPH', header: 'ID PH'},
+    {field: 'aymentApplication.channelIP', header: 'IP адрес'},
     {field: 'pmtCreationTime', header: 'Дата заявки в PE'},
     {field: 'errorType', header: 'Тип ошибки'}
   ]
@@ -124,7 +122,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   
   resumePayments() {
     this.dialogService.showConfirmDialog({
-      message: 'Вы действительно хотите отменить платеж/перевод?',
+      message: 'Вы действительно хотите возобновить обработку по платежу/переводу?',
       header: 'Подтверждение',
       accept: {
         label: 'Да',

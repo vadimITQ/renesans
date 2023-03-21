@@ -6,8 +6,7 @@ import { RouterPath } from '../../../shared/enums/router.enums';
 import { RolesService } from './roles.service';
 import { UserResponse, UserCredentials } from '../../../shared/models/auth-models';
 import { userHasRoles } from '../../../shared/mocks/roles.mock';
-import { BASE_URL } from '../../../shared/variables/http-constants';
-import { RolesList } from 'src/app/shared/enums/roles.enums';
+import { API_URL } from '../../../shared/variables/http-constants';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -64,7 +63,7 @@ export class AuthService {
   }
 
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {
-    const url = BASE_URL + '/user';
+    const url = API_URL + '/user';
     return this.http.post<UserResponse>(url, { username: connectionName, password: connectionPassword });
   }
 
@@ -74,7 +73,7 @@ export class AuthService {
 
   private AUTH_FOR_TESTING(credentials: UserCredentials): Observable<UserResponse> {
 
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoZXJtZXMiLCJyb2xlcyI6IltdIiwiZXhwIjoxNjc4Nzc0ODQzLCJpYXQiOjE2Nzg2ODg0NDMsInVzZXJuYW1lIjoiaGVybWVzIn0.ZTpxWEsP2HcDY_tE4q5_-I45cFA8isM9brL6WUXm76FjMdHgTw-qVG6G02Q_PxRFeHCHmLHHzK_5L2vb1PbqAw';
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0c3RfZnVsbF90ZXN0Iiwicm9sZXMiOiJbXSIsImV4cCI6MTY3OTQ4NzEyNywiaWF0IjoxNjc5NDAwNzI3LCJ1c2VybmFtZSI6InRzdF9mdWxsX3Rlc3QifQ.bn3d5maU3wT1q8YPZe3LmLooMGnw0GgXq5dkAagdeaNcXUJqmtnxszoxI2YP4ItOk8XitnjOxTxKjW28Lmu41Q';
     // localStorage.setItem('token', token);
     this._isLoggedIn = true;
     this._user = credentials;

@@ -1,0 +1,24 @@
+<div class="input-with-error-container">
+  <span class="p-float-label">
+    <input
+      #peInput
+      pInputText
+      id="input"
+      type="text"
+      style="width: 100%"
+      [formControl]="control"
+    />
+    <!--      [class]="{'input-error': !!validationMessage}"-->
+    <!--      [maxLength]="maxLength"-->
+    <!--      [disabled]="disabled"-->
+    <!--      [(ngModel)]="value"-->
+    <!--      [allowedInputCharactersReg]="regExprValidation"-->
+    <label for="input">{{ label }}</label>
+  </span>
+<!--  class="error-message"-->
+  <span  *ngIf="control.invalid && control.dirty && control.touched" >
+    <div *ngFor="let error of control.errors | keyvalue">
+      {{error.key}}
+    </div>
+  </span>
+</div>

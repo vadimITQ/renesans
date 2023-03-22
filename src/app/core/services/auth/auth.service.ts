@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
-    // return this.AUTH_FOR_TESTING(credentials);
+    return this.AUTH_FOR_TESTING(credentials);
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
       tap({
         next: response => {

@@ -1,0 +1,23 @@
+$errorColor:  #f44336;
+
+.p-float-label {
+  //margin-top: 18px;
+  //margin-right: 10px;
+  position: relative;
+}
+
+.input-with-error-container {
+  position: relative;
+}
+
+.input-error {
+  border-color: $errorColor;
+}
+
+.error-message {
+  color: $errorColor;
+  position: absolute;
+  top: 40px;
+  left: 3px;
+  z-index: 999;
+}

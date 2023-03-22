@@ -49,6 +49,8 @@ import { PeHttpInterceptor } from './shared/interceptors/http.interceptor';
 import { ButtonModule } from 'primeng/button';
 import { PeHeaderComponent } from './core/pages/PE/pe-header/pe-header.component';
 import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component';
+import { TestInputComponent } from './shared/components/controls/test-input/test-input.component';
+import { TestFormPageComponent } from './shared/components/controls/test-form-page/test-form-page.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,8 @@ import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component
     PeTextareaComponent,
     PeHeaderComponent,
     PeFooterComponent,
+    TestInputComponent,
+    TestFormPageComponent,
   ],
   imports: [
     BrowserModule,

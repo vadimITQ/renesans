@@ -11,7 +11,7 @@ export interface ISearchPaymentFilters {
   channelIP: string | null;
   userAgent: string | null;
   chequeNumber: string | null;
-  statusCode: string | null;
+  statusCode: IMultiCheckboxData[];
   dateTimeFrom: string | null;
   dateTimeTo: string | null;
   plannedDate: string | null;

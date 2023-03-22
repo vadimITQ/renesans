@@ -18,7 +18,7 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     channelIP: null,
     userAgent: null,
     chequeNumber: null,
-    statusCode: null,
+    statusCode: [],
     dateTimeFrom: DatePickerHelper.convertToDatePicker(dateFrom),
     dateTimeTo: DatePickerHelper.convertToDatePicker(dateTo),
     plannedDate: null,
@@ -93,10 +93,10 @@ export function prepareSearchFilters({
     channelIP: !!channelIP ? channelIP: null,
     chequeNumber: !!chequeNumber ? chequeNumber: null,
     linkedChequeId: !!linkedChequeId ? linkedChequeId: null,
-    statusCode: !!statusCode ? statusCode: null,
     plannedDate: !!plannedDate ? plannedDate: null,
-    channelName: channelName.length ? channelName.map(v => v.value) : null,
-    parentType: parentType.length ? parentType.map(v => v.value) : null,
-    type: type.length ? type.map(v => v.value) : null,
+    statusCode: statusCode?.length == 1 ? statusCode[0].value ?? null : null,
+    channelName: channelName?.length > 0 ? channelName.map(v => v.value) : null,
+    parentType: parentType?.length > 0 ? parentType.map(v => v.value) : null,
+    type: type?.length > 0 ? type.map(v => v.value) : null,
   };
 }

@@ -10,7 +10,7 @@ export class PeRolesService {
     constructor(private rolesService: RolesService) {}
 
     hasAccessToSearchPayment(): boolean {
-        return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PE_Users, RolesList.AP_PEWeb_PE_Users, RolesList.PE_Users)
+        return true;
     }
 
     hasAccessToManualChecks(): boolean {

@@ -7,6 +7,8 @@ import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker
 export function defineDefaultFiltersValues(): ISearchPaymentFilters {
   const dateTo = new Date();
   const dateFrom = sub(dateTo, { days: 3 });
+  const plannedDate = new Date();
+  
   return {
     paymentID: null,
     applicationID: null,
@@ -18,13 +20,14 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     channelIP: null,
     userAgent: null,
     chequeNumber: null,
-    statusCode: [],
+    statusCode: null,
     dateTimeFrom: DatePickerHelper.convertToDatePicker(dateFrom),
     dateTimeTo: DatePickerHelper.convertToDatePicker(dateTo),
-    plannedDate: null,
+    plannedDate: DatePickerHelper.convertToDatePicker(plannedDate),
     channelName: [],
     parentType: [],
     type: [],
+    codeStatuses: []
   };
 }
 
@@ -79,6 +82,7 @@ export function prepareSearchFilters({
   channelName,
   parentType,
   type,
+  codeStatuses
 }: ISearchPaymentFilters): ISearchPaymentsPayload {
   return {
     dateTimeFrom: !!dateTimeFrom ? dateTimeFrom: null,
@@ -94,7 +98,7 @@ export function prepareSearchFilters({
     chequeNumber: !!chequeNumber ? chequeNumber: null,
     linkedChequeId: !!linkedChequeId ? linkedChequeId: null,
     plannedDate: !!plannedDate ? plannedDate: null,
-    statusCode: statusCode?.length == 1 ? statusCode[0].value ?? null : null,
+    statusCode: !!statusCode ? statusCode: codeStatuses?.length === 1 ? codeStatuses[0]?.value: null,
     channelName: channelName?.length > 0 ? channelName.map(v => v.value) : null,
     parentType: parentType?.length > 0 ? parentType.map(v => v.value) : null,
     type: type?.length > 0 ? type.map(v => v.value) : null,

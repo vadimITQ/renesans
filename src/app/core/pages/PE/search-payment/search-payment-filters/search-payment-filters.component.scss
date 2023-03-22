@@ -1,19 +1,22 @@
 .search-payment-filter {
-  display: grid;
-  grid-template-rows: repeat(5, auto);
-  grid-gap: 30px;
+  // margin-bottom: 30px;
 }
 
 .input-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 20px;
+  display: flex;
+  margin-bottom: 30px;
+  > pe-input {
+    margin-right: 20px;
+  }
 }
 
 .date-row {
   display: flex;
   align-items: center;
-  gap: 20px;
+  > date-picker {
+    margin-right: 20px;
+    margin-bottom: 35px;
+  }
 }
 
 .checkboxes-row {
@@ -25,19 +28,14 @@
 .multiselect-row {
   > div {
     white-space: nowrap;
-    :not(:last-child) {
-      margin-bottom: 20px;
-    }
+    margin-bottom: 30px;
     > label {
-      margin-right: 25px;
+      display: inline-block;
+      min-width: 260px;
     }
   }
 }
 
 :host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
-  max-width: 800px;
-}
-
-p-multiSelect {
-  max-width: 600px;
+  max-width: calc(100% - 260px)
 }

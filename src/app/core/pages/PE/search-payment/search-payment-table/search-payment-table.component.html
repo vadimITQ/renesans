@@ -6,13 +6,13 @@
       <p-table
         [value]="tableData"
         (onRowSelect)="onRowSelected($event)"
-        scrollHeight="550px"
-        [virtualScrollItemSize]="50"
         [scrollable]="true"
+        [rows]="5"
+        [paginator]="true"
         styleClass="p-datatable-striped">
         <ng-template pTemplate="header">
           <tr class="tps-by-status__row-gray">
-            <th style="width: 4rem"></th>
+            <!-- <th style="width: 4rem"></th> -->
             <th *ngFor="let column of tableColumns">
               {{column.header}}
             </th>
@@ -20,9 +20,11 @@
         </ng-template>
         <ng-template pTemplate="body" let-searchPaymentItem>
           <tr style="height:50px">
+            <!-- 
             <td>
               <p-tableRadioButton [value]="searchPaymentItem"></p-tableRadioButton>
-            </td>
+            </td> 
+            -->
             <td *ngFor="let column of tableColumns">
               {{searchPaymentItem[column.field]}}
             </td>
@@ -32,7 +34,7 @@
 
     <div>
       <button pButton class="pe-button mr-2" [label]="'Сформировать отчет'"      (click)="generateReport()"></button>
-      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateSbpReport()"></button>
+      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateSbpReport()" [disabled]="true"></button>
     </div>
   </ng-container>
   <app-loading-spinner *ngIf="loading" [marginTop]="'10px'"></app-loading-spinner>

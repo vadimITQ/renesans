@@ -7,6 +7,7 @@ import { ISearchPayment } from '../search-payment.types';
 import { prepareSearchPaymentsData } from './search-payment-table.utils';
 import { PaymentTypes } from "../../../../../shared/enums/manual-checks.enums";
 import { ToastService } from "../../../../../shared/services/toast.service";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-search-payment-table',
@@ -16,6 +17,7 @@ import { ToastService } from "../../../../../shared/services/toast.service";
 export class SearchPaymentTableComponent implements OnInit {
   constructor(private searchPaymentService: SearchPaymentService,
               private toastService: ToastService,
+              private datePipe: DatePipe
   ) {}
 
   public tableColumns: IColumn[] = searchPaymentTableColumns;
@@ -46,7 +48,7 @@ export class SearchPaymentTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentResponseStateSubscription = this.searchPaymentService.$paymentResponseState.subscribe(paymentResponse => {
-      this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse) : null;
+      this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse, this.datePipe) : null;
     });
 
     this.searchPaymentService.$loading.subscribe(loading => {

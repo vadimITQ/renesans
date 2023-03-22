@@ -11,11 +11,12 @@ export interface ISearchPaymentFilters {
   channelIP: string | null;
   userAgent: string | null;
   chequeNumber: string | null;
-  statusCode: IMultiCheckboxData[];
+  statusCode: string | null;
   dateTimeFrom: string | null;
   dateTimeTo: string | null;
   plannedDate: string | null;
   channelName: IMultiCheckboxData[];
   parentType: IMultiCheckboxData[];
   type: IMultiCheckboxData[];
+  codeStatuses: IMultiCheckboxData[];
 }

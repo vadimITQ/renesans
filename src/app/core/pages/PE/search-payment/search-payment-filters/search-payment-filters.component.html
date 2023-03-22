@@ -1,44 +1,62 @@
 <div class="search-payment-filter">
-  <h5 class="mb-3">Поиск платежа</h5>
+  <h5>Поиск платежа</h5>
 
   <div class="input-row">
     <pe-input label="ID РЕ" [(value)]="filters.paymentID" [validationMessage]="filtersValidation['paymentID']" />
     <pe-input label="ID Заявки" [(value)]="filters.applicationID" [validationMessage]="filtersValidation['applicationID']" />
     <pe-input label="ID РН" [(value)]="filters.idPH" [validationMessage]="filtersValidation['idPH']" />
     <pe-input label="ID АБС" [(value)]="filters.docID" [validationMessage]="filtersValidation['docID']" />
-    <pe-input label="ID Чека" [(value)]="filters.linkedChequeId" [validationMessage]="filtersValidation['linkedChequeId']" />
   </div>
 
   <div class="input-row">
+    <pe-input label="ID Чека" [(value)]="filters.linkedChequeId" [validationMessage]="filtersValidation['linkedChequeId']" />
     <pe-input label="Номер документа" [(value)]="filters.docNum" [validationMessage]="filtersValidation['docNum']" />
     <pe-input label="Номер счета" [(value)]="filters.account" [validationMessage]="filtersValidation['account']" />
-    <pe-input label="IP Адрес" [(value)]="filters.channelIP" />
-    <pe-input label="User Agent" [(value)]="filters.userAgent" />
+    <pe-input label="Номер чека" [(value)]="filters.chequeNumber" [validationMessage]="filtersValidation['chequeNumber']" />
   </div>
 
   <div class="input-row">
-    <pe-input label="Номер чека" [(value)]="filters.chequeNumber" [validationMessage]="filtersValidation['chequeNumber']" />
-    <pe-input label="Статус" [(value)]="filters.statusCode" />
+    <pe-input label="IP Адрес" [(value)]="filters.channelIP" />
+    <pe-input label="Статус" [(value)]="filters.statusCode" [validationMessage]="filtersValidation['statusCode']" />
+    <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
   <div class="date-row">
-    <date-picker [(date)]="filters.dateTimeFrom" [validationMessage]="filtersValidation['dateFrom']" label="Дата/Время с"></date-picker>
-    <date-picker [(date)]="filters.dateTimeTo" [validationMessage]="filtersValidation['dateTo']" label="Дата/Время по"></date-picker>
+    <date-picker 
+      [(date)]="filters.dateTimeFrom"
+      [validationMessage]="filtersValidation['dateFrom']" 
+      label="Дата/Время с"
+      [labelStyle]="{ 'width': '125px' }">
+    </date-picker>
   </div>
   <div class="date-row">
-    <date-picker [(date)]="filters.plannedDate" label="Плановая дата" [showTime]="false"></date-picker>
+    <date-picker 
+      [(date)]="filters.dateTimeTo" 
+      [validationMessage]="filtersValidation['dateTo']" 
+      label="Дата/Время по"
+      [labelStyle]="{ 'width': '125px' }">
+    </date-picker>
+  </div>
+  <div class="date-row">
+    <date-picker 
+      [(date)]="filters.plannedDate" 
+      [validationMessage]="filtersValidation['plannedDate']"
+      label="Плановая дата" 
+      [showTime]="false"
+      [labelStyle]="{ 'width': '125px' }">
+    </date-picker>
   </div>
   <div class="multiselect-row">
-    <div class="mb-3">
+    <div>
       <label>Канал поступления заявки</label>
-        <p-multiSelect
-          [options]="receivingChanelOptions"
-          [(ngModel)]="filters.channelName"
-          optionLabel="label"
-          defaultLabel="Выберите канал поступления заявки"
-          display="chip">
-        </p-multiSelect>
+      <p-multiSelect
+        [options]="receivingChanelOptions"
+        [(ngModel)]="filters.channelName"
+        optionLabel="label"
+        defaultLabel="Выберите канал поступления заявки"
+        display="chip">
+      </p-multiSelect>
     </div>
-    <div class="mb-3">
+    <div>
       <label>Тип объекта создавшего запрос</label>
       <p-multiSelect
           [options]="objectTypeOptions"
@@ -62,6 +80,6 @@
   <div>
     <button pButton class="pe-button"      [label]="'Очистить'"                       (click)="onClear()"></button>
     <button pButton class="pe-button ml-2" [label]="'Найти'"                          (click)="onSearch()"></button>
-<!--    <button pButton class="pe-button ml-2" [label]="'Найти и сформировать отчет СБП'" (click)="searchAndGenerateDoc()"></button>-->
+   <button  pButton class="pe-button ml-2" [label]="'Найти и сформировать отчет СБП'" (click)="searchAndGenerateDoc()" [disabled]="true"></button>
   </div>
 </div>

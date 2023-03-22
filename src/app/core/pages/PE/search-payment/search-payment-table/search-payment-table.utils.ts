@@ -1,16 +1,18 @@
+import { DatePipe } from '@angular/common';
 import { ISearchPaymentsResponse } from '../../../../services/search-payment/types';
 import { ISearchPayment } from '../search-payment.types';
 
-export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[]): ISearchPayment[] {
+export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], datePipeRef?: DatePipe): ISearchPayment[] {
   return data.map(searchPayment => {
     const senderPayDoc = (searchPayment.payDocs ?? [])[0];
 
     // todo: fix me
     const receiverPayDoc = (searchPayment.payDocs ?? [])[0];
+    const plannedDate = datePipeRef ? datePipeRef.transform(searchPayment?.plannedDate, "dd-MM-yyyy HH:mm:ss") ?? "": searchPayment?.plannedDate;
 
     return {
       appCreationTime: searchPayment?.paymentApplication?.appCreationTime,
-      plannedDate: searchPayment?.plannedDate,
+      plannedDate: plannedDate,
       statusCode: searchPayment?.statusCode,
       type: searchPayment?.paymentApplication?.type,
       paymentSubType: searchPayment?.paymentApplication?.paymentSubType,

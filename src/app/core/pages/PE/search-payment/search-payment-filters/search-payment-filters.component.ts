@@ -18,6 +18,8 @@ import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 export class SearchPaymentFiltersComponent implements OnInit {
   public filters!: ISearchPaymentFilters;
 
+  dateNow: Date = new Date();
+
   public filtersValidation: Validation = {
     dateTimeFrom: null,
     dateTimeTo: null,
@@ -35,6 +37,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.dateNow.setUTCHours(0, 0, 0, -1);
     this.filters = defineDefaultFiltersValues();
     this.changeDetectionRef.detectChanges();
   }
@@ -65,18 +68,21 @@ export class SearchPaymentFiltersComponent implements OnInit {
       return false;
     }
 
-    const [dateFromValidation, dateToValidation] = [
+    const [dateFromValidation, dateToValidation, plannedDateValidation] = [
       required(this.filters.dateTimeFrom) ||
         earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
         lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
       required(this.filters.dateTimeTo) ||
         laterThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
         lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
+      required(this.filters.plannedDate) ||
+        laterThen(this.dateNow.toISOString(), this.filters.plannedDate)
     ];
 
     this.filtersValidation = {
       dateFrom: dateFromValidation,
       dateTo: dateToValidation,
+      plannedDate: plannedDateValidation
     };
 
     return Object.values(this.filtersValidation).every(value => !Boolean(value));

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { format, formatISO, isValid, parse, parseISO } from 'date-fns';
+import { add, addHours, format, formatISO, isValid, parse, parseISO } from 'date-fns';
 import { ValidationMessage } from '../../../validation/types';
 import { DatePickerHelper } from './date-picker-helper';
 import { dateFormat, dateFormatWithTime, timeFormat } from './date-picker.constants';
@@ -96,8 +96,14 @@ export class DatePickerComponent implements OnInit {
     }
 
     const dateString = dateArr.join(' ');
-    return dateString.length ? parse(dateString, this.showTime ? dateFormatWithTime : dateFormat, new Date()).toISOString() : null;
-    // return dateArr.join(' ');
+    
+    const parsedDate = parse(dateString, this.showTime ? dateFormatWithTime : dateFormat, new Date());
+
+    if (this.showTime === false){
+      parsedDate.setHours(0, Math.abs(new Date().getTimezoneOffset()), 0, 0);
+    } 
+
+    return parsedDate.toISOString();
   }
 
   private parseDate(dateString: string): Date {

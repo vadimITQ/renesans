@@ -3,10 +3,10 @@
     <h5>Ручной разбор ошибочных переводов/платежей</h5>
 
     <div class="ms-filter__forms">
-        <pe-input label="ID PE"    [(value)]="filter.paymentID"     [validationMessage]="validations['paymentID']" />
-        <pe-input label="ID_PT"    [(value)]="filter.applicationID" [validationMessage]="validations['applicationID']" />
-        <pe-input label="ID_PH"    [(value)]="filter.idPH"          [validationMessage]="validations['paymentHubPaymentId']" />
-        <pe-input label="account"  [(value)]="filter.account"       [validationMessage]="validations['account']" />
+        <pe-input label="ID PE"        [(value)]="filter.paymentID"     [validationMessage]="validations['paymentID']" />
+        <pe-input label="ID Заявки"    [(value)]="filter.applicationID" [validationMessage]="validations['applicationID']" />
+        <pe-input label="ID PH"        [(value)]="filter.idPH"          [validationMessage]="validations['paymentHubPaymentId']" />
+        <pe-input label="Номер счета"  [(value)]="filter.account"       [validationMessage]="validations['account']" />
     </div>
     <div class="ms-filter__forms">
         <date-picker

@@ -21,44 +21,25 @@ export class ManualChecksService {
   public $paymentResponseState: BehaviorSubject<ISearchPaymentsResponse[] | null | undefined> = new BehaviorSubject<ISearchPaymentsResponse[] | null | undefined>(undefined);
 
   public getPayments(filter: ISearchPaymentFilters): Observable<any> {
-    const filterValidation = validateFilter(filter);
-    if (filterValidation.success){
-      this.$paymentResponseState.next(null);
-      return this.paymentOrderWService.getSearchPayments(prepareSearchFilters(filter)).pipe(
-        tap(response => {
-          // const sortedData = sortPaymentData(setRowStatuses(response));
-          if (!response?.length){
-            this.toastService.showWarnToast("Ничего не найдено, проверьте параметры запроса и интервалы дат", "Сообщение");
-            this.$paymentResponseState.next(undefined);
-            return;
-          }
-          this.$paymentResponseState.next(response);
-      }),
-      catchError((error) => {
-        if (error.status !== 401){
-          this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
+    this.$paymentResponseState.next(null);
+    return this.paymentOrderWService.getSearchPayments(prepareSearchFilters(filter)).pipe(
+      tap(response => {
+        // const sortedData = sortPaymentData(setRowStatuses(response));
+        if (!response?.length){
+          this.toastService.showWarnToast("Ничего не найдено, проверьте параметры запроса и интервалы дат", "Сообщение");
+          this.$paymentResponseState.next(undefined);
+          return;
         }
-        this.$paymentResponseState.next(undefined);
-        return of(error);
-      }),
-      delay(2000));
-      // return this.paymentOrderWService.getPayments("ManualChecks").pipe(
-      //   tap(response => {
-      //     if (this.instanceOfGetPayments(response)){
-      //       const sortedData = sortPaymentData(setRowStatuses(response));
-      //       this.$paymentResponseState.next(sortedData);
-      //     }
-      // }),
-      // catchError((error) => {
-      //   this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
-      //   return error;
-      // }),
-      // delay(2000));
-    }
-    else {
-      this.toastService.showErrorToast(filterValidation.validationMessage!);
-      return of([]);
-    }
+        this.$paymentResponseState.next(response);
+    }),
+    catchError((error) => {
+      if (error.status !== 401){
+        this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
+      }
+      this.$paymentResponseState.next(undefined);
+      return of(error);
+    }),
+    delay(2000));
   }
 
   public cancelPayment(payload: ICancelPaymentPayload){

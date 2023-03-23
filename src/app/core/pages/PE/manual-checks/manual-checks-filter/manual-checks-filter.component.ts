@@ -12,7 +12,7 @@ import { ManualChecksService } from '../../../../services/manual-checks/manual-c
 import { receivingChanelOptions } from '../../search-payment/search-payment-filters/search-payment-filters.constants';
 import { ISearchPaymentFilters } from '../../search-payment/search-payment-filters/search-payment-filters.types';
 import { defineDefaultFiltersValues } from '../../search-payment/search-payment-filters/search-payment-filters.utils';
-import { validateDates, validateFilterOnEmpty } from './manual-checks-filter.validation';
+import { validateDates, validateFilter, validateFilterOnEmpty } from './manual-checks-filter.validation';
 
 @Component({
   selector: 'app-manual-checks-filter',
@@ -62,12 +62,20 @@ export class ManualChecksFilterComponent implements OnInit {
   }
 
   searchPayments() {
-    const validateEmpty = validateFilterOnEmpty(this.filter);
-    if (validateEmpty) {
-      this.validations = { ...this.validations, ...validateEmpty };
-      this.toastService.showErrorToast('Заполните хотя бы одно из полей ID PE, ID PH, ID заявки, Номер счета');
-    } else {
+    const filterValidation = validateFilter(this.filter);
+    if (filterValidation.success){
+      this.validations = {};
       this.mcService.getPayments(this.filter).subscribe();
+    }
+    else {
+      const validateEmpty = validateFilterOnEmpty(this.filter);
+      if (validateEmpty) {
+        this.validations = { ...this.validations, ...validateEmpty };
+        this.toastService.showErrorToast('Заполните хотя бы одно из полей ID PE, ID PH, ID заявки, Номер счета');
+      }
+      else {
+        this.toastService.showErrorToast(filterValidation.validationMessage!); 
+      }
     }
   }
 

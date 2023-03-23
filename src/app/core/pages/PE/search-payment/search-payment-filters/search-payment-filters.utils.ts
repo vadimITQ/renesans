@@ -8,7 +8,7 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
   const dateTo = new Date();
   const dateFrom = sub(dateTo, { days: 3 });
   const plannedDate = new Date();
-  
+
   return {
     paymentID: null,
     applicationID: null,

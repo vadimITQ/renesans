@@ -108,7 +108,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
       return;
     }
 
-    // this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe();
+    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe();
   }
 
   searchAndGenerateDoc() {

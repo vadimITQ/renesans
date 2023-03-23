@@ -35,7 +35,9 @@ export class ManualChecksService {
           this.$paymentResponseState.next(response);
       }),
       catchError((error) => {
-        this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
+        if (error.status !== 401){
+          this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации об ошибочных переводах/платежах");
+        }
         this.$paymentResponseState.next(undefined);
         return of(error);
       }),

@@ -7,10 +7,11 @@ import { RolesService } from './roles.service';
 import { UserResponse, UserCredentials } from '../../../shared/models/auth-models';
 import { userHasRoles } from '../../../shared/mocks/roles.mock';
 import { API_URL } from '../../../shared/variables/http-constants';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router, private rolesService: RolesService) {}
+  constructor(private http: HttpClient, private router: Router, private rolesService: RolesService, private toastService: ToastService) {}
 
   private _isLoggedIn: boolean = false;
 
@@ -54,12 +55,13 @@ export class AuthService {
   }
 
   public handleUnauthorized() {
-    console.log('unauthorized', this._user);
-    if (this._user) {
-      this.login(this._user);
-    } else {
-      this.logout();
-    }
+    this.toastService.showWarnToast("Истекло время сессии, авторизуйтесь снова.", "Сообщение");
+    this.logout();
+    // if (this._user) {
+    //   this.login(this._user);
+    // } else {
+    //   this.logout();
+    // }
   }
 
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {

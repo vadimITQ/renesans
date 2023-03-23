@@ -31,7 +31,7 @@ export function laterThen(from: string | null, to: string | null): ValidationMes
   if (!parsedFrom || !parsedTo) {
     return null;
   }
-  
+
   return !isAfter(parsedTo, parsedFrom) ? `Должно быть позже, чем ${format(parsedFrom, dateFormat)}` : null;
 }
 
@@ -60,4 +60,9 @@ export function lessThanDateDiapason(from: string | null, to: string | null, dia
 
 export function required(value: unknown): ValidationMessage {
   return !value ? 'Поле обязательно к заполнению' : null;
+}
+
+export function containInvalidSymbols(value: string): ValidationMessage {
+  return /[^а-яА-Яa-zA-Z0-9\s\-_]/ig.test(value) ? 'Поле содержит недопустимые символы' : null
+
 }

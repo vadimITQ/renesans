@@ -87,7 +87,7 @@ export function prepareSearchFilters({
   return {
     dateTimeFrom: !!dateTimeFrom ? dateTimeFrom: null,
     dateTimeTo: !!dateTimeTo ? dateTimeTo: null,
-    paymentId: !!paymentID ? paymentID: null,
+    paymentID: !!paymentID ? paymentID: null,
     applicationID: !!applicationID ? applicationID: null,
     idPH: !!idPH ? idPH: null,
     docID: !!docID ? docID: null,

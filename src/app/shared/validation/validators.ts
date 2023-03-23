@@ -1,4 +1,4 @@
-import { isBefore, isAfter, differenceInCalendarDays, format } from 'date-fns';
+import { isBefore, isAfter, differenceInCalendarDays, format, isEqual } from 'date-fns';
 import { ValidationMessage } from './types';
 import { dateFormat } from '../components/controls/date-picker/date-picker.constants';
 import { DatePickerHelper } from '../components/controls/date-picker/date-picker-helper';
@@ -31,8 +31,20 @@ export function laterThen(from: string | null, to: string | null): ValidationMes
   if (!parsedFrom || !parsedTo) {
     return null;
   }
-
+  
   return !isAfter(parsedTo, parsedFrom) ? `Должно быть позже, чем ${format(parsedFrom, dateFormat)}` : null;
+}
+
+export function laterOrEqualThen(from: string | null, to: string | null): ValidationMessage {
+  const parsedFrom = DatePickerHelper.convertToDate(from);
+  const parsedTo = DatePickerHelper.convertToDate(to);
+
+  if (!parsedFrom || !parsedTo){
+    return null;
+  }
+
+  return !isEqual(parsedFrom, parsedTo) && !isAfter(parsedTo, parsedFrom) ? `Не должно быть раньше, чем ${ format(parsedFrom, dateFormat) }` : null;
+
 }
 
 export function lessThanDateDiapason(from: string | null, to: string | null, diapason: number): ValidationMessage {

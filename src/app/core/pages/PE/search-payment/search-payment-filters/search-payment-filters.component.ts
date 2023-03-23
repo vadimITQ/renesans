@@ -3,7 +3,7 @@ import { objectTypeOptions, receivingChanelOptions } from './search-payment-filt
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
 import { FormBuilder } from '@angular/forms';
-import { earlierThen, laterThen, lessThanDateDiapason, required } from '../../../../../shared/validation/validators';
+import { earlierThen, laterOrEqualThen, laterThen, lessThanDateDiapason, required } from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { ToastService } from '../../../../../shared/services/toast.service';
@@ -37,7 +37,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dateNow.setUTCHours(0, 0, 0, -1);
+    this.dateNow.setUTCHours(0, 0, 0, 0);
     this.filters = defineDefaultFiltersValues();
     this.changeDetectionRef.detectChanges();
   }
@@ -76,7 +76,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
         laterThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
         lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
       required(this.filters.plannedDate) ||
-        laterThen(this.dateNow.toISOString(), this.filters.plannedDate)
+        laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate)
     ];
 
     this.filtersValidation = {

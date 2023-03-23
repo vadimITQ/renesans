@@ -57,21 +57,23 @@ export class SearchPaymentFiltersComponent implements OnInit {
     this.filtersValidation = {};
   }
 
-  validate(): boolean {
-    const anyFilledValidation = anyFieldFilledValidator(this.filters);
+  validate(validateOnlyDates?: boolean): boolean {
 
-    if (anyFilledValidation) {
-      this.filtersValidation = { ...anyFilledValidation };
-      this.toastService.showErrorToast(
-        'Заполните хотя бы одно из полей Идентификатор платежа, Идентификатор заявки, Идентификатор документа, Номер документа',
-      );
-      return false;
+    if (!validateOnlyDates){
+      const anyFilledValidation = anyFieldFilledValidator(this.filters);
+
+      if (anyFilledValidation) {
+        this.filtersValidation = { ...anyFilledValidation };
+        this.toastService.showErrorToast(
+          'Заполните хотя бы одно из полей Идентификатор платежа, Идентификатор заявки, Идентификатор документа, Номер документа',
+        );
+        return false;
+      }
     }
 
     const [dateFromValidation, dateToValidation, plannedDateValidation] = [
       required(this.filters.dateTimeFrom) ||
-        earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
-        lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
+        earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo),
       required(this.filters.dateTimeTo) ||
         laterThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
         lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
@@ -84,7 +86,6 @@ export class SearchPaymentFiltersComponent implements OnInit {
       dateTo: dateToValidation,
       plannedDate: plannedDateValidation
     };
-
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }
 
@@ -94,6 +95,10 @@ export class SearchPaymentFiltersComponent implements OnInit {
     }
 
     this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe();
+  }
+
+  dateChanged() {
+    this.validate(true);
   }
 
   searchAndGenerateDoc() {

@@ -3,7 +3,14 @@ import { objectTypeOptions, receivingChanelOptions } from './search-payment-filt
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
 import { FormBuilder } from '@angular/forms';
-import { earlierThen, laterOrEqualThen, laterThen, lessThanDateDiapason, required } from '../../../../../shared/validation/validators';
+import {
+  containInvalidSymbols,
+  earlierThen,
+  laterOrEqualThen,
+  laterThen,
+  lessThanDateDiapason,
+  required
+} from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { ToastService } from '../../../../../shared/services/toast.service';
@@ -82,6 +89,13 @@ export class SearchPaymentFiltersComponent implements OnInit {
     ];
 
     this.filtersValidation = {
+      chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
+      idPH: containInvalidSymbols(this.filters.idPH ?? ''),
+      paymentID: containInvalidSymbols(this.filters.paymentID ?? ''),
+      applicationID: containInvalidSymbols(this.filters.applicationID ?? ''),
+      docID: containInvalidSymbols(this.filters.docID ?? ''),
+      account: containInvalidSymbols(this.filters.account ?? ''),
+      docNum: containInvalidSymbols(this.filters.docNum ?? ''),
       dateFrom: dateFromValidation,
       dateTo: dateToValidation,
       plannedDate: plannedDateValidation

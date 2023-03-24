@@ -96,12 +96,16 @@ export class DatePickerComponent implements OnInit {
     }
 
     const dateString = dateArr.join(' ');
-    
+
     const parsedDate = parse(dateString, this.showTime ? dateFormatWithTime : dateFormat, new Date());
 
-    if (this.showTime === false){
+    if(!isValid(parsedDate)) {
+      return null
+    }
+
+    if (!this.showTime){
       parsedDate.setHours(0, Math.abs(new Date().getTimezoneOffset()), 0, 0);
-    } 
+    }
 
     return parsedDate.toISOString();
   }

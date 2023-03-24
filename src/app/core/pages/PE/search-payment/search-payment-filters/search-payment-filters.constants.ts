@@ -1,14 +1,16 @@
 import { IMultiCheckboxData } from '../../../../../shared/components/controls/pe-multi-checkbox/pe-multi-checkbox.component';
 
 export const receivingChanelOptions: IMultiCheckboxData[] = [
-  { label: 'ALR', value: 'ALR' },
-  { label: 'BANK_ACQUIRING', value: 'BANK_ACQUIRING' },
-  { label: 'BEST2PAY', value: 'BEST2PAY' },
   { label: 'IBS', value: 'IBS' },
+  { label: 'BRANCH', value: 'BRANCH' },
   { label: 'IPT', value: 'IPT' },
-  { label: 'MBS', value: 'MBS' },
-  { label: 'MCO', value: 'MCO' },
+  { label: 'STOR', value: 'STOR' },
+  { label: 'BEST2PAY', value: 'BEST2PAY' },
+  { label: 'BANK_ACQUIRING', value: 'BANK_ACQUIRING' },
+  { label: 'RNKOONLINE', value: 'RNKOONLINE' },
   { label: 'PROFILE', value: 'PROFILE' },
+  { label: 'MBS', value: 'MBS' },
+  { label: 'ALR', value: 'ALR' },
 ];
 
 export const objectTypeOptions: IMultiCheckboxData[] = [

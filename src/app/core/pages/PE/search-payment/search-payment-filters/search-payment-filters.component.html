@@ -21,29 +21,26 @@
     <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
   <div class="date-row">
-    <date-picker 
+    <date-picker
       [(date)]="filters.dateTimeFrom"
-      [validationMessage]="filtersValidation['dateFrom']" 
+      [validationMessage]="filtersValidation['dateFrom']"
       label="Дата/Время с"
-      (dateChange)="validate(true)"
       [labelStyle]="{ 'width': '125px' }">
     </date-picker>
   </div>
   <div class="date-row">
-    <date-picker 
-      [(date)]="filters.dateTimeTo" 
-      [validationMessage]="filtersValidation['dateTo']" 
+    <date-picker
+      [(date)]="filters.dateTimeTo"
+      [validationMessage]="filtersValidation['dateTo']"
       label="Дата/Время по"
-      (dateChange)="validate(true)"
       [labelStyle]="{ 'width': '125px' }">
     </date-picker>
   </div>
   <div class="date-row">
-    <date-picker 
-      [(date)]="filters.plannedDate" 
+    <date-picker
+      [(date)]="filters.plannedDate"
       [validationMessage]="filtersValidation['plannedDate']"
-      label="Плановая дата" 
-      (dateChange)="validate(true)"
+      label="Плановая дата"
       [showTime]="false"
       [labelStyle]="{ 'width': '125px' }">
     </date-picker>
@@ -55,7 +52,6 @@
         [options]="receivingChanelOptions"
         [(ngModel)]="filters.channelName"
         optionLabel="label"
-        (dateChange)="validate(true)"
         defaultLabel="Выберите канал поступления заявки"
         display="chip">
       </p-multiSelect>

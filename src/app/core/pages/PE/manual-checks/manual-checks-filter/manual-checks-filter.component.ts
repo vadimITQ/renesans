@@ -35,6 +35,7 @@ export class ManualChecksFilterComponent implements OnInit {
   public receivingChanelOptions = receivingChanelOptions;
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
   public filter!: ISearchPaymentFilters;
+  public validateDates: boolean = false;
 
   ngOnInit(): void {
     this.filter = defineDefaultFiltersValues();
@@ -81,6 +82,10 @@ export class ManualChecksFilterComponent implements OnInit {
   }
 
   onDateChange(dateFrom: string | null, dateTo: string | null) {
+    if (!this.validateDates){
+      this.validateDates = true;
+      return;
+    }
     const { dateFromValidation, dateToValidation } = validateDates(dateFrom, dateTo);
     this.validations['dateFrom'] = dateFromValidation;
     this.validations['dateTo'] = dateToValidation;

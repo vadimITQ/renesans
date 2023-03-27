@@ -32,6 +32,8 @@ export class SearchPaymentFiltersComponent implements OnInit {
     dateTimeTo: null,
   };
 
+  validateDates: boolean = false;
+
   receivingChanelOptions = receivingChanelOptions;
   objectTypeOptions = objectTypeOptions;
   transferTypes = manualChecksTransferTypes;
@@ -66,7 +68,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
 
   validate(validateOnlyDates?: boolean): boolean {
 
-    // if (!validateOnlyDates){
+    if (!validateOnlyDates){
       const anyFilledValidation = anyFieldFilledValidator(this.filters);
 
       if (anyFilledValidation) {
@@ -76,7 +78,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
         );
         return false;
       }
-    // }
+    }
 
     const [dateFromValidation, dateToValidation, plannedDateValidation] = [
       required(this.filters.dateTimeFrom) ||
@@ -107,6 +109,14 @@ export class SearchPaymentFiltersComponent implements OnInit {
     }
 
     this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe();
+  }
+
+  dateChanged() {
+    if (!this.validateDates){
+      this.validateDates = true;
+      return;
+    }
+    this.validate(true);
   }
 
   searchAndGenerateDoc() {

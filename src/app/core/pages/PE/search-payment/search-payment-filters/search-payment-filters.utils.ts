@@ -7,7 +7,6 @@ import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker
 export function defineDefaultFiltersValues(): ISearchPaymentFilters {
   const dateTo = new Date();
   const dateFrom = sub(dateTo, { days: 3 });
-  const plannedDate = new Date();
 
   return {
     paymentID: null,
@@ -23,7 +22,7 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     statusCode: null,
     dateTimeFrom: DatePickerHelper.convertToDatePicker(dateFrom),
     dateTimeTo: DatePickerHelper.convertToDatePicker(dateTo),
-    plannedDate: DatePickerHelper.convertToDatePicker(plannedDate),
+    plannedDate: null,
     channelName: [],
     parentType: [],
     type: [],

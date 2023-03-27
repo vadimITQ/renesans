@@ -16,7 +16,7 @@ export class PaymentOrderWService {
   constructor(private http: HttpClient) {}
 
   public cancelPayment(cancelPaymentPayload: ICancelPaymentPayload): Observable<ICancelPaymentResponse> {
-    return this.http.post<ICancelPaymentResponse>(API_URL + '/cancelPayment', {}, { params: { ...cancelPaymentPayload }});
+    return this.http.post<ICancelPaymentResponse>(API_URL + '/cancelPayment', cancelPaymentPayload);
   }
 
   public resumePayment(resumePaymentBody: IResumePaymentPayload): Observable<any> {

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { ISearchPaymentsResponse } from '../../../../services/search-payment/types';
+import { ISearchPaymentsResponse, PayDoc } from '../../../../services/search-payment/types';
 import { ISearchPayment } from '../search-payment.types';
 
 export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], datePipeRef?: DatePipe): ISearchPayment[] {
@@ -13,7 +13,7 @@ export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], dateP
     return {
       appCreationTime: searchPayment?.paymentApplication?.appCreationTime,
       plannedDate: plannedDate,
-      statusCode: searchPayment?.statusCode,
+      statusCode: searchPayment?.paymentApplication?.statusCodePE,
       type: searchPayment?.paymentApplication?.type,
       paymentSubType: searchPayment?.paymentApplication?.paymentSubType,
       budgetPaymentSubtype: searchPayment?.paymentApplication?.budget?.budgetPaymentSubtype,
@@ -68,4 +68,122 @@ export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], dateP
       settlementDate: searchPayment?.paymentApplication?.sbp?.settlementDate,
     };
   });
+}
+
+export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResponse[] | null): { arrayData: any, heading: string[], fileName: string } {
+  const result = {
+    arrayData: null as any,
+    heading: [] as string[],
+    fileName: ""
+  };
+  if (data === null){
+    return result;
+  }
+  result.heading.push(
+    "Дата  заявки в PE", 
+    "Дата исполнения платежа", 
+    "Код статуса", 
+    "Тип перевода", 
+    "Подтип перевода\платежа",
+    "Подтип бюджетного перевода",
+    "Способ перевода",
+    "Сумма",
+    "Комиcсия",
+    "Комиcсия (собств.)",
+    "Комиcсия (кред.)",
+    "Количество использованных бонусов для оплаты",
+    "Сумма, оплаченная бонусами",
+    "Курс конвертации бонусов",
+    "ID PE",
+    "ID PH",
+    "ID чека",
+    "ABS Источник",
+    "Номер документа - ABS Источник",
+    "ID ABS Источник",
+    "Статус документа в ABS Источник",
+    "Номер счета ABS Источник",
+    "ABS Приемник",
+    "Номер документа - ABS Приемник",
+    "ID ABS Приемник",
+    "Статус документа в ABS Приемник",
+    "Номер счета ABS Приемник",
+    "Номер документа GL",
+    "ID GL",
+    "Статус GL",
+    "Счет по дебету GL",
+    "Счет по кредиту GL",
+    "БИК Банка-получателя",
+    "Наименование бенефициара",
+    "Наименование агрегатора",
+    "ID терминала",
+    "CIFID",
+    "ID Заявки",
+    "Статус ИБ",
+    "Статус PE",
+    "Подтип заявки",
+    "Тип заявки",
+    "Периодичность",
+    "IP адрес",
+    "Данные о браузере пользователя"
+  );
+  result.fileName = "searchPayment_xlsx";
+
+  result.arrayData = data.map(x => {
+    const payDocSource: PayDoc | null = !!x?.payDocs ? x.payDocs.filter(payDoc => x?.sourceSystem === payDoc?.accountingSystem)[0] : null;
+    const payDocTarget: PayDoc | null = !!x?.payDocs ? x.payDocs.filter(payDoc => !!payDoc.accntDeb && !!payDoc.accntCre)[0] : null;
+    const statusCodeNum: number = +x?.paymentApplication?.statusCode;
+    const statusGl: string = ((statusCodeNum >= 1705 && statusCodeNum <= 2150) || ([3000].includes(statusCodeNum)))
+      ? x?.paymentApplication?.statusPE
+      : statusCodeNum === 2500
+      ? "OK"
+      : "";
+    return {
+      appCreationTime: x?.paymentApplication?.appCreationTime,
+      plannedDate: x?.plannedDate,
+      statusCodePe: x?.paymentApplication?.statusCodePE,
+      type: x?.paymentApplication?.type,
+      paymentSubType: x?.paymentApplication?.paymentSubType,
+      budgetPaymentSubtype: x?.paymentApplication?.budget?.budgetPaymentSubtype,
+      paymentMethod: x?.paymentApplication?.paymentMethod,
+      amount: x?.paymentApplication?.amount,
+      fee: x?.paymentApplication?.fee,
+      ownFeeAmount: x?.paymentApplication?.ownFeeAmount,
+      creditFeeAmount: x?.paymentApplication?.creditFeeAmount,
+      bonusAmount: x?.paymentApplication?.bonus?.bonusAmount,
+      bonusRub: x?.paymentApplication?.bonus?.bonusRub,
+      loyaltyRate: x?.paymentApplication?.bonus?.loyaltyRate,
+      paymentId: x?.paymentID,
+      idPH: x?.paymentApplication?.ipt?.idPH,
+      linkedChequeId: x?.paymentApplication?.ipt?.linkedChequeId,
+      sourceSystem: x?.sourceSystem,
+      docNumSource: payDocSource?.docNum,
+      docIDSource: payDocSource?.docID,
+      docStatusSource: payDocSource?.docStatus,
+      accntCreSource: payDocSource?.accntCre,
+      targetSystem: x?.targetSystem,
+      docNumTarget: payDocTarget?.docNum,
+      docIDTarget: payDocTarget?.docID,
+      docStatusTarget: payDocTarget?.docStatus,
+      accntDebTarget: payDocTarget?.accntDeb,
+      NumGl: "",
+      IdGl: "",
+      statusGl: statusGl,
+      debetGl: "",
+      creditGl: "",
+      bankBIC: x?.paymentApplication?.payer?.user?.bankBIC,
+      benefName: "",
+      operatorLegalName: x?.paymentApplication?.servicePayment?.operator?.operatorLegalName,
+      iptID: x?.paymentApplication?.applicationChannel?.iptID,
+      cifID: x?.paymentApplication?.payer?.user?.cifID,
+      applicationID: x?.paymentApplication?.applicationID,
+      statusIb: "",
+      statusDescriptionPe: x?.paymentApplication?.statusDescriptionPe,
+      parentType: x?.paymentApplication?.parentType,
+      typeApplication: "Платеж\перевод",
+      once: "Разовый",
+      channelIP: x?.paymentApplication?.applicationChannel?.channelIP,
+      browserData: "",
+    }
+  });
+  return result;
 }

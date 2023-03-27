@@ -4,6 +4,10 @@ export interface IColumn {
 }
 
 export const searchPaymentTableColumns: IColumn[] = [
+  // {
+  //   header: 'ID PE',
+  //   field: 'paymentId',
+  // },
   {
     header: 'Дата  заявки в PE',
     field: 'appCreationTime',
@@ -67,10 +71,6 @@ export const searchPaymentTableColumns: IColumn[] = [
   {
     header: 'Максимальный процент суммы оплаты бонусами',
     field: 'bonusMaxPercent',
-  },
-  {
-    header: 'ID PE',
-    field: 'paymentId',
   },
   {
     header: 'ID PH',

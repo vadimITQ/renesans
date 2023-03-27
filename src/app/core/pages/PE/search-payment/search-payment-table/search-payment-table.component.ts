@@ -1,29 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IColumn, searchPaymentTableColumns } from './search-payment-table.constants';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 import { SearchPaymentService } from 'src/app/core/services/search-payment/search-payment.service';
 import { Subscription } from 'rxjs';
 import { ISearchPayment } from '../search-payment.types';
-import { prepareSearchPaymentsData } from './search-payment-table.utils';
+import { generateReport_prepareDataToExportXlsx, prepareSearchPaymentsData } from './search-payment-table.utils';
 import { PaymentTypes } from "../../../../../shared/enums/manual-checks.enums";
 import { ToastService } from "../../../../../shared/services/toast.service";
 import { DatePipe } from '@angular/common';
+import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
+import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
 
 @Component({
   selector: 'app-search-payment-table',
   templateUrl: './search-payment-table.component.html',
   styleUrls: ['./search-payment-table.component.scss'],
 })
-export class SearchPaymentTableComponent implements OnInit {
+export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   constructor(private searchPaymentService: SearchPaymentService,
               private toastService: ToastService,
-              private datePipe: DatePipe
+              private datePipe: DatePipe,
+              private peNavigationService: PeNavigationService
   ) {}
+
+  ngOnDestroy(): void {
+    if (this.paymentResponseStateSubscription){
+      this.paymentResponseStateSubscription.unsubscribe();
+    }
+  }
 
   public tableColumns: IColumn[] = searchPaymentTableColumns;
   public tableData: ISearchPayment[] | null = null;
   public loading: boolean = false;
-
+  public paymentResponse: ISearchPaymentsResponse[] | null = [];
   private paymentResponseStateSubscription!: Subscription;
 
   onRowSelected(e: any) {
@@ -34,8 +43,12 @@ export class SearchPaymentTableComponent implements OnInit {
     if (!this.tableData) {
       return;
     }
+    const { arrayData, heading, fileName } = generateReport_prepareDataToExportXlsx(this.paymentResponse);
+    XlsxHelper.exportArrayToExcel(arrayData, heading, fileName);
+  }
 
-    XlsxHelper.exportArrayToExcel(this.tableData, Object.getOwnPropertyNames(this.tableData[0]), 'Выгрузка_в_excel_test');
+  paymentIdClick(id: string) {
+    this.peNavigationService.goToViewTransferDetails(id);
   }
 
   generateSbpReport() {
@@ -48,6 +61,7 @@ export class SearchPaymentTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentResponseStateSubscription = this.searchPaymentService.$paymentResponseState.subscribe(paymentResponse => {
+      this.paymentResponse = paymentResponse;
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse, this.datePipe) : null;
     });
 

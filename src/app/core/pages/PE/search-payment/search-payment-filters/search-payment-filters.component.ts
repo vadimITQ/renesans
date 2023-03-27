@@ -123,4 +123,5 @@ export class SearchPaymentFiltersComponent implements OnInit {
       XlsxHelper.exportArrayToExcel(response, Object.getOwnPropertyNames(response[0]), 'Выгрузка_в_excel_test');
     });
   }
+
 }

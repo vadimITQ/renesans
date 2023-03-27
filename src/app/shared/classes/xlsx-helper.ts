@@ -5,7 +5,7 @@ export class XlsxHelper {
     public static exportArrayToExcel(arrayData: any[], heading: string[], fileName: string): void {
         import("xlsx").then(xlsx => {
             let worksheet = xlsx.utils.json_to_sheet([]);
-            worksheet = xlsx.utils.sheet_add_aoa(worksheet, [heading]);
+            worksheet = xlsx.utils.sheet_add_aoa(worksheet, [heading], { cellStyles: true });
             worksheet = xlsx.utils.sheet_add_json(worksheet, arrayData, { origin: 'A2', skipHeader: true });
             worksheet["!cols"] = this.fitToColumn(arrayData, heading);
             const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };

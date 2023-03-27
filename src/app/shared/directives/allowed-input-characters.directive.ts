@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 @Directive({
@@ -6,18 +6,16 @@ import { NgControl } from '@angular/forms';
 })
 export class AllowedInputCharactersDirective {
 
+    constructor(){ }
+
     @Input() allowedInputCharactersReg!: RegExp;
 
-    constructor(private ngControl: NgControl){ }
-
-    @HostListener("keyup", ['$event']) onInput(event: KeyboardEvent){
+    @HostListener("keydown", ['$event']) onKeyDown(event: KeyboardEvent){
         if (this.allowedInputCharactersReg){
-            const input = event.target as HTMLInputElement;
-            const value = input.value;
-            const valid = this.allowedInputCharactersReg.test(value);
+            const validCharacter = this.allowedInputCharactersReg.test(event.key);
             const backspace = event.key == "Backspace"
-            if (value && !valid && !backspace){
-                this.ngControl.control?.setValue(input.value.slice(0, -1));
+            if (!validCharacter && !backspace){
+                event.preventDefault();
             }
         }
     }

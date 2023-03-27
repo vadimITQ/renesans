@@ -6,11 +6,13 @@ export enum CancelReason {
 }
 
 export interface ICancelPaymentPayload {
-    АpplicationChannelName: string;
+    // АpplicationChannelName: string;
     // chennelUser: string;
-    DESCRIPTION?: string;
+    description: string;
     cancelReason: string;
     paymentID: string;
+    channelName: string;
+    chennelUser: string;
     // АpplicationChannelName: string;
     // cancelReason?: string;
     // DESCRIPTION?: string;
@@ -24,6 +26,7 @@ export interface IResumePaymentPayload {
     paymentID: string;
     ResumeComment?: string;
     channelUser?: string;
+    АpplicationChannelName: string
 }
 
 export interface ICancelPaymentResponse {

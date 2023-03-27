@@ -20,8 +20,7 @@ export function earlierThen(from: string | null, to: string | null): ValidationM
   if (!parsedFrom || !parsedTo) {
     return null;
   }
-
-  return !isBefore(parsedFrom, parsedTo) ? `Должно быть раньше, чем ${format(parsedTo, dateFormat)}` : null;
+  return !isEqual(parsedFrom, parsedTo) && !isBefore(parsedFrom, parsedTo) ? `Должно быть раньше, чем ${format(parsedTo, dateFormat)}` : null;
 }
 
 export function laterThen(from: string | null, to: string | null): ValidationMessage {
@@ -64,5 +63,4 @@ export function required(value: unknown): ValidationMessage {
 
 export function containInvalidSymbols(value: string): ValidationMessage {
   return /[^а-яА-Яa-zA-Z0-9\s\-_]/ig.test(value) ? 'Поле содержит недопустимые символы' : null
-
 }

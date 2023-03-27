@@ -1,6 +1,5 @@
 
 import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
-import { GetPaymentsResponse } from '../../../../../shared/models/manual-checks-models';
 
 export function sortPaymentData(paymentData: ISearchPaymentsResponse[] | null | undefined): ISearchPaymentsResponse[] | null | undefined {
     if (!paymentData)
@@ -40,14 +39,4 @@ export function setRowStatuses(paymentData: ISearchPaymentsResponse[] | null | u
     }
   })
   return paymentData;
-}
-
-export function checkObjectPropertiesOnEmpty(object: any): any{
-  Object.getOwnPropertyNames(object).forEach(key => {
-    console.log(key);
-    if (object[key] === undefined){
-      delete object[key];
-    }
-  })
-  return object;
 }

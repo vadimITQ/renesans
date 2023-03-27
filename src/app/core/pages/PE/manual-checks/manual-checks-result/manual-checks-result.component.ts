@@ -11,11 +11,11 @@ import { Table } from 'primeng/table';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
-import { CancelReason } from 'src/app/core/services/payment-order-w/types';
+import { CancelReason, ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from 'src/app/core/services/payment-order-w/types';
 import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { checkObjectPropertiesOnEmpty } from './manual-checks-result.utils';
+import { ObjectHelper } from 'src/app/shared/classes/object-helper';
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -92,24 +92,23 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
-          const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment(checkObjectPropertiesOnEmpty({ 
-            cancelReason: CancelReason.BANK_OPS,
+          const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment(ObjectHelper.deleteUndefinedProperties({
+            cancelReason: CancelReason.CLIENT,
             paymentID: selection.paymentID ?? "",
-            АpplicationChannelName: "PEW",
-            DESCRIPTION: !!this.commentary ? this.commentary: undefined
-          }))));
+            description: this.commentary ?? "",
+            channelName: 'PEW',
+            chennelUser: this.authService.user?.connectionName ?? "Unknown_User"
+          } as ICancelPaymentPayload))));
           if (!$paymentsToCancel?.length){
             this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на отмену");
             return;
           }
           this.loadingService.attach(forkJoin($paymentsToCancel)).then((response) => {
-            if (response){
-              (<Array<Object>>response).some(element => !!element.hasOwnProperty("attr_errors"))
-                ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на отмену")
-                : this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно");
-            }
+            console.log(response);
+            this.validateResponsesFromCancePayment(response);
           })
-          .catch(() => {
+          .catch((e) => {
+            console.log(e);
             this.toasterService.showErrorToast("Ошибка сервера");
           });
         },
@@ -127,24 +126,22 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
-          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment(checkObjectPropertiesOnEmpty({ 
+          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment(ObjectHelper.deleteUndefinedProperties({ 
             paymentID: selection.paymentID ?? "",
             channelUser: this.authService.user?.connectionName ?? "Unknown_User",
-            ResumeComment: !!this.commentary ? this.commentary: undefined
-          }))));
+            ResumeComment: this.commentary ?? "",
+            АpplicationChannelName: "PEW"
+          } as IResumePaymentPayload))));
           if (!$paymentsToResume?.length){
             this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на возобновление");
             return;
           }
           this.loadingService.attach(forkJoin($paymentsToResume)).then((response) => {
-            if (response){
-              (<Array<Object>>response).some(element => !!element.hasOwnProperty("attr_errors"))
-                ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на возобновление")
-                : this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно");
-            }
-            
+            console.log(response);
+            this.validateResponsesFromResumePayment(response);
           })
-          .catch(() => {
+          .catch((e) => {
+            console.log(e);
             this.toasterService.showErrorToast("Ошибка сервера");
           });
       },
@@ -153,6 +150,28 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
         label: 'Нет',
       },
     });
+  }
+
+  validateResponsesFromCancePayment(responses: ICancelPaymentPayload[]){
+    if (responses){
+      const validationExpresison = (element: any) => 
+        element?.attrErrors != null ||
+        element?.errorMessage != null;
+      responses.some(validationExpresison)
+        ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на возобновление")
+        : this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно");
+    }
+  }
+
+  validateResponsesFromResumePayment(responses: IResumePaymentResponse[]){
+    if (responses){
+      const validationExpresison = (element: any) => 
+        element?.attrErrors != null ||
+        element?.errorMessage != null;
+      responses.some(validationExpresison)
+        ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на отмену")
+        : this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно");
+    }
   }
 
   get paymentResponseProps(): string[] {

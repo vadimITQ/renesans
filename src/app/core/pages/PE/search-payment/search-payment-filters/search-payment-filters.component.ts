@@ -80,11 +80,9 @@ export class SearchPaymentFiltersComponent implements OnInit {
 
     const [dateFromValidation, dateToValidation, plannedDateValidation] = [
       required(this.filters.dateTimeFrom) ||
-        earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo),
+        !!earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ? "«Дата/Время с» превышает «Дата/Время по»": null,
       required(this.filters.dateTimeTo) ||
-        laterThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ||
         lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
-      required(this.filters.plannedDate) ||
         laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate)
     ];
 

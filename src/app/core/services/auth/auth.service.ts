@@ -8,6 +8,8 @@ import { UserResponse, UserCredentials } from '../../../shared/models/auth-model
 import { userHasRoles } from '../../../shared/mocks/roles.mock';
 import { API_URL } from '../../../shared/variables/http-constants';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { ObjectHelper } from 'src/app/shared/classes/object-helper';
+import { UserData } from 'src/app/shared/models/init-session';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -39,6 +41,12 @@ export class AuthService {
           this.rolesService.userRoles = response.roles;
           this._user = credentials;
           localStorage.setItem('token', response.token);
+          localStorage.setItem('userData', JSON.stringify(
+            {
+              roles: response.roles,
+              userName: this._user.connectionName
+            } as UserData
+          ));
           this.GET_ALL_ROLES_FOR_TESTING();
         },
         error: error => {},
@@ -67,6 +75,17 @@ export class AuthService {
   private authenticateUser(connectionName: string, connectionPassword: string): Observable<UserResponse> {
     const url = API_URL + '/user';
     return this.http.post<UserResponse>(url, { username: connectionName, password: connectionPassword });
+  }
+
+  public initNewSession() {
+    const userData: UserData | null = JSON.parse(localStorage.getItem("userData") ?? "{}") ?? null;
+    const sessionId = localStorage.getItem("token");
+    if (ObjectHelper.empty(userData) === false && !!sessionId) {
+      this._user = {connectionName: userData!.userName, connectionPassword: ""};
+      this._isLoggedIn = true;
+      this.rolesService.userRoles = userData!.roles;
+      this.GET_ALL_ROLES_FOR_TESTING();
+    };
   }
 
   private GET_ALL_ROLES_FOR_TESTING(): void {

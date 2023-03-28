@@ -33,6 +33,7 @@ export interface ICancelPaymentResponse {
     result: string;
     errorCode?: string;
     errorMessage?: string;
+    attrErrors: any;
     // httpCode: string;
     // httpMessage: string;
     // moreInformation: string;
@@ -42,4 +43,5 @@ export interface IResumePaymentResponse {
     result: string;
     errorCode?: string;
     errorMessage?: string;
+    attrErrors: any;
 }

@@ -31,6 +31,14 @@ export class DateHelper {
         return DatesValidationReasons.DatesValid;
     }
 
+    public static convertDateSegmentToValidLength(...dateSegment: (number | string)[]): string[] {
+        const result: string[] = dateSegment.map(segment => {
+            const stringSegment = segment.toString();
+            return stringSegment.length === 1 ? `0${stringSegment}`: stringSegment
+        });
+        return result;
+    }
+
 }
 
 export enum DatesValidationReasons {

@@ -33,7 +33,6 @@ export class AuthService {
   }
 
   public login(credentials: UserCredentials): Observable<UserResponse | null> {
-    // return this.AUTH_FOR_TESTING(credentials);
     return this.authenticateUser(credentials.connectionName, credentials.connectionPassword).pipe(
       tap({
         next: response => {
@@ -58,6 +57,8 @@ export class AuthService {
     this._isLoggedIn = false;
     this._user = null;
     this.rolesService.clearRoles();
+    localStorage.removeItem("token");
+    localStorage.removeItem("userData");
     this.router.navigate([RouterPath.Login]);
   }
 
@@ -79,6 +80,7 @@ export class AuthService {
   public initNewSession() {
     const userData: UserData | null = JSON.parse(localStorage.getItem("userData") ?? "{}") ?? null;
     const sessionId = localStorage.getItem("token");
+    // window.atob(sessionId?.split(".")[1] ?? "";
     if (ObjectHelper.empty(userData) === false && !!sessionId) {
       this._user = {connectionName: userData!.userName, connectionPassword: ""};
       this._isLoggedIn = true;

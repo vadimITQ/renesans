@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, tap } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { ISearchPaymentsPayload, ISearchPaymentsResponse } from './types';
@@ -25,7 +25,7 @@ export class SearchPaymentService {
         }
         this.$paymentResponseState.next(response);
         this.$loading.next(false)
-      }),
+      })
     );
   }
 }

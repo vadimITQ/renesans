@@ -1,0 +1,15 @@
+
+.peHeader {
+    padding: 0px 20px 0px 20px;
+    display: flex;
+    justify-content: end;
+    &__buttons {
+        align-self: flex-end;
+    }
+    &__logout {
+        cursor: pointer;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}

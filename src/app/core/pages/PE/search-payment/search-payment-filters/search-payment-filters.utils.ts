@@ -97,7 +97,7 @@ export function prepareSearchFilters({
     chequeNumber: !!chequeNumber ? chequeNumber: null,
     linkedChequeId: !!linkedChequeId ? linkedChequeId: null,
     plannedDate: !!plannedDate ? plannedDate: null,
-    statusCode: !!statusCode ? statusCode: codeStatuses?.length === 1 ? codeStatuses[0]?.value: null,
+    statusCode: codeStatuses?.length > 0 ? codeStatuses.map(v => v.value) : null,
     channelName: channelName?.length > 0 ? channelName.map(v => v.value) : null,
     parentType: parentType?.length > 0 ? parentType.map(v => v.value) : null,
     type: type?.length > 0 ? type.map(v => v.value) : null,

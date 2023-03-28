@@ -92,6 +92,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
+          const paymentIds: string[] = this.selection.map(selection => selection.paymentID  ?? "");
           const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment(ObjectHelper.deleteUndefinedProperties({
             cancelReason: CancelReason.CLIENT,
             paymentID: selection.paymentID ?? "",
@@ -105,7 +106,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
           }
           this.loadingService.attach(forkJoin($paymentsToCancel)).then((response) => {
             console.log(response);
-            this.validateResponsesFromCancePayment(response);
+            this.validateResponsesFromCancePayment(response, paymentIds);
           })
           .catch((e) => {
             console.log(e);
@@ -126,6 +127,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
+          const paymentIds: string[] = this.selection.map(selection => selection.paymentID  ?? "");
           const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment(ObjectHelper.deleteUndefinedProperties({ 
             paymentID: selection.paymentID ?? "",
             channelUser: this.authService.user?.connectionName ?? "Unknown_User",
@@ -138,7 +140,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
           }
           this.loadingService.attach(forkJoin($paymentsToResume)).then((response) => {
             console.log(response);
-            this.validateResponsesFromResumePayment(response);
+            this.validateResponsesFromResumePayment(response, paymentIds);
           })
           .catch((e) => {
             console.log(e);
@@ -152,25 +154,34 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     });
   }
 
-  validateResponsesFromCancePayment(responses: ICancelPaymentPayload[]){
+  validateResponsesFromCancePayment(responses: ICancelPaymentResponse[], paymentIds: string[]){
     if (responses){
-      const validationExpresison = (element: any) => 
-        element?.attrErrors != null ||
-        element?.errorMessage != null;
-      responses.some(validationExpresison)
-        ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на возобновление")
-        : this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно");
+      responses.forEach((response, idx) => {
+        const errorMessage = response?.errorMessage ?? "";
+        const attrErrors = response?.attrErrors ?? [];
+        const paymentId = paymentIds[idx] ?? "";
+        if (errorMessage){
+          this.toasterService.showWarnToast(`Ошибка отмены. ${errorMessage}`, `Платёж/перевод № ${paymentId}`);
+        }
+        else{
+          this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно", `Платёж/перевод № ${paymentId}`)
+        }
+      });
     }
   }
 
-  validateResponsesFromResumePayment(responses: IResumePaymentResponse[]){
+  validateResponsesFromResumePayment(responses: IResumePaymentResponse[], paymentIds: string[]){
     if (responses){
-      const validationExpresison = (element: any) => 
-        element?.attrErrors != null ||
-        element?.errorMessage != null;
-      responses.some(validationExpresison)
-        ? this.toasterService.showWarnToast("Ошибка одного или более платежа/перевода на отмену")
-        : this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно");
+      responses.forEach((response, idx) => {
+        const errorMessage = response.errorMessage ?? "";
+        const paymentId = paymentIds[idx] ?? "";
+        if (errorMessage){
+          this.toasterService.showWarnToast(`Ошибка возобновления. ${errorMessage}`, `Платёж/перевод № ${paymentId}`);
+        }
+        else{
+          this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно", `Платёж/перевод № ${paymentId}`)
+        }
+      });
     }
   }
 

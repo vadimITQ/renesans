@@ -17,13 +17,22 @@ p-columnfilter p-inputnumber .p-inputnumber-button-group {
     cursor: pointer;
 }
 
-.link {
-  text-decoration: underline;
-  color: blue;
-  cursor: pointer;
+.c-none {
+    cursor: default!important;
 }
 
+.link {
+    color: rgb(104, 150, 189);
+    cursor: pointer;
+    user-select: none;
+}
 
+a.link-hover {
+    &:hover {
+        color: rgba(104, 150, 189, 0.8);
+    }
+}
 
-
-
+.uppercase {
+    text-transform: uppercase;
+}

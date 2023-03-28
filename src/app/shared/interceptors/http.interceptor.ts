@@ -35,7 +35,7 @@ export class PeHttpInterceptor implements HttpInterceptor {
               return of(error).pipe(delay(2000));
             }
 
-            this.toastService.showErrorToast('В данный момент сервис недоступен. Обратитесь в тех. поддержку.')
+            // this.toastService.showErrorToast('В данный момент сервис недоступен. Обратитесь в тех. поддержку.')
             throw error
           }),
         );

@@ -108,7 +108,10 @@ export class SearchPaymentFiltersComponent implements OnInit {
       return;
     }
 
-    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe();
+    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {},
+    error => {
+      this.toastService.showErrorToast('В данный момент сервис недоступен. Обратитесь в тех. поддержку.');
+    });
   }
 
   dateChanged() {

@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { DateHelper } from 'src/app/shared/classes/date-helper';
 import { ISearchPaymentsResponse, PayDoc } from '../../../../services/search-payment/types';
 import { ISearchPayment } from '../search-payment.types';
 
@@ -126,7 +127,9 @@ export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResp
     "IP адрес",
     "Данные о браузере пользователя"
   );
-  result.fileName = "searchPayment_xlsx";
+  const exportDate = new Date();
+  const [day, month, year] = DateHelper.convertDateSegmentToValidLength(exportDate.getDate(), exportDate.getMonth() + 1, exportDate.getFullYear());
+  result.fileName = "searchPayment_" + `${day}${month}${year}`;
 
   result.arrayData = data.map(x => {
     const payDocSource: PayDoc | null = !!x?.payDocs ? x.payDocs.filter(payDoc => x?.sourceSystem === payDoc?.accountingSystem)[0] : null;

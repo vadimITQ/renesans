@@ -32,7 +32,7 @@ export class DatePickerHelper {
 
         // let [ day, month, year, minutes, hours, seconds ] = 
 
-        // DatePickerHelper.convertDateSegmentToValidLength(
+        // DateHelper.convertDateSegmentToValidLength(
         //     date.getDate(),
         //     date.getMonth() + 1,
         //     date.getFullYear(),
@@ -43,13 +43,5 @@ export class DatePickerHelper {
 
         // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     }
-
-    // private static convertDateSegmentToValidLength(...dateSegment: (number | string)[]): string[] {
-    //     const result: string[] = dateSegment.map(segment => {
-    //         const stringSegment = segment.toString();
-    //         return stringSegment.length === 1 ? `0${stringSegment}`: stringSegment
-    //     });
-    //     return result;
-    // }
     
 }

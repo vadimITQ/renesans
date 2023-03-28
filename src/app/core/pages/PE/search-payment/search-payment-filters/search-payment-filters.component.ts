@@ -7,14 +7,18 @@ import {
   containInvalidSymbols,
   earlierThen,
   laterOrEqualThen,
-  laterThen,
   lessThanDateDiapason,
   required
 } from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { anyFieldFilledValidator, defineDefaultFiltersValues, prepareSearchFilters } from './search-payment-filters.utils';
+import {
+  anyFieldFilledValidator,
+  defineDefaultFiltersValues,
+  generalFieldsFilled,
+  prepareSearchFilters
+} from './search-payment-filters.utils';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 
 @Component({
@@ -80,13 +84,18 @@ export class SearchPaymentFiltersComponent implements OnInit {
       }
     }
 
-    const [dateFromValidation, dateToValidation, plannedDateValidation] = [
-      required(this.filters.dateTimeFrom) ||
-        !!earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ? "«Дата/Время с» превышает «Дата/Время по»": null,
-      required(this.filters.dateTimeTo) ||
+    if(!generalFieldsFilled(this.filters)) {
+      const [dateFromValidation, dateToValidation, plannedDateValidation] = [
+        required(this.filters.dateTimeFrom) ||
+        !!earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ? "«Дата/Время с» превышает «Дата/Время по»" : null,
+        required(this.filters.dateTimeTo) ||
         lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
-        laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate)
-    ];
+        laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate)]
+
+        this.filtersValidation = {...this.filtersValidation ,  dateFrom: dateFromValidation,
+          dateTo: dateToValidation,
+          plannedDate: plannedDateValidation}
+    }
 
     this.filtersValidation = {
       chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
@@ -96,9 +105,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
       docID: containInvalidSymbols(this.filters.docID ?? ''),
       account: containInvalidSymbols(this.filters.account ?? ''),
       docNum: containInvalidSymbols(this.filters.docNum ?? ''),
-      dateFrom: dateFromValidation,
-      dateTo: dateToValidation,
-      plannedDate: plannedDateValidation
+
     };
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }

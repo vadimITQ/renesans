@@ -20,6 +20,7 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     component: PaymentEngine,
     children: [
+      { path: '', redirectTo: RouterPath.SearchPayment, pathMatch: "full" },
       { path: RouterPath.Test, component: TestComponent },
       {
         path: RouterPath.MonitoringStandingOrders,

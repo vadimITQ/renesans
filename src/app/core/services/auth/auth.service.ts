@@ -47,7 +47,6 @@ export class AuthService {
               userName: this._user.connectionName
             } as UserData
           ));
-          this.GET_ALL_ROLES_FOR_TESTING();
         },
         error: error => {},
       }),
@@ -84,7 +83,6 @@ export class AuthService {
       this._user = {connectionName: userData!.userName, connectionPassword: ""};
       this._isLoggedIn = true;
       this.rolesService.userRoles = userData!.roles;
-      this.GET_ALL_ROLES_FOR_TESTING();
     };
   }
 

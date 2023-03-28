@@ -63,6 +63,12 @@ export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validat
   return null;
 }
 
+export function generalFieldsFilled(filters:ISearchPaymentFilters): boolean {
+  const {paymentID,applicationID,docID,docNum } = filters
+
+  return [paymentID,applicationID,docID,docNum].some(Boolean)
+}
+
 export function prepareSearchFilters({
   paymentID,
   applicationID,

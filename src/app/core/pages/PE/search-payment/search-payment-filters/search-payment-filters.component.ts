@@ -98,14 +98,17 @@ export class SearchPaymentFiltersComponent implements OnInit {
     }
 
     this.filtersValidation = {
-      chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
-      idPH: containInvalidSymbols(this.filters.idPH ?? ''),
       paymentID: containInvalidSymbols(this.filters.paymentID ?? ''),
       applicationID: containInvalidSymbols(this.filters.applicationID ?? ''),
+      idPH: containInvalidSymbols(this.filters.idPH ?? ''),
       docID: containInvalidSymbols(this.filters.docID ?? ''),
-      account: containInvalidSymbols(this.filters.account ?? ''),
+      linkedChequeId: containInvalidSymbols(this.filters.linkedChequeId ?? ''),
       docNum: containInvalidSymbols(this.filters.docNum ?? ''),
-
+      account: containInvalidSymbols(this.filters.account ?? ''),
+      chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
+      channelIP: containInvalidSymbols(this.filters.channelIP ?? ''),
+      statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
+      userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
     };
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }

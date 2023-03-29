@@ -13,14 +13,14 @@ function parseDates(from: string | null, to: string | null): { fromDate: Date; t
   return { fromDate, toDate };
 }
 
-export function earlierThen(from: string | null, to: string | null): ValidationMessage {
+export function earlierThen(from: string | null, to: string | null, message?: string): ValidationMessage {
   const parsedFrom = DatePickerHelper.convertToDate(from);
   const parsedTo = DatePickerHelper.convertToDate(to);
 
   if (!parsedFrom || !parsedTo) {
     return null;
   }
-  return !isEqual(parsedFrom, parsedTo) && !isBefore(parsedFrom, parsedTo) ? `Должно быть раньше, чем ${format(parsedTo, dateFormat)}` : null;
+  return !isEqual(parsedFrom, parsedTo) && !isBefore(parsedFrom, parsedTo) ? message || `Должно быть раньше, чем ${format(parsedTo, dateFormat)}` : null;
 }
 
 export function laterThen(from: string | null, to: string | null): ValidationMessage {

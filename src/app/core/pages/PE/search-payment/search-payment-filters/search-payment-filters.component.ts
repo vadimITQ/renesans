@@ -8,7 +8,7 @@ import {
   earlierThen,
   laterOrEqualThen,
   lessThanDateDiapason,
-  required
+  required,
 } from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
 import { ISearchPaymentFilters } from './search-payment-filters.types';
@@ -17,7 +17,7 @@ import {
   anyFieldFilledValidator,
   defineDefaultFiltersValues,
   generalFieldsFilled,
-  prepareSearchFilters
+  prepareSearchFilters,
 } from './search-payment-filters.utils';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 
@@ -84,20 +84,24 @@ export class SearchPaymentFiltersComponent implements OnInit {
       }
     }
 
-    if(!generalFieldsFilled(this.filters)) {
+    if (!generalFieldsFilled(this.filters)) {
       const [dateFromValidation, dateToValidation, plannedDateValidation] = [
         required(this.filters.dateTimeFrom) ||
-        !!earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo) ? "«Дата/Время с» превышает «Дата/Время по»" : null,
-        required(this.filters.dateTimeTo) ||
-        lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
-        laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate)]
+          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»'),
+        required(this.filters.dateTimeTo) || lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
+        laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
+      ];
 
-        this.filtersValidation = {...this.filtersValidation ,  dateFrom: dateFromValidation,
-          dateTo: dateToValidation,
-          plannedDate: plannedDateValidation}
+      this.filtersValidation = {
+        ...this.filtersValidation,
+        dateFrom: dateFromValidation,
+        dateTo: dateToValidation,
+        plannedDate: plannedDateValidation,
+      };
     }
 
     this.filtersValidation = {
+      ...this.filtersValidation,
       paymentID: containInvalidSymbols(this.filters.paymentID ?? ''),
       applicationID: containInvalidSymbols(this.filters.applicationID ?? ''),
       idPH: containInvalidSymbols(this.filters.idPH ?? ''),
@@ -125,7 +129,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
   }
 
   dateChanged() {
-    if (!this.validateDates){
+    if (!this.validateDates) {
       this.validateDates = true;
       return;
     }
@@ -140,5 +144,4 @@ export class SearchPaymentFiltersComponent implements OnInit {
       XlsxHelper.exportArrayToExcel(response, Object.getOwnPropertyNames(response[0]), 'Выгрузка_в_excel_test');
     });
   }
-
 }

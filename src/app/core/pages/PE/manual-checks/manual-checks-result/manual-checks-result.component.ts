@@ -63,6 +63,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.paymentResponseStateSubscribtion = this.mcService.$paymentResponseState.subscribe(paymentData => {
+      this.selection = [];
       this.paymentResponse = paymentData;
     });
   }

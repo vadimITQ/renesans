@@ -43,7 +43,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
     if (!this.tableData) {
       return;
     }
-    const { arrayData, heading, fileName } = generateReport_prepareDataToExportXlsx(this.paymentResponse);
+    const { arrayData, heading, fileName } = generateReport_prepareDataToExportXlsx(this.paymentResponse, this.datePipe);
     XlsxHelper.exportArrayToExcel(arrayData, heading, fileName);
   }
 

@@ -19,7 +19,6 @@ export class AllowedInputCharactersDirective implements OnDestroy {
     ngOnDestroy(): void {
         if (this.bindKeypressEventSubscribtion){
             this.bindKeypressEventSubscribtion.unsubscribe();
-            console.log("unsubscribed", this.el);
         }
     }
 

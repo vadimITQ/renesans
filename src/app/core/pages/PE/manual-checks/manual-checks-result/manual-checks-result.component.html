@@ -74,13 +74,13 @@
                     </td>
                     <td><a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a></td>
                     <td>{{ paymentItem.paymentApplication?.applicationID }}</td>
-                    <td>{{ paymentItem.plannedDate | date: "dd-MM-yyyy HH:mm:ss" }}</td>
+                    <td>{{ paymentItem.plannedDate | date: "dd-MM-yyyy" }}</td>
                     <td>{{ paymentItem.paymentApplication?.amount }}</td>
                     <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
                     <td>{{ statues[paymentItem.paymentApplication?.statusCodePE] }}</td>
                     <td>{{ paymentItem.paymentApplication?.statusCodePE }}</td>
                     <td>{{ paymentItem.ipt?.idPH }}</td>
-                    <td>{{ paymentItem.paymentApplication?.channelIP }}</td>
+                    <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
                     <td>{{ paymentItem.pmtCreationTime | date: "yyyy-MM-dd HH:mm:ss" }}</td>
                     <td>{{ paymentItem.errorType }}</td>
                 </tr>

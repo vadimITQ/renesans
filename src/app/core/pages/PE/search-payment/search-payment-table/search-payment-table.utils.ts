@@ -5,16 +5,15 @@ import { ISearchPayment } from '../search-payment.types';
 
 export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], datePipeRef?: DatePipe): ISearchPayment[] {
   return data.map(searchPayment => {
-    const senderPayDoc = (searchPayment.payDocs ?? [])[0];
-
-    // todo: fix me
-    const receiverPayDoc = (searchPayment.payDocs ?? [])[0];
-    const plannedDate = datePipeRef ? datePipeRef.transform(searchPayment?.plannedDate, "dd-MM-yyyy HH:mm:ss") ?? "": searchPayment?.plannedDate;
-
+    const senderPayDoc = !!searchPayment?.payDocs ? searchPayment.payDocs.filter(payDoc => searchPayment?.sourceSystem === payDoc?.accountingSystem)[0]: null;
+    const receiverPayDoc = !!searchPayment?.payDocs ? searchPayment.payDocs.filter(payDoc => !!payDoc.accntDeb && !!payDoc.accntCre)[0]: null;
+    const plannedDate = datePipeRef ? datePipeRef.transform(searchPayment?.plannedDate, "dd-MM-yyyy") ?? "": searchPayment?.plannedDate;
+    const appCreationTime = datePipeRef ? datePipeRef.transform(searchPayment?.paymentApplication?.appCreationTime, "dd-MM-yyyy HH:mm:ss") ?? "": searchPayment?.paymentApplication?.appCreationTime;
+    const settlementDate = datePipeRef ? datePipeRef.transform(searchPayment?.paymentApplication?.sbp?.settlementDate, "dd-MM-yyyy") ?? "": searchPayment?.paymentApplication?.sbp?.settlementDate;
     return {
-      appCreationTime: searchPayment?.paymentApplication?.appCreationTime,
+      appCreationTime: appCreationTime,
       plannedDate: plannedDate,
-      statusCode: searchPayment?.paymentApplication?.statusCodePE,
+      statusCode: searchPayment?.paymentApplication?.statusCode,
       type: searchPayment?.paymentApplication?.type,
       paymentSubType: searchPayment?.paymentApplication?.paymentSubType,
       budgetPaymentSubtype: searchPayment?.paymentApplication?.budget?.budgetPaymentSubtype,
@@ -66,12 +65,12 @@ export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], dateP
       sbpWorkflowType: searchPayment?.paymentApplication?.sbp?.sbpWorkflowType,
       sbpFraudScore: searchPayment?.paymentApplication?.sbp?.sbpFraudScore,
       transactionStatus: searchPayment?.paymentApplication?.sbp?.transactionStatus,
-      settlementDate: searchPayment?.paymentApplication?.sbp?.settlementDate,
+      settlementDate: settlementDate,
     };
   });
 }
 
-export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResponse[] | null): { arrayData: any, heading: string[], fileName: string } {
+export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResponse[] | null, datePipeRef?: DatePipe): { arrayData: any, heading: string[], fileName: string } {
   const result = {
     arrayData: null as any,
     heading: [] as string[],
@@ -81,6 +80,7 @@ export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResp
     return result;
   }
   result.heading.push(
+    "ID PE",
     "Дата  заявки в PE", 
     "Дата исполнения платежа", 
     "Код статуса", 
@@ -95,7 +95,6 @@ export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResp
     "Количество использованных бонусов для оплаты",
     "Сумма, оплаченная бонусами",
     "Курс конвертации бонусов",
-    "ID PE",
     "ID PH",
     "ID чека",
     "ABS Источник",
@@ -140,9 +139,14 @@ export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResp
       : statusCodeNum === 2500
       ? "OK"
       : "";
+
+    const appCreationTime = datePipeRef ? datePipeRef.transform(x?.paymentApplication?.appCreationTime, "dd-MM-yyyy HH:mm:ss") ?? "": x?.paymentApplication?.appCreationTime;
+    const plannedDate = datePipeRef ? datePipeRef.transform(x?.plannedDate, "dd-MM-yyyy") ?? "": x?.plannedDate;
+
     return {
-      appCreationTime: x?.paymentApplication?.appCreationTime,
-      plannedDate: x?.plannedDate,
+      paymentId: x?.paymentID,
+      appCreationTime: appCreationTime,
+      plannedDate: plannedDate,
       statusCodePe: x?.paymentApplication?.statusCodePE,
       type: x?.paymentApplication?.type,
       paymentSubType: x?.paymentApplication?.paymentSubType,
@@ -155,7 +159,6 @@ export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResp
       bonusAmount: x?.paymentApplication?.bonus?.bonusAmount,
       bonusRub: x?.paymentApplication?.bonus?.bonusRub,
       loyaltyRate: x?.paymentApplication?.bonus?.loyaltyRate,
-      paymentId: x?.paymentID,
       idPH: x?.paymentApplication?.ipt?.idPH,
       linkedChequeId: x?.paymentApplication?.ipt?.linkedChequeId,
       sourceSystem: x?.sourceSystem,

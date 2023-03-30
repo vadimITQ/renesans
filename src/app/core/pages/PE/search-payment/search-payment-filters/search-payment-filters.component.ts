@@ -124,7 +124,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
 
     this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {},
     error => {
-      this.toastService.showErrorToast('В данный момент сервис недоступен. Обратитесь в тех. поддержку.');
+      this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации о переводах/платежах");
     });
   }
 

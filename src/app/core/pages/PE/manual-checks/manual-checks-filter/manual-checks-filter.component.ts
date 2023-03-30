@@ -39,7 +39,6 @@ export class ManualChecksFilterComponent implements OnInit {
 
   ngOnInit(): void {
     this.filter = defineDefaultFiltersValues();
-    this.filter.plannedDate = null;
     this.changeDetectionRef.detectChanges();
   }
 

@@ -26,7 +26,7 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     channelName: [],
     parentType: [],
     type: [],
-    codeStatuses: []
+    codeStatuses: [],
   };
 }
 
@@ -63,10 +63,10 @@ export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validat
   return null;
 }
 
-export function generalFieldsFilled(filters:ISearchPaymentFilters): boolean {
-  const {paymentID,applicationID,docID,docNum } = filters
+export function generalFieldsFilled(filters: ISearchPaymentFilters): boolean {
+  const { paymentID, applicationID, docID, docNum } = filters;
 
-  return [paymentID,applicationID,docID,docNum].some(Boolean)
+  return [paymentID, applicationID, docID, docNum].some(Boolean);
 }
 
 export function prepareSearchFilters({
@@ -87,22 +87,22 @@ export function prepareSearchFilters({
   channelName,
   parentType,
   type,
-  codeStatuses
+  codeStatuses,
 }: ISearchPaymentFilters): ISearchPaymentsPayload {
   return {
-    dateTimeFrom: !!dateTimeFrom ? dateTimeFrom: null,
-    dateTimeTo: !!dateTimeTo ? dateTimeTo: null,
-    paymentID: !!paymentID ? paymentID: null,
-    applicationID: !!applicationID ? applicationID: null,
-    idPH: !!idPH ? idPH: null,
-    docID: !!docID ? docID: null,
-    docNum: !!docNum ? docNum: null,
-    userAgent: !!userAgent ? userAgent: null,
-    account: !!account ? account: null,
-    channelIP: !!channelIP ? channelIP: null,
-    chequeNumber: !!chequeNumber ? chequeNumber: null,
-    linkedChequeId: !!linkedChequeId ? linkedChequeId: null,
-    plannedDate: !!plannedDate ? plannedDate: null,
+    dateTimeFrom: !!dateTimeFrom ? dateTimeFrom : null,
+    dateTimeTo: !!dateTimeTo ? dateTimeTo : null,
+    paymentID: !!paymentID ? paymentID : null,
+    applicationID: !!applicationID ? applicationID : null,
+    idPH: !!idPH ? idPH : null,
+    docID: !!docID ? docID : null,
+    docNum: !!docNum ? docNum : null,
+    userAgent: !!userAgent ? userAgent : null,
+    account: !!account ? account : null,
+    channelIP: !!channelIP ? channelIP : null,
+    chequeNumber: !!chequeNumber ? chequeNumber : null,
+    linkedChequeId: !!linkedChequeId ? linkedChequeId : null,
+    plannedDate: !!plannedDate ? plannedDate : null,
     statusCode: codeStatuses?.length > 0 ? codeStatuses.map(v => v.value) : null,
     channelName: channelName?.length > 0 ? channelName.map(v => v.value) : null,
     parentType: parentType?.length > 0 ? parentType.map(v => v.value) : null,

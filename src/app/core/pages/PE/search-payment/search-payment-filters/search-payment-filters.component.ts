@@ -20,11 +20,15 @@ import {
   prepareSearchFilters,
 } from './search-payment-filters.utils';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
+import { SearchPaymentStore } from '../../../../store/search-payment.store';
+import { prepareSearchPaymentsData } from '../search-payment-table/search-payment-table.utils';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-search-payment-filters',
   templateUrl: './search-payment-filters.component.html',
   styleUrls: ['./search-payment-filters.component.scss'],
+  providers: [SearchPaymentStore],
 })
 export class SearchPaymentFiltersComponent implements OnInit {
   public filters!: ISearchPaymentFilters;
@@ -47,11 +51,15 @@ export class SearchPaymentFiltersComponent implements OnInit {
     private fb: FormBuilder,
     private toastService: ToastService,
     private changeDetectionRef: ChangeDetectorRef,
+    private searchPaymentStore: SearchPaymentStore,
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit(): void {
     this.dateNow.setUTCHours(0, 0, 0, 0);
-    this.filters = defineDefaultFiltersValues();
+    this.searchPaymentStore.filters$.subscribe(filters => {
+      this.filters = filters;
+    }); ///this.filters = defineDefaultFiltersValues();
     this.changeDetectionRef.detectChanges();
   }
 
@@ -61,18 +69,17 @@ export class SearchPaymentFiltersComponent implements OnInit {
   // });
 
   onClear() {
-    this.filters = {
+    this.searchPaymentStore.setFilters( {
       ...defineDefaultFiltersValues(),
       dateTimeFrom: null,
       dateTimeTo: null,
-    };
+    });
 
     this.filtersValidation = {};
   }
 
   validate(validateOnlyDates?: boolean): boolean {
-
-    if (!validateOnlyDates){
+    if (!validateOnlyDates) {
       const anyFilledValidation = anyFieldFilledValidator(this.filters);
 
       if (anyFilledValidation) {
@@ -122,10 +129,15 @@ export class SearchPaymentFiltersComponent implements OnInit {
       return;
     }
 
-    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {},
-    error => {
-      this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации о переводах/платежах");
-    });
+    this.searchPaymentStore.setFilters(this.filters)
+    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(
+      response => {
+        this.searchPaymentStore.setTableData(response ? prepareSearchPaymentsData(response, this.datePipe) : null);
+      },
+      error => {
+        this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации о переводах/платежах");
+      },
+    );
   }
 
   dateChanged() {

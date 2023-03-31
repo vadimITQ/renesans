@@ -20,6 +20,7 @@ import {
   prepareSearchFilters,
 } from './search-payment-filters.utils';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
+import { paymentStatuses } from 'src/app/shared/variables/payment-status';
 
 @Component({
   selector: 'app-search-payment-filters',
@@ -41,6 +42,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
   receivingChanelOptions = receivingChanelOptions;
   objectTypeOptions = objectTypeOptions;
   transferTypes = manualChecksTransferTypes;
+  paymentStatuses = paymentStatuses;
 
   constructor(
     private searchPaymentService: SearchPaymentService,

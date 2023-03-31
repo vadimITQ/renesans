@@ -17,9 +17,9 @@
 
   <div class="input-row">
     <pe-input label="IP Адрес" [(value)]="filters.channelIP" />
-    <pe-input label="Статус" [(value)]="filters.statusCode" [validationMessage]="filtersValidation['statusCode']" />
     <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
+
   <div class="date-row">
     <date-picker 
       [(date)]="filters.dateTimeFrom"
@@ -56,6 +56,16 @@
         [(ngModel)]="filters.channelName"
         optionLabel="label"
         defaultLabel="Выберите канал поступления заявки"
+        display="chip">
+      </p-multiSelect>
+    </div>
+    <div>
+      <label>Статус</label>
+      <p-multiSelect
+        [options]="paymentStatuses"
+        [(ngModel)]="filters.codeStatuses"
+        optionLabel="label"
+        defaultLabel="Выберите статус"
         display="chip">
       </p-multiSelect>
     </div>

@@ -11,12 +11,14 @@ export interface ISearchPaymentStore {
   filters: ISearchPaymentFilters;
   tableData: ISearchPayment[] | null;
   validations: Validation;
+  test: string;
 }
 
 const defaultState: ISearchPaymentStore = {
   filters: defineDefaultFiltersValues(),
   tableData: null,
-  validations: {}
+  validations: {},
+  test: ""
 };
 
 @Injectable()
@@ -24,6 +26,13 @@ export class SearchPaymentStore extends ComponentStore<ISearchPaymentStore> {
   constructor() {
     super(defaultState);
   }
+
+  readonly testStore$ = this.select((state) => state.test);
+  readonly testUpdate = this.updater((state, test: string) => ({...state, test: test}));
+  readonly testEffect = this.effect((test$: Observable<string>) => {
+    this.testUpdate(test$);
+    return test$.pipe(tapResponse(test => {this.testUpdate(test)}, e => {}));
+  });
 
   readonly filters$ = this.select((state) => state.filters);
   readonly tableData$ = this.select((state) => state.tableData);

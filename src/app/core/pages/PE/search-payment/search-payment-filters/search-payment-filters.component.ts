@@ -62,7 +62,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     
-    this.searchPaymentStore.store$.subscribe(console.log);
+    // this.searchPaymentStore.store$.subscribe(console.log);
     this.dateNow.setUTCHours(0, 0, 0, 0);
     this.searchPaymentStore.filters$.subscribe(filters => {
       this.filters = filters;

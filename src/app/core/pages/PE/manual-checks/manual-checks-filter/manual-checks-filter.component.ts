@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { sub } from 'date-fns';
 import { Calendar } from 'primeng/calendar';
 import { Observable } from 'rxjs';
+import { SearchPaymentStore } from 'src/app/core/store/search-payment.store';
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -18,9 +19,16 @@ import { validateDates, validateFilter, validateFilterOnEmpty } from './manual-c
   selector: 'app-manual-checks-filter',
   templateUrl: './manual-checks-filter.component.html',
   styleUrls: ['./manual-checks-filter.component.scss'],
+  providers: [SearchPaymentStore]
 })
 export class ManualChecksFilterComponent implements OnInit {
-  constructor(private mcService: ManualChecksService, private changeDetectionRef: ChangeDetectorRef, private toastService: ToastService) {}
+
+  constructor(
+    private mcService: ManualChecksService, 
+    private changeDetectionRef: ChangeDetectorRef, 
+    private toastService: ToastService, 
+    private searchPaymentStore: SearchPaymentStore
+  ) {}
 
   @ViewChild('dateFromRef') dateFromRef!: Calendar;
   @ViewChild('dateToRef') dateToRef!: Calendar;
@@ -38,6 +46,13 @@ export class ManualChecksFilterComponent implements OnInit {
   public validateDates: boolean = false;
 
   ngOnInit(): void {
+    this.searchPaymentStore.testStore$.subscribe(console.log);
+
+    setTimeout(() => {
+      // this.searchPaymentStore.testUpdate("Hello World");
+      this.searchPaymentStore.testEffect("Hello World");
+    }, 3000);
+
     this.filter = defineDefaultFiltersValues();
     this.changeDetectionRef.detectChanges();
   }

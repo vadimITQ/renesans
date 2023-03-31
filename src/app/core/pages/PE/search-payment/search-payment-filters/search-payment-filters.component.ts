@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { objectTypeOptions, receivingChanelOptions } from './search-payment-filters.constants';
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
@@ -30,7 +30,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./search-payment-filters.component.scss'],
   providers: [SearchPaymentStore],
 })
-export class SearchPaymentFiltersComponent implements OnInit {
+export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   public filters!: ISearchPaymentFilters;
 
   dateNow: Date = new Date();
@@ -55,27 +55,32 @@ export class SearchPaymentFiltersComponent implements OnInit {
     private datePipe: DatePipe,
   ) {}
 
+  ngOnDestroy(): void {
+    this.searchPaymentStore.effectFilter(this.filters);
+    this.searchPaymentStore.effectValidations(this.filtersValidation);
+  }
+
   ngOnInit(): void {
+    
+    this.searchPaymentStore.store$.subscribe(console.log);
     this.dateNow.setUTCHours(0, 0, 0, 0);
     this.searchPaymentStore.filters$.subscribe(filters => {
       this.filters = filters;
-    }); ///this.filters = defineDefaultFiltersValues();
-    this.changeDetectionRef.detectChanges();
+      this.changeDetectionRef.detectChanges();
+    });
+    this.searchPaymentStore.validations$.subscribe(validations => {
+      this.filtersValidation = validations;
+      this.changeDetectionRef.detectChanges();
+    });
   }
 
-  // form: FormGroup = this.fb.group({
-  //   dateFrom: new FormControl(this.filters.dateFrom, earlierThen('dateTo')),
-  //   dateTo: new FormControl(this.filters.dateTo, laterThen('dateFrom')),
-  // });
-
   onClear() {
-    this.searchPaymentStore.setFilters( {
+    this.searchPaymentStore.effectFilter( {
       ...defineDefaultFiltersValues(),
       dateTimeFrom: null,
       dateTimeTo: null,
     });
-
-    this.filtersValidation = {};
+    this.searchPaymentStore.effectValidations(this.filtersValidation);
   }
 
   validate(validateOnlyDates?: boolean): boolean {
@@ -83,7 +88,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
       const anyFilledValidation = anyFieldFilledValidator(this.filters);
 
       if (anyFilledValidation) {
-        this.filtersValidation = { ...anyFilledValidation };
+        this.searchPaymentStore.effectValidations({ ...anyFilledValidation });
         this.toastService.showErrorToast(
           'Заполните хотя бы одно из полей Идентификатор платежа, Идентификатор заявки, Идентификатор документа, Номер документа',
         );
@@ -98,16 +103,16 @@ export class SearchPaymentFiltersComponent implements OnInit {
         required(this.filters.dateTimeTo) || lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
         laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
       ];
-
-      this.filtersValidation = {
-        ...this.filtersValidation,
-        dateFrom: dateFromValidation,
-        dateTo: dateToValidation,
-        plannedDate: plannedDateValidation,
-      };
+      this.searchPaymentStore.effectValidations({
+          ...this.filtersValidation,
+          dateFrom: dateFromValidation,
+          dateTo: dateToValidation,
+          plannedDate: plannedDateValidation,
+        }
+      );
     }
 
-    this.filtersValidation = {
+    this.searchPaymentStore.effectValidations({
       ...this.filtersValidation,
       paymentID: containInvalidSymbols(this.filters.paymentID ?? ''),
       applicationID: containInvalidSymbols(this.filters.applicationID ?? ''),
@@ -120,7 +125,7 @@ export class SearchPaymentFiltersComponent implements OnInit {
       channelIP: containInvalidSymbols(this.filters.channelIP ?? ''),
       statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
-    };
+    });
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }
 
@@ -129,10 +134,10 @@ export class SearchPaymentFiltersComponent implements OnInit {
       return;
     }
 
-    this.searchPaymentStore.setFilters(this.filters)
+    this.searchPaymentStore.effectFilter(this.filters);
     this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(
       response => {
-        this.searchPaymentStore.setTableData(response ? prepareSearchPaymentsData(response, this.datePipe) : null);
+        this.searchPaymentStore.effectTableData(response ? prepareSearchPaymentsData(response, this.datePipe) : null);
       },
       error => {
         this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации о переводах/платежах");
@@ -146,6 +151,18 @@ export class SearchPaymentFiltersComponent implements OnInit {
       return;
     }
     this.validate(true);
+  }
+
+  dateTimeFromChanged(){
+    this.dateChanged();
+  }
+
+  dateTimeToChanged(){
+    this.dateChanged();
+  }
+
+  plannedDateChanged(){
+    this.dateChanged();
   }
 
   searchAndGenerateDoc() {

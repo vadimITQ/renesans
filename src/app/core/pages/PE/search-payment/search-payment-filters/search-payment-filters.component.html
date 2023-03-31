@@ -25,8 +25,8 @@
       [(date)]="filters.dateTimeFrom"
       [validationMessage]="filtersValidation['dateFrom']" 
       label="Дата/Время с"
-      (dateChange)="validate(true)"
-      [labelStyle]="{ 'width': '125px' }">
+      (dateChange)="dateTimeFromChanged()"
+      [labelStyle]="{ 'width': '200px' }">
     </date-picker>
   </div>
   <div class="date-row">
@@ -34,18 +34,18 @@
       [(date)]="filters.dateTimeTo" 
       [validationMessage]="filtersValidation['dateTo']" 
       label="Дата/Время по"
-      (dateChange)="validate(true)"
-      [labelStyle]="{ 'width': '125px' }">
+      (dateChange)="dateTimeToChanged()"
+      [labelStyle]="{ 'width': '200px' }">
     </date-picker>
   </div>
   <div class="date-row">
     <date-picker 
       [(date)]="filters.plannedDate" 
       [validationMessage]="filtersValidation['plannedDate']"
-      label="Плановая дата" 
-      (dateChange)="validate(true)"
+      label="Дата исполнения платежа" 
+      (dateChange)="plannedDateChanged()"
       [showTime]="false"
-      [labelStyle]="{ 'width': '125px' }">
+      [labelStyle]="{ 'width': '200px' }">
     </date-picker>
   </div>
   <div class="multiselect-row">
@@ -55,7 +55,6 @@
         [options]="receivingChanelOptions"
         [(ngModel)]="filters.channelName"
         optionLabel="label"
-        (dateChange)="validate(true)"
         defaultLabel="Выберите канал поступления заявки"
         display="chip">
       </p-multiSelect>

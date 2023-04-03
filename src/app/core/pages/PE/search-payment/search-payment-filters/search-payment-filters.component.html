@@ -2,8 +2,8 @@
   <h5>Поиск платежа</h5>
 
   <div class="input-row">
-    <pe-input label="ID РЕ" [(value)]="filters.paymentID" [validationMessage]="filtersValidation['paymentID']" />
-    <pe-input label="ID Заявки" [(value)]="filters.applicationID" [validationMessage]="filtersValidation['applicationID']" />
+    <pe-input label="ID РЕ" [(value)]="filters.paymentID" [validationMessage]="filtersValidation['paymentID']" [maxLength]="36"/>
+    <pe-input label="ID Заявки" [(value)]="filters.applicationID" [validationMessage]="filtersValidation['applicationID']" [maxLength]="70" />
     <pe-input label="ID РН" [(value)]="filters.idPH" [validationMessage]="filtersValidation['idPH']" />
     <pe-input label="ID АБС" [(value)]="filters.docID" [validationMessage]="filtersValidation['docID']" />
   </div>
@@ -21,28 +21,28 @@
   </div>
 
   <div class="date-row">
-    <date-picker 
+    <date-picker
       [(date)]="filters.dateTimeFrom"
-      [validationMessage]="filtersValidation['dateFrom']" 
+      [validationMessage]="filtersValidation['dateFrom']"
       label="Дата/Время с"
       (dateChange)="validate(true)"
       [labelStyle]="{ 'width': '200px' }">
     </date-picker>
   </div>
   <div class="date-row">
-    <date-picker 
-      [(date)]="filters.dateTimeTo" 
-      [validationMessage]="filtersValidation['dateTo']" 
+    <date-picker
+      [(date)]="filters.dateTimeTo"
+      [validationMessage]="filtersValidation['dateTo']"
       label="Дата/Время по"
       (dateChange)="validate(true)"
       [labelStyle]="{ 'width': '200px' }">
     </date-picker>
   </div>
   <div class="date-row">
-    <date-picker 
-      [(date)]="filters.plannedDate" 
+    <date-picker
+      [(date)]="filters.plannedDate"
       [validationMessage]="filtersValidation['plannedDate']"
-      label="Дата исполнения платежа" 
+      label="Дата исполнения платежа"
       (dateChange)="validate(true)"
       [showTime]="false"
       [labelStyle]="{ 'width': '200px' }">

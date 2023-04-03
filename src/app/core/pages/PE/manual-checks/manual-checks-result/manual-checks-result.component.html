@@ -6,8 +6,10 @@
 
     <p-table
         #manualChecksTable
+        dataKey="paymentID"
+        [metaKeySelection]="true"
         [value]="paymentResponse"
-        [(selection)]="selection"
+        [(selection)]="selectedItems"
         [globalFilterFields]="paymentResponseProps"
         [paginator]="true"
         [reorderableColumns]="true"

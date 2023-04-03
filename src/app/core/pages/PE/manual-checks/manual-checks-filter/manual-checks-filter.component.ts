@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { sub } from 'date-fns';
 import { Calendar } from 'primeng/calendar';
 import { Observable } from 'rxjs';
@@ -19,8 +19,13 @@ import { validateDates, validateFilter, validateFilterOnEmpty } from './manual-c
   templateUrl: './manual-checks-filter.component.html',
   styleUrls: ['./manual-checks-filter.component.scss'],
 })
-export class ManualChecksFilterComponent implements OnInit {
-  constructor(private mcService: ManualChecksService, private changeDetectionRef: ChangeDetectorRef, private toastService: ToastService) {}
+export class ManualChecksFilterComponent implements OnInit, OnDestroy {
+  
+  constructor(
+    private mcService: ManualChecksService, 
+    private changeDetectionRef: ChangeDetectorRef, 
+    private toastService: ToastService
+  ) {}
 
   @ViewChild('dateFromRef') dateFromRef!: Calendar;
   @ViewChild('dateToRef') dateToRef!: Calendar;
@@ -37,8 +42,17 @@ export class ManualChecksFilterComponent implements OnInit {
   public filter!: ISearchPaymentFilters;
   public validateDates: boolean = false;
 
+  ngOnDestroy(): void {
+    this.mcService.componentState.$filters.next(this.filter);
+  }
+
   ngOnInit(): void {
-    this.filter = defineDefaultFiltersValues();
+    if (this.mcService.componentState.$filters.value){
+      this.filter = this.mcService.componentState.$filters.value;
+    }
+    else {
+      this.filter = defineDefaultFiltersValues();
+    }
     this.changeDetectionRef.detectChanges();
   }
 

@@ -77,7 +77,7 @@ export class DatePickerComponent implements OnInit {
   set timeValue(newValue) {
     this._timeValue = newValue;
 
-    if (!this._dateValue) {
+    if (!this._dateValue || !newValue) {
       this._dateValue = newValue;
     }
 

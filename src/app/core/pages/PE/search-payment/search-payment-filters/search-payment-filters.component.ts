@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { objectTypeOptions, receivingChanelOptions } from './search-payment-filters.constants';
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
@@ -27,7 +27,7 @@ import { paymentStatuses } from 'src/app/shared/variables/payment-status';
   templateUrl: './search-payment-filters.component.html',
   styleUrls: ['./search-payment-filters.component.scss'],
 })
-export class SearchPaymentFiltersComponent implements OnInit {
+export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   public filters!: ISearchPaymentFilters;
 
   dateNow: Date = new Date();
@@ -51,9 +51,18 @@ export class SearchPaymentFiltersComponent implements OnInit {
     private changeDetectionRef: ChangeDetectorRef,
   ) {}
 
+  ngOnDestroy(): void {
+    this.searchPaymentService.$filters.next(this.filters);
+  }
+
   ngOnInit(): void {
     this.dateNow.setUTCHours(0, 0, 0, 0);
-    this.filters = defineDefaultFiltersValues();
+    if (this.searchPaymentService.$filters.value){
+      this.filters = this.searchPaymentService.$filters.value;
+    }
+    else {
+      this.filters = defineDefaultFiltersValues();
+    }
     this.changeDetectionRef.detectChanges();
   }
 

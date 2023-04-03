@@ -7,6 +7,13 @@ import { ICancelPaymentPayload, IResumePaymentPayload } from '../payment-order-w
 import { prepareSearchFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
 import { ISearchPaymentsResponse } from '../search-payment/types';
 import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
+import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
+
+interface ManualChecksComponentState {
+  $filters: BehaviorSubject<ISearchPaymentFilters | null>,
+  $selectedItems: BehaviorSubject<GetPaymentsResponse[] | null>,
+  commentary: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +26,11 @@ export class ManualChecksService {
   ) { }
 
   public $paymentResponseState: BehaviorSubject<ISearchPaymentsResponse[] | null | undefined> = new BehaviorSubject<ISearchPaymentsResponse[] | null | undefined>(undefined);
+  public componentState: ManualChecksComponentState = {
+    $filters: new BehaviorSubject<ISearchPaymentFilters | null>(null),
+    $selectedItems: new BehaviorSubject<GetPaymentsResponse[] | null>(null),
+    commentary: ""
+  };
 
   public getPayments(filter: ISearchPaymentFilters): Observable<any> {
     this.$paymentResponseState.next(null);

@@ -3,6 +3,7 @@ import { BehaviorSubject, catchError, tap } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { ISearchPaymentsPayload, ISearchPaymentsResponse } from './types';
+import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class SearchPaymentService {
     null,
   );
   public $loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+  public $filters: BehaviorSubject<ISearchPaymentFilters | null> = new BehaviorSubject<ISearchPaymentFilters | null>(null);
+  
   public getSearchPayments(payload: ISearchPaymentsPayload) {
     this.$paymentResponseState.next(null);
     this.$loading.next(true)

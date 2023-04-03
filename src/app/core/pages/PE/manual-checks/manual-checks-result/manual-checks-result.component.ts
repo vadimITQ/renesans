@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ManualChecksService } from 'src/app/core/services/manual-checks/manual-checks.service';
 import { PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
@@ -6,7 +6,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-input-validations';
 import { PaymentOrderWService } from '../../../../services/payment-order-w/payment-order-w.service';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin, skip, Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
@@ -31,7 +31,8 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     private loadingService: LoadingService,
     private toasterService: ToastService,
     private peNavigationService: PeNavigationService,
-    private authService: AuthService
+    private authService: AuthService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
@@ -44,6 +45,15 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   public commentary: string = '';
   private paymentResponseStateSubscribtion!: Subscription;
   public rowStatusesColors = rowStatusesColors;
+
+  get selectedItems(): GetPaymentsResponse[] {
+    return this.mcService.componentState.$selectedItems.value ?? [];
+  }
+
+  set selectedItems(selectedItems: GetPaymentsResponse[]) {
+    this.selection = selectedItems;
+    this.mcService.componentState.$selectedItems.next(selectedItems);
+  }
 
   public cols = [
     {field: 'paymentApplication.applicationID', header: 'ID PE'},
@@ -62,20 +72,32 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   @ViewChild('manualChecksTable') manualChecksTable!: Table;
 
   ngOnInit(): void {
-    this.paymentResponseStateSubscribtion = this.mcService.$paymentResponseState.subscribe(paymentData => {
-      this.selection = [];
+
+    this.initComponentState();
+    this.paymentResponseStateSubscribtion = this.mcService.$paymentResponseState.pipe(skip(1)).subscribe(paymentData => {
+      this.selectedItems = [];
+      this.commentary = "";
       this.paymentResponse = paymentData;
     });
+    this.changeDetector.detectChanges();
+  }
+
+  initComponentState() {
+    this.selection = this.mcService.componentState.$selectedItems.value ?? [];
+    this.commentary = this.mcService.componentState.commentary ?? "";
+    this.paymentResponse = this.mcService.$paymentResponseState.value;
   }
 
   ngOnDestroy(): void {
+    this.mcService.componentState.$selectedItems.next(this.selection);
+    this.mcService.componentState.commentary = this.commentary;
     if (this.paymentResponseStateSubscribtion){
       this.paymentResponseStateSubscribtion.unsubscribe();
     }
   }
 
   onRowSelected(e: any) {
-
+    
   }
 
   onHeaderCheckboxToggle(e: any) {

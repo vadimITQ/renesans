@@ -60,6 +60,10 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.paymentResponse = this.searchPaymentService.$paymentResponseState.value ?? [];
+    if (this.paymentResponse.length > 0){
+      this.tableData = prepareSearchPaymentsData(this.paymentResponse, this.datePipe);
+    }
     this.paymentResponseStateSubscription = this.searchPaymentService.$paymentResponseState.subscribe(paymentResponse => {
       this.paymentResponse = paymentResponse;
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse, this.datePipe) : null;

@@ -1,8 +1,9 @@
 export type StatusHistory = {
-  appCreationTime: string | null;
+  codeStatus: string | null;
+  description: string;
   errorType: string;
-  status: string;
-  statusCode: string;
+  statusChangeTime: string;
+  statusComment: string | null;
 };
 
 export interface ITransferDetails {

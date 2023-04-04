@@ -4,19 +4,19 @@ import {ITransferDetails} from "../../../services/view-transfer-details/types";
 export const tableColumns: IColumn[] = [
   {
     header: 'Время',
-    field: 'appCreationTime',
+    field: 'statusChangeTime',
   },
   {
     header: 'Код статуса',
-    field: 'statusCode',
+    field: 'codeStatus',
   },
   {
     header: 'Статус РЕ',
-    field: 'status',
+    field: 'statusComment',
   },
   {
     header: 'Детали',
-    field: '',
+    field: 'description',
   },
   {
     header: 'Тип ошибки',

@@ -6,6 +6,7 @@ import { LoadingService } from '../../../../shared/services/loading.service';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 import {ITransferDetails} from "../../../services/view-transfer-details/types";
+import {prepareTransferDetails} from "./view-transfer-details.utils";
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -39,7 +40,7 @@ export class ViewTransferDetailsComponent implements OnInit {
       if (!value) {
         return;
       }
-      this.transferDetails = value;
+      this.transferDetails = prepareTransferDetails(value);
     });
   }
 

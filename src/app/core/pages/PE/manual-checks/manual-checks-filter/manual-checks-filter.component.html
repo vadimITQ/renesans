@@ -3,8 +3,8 @@
     <h5>Ручной разбор ошибочных переводов/платежей</h5>
 
     <div class="ms-filter__forms">
-        <pe-input label="ID PE"        [(value)]="filter.paymentID"     [validationMessage]="validations['paymentID']" />
-        <pe-input label="ID Заявки"    [(value)]="filter.applicationID" [validationMessage]="validations['applicationID']" />
+        <pe-input label="ID PE"        [(value)]="filter.paymentID"     [validationMessage]="validations['paymentID']" [maxLength]="36"/>
+        <pe-input label="ID Заявки"    [(value)]="filter.applicationID" [validationMessage]="validations['applicationID']" [maxLength]="70"/>
         <pe-input label="ID PH"        [(value)]="filter.idPH"          [validationMessage]="validations['paymentHubPaymentId']" />
         <pe-input label="Номер счета"  [(value)]="filter.account"       [validationMessage]="validations['account']" />
     </div>

@@ -11,12 +11,12 @@
   <div class="input-row">
     <pe-input label="ID Чека" [(value)]="filters.linkedChequeId" [validationMessage]="filtersValidation['linkedChequeId']" />
     <pe-input label="Номер документа" [(value)]="filters.docNum" [validationMessage]="filtersValidation['docNum']" />
-    <pe-input label="Номер счета" [(value)]="filters.account" [validationMessage]="filtersValidation['account']" />
+    <pe-input label="Номер счета" [(value)]="filters.account" [validationMessage]="filtersValidation['account']" [maxLength]="35"/>
     <pe-input label="Номер чека" [(value)]="filters.chequeNumber" [validationMessage]="filtersValidation['chequeNumber']" />
   </div>
 
   <div class="input-row">
-    <pe-input label="IP Адрес" [(value)]="filters.channelIP" [regExprValidation]="ipRegExp" />
+    <pe-input label="IP Адрес" [(value)]="filters.channelIP" [regExprValidation]="ipRegExp" [maxLength]="35"/>
     <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
 

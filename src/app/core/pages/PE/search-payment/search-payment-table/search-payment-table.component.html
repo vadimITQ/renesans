@@ -14,7 +14,6 @@
         styleClass="p-datatable-striped">
         <ng-template pTemplate="header">
           <tr class="tps-by-status__row-gray">
-            <!-- <th style="width: 4rem"></th> -->
             <th>
               ID PE
             </th>
@@ -25,12 +24,10 @@
         </ng-template>
         <ng-template pTemplate="body" let-searchPaymentItem>
           <tr style="height:50px">
-            <!-- 
             <td>
-              <p-tableRadioButton [value]="searchPaymentItem"></p-tableRadioButton>
-            </td> 
-            -->
-            <td><a class="link" (click)="paymentIdClick(searchPaymentItem.paymentId)">{{ searchPaymentItem.paymentId }}</a></td>
+              <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentId)">{{ searchPaymentItem.paymentId }}</a>
+              <ng-template #elseBlock>{{searchPaymentItem.paymentId}}</ng-template>
+            </td>
             <td *ngFor="let column of tableColumns">
               {{searchPaymentItem[column.field]}}
             </td>

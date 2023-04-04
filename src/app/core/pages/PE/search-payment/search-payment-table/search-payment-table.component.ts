@@ -10,6 +10,7 @@ import { ToastService } from "../../../../../shared/services/toast.service";
 import { DatePipe } from '@angular/common';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
+import {PeRolesService} from "../../../../services/auth/pe-roles.service";
 
 @Component({
   selector: 'app-search-payment-table',
@@ -20,7 +21,9 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   constructor(private searchPaymentService: SearchPaymentService,
               private toastService: ToastService,
               private datePipe: DatePipe,
-              private peNavigationService: PeNavigationService
+              private peNavigationService: PeNavigationService,
+              private peRolesService: PeRolesService
+
   ) {}
 
   ngOnDestroy(): void {
@@ -36,7 +39,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   private paymentResponseStateSubscription!: Subscription;
 
   onRowSelected(e: any) {
-    
+
   }
 
   generateReport() {
@@ -57,6 +60,10 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
     }
 
     XlsxHelper.exportArrayToExcel(this.tableData.filter(({type})=> type === PaymentTypes.EXT_SBP || type === PaymentTypes.INC_SBP), Object.getOwnPropertyNames(this.tableData[0]), 'Выгрузка_в_excel_test');
+  }
+
+  get hasAccessToViewTransferDetails() {
+    return this.peRolesService.hasAccessToViewTransferDetails();
   }
 
   ngOnInit(): void {

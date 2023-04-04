@@ -29,7 +29,7 @@ export function validateFilter(filter: ISearchPaymentFilters): { success: boolea
         case(DatesValidationReasons.InvalidDatesDifference): {
             return {
                 success: false,
-                validationMessage: "Диапозон дат не должен превышать 40 дней"
+                validationMessage: "Диапазон дат не должен превышать 40 дней"
             };
         }
       }
@@ -61,7 +61,7 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
         break;
       }
       case(DatesValidationReasons.InvalidDatesDifference): {
-        validations["dateToValidation"] = "Диапозон дат не должен превышать 40 дней";
+        validations["dateToValidation"] = "Диапазон дат не должен превышать 40 дней";
         break;
       }
       case(DatesValidationReasons.DatesValid): {

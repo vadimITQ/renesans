@@ -10,11 +10,11 @@ export interface ISearchPayment {
   fee: number;
   ownFeeAmount: number;
   creditFeeAmount: number;
-  bonusAmount: number;
-  bonusRub: number;
-  loyaltyRate: number;
+  bonusAmount: number | string;
+  bonusRub: number| string;
+  loyaltyRate: number| string;
   bonusTypeName: string;
-  bonusMaxPercent: number;
+  bonusMaxPercent: string;
   paymentId: string;
   idPH: string;
   linkedChequeId: string;

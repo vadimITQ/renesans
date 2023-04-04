@@ -16,7 +16,7 @@
   </div>
 
   <div class="input-row">
-    <pe-input label="IP Адрес" [(value)]="filters.channelIP" />
+    <pe-input label="IP Адрес" [(value)]="filters.channelIP" [regExprValidation]="ipRegExp" />
     <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
 

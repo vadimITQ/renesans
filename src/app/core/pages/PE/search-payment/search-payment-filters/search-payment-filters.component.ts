@@ -43,6 +43,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   objectTypeOptions = objectTypeOptions;
   transferTypes = manualChecksTransferTypes;
   paymentStatuses = paymentStatuses;
+  ipRegExp = /^([\d.]+)$/i;
 
   constructor(
     private searchPaymentService: SearchPaymentService,
@@ -121,7 +122,6 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       docNum: containInvalidSymbols(this.filters.docNum ?? ''),
       account: containInvalidSymbols(this.filters.account ?? ''),
       chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
-      channelIP: containInvalidSymbols(this.filters.channelIP ?? ''),
       statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
     };

@@ -39,7 +39,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   public readonly COMMENTARY_LENGTH = commentaryLength;
   public paymentResponse: ISearchPaymentsResponse[] | null | undefined = undefined;
   public types = this.prepareTypes(Object.entries(PaymentTypes));
-  public statues = paymentStatusObj;;
+  public statues = paymentStatusObj;
   public selectedAll: boolean = false;
   public selection: GetPaymentsResponse[] = [];
   public commentary: string = '';
@@ -97,11 +97,11 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   onRowSelected(e: any) {
-    
+
   }
 
   onHeaderCheckboxToggle(e: any) {
-    
+
   }
 
   back() {
@@ -142,7 +142,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       },
     });
   }
-  
+
   resumePayments() {
     this.dialogService.showConfirmDialog({
       message: 'Вы действительно хотите возобновить обработку по платежу/переводу?',
@@ -151,7 +151,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
         label: 'Да',
         handler: () => {
           const paymentIds: string[] = this.selection.map(selection => selection.paymentID  ?? "");
-          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment(ObjectHelper.deleteUndefinedProperties({ 
+          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment(ObjectHelper.deleteUndefinedProperties({
             paymentID: selection.paymentID ?? "",
             channelUser: this.authService.user?.connectionName ?? "Unknown_User",
             ResumeComment: this.commentary ?? "",

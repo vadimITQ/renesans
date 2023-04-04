@@ -1,5 +1,5 @@
 export type StatusHistory = {
-  appCreationTime: number;
+  appCreationTime: string | null;
   errorType: string;
   status: string;
   statusCode: string;
@@ -7,7 +7,7 @@ export type StatusHistory = {
 
 export interface ITransferDetails {
   amount: number;
-  appCreationTime: number;
+  appCreationTime: string | null;
   idPH: string;
   operatorLegalName: string;
   payeeAccount: string;

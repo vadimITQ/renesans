@@ -3,10 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { tableColumns, transferDetailDefaultValue } from './view-transfer-details.constants';
 import { ViewTransferDetailsService } from '../../../services/view-transfer-details/view-transfer-details.service';
 import { LoadingService } from '../../../../shared/services/loading.service';
-import { defineTransferDetailsData } from './view-transfer-details.utils';
-import { IViewTransferDetails } from './view-transfer-details.types';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
+import {ITransferDetails} from "../../../services/view-transfer-details/types";
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -14,7 +13,7 @@ import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
   styleUrls: ['./view-transfer-details.component.scss'],
 })
 export class ViewTransferDetailsComponent implements OnInit {
-  transferDetails: IViewTransferDetails = transferDetailDefaultValue;
+  transferDetails: ITransferDetails = transferDetailDefaultValue;
   tableColumns = tableColumns;
 
   constructor(
@@ -40,7 +39,7 @@ export class ViewTransferDetailsComponent implements OnInit {
       if (!value) {
         return;
       }
-      this.transferDetails = defineTransferDetailsData(value);
+      this.transferDetails = value;
     });
   }
 

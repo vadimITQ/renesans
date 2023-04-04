@@ -1,5 +1,5 @@
 import { IColumn } from '../search-payment/search-payment-table/search-payment-table.constants';
-import { IViewTransferDetails } from './view-transfer-details.types';
+import {ITransferDetails} from "../../../services/view-transfer-details/types";
 
 export const tableColumns: IColumn[] = [
   {
@@ -24,7 +24,7 @@ export const tableColumns: IColumn[] = [
   },
 ];
 
-export const transferDetailDefaultValue: IViewTransferDetails = {
+export const transferDetailDefaultValue: ITransferDetails = {
   amount: 0,
   appCreationTime: null,
   idPH: '',

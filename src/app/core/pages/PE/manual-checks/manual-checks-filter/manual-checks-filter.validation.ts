@@ -29,7 +29,7 @@ export function validateFilter(filter: ISearchPaymentFilters): { success: boolea
         case(DatesValidationReasons.InvalidDatesDifference): {
             return {
                 success: false,
-                validationMessage: "Диапазон дат не должен превышать 40 дней"
+                validationMessage: "Диапозон дат не должен превышать 40 дней"
             };
         }
       }
@@ -46,7 +46,7 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
         dateToValidation: null
     };
     if (!DatePickerHelper.dateValid(dateFrom)){
-      validations["dateFromValidation"] = "Недействительная дата";   
+      validations["dateFromValidation"] = "Недействительная дата";
     }
     if (!DatePickerHelper.dateValid(dateTo)){
       validations["dateToValidation"] = "Недействительная дата";
@@ -57,11 +57,11 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
     ];
     switch(DateHelper.validateDates(_dateFrom, _dateTo, 40)) {
       case(DatesValidationReasons.DateFromMoreThanDateTo): {
-        validations["dateFromValidation"] = "«Дата/Время с» превышает «Дата/Время по»"; 
+        validations["dateFromValidation"] = "«Дата/Время с» превышает «Дата/Время по»";
         break;
       }
       case(DatesValidationReasons.InvalidDatesDifference): {
-        validations["dateToValidation"] = "Диапазон дат не должен превышать 40 дней";
+        validations["dateToValidation"] = "Диапозон дат не должен превышать 40 дней";
         break;
       }
       case(DatesValidationReasons.DatesValid): {

@@ -14,7 +14,7 @@ export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], dateP
     return {
       appCreationTime: appCreationTime,
       plannedDate: plannedDate,
-      statusCode: searchPayment.paymentApplication?.statusCode,
+      statusCode: searchPayment.statusCode,
       type: paymentStatusObj[searchPayment.statusCode],
       paymentSubType: searchPayment.paymentApplication?.paymentSubType,
       budgetPaymentSubtype: '', //searchPayment.paymentApplication?.budget?.budgetPaymentSubtype,

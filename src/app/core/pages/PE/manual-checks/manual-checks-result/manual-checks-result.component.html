@@ -79,8 +79,8 @@
                     <td>{{ paymentItem.plannedDate | date: "dd-MM-yyyy" }}</td>
                     <td>{{ paymentItem.paymentApplication?.amount }}</td>
                     <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
-                    <td>{{ statues[paymentItem.paymentApplication?.statusCodePE] }}</td>
-                    <td>{{ paymentItem.paymentApplication?.statusCodePE }}</td>
+                    <td>{{ statues[paymentItem.statusCode] }}</td>
+                    <td>{{ paymentItem.statusCode }}</td>
                     <td>{{ paymentItem.ipt?.idPH }}</td>
                     <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
                     <td>{{ paymentItem.pmtCreationTime | date: "yyyy-MM-dd HH:mm:ss" }}</td>
@@ -89,10 +89,10 @@
             </ng-template>
         </p-table>
         <div class="ms-result__commentary">
-            <pe-input 
-                [label]="'Комментарий к операции'" 
-                [(value)]="commentary" 
-                [maxLength]="COMMENTARY_LENGTH" 
+            <pe-input
+                [label]="'Комментарий к операции'"
+                [(value)]="commentary"
+                [maxLength]="COMMENTARY_LENGTH"
                 [regExprValidation]="COMMENTARY_EXPR">
             </pe-input>
         </div>

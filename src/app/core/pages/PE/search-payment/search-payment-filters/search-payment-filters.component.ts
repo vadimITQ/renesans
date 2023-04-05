@@ -128,6 +128,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
       plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
     };
+
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }
 

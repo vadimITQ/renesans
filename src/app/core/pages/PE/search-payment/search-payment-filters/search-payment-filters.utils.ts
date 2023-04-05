@@ -90,13 +90,31 @@ export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validat
 }
 
 export function generalFieldsFilled(filters: ISearchPaymentFilters): boolean {
-  const { paymentID, applicationID, docID, docNum, plannedDate, channelName, codeStatuses, parentType, type } = filters;
+  const {
+    paymentID,
+    applicationID,
+    idPH,
+    docID,
+    linkedChequeId,
+    docNum,
+    account,
+    chequeNumber,
+    plannedDate,
+    channelName,
+    codeStatuses,
+    parentType,
+    type,
+  } = filters;
 
   return [
     paymentID,
     applicationID,
+    idPH,
     docID,
+    linkedChequeId,
     docNum,
+    account,
+    chequeNumber,
     plannedDate,
     channelName.length,
     codeStatuses.length,

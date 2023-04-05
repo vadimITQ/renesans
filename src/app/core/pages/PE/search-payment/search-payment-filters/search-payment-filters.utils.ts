@@ -26,12 +26,28 @@ export function defineDefaultFiltersValues(): ISearchPaymentFilters {
     channelName: [],
     parentType: [],
     type: [],
-    codeStatuses: []
+    codeStatuses: [],
   };
 }
 
 export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validation | null {
-  const { paymentID, applicationID, idPH, docID, linkedChequeId, docNum, account, chequeNumber, dateTimeFrom, dateTimeTo } = filters;
+  const {
+    paymentID,
+    applicationID,
+    idPH,
+    docID,
+    linkedChequeId,
+    docNum,
+    account,
+    chequeNumber,
+    dateTimeFrom,
+    dateTimeTo,
+    plannedDate,
+    channelName,
+    codeStatuses,
+    parentType,
+    type,
+  } = filters;
   const isAnyFieldFilled = [
     paymentID,
     applicationID,
@@ -43,6 +59,11 @@ export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validat
     chequeNumber,
     dateTimeFrom,
     dateTimeTo,
+    plannedDate,
+    channelName.length,
+    codeStatuses.length,
+    parentType.length,
+    type.length,
   ].some(value => !!value);
 
   if (!isAnyFieldFilled) {
@@ -57,16 +78,31 @@ export function anyFieldFilledValidator(filters: ISearchPaymentFilters): Validat
       chequeNumber: ' ',
       dateFrom: ' ',
       dateTo: ' ',
+      plannedDate: ' ',
+      channelName: ' ',
+      codeStatuses: ' ',
+      parentType: ' ',
+      type: ' ',
     };
   }
 
   return null;
 }
 
-export function generalFieldsFilled(filters:ISearchPaymentFilters): boolean {
-  const {paymentID,applicationID,docID,docNum } = filters
+export function generalFieldsFilled(filters: ISearchPaymentFilters): boolean {
+  const { paymentID, applicationID, docID, docNum, plannedDate, channelName, codeStatuses, parentType, type } = filters;
 
-  return [paymentID,applicationID,docID,docNum].some(Boolean)
+  return [
+    paymentID,
+    applicationID,
+    docID,
+    docNum,
+    plannedDate,
+    channelName.length,
+    codeStatuses.length,
+    parentType.length,
+    type.length,
+  ].some(Boolean);
 }
 
 export function prepareSearchFilters({
@@ -87,22 +123,22 @@ export function prepareSearchFilters({
   channelName,
   parentType,
   type,
-  codeStatuses
+  codeStatuses,
 }: ISearchPaymentFilters): ISearchPaymentsPayload {
   return {
-    dateTimeFrom: !!dateTimeFrom ? dateTimeFrom: null,
-    dateTimeTo: !!dateTimeTo ? dateTimeTo: null,
-    paymentID: !!paymentID ? paymentID: null,
-    applicationID: !!applicationID ? applicationID: null,
-    idPH: !!idPH ? idPH: null,
-    docID: !!docID ? docID: null,
-    docNum: !!docNum ? docNum: null,
-    userAgent: !!userAgent ? userAgent: null,
-    account: !!account ? account: null,
-    channelIP: !!channelIP ? channelIP: null,
-    chequeNumber: !!chequeNumber ? chequeNumber: null,
-    linkedChequeId: !!linkedChequeId ? linkedChequeId: null,
-    plannedDate: !!plannedDate ? plannedDate: null,
+    dateTimeFrom: !!dateTimeFrom ? dateTimeFrom : null,
+    dateTimeTo: !!dateTimeTo ? dateTimeTo : null,
+    paymentID: !!paymentID ? paymentID : null,
+    applicationID: !!applicationID ? applicationID : null,
+    idPH: !!idPH ? idPH : null,
+    docID: !!docID ? docID : null,
+    docNum: !!docNum ? docNum : null,
+    userAgent: !!userAgent ? userAgent : null,
+    account: !!account ? account : null,
+    channelIP: !!channelIP ? channelIP : null,
+    chequeNumber: !!chequeNumber ? chequeNumber : null,
+    linkedChequeId: !!linkedChequeId ? linkedChequeId : null,
+    plannedDate: !!plannedDate ? plannedDate : null,
     statusCode: codeStatuses?.length > 0 ? codeStatuses.map(v => v.value) : null,
     channelName: channelName?.length > 0 ? channelName.map(v => v.value) : null,
     parentType: parentType?.length > 0 ? parentType.map(v => v.value) : null,

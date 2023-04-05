@@ -58,10 +58,9 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dateNow.setUTCHours(0, 0, 0, 0);
-    if (this.searchPaymentService.$filters.value){
+    if (this.searchPaymentService.$filters.value) {
       this.filters = this.searchPaymentService.$filters.value;
-    }
-    else {
+    } else {
       this.filters = defineDefaultFiltersValues();
     }
     this.changeDetectionRef.detectChanges();
@@ -83,8 +82,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   validate(validateOnlyDates?: boolean): boolean {
-
-    if (!validateOnlyDates){
+    if (!validateOnlyDates) {
       const anyFilledValidation = anyFieldFilledValidator(this.filters);
 
       if (anyFilledValidation) {
@@ -97,18 +95,22 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     }
 
     if (!generalFieldsFilled(this.filters)) {
-      const [dateFromValidation, dateToValidation, plannedDateValidation] = [
+      const [dateFromValidation, dateToValidation] = [
         required(this.filters.dateTimeFrom) ||
           earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»'),
         required(this.filters.dateTimeTo) || lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
-        laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
       ];
 
       this.filtersValidation = {
         ...this.filtersValidation,
         dateFrom: dateFromValidation,
         dateTo: dateToValidation,
-        plannedDate: plannedDateValidation,
+      };
+    } else {
+      this.filtersValidation = {
+        ...this.filtersValidation,
+        dateFrom: null,
+        dateTo: null,
       };
     }
 
@@ -124,6 +126,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
       statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
+      plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
     };
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }
@@ -133,10 +136,12 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {},
-    error => {
-      this.toastService.showErrorToast("Внутренняя ошибка сервиса. Возникла ошибка при получении информации о переводах/платежах");
-    });
+    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(
+      response => {},
+      error => {
+        this.toastService.showErrorToast('Внутренняя ошибка сервиса. Возникла ошибка при получении информации о переводах/платежах');
+      },
+    );
   }
 
   dateChanged() {

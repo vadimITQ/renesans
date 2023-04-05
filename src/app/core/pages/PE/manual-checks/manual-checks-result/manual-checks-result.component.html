@@ -1,37 +1,36 @@
-
 <div class="ms-result">
-    <h5 class="mb-3">Результат поиска</h5>
+  <h5 class="mb-3">Результат поиска</h5>
 
-    <div *ngIf="paymentResponse">
-
+  <div *ngIf="paymentResponse">
     <p-table
-        #manualChecksTable
-        dataKey="paymentID"
-        [metaKeySelection]="true"
-        [value]="paymentResponse"
-        [(selection)]="selectedItems"
-        [globalFilterFields]="paymentResponseProps"
-        [paginator]="true"
-        [reorderableColumns]="true"
-        [resizableColumns]="true"
-        [autoLayout]="true"
-        [rows]="5"
-        [columns]="cols"
-        (selectionChange)="onSelectionChange($event)"
-        (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
-        (onRowSelect)="onRowSelected($event)"
-        sortMode="multiple"
-        styleClass="p-datatable-striped">
-        <ng-template pTemplate="header" let-columns>
-            <tr class="ms-result__row-gray">
-                <th pReorderableColumn="" style="width: 4rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
-                <th style="min-width: 200px" *ngFor="let col of columns" pReorderableColumn>
-                    {{col.header}}
-                </th>
-            </tr>
-            <!-- <tr>
+      #manualChecksTable
+      dataKey="paymentID"
+      [metaKeySelection]="true"
+      [value]="paymentResponse"
+      [(selection)]="selectedItems"
+      [globalFilterFields]="paymentResponseProps"
+      [paginator]="true"
+      [reorderableColumns]="true"
+      [resizableColumns]="true"
+      [autoLayout]="true"
+      [rows]="5"
+      [columns]="cols"
+      (selectionChange)="onSelectionChange($event)"
+      (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
+      (onRowSelect)="onRowSelected($event)"
+      sortMode="multiple"
+      styleClass="p-datatable-striped"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr class="ms-result__row-gray">
+          <th pReorderableColumn="" style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th style="min-width: 200px" *ngFor="let col of columns" pReorderableColumn>
+            {{ col.header }}
+          </th>
+        </tr>
+        <!-- <tr>
                 <th>
                 </th>
                 <th>
@@ -68,42 +67,43 @@
                     <p-columnFilter type="text" field="errorType" ></p-columnFilter>
                 </th>
             </tr> -->
-            </ng-template>
-            <ng-template pTemplate="body" let-paymentItem>
-                <tr [ngStyle]="{ 'color': rowStatusesColors[paymentItem.rowStatus] }">
-                    <td>
-                        <p-tableCheckbox [value]="paymentItem" [disabled]="tableCheckboxDisabled(paymentItem)"></p-tableCheckbox>
-                    </td>
-                    <td><a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a></td>
-                    <td>{{ paymentItem.paymentApplication?.applicationID }}</td>
-                    <td>{{ paymentItem.plannedDate | date: "dd-MM-yyyy" }}</td>
-                    <td>{{ paymentItem.paymentApplication?.amount }}</td>
-                    <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
-                    <td>{{ statues[paymentItem.statusCode] }}</td>
-                    <td>{{ paymentItem.statusCode }}</td>
-                    <td>{{ paymentItem.ipt?.idPH }}</td>
-                    <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
-                    <td>{{ paymentItem.pmtCreationTime | date: "yyyy-MM-dd HH:mm:ss" }}</td>
-                    <td>{{ paymentItem.errorType }}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-        <div class="ms-result__commentary">
-            <pe-input
-                [label]="'Комментарий к операции'"
-                [(value)]="commentary"
-                [maxLength]="COMMENTARY_LENGTH"
-                [regExprValidation]="COMMENTARY_EXPR">
-            </pe-input>
-        </div>
-        <div class="ms-result__buttons">
-            <button pButton class="pe-button"      [disabled]="false"       [label]="'Назад'"                 (click)="back()"></button>
-            <button pButton class="pe-button ml-2" [disabled]="!commentary" [label]="'Отклонить'"             (click)="cancelPayments()"></button>
-            <button pButton class="pe-button ml-2" [disabled]="!commentary" [label]="'Возобновить обработку'" (click)="resumePayments()"></button>
-        </div>
-
+      </ng-template>
+      <ng-template pTemplate="body" let-paymentItem>
+        <tr [ngStyle]="{ color: rowStatusesColors[paymentItem.rowStatus] }">
+          <td>
+            <p-tableCheckbox [value]="paymentItem" [disabled]="tableCheckboxDisabled(paymentItem)"></p-tableCheckbox>
+          </td>
+          <td>
+            <a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a>
+          </td>
+          <td>{{ paymentItem.paymentApplication?.applicationID }}</td>
+          <td>{{ paymentItem.plannedDate | date : 'dd-MM-yyyy' }}</td>
+          <td>{{ paymentItem.paymentApplication?.amount }}</td>
+          <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
+          <td>{{ statues[paymentItem.statusCode] }}</td>
+          <td>{{ paymentItem.statusCode }}</td>
+          <td>{{ paymentItem.ipt?.idPH }}</td>
+          <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
+          <td>{{ paymentItem.pmtCreationTime | date : 'yyyy-MM-dd HH:mm:ss' }}</td>
+          <td>{{ paymentItem.errorType }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <div class="ms-result__commentary">
+      <pe-input
+        [label]="'Комментарий к операции'"
+        [(value)]="commentary"
+        [maxLength]="COMMENTARY_LENGTH"
+        [regExprValidation]="COMMENTARY_EXPR"
+      >
+      </pe-input>
     </div>
+    <div class="ms-result__buttons">
+      <button pButton class="pe-button" [label]="'Назад'" (click)="back()"></button>
+      <button pButton class="pe-button ml-2" [label]="'Отклонить'" (click)="cancelPayments()"></button>
+      <button pButton class="pe-button ml-2" [label]="'Возобновить обработку'" (click)="resumePayments()"></button>
+    </div>
+  </div>
 
-    <app-loading-spinner *ngIf="paymentResponse === null" [marginTop]="'10px'"></app-loading-spinner>
-
+  <app-loading-spinner *ngIf="paymentResponse === null" [marginTop]="'10px'"></app-loading-spinner>
 </div>

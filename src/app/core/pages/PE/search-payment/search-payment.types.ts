@@ -1,4 +1,4 @@
-export interface ISearchPayment {
+export interface ISearchPaymentTableData {
   appCreationTime: string;
   plannedDate: string;
   statusCode: string;

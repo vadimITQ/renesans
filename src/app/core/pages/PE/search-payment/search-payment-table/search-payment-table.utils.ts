@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { DateHelper } from 'src/app/shared/classes/date-helper';
-import { ISearchPaymentsResponse, PayDoc } from '../../../../services/search-payment/types';
-import { ISearchPayment } from '../search-payment.types';
+import {ISearchPayment,  PayDoc} from '../../../../services/search-payment/types';
+import { ISearchPaymentTableData } from '../search-payment.types';
 import {paymentStatusObj} from "../../../../../shared/variables/payment-status";
 
-export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], datePipeRef?: DatePipe): ISearchPayment[] {
+export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: DatePipe): ISearchPaymentTableData[] {
   return data.map(searchPayment => {
     const senderPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => searchPayment.sourceSystem === payDoc?.accountingSystem)[0]: null;
     const receiverPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => !!payDoc.accntDeb && !!payDoc.accntCre)[0]: null;
@@ -71,7 +71,7 @@ export function prepareSearchPaymentsData(data: ISearchPaymentsResponse[], dateP
   });
 }
 
-export function generateReport_prepareDataToExportXlsx(data: ISearchPaymentsResponse[] | null, datePipeRef?: DatePipe): { arrayData: any, heading: string[], fileName: string } {
+export function generateReport_prepareDataToExportXlsx(data: ISearchPayment[] | null, datePipeRef?: DatePipe): { arrayData: any, heading: string[], fileName: string } {
   const result = {
     arrayData: null as any,
     heading: [] as string[],

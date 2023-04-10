@@ -3,13 +3,13 @@ import { IColumn, searchPaymentTableColumns } from './search-payment-table.const
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 import { SearchPaymentService } from 'src/app/core/services/search-payment/search-payment.service';
 import { Subscription } from 'rxjs';
-import { ISearchPayment } from '../search-payment.types';
+import { ISearchPaymentTableData } from '../search-payment.types';
 import { generateReport_prepareDataToExportXlsx, prepareSearchPaymentsData } from './search-payment-table.utils';
 import { PaymentTypes } from "../../../../../shared/enums/manual-checks.enums";
 import { ToastService } from "../../../../../shared/services/toast.service";
 import { DatePipe } from '@angular/common';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
-import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
+import {ISearchPayment} from 'src/app/core/services/search-payment/types';
 import {PeRolesService} from "../../../../services/auth/pe-roles.service";
 
 @Component({
@@ -33,9 +33,9 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   }
 
   public tableColumns: IColumn[] = searchPaymentTableColumns;
-  public tableData: ISearchPayment[] | null = null;
+  public tableData: ISearchPaymentTableData[] | null = null;
   public loading: boolean = false;
-  public paymentResponse: ISearchPaymentsResponse[] | null = [];
+  public paymentResponse: ISearchPayment[] | null = [];
   private paymentResponseStateSubscription!: Subscription;
 
   onRowSelected(e: any) {

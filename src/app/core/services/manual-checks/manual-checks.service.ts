@@ -5,7 +5,7 @@ import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service
 import { validateFilter } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.validation';
 import { ICancelPaymentPayload, IResumePaymentPayload } from '../payment-order-w/types';
 import { prepareSearchFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
-import { ISearchPaymentsResponse } from '../search-payment/types';
+import {IPayment, ISearchPayment,} from '../search-payment/types';
 import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
 
@@ -25,7 +25,7 @@ export class ManualChecksService {
     private toastService: ToastService
   ) { }
 
-  public $paymentResponseState: BehaviorSubject<ISearchPaymentsResponse[] | null | undefined> = new BehaviorSubject<ISearchPaymentsResponse[] | null | undefined>(undefined);
+  public $paymentResponseState: BehaviorSubject<ISearchPayment[] | null | undefined> = new BehaviorSubject<ISearchPayment[] | null | undefined>(undefined);
   public componentState: ManualChecksComponentState = {
     $filters: new BehaviorSubject<ISearchPaymentFilters | null>(null),
     $selectedItems: new BehaviorSubject<GetPaymentsResponse[] | null>(null),
@@ -34,15 +34,15 @@ export class ManualChecksService {
 
   public getPayments(filter: ISearchPaymentFilters): Observable<any> {
     this.$paymentResponseState.next(null);
-    return this.paymentOrderWService.getSearchPayments(prepareSearchFilters(filter)).pipe(
+    return this.paymentOrderWService.getSearchPaymentsManual(prepareSearchFilters(filter)).pipe(
       tap(response => {
         // const sortedData = sortPaymentData(setRowStatuses(response));
-        if (!response?.length){
+        if (!response?.payments.length){
           this.toastService.showWarnToast("Ничего не найдено, проверьте параметры запроса и интервалы дат", "Сообщение");
           this.$paymentResponseState.next(undefined);
           return;
         }
-        this.$paymentResponseState.next(response);
+        this.$paymentResponseState.next(response.payments.map(({payment})=>payment));
     }),
     catchError((error) => {
       if (error.status !== 401){
@@ -61,6 +61,6 @@ export class ManualChecksService {
   public resumePayment(payload: IResumePaymentPayload){
     this.paymentOrderWService.resumePayment(payload);
   }
-  
+
 
 }

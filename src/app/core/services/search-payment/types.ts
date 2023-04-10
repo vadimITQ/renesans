@@ -236,7 +236,7 @@ export type PayDoc = {
   accntCre: string | null;
 };
 
-export interface ISearchPaymentsResponse {
+export interface ISearchPayment {
   paymentApplication: IPaymentApplication;
   paymentID: string;
   sourceSystem: string;
@@ -261,4 +261,16 @@ export interface ISearchPaymentsResponse {
   description: string | null;
   manualParse?: number | null;
   rowStatus?: string;
+}
+
+export interface IPayment {
+  manualParse: number | null;
+  payment: ISearchPayment;
+}
+
+export interface ISearchPaymentsResponse {
+  count: number;
+  limit: number | null;
+  offset: number | null;
+  payments: IPayment[];
 }

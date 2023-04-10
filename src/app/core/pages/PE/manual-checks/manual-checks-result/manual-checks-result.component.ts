@@ -12,7 +12,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { CancelReason, ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from 'src/app/core/services/payment-order-w/types';
-import { ISearchPaymentsResponse } from 'src/app/core/services/search-payment/types';
+import {ISearchPayment} from 'src/app/core/services/search-payment/types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ObjectHelper } from 'src/app/shared/classes/object-helper';
@@ -37,7 +37,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
   public readonly COMMENTARY_LENGTH = commentaryLength;
-  public paymentResponse: ISearchPaymentsResponse[] | null | undefined = undefined;
+  public paymentResponse: ISearchPayment[] | null | undefined = undefined;
   public types = this.prepareTypes(Object.entries(PaymentTypes));
   public statues = paymentStatusObj;
   public selectedAll: boolean = false;

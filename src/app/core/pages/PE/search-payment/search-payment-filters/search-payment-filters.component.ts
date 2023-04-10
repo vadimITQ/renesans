@@ -158,7 +158,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       return;
     }
     this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {
-      XlsxHelper.exportArrayToExcel(response, Object.getOwnPropertyNames(response[0]), 'Выгрузка_в_excel_test');
+      XlsxHelper.exportArrayToExcel(response.payments, Object.getOwnPropertyNames(response.payments[0]), 'Выгрузка_в_excel_test');
     });
   }
 }

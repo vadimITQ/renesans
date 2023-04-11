@@ -19,7 +19,6 @@ import {
   generalFieldsFilled,
   prepareSearchFilters,
 } from './search-payment-filters.utils';
-import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 import { paymentStatuses } from 'src/app/shared/variables/payment-status';
 
 @Component({
@@ -137,12 +136,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(
-      response => {},
-      error => {
-        this.toastService.showErrorToast('Внутренняя ошибка сервиса. Возникла ошибка при получении информации о переводах/платежах');
-      },
-    );
+    this.searchPaymentService.filter(prepareSearchFilters(this.filters))
   }
 
   dateChanged() {
@@ -157,8 +151,9 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     if (!this.validate()) {
       return;
     }
-    this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {
-      XlsxHelper.exportArrayToExcel(response.payments, Object.getOwnPropertyNames(response.payments[0]), 'Выгрузка_в_excel_test');
-    });
+    // todo: implement me after API update
+    // this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {
+    //   XlsxHelper.exportArrayToExcel(response.payments, Object.getOwnPropertyNames(response.payments[0]), 'Выгрузка_в_excel_test');
+    // });
   }
 }

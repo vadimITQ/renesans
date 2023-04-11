@@ -25,7 +25,7 @@ import { ObjectHelper } from 'src/app/shared/classes/object-helper';
 export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   constructor(
-    private mcService: ManualChecksService,
+    public mcService: ManualChecksService,
     private paymentOrderW: PaymentOrderWService,
     private dialogService: DialogService,
     private loadingService: LoadingService,
@@ -74,7 +74,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.initComponentState();
-    this.paymentResponseStateSubscribtion = this.mcService.$paymentResponseState.pipe(skip(1)).subscribe(paymentData => {
+    this.paymentResponseStateSubscribtion = this.mcService.$tableData.pipe(skip(1)).subscribe(paymentData => {
       this.selectedItems = [];
       this.commentary = "";
       this.paymentResponse = paymentData;
@@ -85,7 +85,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   initComponentState() {
     this.selection = this.mcService.componentState.$selectedItems.value ?? [];
     this.commentary = this.mcService.componentState.commentary ?? "";
-    this.paymentResponse = this.mcService.$paymentResponseState.value;
+    this.paymentResponse = this.mcService.$tableData.value;
   }
 
   ngOnDestroy(): void {

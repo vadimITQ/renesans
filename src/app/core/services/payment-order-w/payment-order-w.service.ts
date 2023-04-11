@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { delay, Observable, of, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { delay, Observable, of } from 'rxjs';
 import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
 import { manualChecksTableData } from 'src/app/shared/mocks/manual-checks-table.mock';
 import { ISearchPaymentTableData } from '../../pages/PE/search-payment/search-payment.types';
 import { API_URL } from '../../../shared/variables/http-constants';
 import { ITransferDetails } from '../view-transfer-details/types';
-import { ISearchPaymentsPayload, ISearchPaymentsResponse } from '../search-payment/types';
+import { ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
 import { ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from './types';
+import { Pagination } from '../../../shared/services/table.service';
 
 @Injectable({
   providedIn: 'root',
@@ -33,12 +34,12 @@ export class PaymentOrderWService {
     }
   }
 
-  public getSearchPayments(data: ISearchPaymentsPayload): Observable<ISearchPaymentsResponse> {
-    return this.http.post<ISearchPaymentsResponse>(API_URL + '/searchPayments', data);
+  public getSearchPayments(filters: ISearchPaymentsFiltersPayload, pagination: Pagination): Observable<ISearchPaymentsResponse> {
+    return this.http.post<ISearchPaymentsResponse>(API_URL + '/searchPayments', filters, { params: { ...pagination } });
   }
 
-  public getSearchPaymentsManual(data: ISearchPaymentsPayload): Observable<ISearchPaymentsResponse> {
-    return this.http.post<ISearchPaymentsResponse>(API_URL + '/searchPayments', data, { params: { isManualParse: true } });
+  public getSearchPaymentsManual(filters: ISearchPaymentsFiltersPayload, pagination: Pagination): Observable<ISearchPaymentsResponse> {
+    return this.http.post<ISearchPaymentsResponse>(API_URL + '/searchPayments', filters, { params: { ...pagination, isManualParse: true } });
   }
 
   public getTransferDetails(paymentID: string): Observable<ITransferDetails> {

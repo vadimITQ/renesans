@@ -1,46 +1,50 @@
 <div class="search-payment-filter">
-
   <h5>Найденные платежи</h5>
 
-  <ng-container *ngIf="tableData && !loading">
-      <p-table
-        [value]="tableData"
-        (onRowSelect)="onRowSelected($event)"
-        [scrollable]="true"
-        [rows]="5"
-        [resizableColumns]="true"
-        [autoLayout]="true"
-        [paginator]="true"
-        styleClass="p-datatable-striped">
-        <ng-template pTemplate="header">
-          <tr class="tps-by-status__row-gray">
-            <th>
-              ID PE
-            </th>
-            <th *ngFor="let column of tableColumns">
-              {{column.header}}
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-searchPaymentItem>
-          <tr style="height:50px">
-            <td>
-              <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentId)">{{ searchPaymentItem.paymentId }}</a>
-              <ng-template #elseBlock>{{searchPaymentItem.paymentId}}</ng-template>
-            </td>
-            <td *ngFor="let column of tableColumns">
-              {{searchPaymentItem[column.field]}}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+  <ng-container *ngIf="tableData">
+    <p-table
+      [value]="tableData"
+      [scrollable]="true"
+      [resizableColumns]="true"
+      [autoLayout]="true"
+      [paginator]="true"
+      [loading]="loading"
+      [totalRecords]="searchPaymentService.count"
+      [showCurrentPageReport]="true"
+      [rows]="searchPaymentService.pagination.limit"
+      [lazy]="true"
+      (onPage)="searchPaymentService.paginate($event)"
+      currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} платежей"
+      [rowsPerPageOptions]="searchPaymentService.rowsPerPageOptions"
+      styleClass="p-datatable-striped"
+    >
+      <ng-template pTemplate="header">
+        <tr class="tps-by-status__row-gray">
+          <th>ID PE</th>
+          <th *ngFor="let column of tableColumns">
+            {{ column.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-searchPaymentItem>
+        <tr style="height: 50px">
+          <td>
+            <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentId)">{{
+              searchPaymentItem.paymentId
+            }}</a>
+            <ng-template #elseBlock>{{ searchPaymentItem.paymentId }}</ng-template>
+          </td>
+          <td *ngFor="let column of tableColumns">
+            {{ searchPaymentItem[column.field] }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
 
     <div>
-      <button pButton class="pe-button mr-2" [label]="'Сформировать отчет'"      (click)="generateReport()"></button>
-      <button pButton class="pe-button"      [label]="'Сформировать отчет СБП'"  (click)="generateSbpReport()" [disabled]="true"></button>
+      <button pButton class="pe-button mr-2" [label]="'Сформировать отчет'" (click)="generateReport()"></button>
+      <button pButton class="pe-button" [label]="'Сформировать отчет СБП'" (click)="generateSbpReport()" [disabled]="true"></button>
     </div>
   </ng-container>
   <app-loading-spinner *ngIf="loading" [marginTop]="'10px'"></app-loading-spinner>
-
 </div>
-

@@ -1,7 +1,7 @@
 import { ISearchPaymentFilters } from './search-payment-filters.types';
 import { sub } from 'date-fns';
 import { Validation } from '../../../../../shared/validation/types';
-import { ISearchPaymentsPayload } from '../../../../services/search-payment/types';
+import { ISearchPaymentsFiltersPayload } from '../../../../services/search-payment/types';
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 
 export function defineDefaultFiltersValues(): ISearchPaymentFilters {
@@ -142,7 +142,7 @@ export function prepareSearchFilters({
   parentType,
   type,
   codeStatuses,
-}: ISearchPaymentFilters): ISearchPaymentsPayload {
+}: ISearchPaymentFilters): ISearchPaymentsFiltersPayload {
   return {
     dateTimeFrom: !!dateTimeFrom ? dateTimeFrom : null,
     dateTimeTo: !!dateTimeTo ? dateTimeTo : null,

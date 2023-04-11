@@ -1,4 +1,4 @@
-export interface ISearchPaymentsPayload {
+export interface ISearchPaymentsFiltersPayload {
   dateTimeFrom: string | null;
   dateTimeTo: string | null;
   paymentID: string | null;

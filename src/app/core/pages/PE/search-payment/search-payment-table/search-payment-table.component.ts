@@ -18,7 +18,7 @@ import {PeRolesService} from "../../../../services/auth/pe-roles.service";
   styleUrls: ['./search-payment-table.component.scss'],
 })
 export class SearchPaymentTableComponent implements OnInit, OnDestroy {
-  constructor(private searchPaymentService: SearchPaymentService,
+  constructor(public searchPaymentService: SearchPaymentService,
               private toastService: ToastService,
               private datePipe: DatePipe,
               private peNavigationService: PeNavigationService,
@@ -37,10 +37,6 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   public loading: boolean = false;
   public paymentResponse: ISearchPayment[] | null = [];
   private paymentResponseStateSubscription!: Subscription;
-
-  onRowSelected(e: any) {
-
-  }
 
   generateReport() {
     if (!this.tableData) {
@@ -67,13 +63,13 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.paymentResponse = this.searchPaymentService.$paymentResponseState.value ?? [];
+    this.paymentResponse = this.searchPaymentService.$tableData.value ?? [];
     if (this.paymentResponse.length > 0){
       this.tableData = prepareSearchPaymentsData(this.paymentResponse, this.datePipe);
     }
-    this.paymentResponseStateSubscription = this.searchPaymentService.$paymentResponseState.subscribe(paymentResponse => {
+    this.paymentResponseStateSubscription = this.searchPaymentService.$tableData.subscribe(paymentResponse => {
       this.paymentResponse = paymentResponse;
-      this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse, this.datePipe) : null;
+      this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse , this.datePipe) : null;
     });
 
     this.searchPaymentService.$loading.subscribe(loading => {

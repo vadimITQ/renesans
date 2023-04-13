@@ -20,8 +20,8 @@ export class TableService<TData, TFilters> {
 
   private readonly fetchFn: FetchTableDataFn<TData, TFilters> | null = null;
   private filters: TFilters = {} as TFilters;
-  pagination: Pagination = { offset: 0, limit: 20 };
-  rowsPerPageOptions: number[] = [20, 50, 100];
+  pagination: Pagination = { offset: 0, limit: 5 };
+  rowsPerPageOptions: number[] = [5,10,20, 50, 100];
   count: number = 0;
 
   constructor(private fetchTableDataFn: FetchTableDataFn<TData, TFilters>, private startFilters?: TFilters) {

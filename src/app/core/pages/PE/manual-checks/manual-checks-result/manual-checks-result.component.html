@@ -10,8 +10,6 @@
       [(selection)]="selectedItems"
       [globalFilterFields]="paymentResponseProps"
       [paginator]="true"
-      [reorderableColumns]="true"
-      [resizableColumns]="true"
       [autoLayout]="true"
       [loading]="mcService.$loading.value"
       [lazy]="true"
@@ -33,7 +31,7 @@
           <th pReorderableColumn="" style="width: 4rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th style="min-width: 200px" *ngFor="let col of columns" pReorderableColumn>
+          <th style="min-width: 200px" *ngFor="let col of columns">
             {{ col.header }}
           </th>
         </tr>
@@ -112,5 +110,5 @@
     </div>
   </div>
 
-  <app-loading-spinner *ngIf="paymentResponse === null" [marginTop]="'10px'"></app-loading-spinner>
+  <app-loading-spinner *ngIf="mcService.$loading.value && !paymentResponse" [marginTop]="'10px'"></app-loading-spinner>
 </div>

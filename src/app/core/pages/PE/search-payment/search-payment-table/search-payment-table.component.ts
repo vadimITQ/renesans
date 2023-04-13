@@ -34,7 +34,6 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
 
   public tableColumns: IColumn[] = searchPaymentTableColumns;
   public tableData: ISearchPaymentTableData[] | null = null;
-  public loading: boolean = false;
   public paymentResponse: ISearchPayment[] | null = [];
   private paymentResponseStateSubscription!: Subscription;
 
@@ -70,10 +69,6 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
     this.paymentResponseStateSubscription = this.searchPaymentService.$tableData.subscribe(paymentResponse => {
       this.paymentResponse = paymentResponse;
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse , this.datePipe) : null;
-    });
-
-    this.searchPaymentService.$loading.subscribe(loading => {
-      this.loading = loading;
     });
   }
 }

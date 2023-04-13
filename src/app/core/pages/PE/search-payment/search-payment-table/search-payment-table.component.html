@@ -5,10 +5,9 @@
     <p-table
       [value]="tableData"
       [scrollable]="true"
-      [resizableColumns]="true"
       [autoLayout]="true"
       [paginator]="true"
-      [loading]="loading"
+      [loading]="searchPaymentService.$loading.value"
       [totalRecords]="searchPaymentService.count"
       [showCurrentPageReport]="true"
       [rows]="searchPaymentService.pagination.limit"
@@ -46,5 +45,5 @@
       <button pButton class="pe-button" [label]="'Сформировать отчет СБП'" (click)="generateSbpReport()" [disabled]="true"></button>
     </div>
   </ng-container>
-  <app-loading-spinner *ngIf="loading" [marginTop]="'10px'"></app-loading-spinner>
+  <app-loading-spinner *ngIf="searchPaymentService.$loading.value && !tableData" [marginTop]="'10px'"></app-loading-spinner>
 </div>

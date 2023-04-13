@@ -3,6 +3,7 @@ import { DateHelper } from 'src/app/shared/classes/date-helper';
 import {ISearchPayment,  PayDoc} from '../../../../services/search-payment/types';
 import { ISearchPaymentTableData } from '../search-payment.types';
 import {paymentStatusObj} from "../../../../../shared/variables/payment-status";
+import {manualChecksTransferTypes} from "../../../../../shared/variables/manual-checks-transfer-types";
 
 export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: DatePipe): ISearchPaymentTableData[] {
   return data.map(searchPayment => {
@@ -15,7 +16,7 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
       appCreationTime: appCreationTime,
       plannedDate: plannedDate,
       statusCode: searchPayment.statusCode,
-      type: paymentStatusObj[searchPayment.statusCode],
+      type: manualChecksTransferTypes.find(({value})=>value === searchPayment.paymentApplication.type)?.label ?? '',
       paymentSubType: searchPayment.paymentApplication?.paymentSubType,
       budgetPaymentSubtype: '', //searchPayment.paymentApplication?.budget?.budgetPaymentSubtype,
       paymentMethod: searchPayment.paymentApplication?.paymentMethod,

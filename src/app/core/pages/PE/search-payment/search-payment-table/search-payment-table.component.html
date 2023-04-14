@@ -11,6 +11,7 @@
       [totalRecords]="searchPaymentService.count"
       [showCurrentPageReport]="true"
       [rows]="searchPaymentService.pagination.limit"
+      [first]="searchPaymentService.pagination.offset"
       [lazy]="true"
       (onPage)="searchPaymentService.paginate($event)"
       currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} платежей"

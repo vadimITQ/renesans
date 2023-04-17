@@ -39,7 +39,9 @@ export class PaymentOrderWService {
   }
 
   public getSearchPaymentsManual(filters: ISearchPaymentsFiltersPayload, pagination: Pagination): Observable<ISearchPaymentsResponse> {
-    return this.http.post<ISearchPaymentsResponse>(API_URL + '/searchPayments', filters, { params: { ...pagination, isManualParse: true } });
+    return this.http.post<ISearchPaymentsResponse>(API_URL + '/searchPayments', filters, {
+      params: { ...pagination, isManualParse: true },
+    });
   }
 
   public getTransferDetails(paymentID: string): Observable<ITransferDetails> {
@@ -47,4 +49,11 @@ export class PaymentOrderWService {
       params: { paymentID },
     });
   }
+
+  public getPaymentsReport(filters?: ISearchPaymentsFiltersPayload): Observable<ArrayBuffer> {
+    return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', filters, {
+      responseType: 'arraybuffer' as 'json'
+    });
+  }
 }
+

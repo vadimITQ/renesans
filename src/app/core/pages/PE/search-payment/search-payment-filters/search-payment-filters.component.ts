@@ -62,6 +62,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       this.filters = this.searchPaymentService.$filters.value;
     } else {
       this.filters = defineDefaultFiltersValues();
+      this.searchPaymentService.$filters.next(this.filters)
     }
     this.changeDetectionRef.detectChanges();
   }
@@ -144,6 +145,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     }
 
     this.searchPaymentService.filter(prepareSearchFilters(this.filters))
+    this.searchPaymentService.$filters.next(this.filters)
   }
 
   dateChanged() {

@@ -93,7 +93,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       if (anyFilledValidation) {
         this.filtersValidation = { ...anyFilledValidation };
         this.toastService.showErrorToast(
-          'Заполните хотя бы одно из полей Идентификатор платежа, Идентификатор заявки, Идентификатор документа, Номер документа',
+          'Заполните хотя бы одной из полей фильтров или укажите интервал дат',
         );
         return false;
       }

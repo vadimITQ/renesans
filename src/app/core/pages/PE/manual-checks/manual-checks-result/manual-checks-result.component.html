@@ -21,6 +21,7 @@
       currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} платежей"
       [rowsPerPageOptions]="mcService.rowsPerPageOptions"
       [columns]="cols"
+      [resizableColumns]="true"
       (selectionChange)="onSelectionChange($event)"
       (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
       (onRowSelect)="onRowSelected($event)"
@@ -29,7 +30,7 @@
     >
       <ng-template pTemplate="header" let-columns>
         <tr class="ms-result__row-gray">
-          <th pReorderableColumn="" style="width: 4rem">
+          <th style="width: 4rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
           <th style="min-width: 200px" *ngFor="let col of columns">

@@ -36,6 +36,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     dateTimeTo: null,
   };
 
+  formWasCleared: boolean = false
   validateDates: boolean = false;
 
   receivingChanelOptions = receivingChanelOptions;
@@ -71,6 +72,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   // });
 
   onClear() {
+    this.formWasCleared = true
     this.filters = {
       ...defineDefaultFiltersValues(),
       dateTimeFrom: null,
@@ -81,6 +83,10 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   validate(validateOnlyDates?: boolean): boolean {
+    if(this.formWasCleared) {
+      return true
+    }
+
     if (!validateOnlyDates) {
       const anyFilledValidation = anyFieldFilledValidator(this.filters);
 
@@ -132,6 +138,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
+    this.formWasCleared = false
     if (!this.validate()) {
       return;
     }

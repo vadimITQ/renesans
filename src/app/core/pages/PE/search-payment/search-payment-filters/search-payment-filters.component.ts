@@ -36,7 +36,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     dateTimeTo: null,
   };
 
-  formWasCleared: boolean = false
+  formWasCleared: boolean = true;
   validateDates: boolean = false;
 
   receivingChanelOptions = receivingChanelOptions;
@@ -62,7 +62,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       this.filters = this.searchPaymentService.$filters.value;
     } else {
       this.filters = defineDefaultFiltersValues();
-      this.searchPaymentService.$filters.next(this.filters)
+      this.searchPaymentService.$filters.next(this.filters);
     }
     this.changeDetectionRef.detectChanges();
   }
@@ -73,7 +73,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   // });
 
   onClear() {
-    this.formWasCleared = true
+    this.formWasCleared = true;
     this.filters = {
       ...defineDefaultFiltersValues(),
       dateTimeFrom: null,
@@ -84,8 +84,8 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   validate(validateOnlyDates?: boolean): boolean {
-    if(this.formWasCleared) {
-      return true
+    if (this.formWasCleared) {
+      return true;
     }
 
     if (!validateOnlyDates) {
@@ -93,18 +93,17 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
 
       if (anyFilledValidation) {
         this.filtersValidation = { ...anyFilledValidation };
-        this.toastService.showErrorToast(
-          'Заполните хотя бы одной из полей фильтров или укажите интервал дат',
-        );
+        this.toastService.showErrorToast('Заполните хотя бы одно из полей фильтров или укажите интервал дат');
         return false;
       }
     }
 
     if (!generalFieldsFilled(this.filters)) {
       const [dateFromValidation, dateToValidation] = [
-        required(this.filters.dateTimeFrom) ||
-          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»'),
-        required(this.filters.dateTimeTo) || lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40),
+        this.filters.dateTimeTo && (required(this.filters.dateTimeFrom) ||
+          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»')),
+        this.filters.dateTimeFrom && (required(this.filters.dateTimeTo) ||
+          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40)),
       ];
 
       this.filtersValidation = {
@@ -139,13 +138,13 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
-    this.formWasCleared = false
+    this.formWasCleared = false;
     if (!this.validate()) {
       return;
     }
 
-    this.searchPaymentService.filter(prepareSearchFilters(this.filters))
-    this.searchPaymentService.$filters.next(this.filters)
+    this.searchPaymentService.filter(prepareSearchFilters(this.filters));
+    this.searchPaymentService.$filters.next(this.filters);
   }
 
   dateChanged() {

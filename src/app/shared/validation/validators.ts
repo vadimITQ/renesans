@@ -57,8 +57,8 @@ export function lessThanDateDiapason(from: string | null, to: string | null, dia
   return differenceInCalendarDays(toDate ?? 0, fromDate ?? 0) > diapason ? `Диапазон дат не должен превышать ${diapason} дней.` : null;
 }
 
-export function required(value: unknown): ValidationMessage {
-  return !value ? 'Поле обязательно к заполнению' : null;
+export function required(value: unknown, message?: string): ValidationMessage {
+  return !value ? message || 'Поле обязательно к заполнению' : null;
 }
 
 export function containInvalidSymbols(value: string): ValidationMessage {

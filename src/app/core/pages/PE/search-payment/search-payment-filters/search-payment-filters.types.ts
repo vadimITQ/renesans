@@ -1,3 +1,4 @@
+import { IMultiSelectData } from 'src/app/shared/components/controls/pe-multiselect/pe-multiselect.component';
 import { IMultiCheckboxData } from '../../../../../shared/components/controls/pe-multi-checkbox/pe-multi-checkbox.component';
 
 export interface ISearchPaymentFilters {
@@ -15,8 +16,8 @@ export interface ISearchPaymentFilters {
   dateTimeFrom: string | null;
   dateTimeTo: string | null;
   plannedDate: string | null;
-  channelName: IMultiCheckboxData[];
-  parentType: IMultiCheckboxData[];
-  type: IMultiCheckboxData[];
-  codeStatuses: IMultiCheckboxData[];
+  channelName: IMultiSelectData[];
+  parentType: IMultiSelectData[];
+  type: IMultiSelectData[];
+  codeStatuses: IMultiSelectData[];
 }

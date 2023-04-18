@@ -11,6 +11,8 @@ import { receivingChanelOptions } from '../../search-payment/search-payment-filt
 import { ISearchPaymentFilters } from '../../search-payment/search-payment-filters/search-payment-filters.types';
 import { defineDefaultFiltersValues, prepareSearchFilters } from '../../search-payment/search-payment-filters/search-payment-filters.utils';
 import { validateDates, validateFilter, validateFilterOnEmpty } from './manual-checks-filter.validation';
+import { MultiselectDatasetsService } from 'src/app/shared/services/multiselect-datasets.service';
+import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 
 @Component({
   selector: 'app-manual-checks-filter',
@@ -18,7 +20,12 @@ import { validateDates, validateFilter, validateFilterOnEmpty } from './manual-c
   styleUrls: ['./manual-checks-filter.component.scss'],
 })
 export class ManualChecksFilterComponent implements OnInit, OnDestroy {
-  constructor(private mcService: ManualChecksService, private changeDetectionRef: ChangeDetectorRef, private toastService: ToastService) {}
+  constructor(
+    private mcService: ManualChecksService, 
+    private changeDetectionRef: ChangeDetectorRef, 
+    private toastService: ToastService,
+    private multiselectDataSets: MultiselectDatasetsService
+  ) {}
 
   @ViewChild('dateFromRef') dateFromRef!: Calendar;
   @ViewChild('dateToRef') dateToRef!: Calendar;
@@ -28,9 +35,9 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     dateTo: null,
   };
 
-  public transferTypes = manualChecksTransferTypes;
-  public paymentStatuses = paymentStatuses;
-  public receivingChanelOptions = receivingChanelOptions;
+  public transferTypes = this.multiselectDataSets.getDataset(MultiselectDataSets.GetManualChecksTransferTypes);
+  public paymentStatuses = this.multiselectDataSets.getDataset(MultiselectDataSets.GetPaymentStatuses);
+  public receivingChanelOptions = this.multiselectDataSets.getDataset(MultiselectDataSets.GetReceivingChanelOptions);
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
   public filter!: ISearchPaymentFilters;
   public validateDates: boolean = false;

@@ -60,14 +60,13 @@
       </p-multiSelect>
     </div>
     <div>
-      <label>Статус</label>
-      <p-multiSelect
-        [options]="paymentStatuses"
-        [(ngModel)]="filters.codeStatuses"
-        optionLabel="label"
-        defaultLabel="Выберите статус"
-        display="chip">
-      </p-multiSelect>
+      <pe-multiselect 
+        [dataset]="multiselectDataSetsEnum.GetPaymentStatuses" 
+        placeholder="Выберите статус"
+        label="Статус"
+        [validationMessage]="filtersValidation['codeStatuses']"
+        [(selected)]="filters.codeStatuses">
+      </pe-multiselect>
     </div>
     <div>
       <label>Тип объекта создавшего запрос</label>

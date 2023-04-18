@@ -20,6 +20,8 @@ import {
   prepareSearchFilters,
 } from './search-payment-filters.utils';
 import { paymentStatuses } from 'src/app/shared/variables/payment-status';
+import { MultiselectDatasetsService } from 'src/app/shared/services/multiselect-datasets.service';
+import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 
 @Component({
   selector: 'app-search-payment-filters',
@@ -39,10 +41,11 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   formWasCleared: boolean = true;
   validateDates: boolean = false;
 
-  receivingChanelOptions = receivingChanelOptions;
-  objectTypeOptions = objectTypeOptions;
-  transferTypes = manualChecksTransferTypes;
-  paymentStatuses = paymentStatuses;
+  multiselectDataSetsEnum = MultiselectDataSets;
+  receivingChanelOptions =  this.multiselectDatasets.getDataset(MultiselectDataSets.GetReceivingChanelOptions);
+  objectTypeOptions = this.multiselectDatasets.getDataset(MultiselectDataSets.GetObjectTypeOptions);
+  transferTypes = this.multiselectDatasets.getDataset(MultiselectDataSets.GetManualChecksTransferTypes);
+  paymentStatuses = this.multiselectDatasets.getDataset(MultiselectDataSets.GetPaymentStatuses);
   ipRegExp = /^([\d.]+)$/i;
 
   constructor(
@@ -50,6 +53,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private toastService: ToastService,
     private changeDetectionRef: ChangeDetectorRef,
+    private multiselectDatasets: MultiselectDatasetsService
   ) {}
 
   ngOnDestroy(): void {

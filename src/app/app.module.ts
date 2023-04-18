@@ -50,6 +50,7 @@ import { ButtonModule } from 'primeng/button';
 import { PeHeaderComponent } from './core/pages/PE/pe-header/pe-header.component';
 import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component';
 import { PaymentEngineInitializerService } from './core/services/payment-engine-initializer/payment-engine-initializer';
+import { PeMuitiselectComponent } from './shared/components/controls/pe-multiselect/pe-multiselect.component';
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -85,6 +86,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeTextareaComponent,
     PeHeaderComponent,
     PeFooterComponent,
+    PeMuitiselectComponent
   ],
   imports: [
     BrowserModule,

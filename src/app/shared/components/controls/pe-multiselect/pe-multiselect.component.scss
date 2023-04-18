@@ -1,0 +1,22 @@
+
+$errorColor:  #f44336;
+
+.pe-multiselect {
+    &__label {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    &__container {
+        display: contents;
+        width: 100%;
+    }
+}
+
+.multiselect-input-error {
+    border-color: $errorColor;
+}
+
+:host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
+    max-width: calc(100%)
+}
+  

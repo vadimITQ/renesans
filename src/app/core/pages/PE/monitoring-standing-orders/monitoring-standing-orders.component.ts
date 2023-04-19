@@ -95,36 +95,36 @@ export class MonitoringStandingOrdersComponent implements OnInit {
   }
 
   generateAReport() {
-    XlsxHelper
-      .exportArrayToExcel(
-        (
-          this.monitoringDataRecord as MonitoringDataRecord[]
-        )?.map(
-          record => {  
-            return {
-              ...record,
-              startDate: this.datePipe.transform(record.startDate, "dd.MM.yyyy"),
-              planEndDate: this.datePipe.transform(record.planEndDate, "dd.MM.yyyy")
-            }
-          }
-        ) ?? [], 
-        [
-          "",
-          "ID длительного поручения»",
-          "Начало действия»",
-          "Тип перевода\платежа»",
-          "Сумма»",
-          "Счет источник»",
-          "Счет приемник»",
-          "Срок действия»",
-          "Периодичность»",
-          "Ссылка на платеж\перевод»",
-          "Статус операции по распоряжению»",
-          "Описание ошибки",
-          "Ссылка на заявку"
-        ],
-        "История_перевода_платежа_постатусно"
-      );
+    // XlsxHelper
+    //   .exportArrayToExcel(
+    //     (
+    //       this.monitoringDataRecord as MonitoringDataRecord[]
+    //     )?.map(
+    //       record => {  
+    //         return {
+    //           ...record,
+    //           startDate: this.datePipe.transform(record.startDate, "dd.MM.yyyy"),
+    //           planEndDate: this.datePipe.transform(record.planEndDate, "dd.MM.yyyy")
+    //         }
+    //       }
+    //     ) ?? [], 
+    //     [
+    //       "",
+    //       "ID длительного поручения»",
+    //       "Начало действия»",
+    //       "Тип перевода\платежа»",
+    //       "Сумма»",
+    //       "Счет источник»",
+    //       "Счет приемник»",
+    //       "Срок действия»",
+    //       "Периодичность»",
+    //       "Ссылка на платеж\перевод»",
+    //       "Статус операции по распоряжению»",
+    //       "Описание ошибки",
+    //       "Ссылка на заявку"
+    //     ],
+    //     "История_перевода_платежа_постатусно"
+    //   );
   }
 
   cancelStandingOrder() {

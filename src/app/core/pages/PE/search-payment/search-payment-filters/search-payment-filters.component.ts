@@ -38,22 +38,16 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     dateTimeTo: null,
   };
 
-  formWasCleared: boolean = true;
   validateDates: boolean = false;
 
   multiselectDataSetsEnum = MultiselectDataSets;
-  receivingChanelOptions =  this.multiselectDatasets.getDataset(MultiselectDataSets.GetReceivingChanelOptions);
-  objectTypeOptions = this.multiselectDatasets.getDataset(MultiselectDataSets.GetObjectTypeOptions);
-  transferTypes = this.multiselectDatasets.getDataset(MultiselectDataSets.GetManualChecksTransferTypes);
-  paymentStatuses = this.multiselectDatasets.getDataset(MultiselectDataSets.GetPaymentStatuses);
   ipRegExp = /^([\d.]+)$/i;
 
   constructor(
     private searchPaymentService: SearchPaymentService,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private changeDetectionRef: ChangeDetectorRef,
-    private multiselectDatasets: MultiselectDatasetsService
+    private changeDetectionRef: ChangeDetectorRef
   ) {}
 
   ngOnDestroy(): void {
@@ -77,7 +71,6 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   // });
 
   onClear() {
-    this.formWasCleared = true;
     this.filters = {
       ...defineDefaultFiltersValues(),
       dateTimeFrom: null,
@@ -88,9 +81,9 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   validate(validateOnlyDates?: boolean): boolean {
-    if (this.formWasCleared) {
-      return true;
-    }
+    // if (this.formWasCleared) {
+    //   return true;
+    // }
 
     if (!validateOnlyDates) {
       const anyFilledValidation = anyFieldFilledValidator(this.filters);
@@ -136,13 +129,16 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
       plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
+      channelName: "",
+      codeStatuses: "",
+      parentType: "",
+      type: ""
     };
 
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
   }
 
   onSearch() {
-    this.formWasCleared = false;
     if (!this.validate()) {
       return;
     }

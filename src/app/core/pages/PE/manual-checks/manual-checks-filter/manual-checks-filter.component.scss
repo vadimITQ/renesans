@@ -35,17 +35,12 @@
        }
     }
 
+    &__multiselect-forms {
+        margin-bottom: 30px
+    }
+
     &__buttons {
         display: flex;
     }
 
-    &__multiselect {
-        max-width: calc(100% - 235px);
-        width: calc(100% - 235px);
-    }
-
-}
-
-:host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
-    max-width: 100%;
 }

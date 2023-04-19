@@ -45,6 +45,12 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
         dateFromValidation: null,
         dateToValidation: null
     };
+    if (!dateFrom && !!dateTo){
+      validations["dateFromValidation"] = "Поле обязательно к заполнению";
+    }
+    if (!dateTo && !!dateFrom){
+      validations["dateToValidation"] = "Поле обязательно к заполнению";  
+    }
     if (!DatePickerHelper.dateValid(dateFrom)){
       validations["dateFromValidation"] = "Недействительная дата";
     }
@@ -75,7 +81,8 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
 
 export function validateFilterOnEmpty(filter: ISearchPaymentFilters): Validation | null {
   const noFilter: boolean = !filter;
-    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateTimeFrom) && !!DatePickerHelper.convertToDate(filter.dateTimeTo);
+  console.log(filter);
+    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateTimeFrom) || !!DatePickerHelper.convertToDate(filter.dateTimeTo);
     const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.idPH || !!filter.account;
     if (noFilter || (!filterHasDates && !filterHasId)){
         return {
@@ -84,7 +91,10 @@ export function validateFilterOnEmpty(filter: ISearchPaymentFilters): Validation
             paymentID: " ",
             applicationID: " ",
             paymentHubPaymentId: " ",
-            account: " "
+            account: " ",
+            channelName: !filter.channelName?.length ? " ": null,
+            codeStatuses: !filter.codeStatuses?.length ? " ": null,
+            parentType: !filter.parentType?.length ? " ": null
         };
     }
     return null;

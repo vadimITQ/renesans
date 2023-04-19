@@ -50,14 +50,14 @@
   </div>
   <div class="multiselect-row">
     <div>
-      <label>Канал поступления заявки</label>
-      <p-multiSelect
-        [options]="receivingChanelOptions"
-        [(ngModel)]="filters.channelName"
-        optionLabel="label"
-        defaultLabel="Выберите канал поступления заявки"
-        display="chip">
-      </p-multiSelect>
+      <pe-multiselect 
+        [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions" 
+        placeholder="Выберите канал поступления заявки"
+        label="Канал поступления заявки"
+        [labelStyle]="{'min-width': '260px', 'display': 'block'}"
+        [validationMessage]="filtersValidation['channelName']"
+        [(selected)]="filters.channelName">
+      </pe-multiselect>
     </div>
     <div>
       <pe-multiselect 
@@ -70,24 +70,24 @@
       </pe-multiselect>
     </div>
     <div>
-      <label>Тип объекта создавшего запрос</label>
-      <p-multiSelect
-          [options]="objectTypeOptions"
-          [(ngModel)]="filters.parentType"
-          optionLabel="label"
-          defaultLabel="Выберите тип объекта создавшего запрос"
-          display="chip">
-      </p-multiSelect>
+      <pe-multiselect 
+        [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions" 
+        placeholder="Выберите тип объекта создавшего запрос"
+        label="Тип объекта создавшего запрос"
+        [labelStyle]="{'min-width': '260px', 'display': 'block'}"
+        [validationMessage]="filtersValidation['parentType']"
+        [(selected)]="filters.parentType">
+      </pe-multiselect>
     </div>
     <div>
-      <label>Тип перевода</label>
-      <p-multiSelect
-        [options]="transferTypes"
-        [(ngModel)]="filters.type"
-        optionLabel="label"
-        defaultLabel="Выберите тип перевода"
-        display="chip"
-      ></p-multiSelect>
+      <pe-multiselect 
+        [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes" 
+        placeholder="Выберите тип перевода"
+        label="Тип перевода"
+        [labelStyle]="{'min-width': '260px', 'display': 'block'}"
+        [validationMessage]="filtersValidation['type']"
+        [(selected)]="filters.type">
+      </pe-multiselect>
     </div>
   </div>
   <div>

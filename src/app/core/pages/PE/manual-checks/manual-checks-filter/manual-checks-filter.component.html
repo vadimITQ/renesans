@@ -26,47 +26,35 @@
             [labelStyle]="{ 'width': '125px' }">
         </date-picker>
     </div>
-    <div class="ms-filter__forms">
-        <div>
-            <label>Канал поступления заявки</label>
-        </div>
-        <div class="ms-filter__multiselect">
-            <p-multiSelect
-                [options]="receivingChanelOptions"
-                [(ngModel)]="filter.channelName"
-                optionLabel="label"
-                defaultLabel="Выберите канал поступления заявки"
-                display="chip"
-            ></p-multiSelect>
-        </div>
+    <div class="ms-filter__multiselect-forms">
+        <pe-multiselect 
+            [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions" 
+            placeholder="Выберите канал поступления заявки"
+            label="Канал поступления заявки"
+            [labelStyle]="{'min-width': '235px', 'display': 'block'}"
+            [validationMessage]="validations['channelName']"
+            [(selected)]="filter.channelName">
+        </pe-multiselect>
     </div>
-    <div class="ms-filter__forms">
-        <div>
-            <label>Статус</label>
-        </div>
-        <div class="ms-filter__multiselect">
-            <p-multiSelect
-                [options]="paymentStatuses"
-                [(ngModel)]="filter.codeStatuses"
-                optionLabel="label"
-                defaultLabel="Выберите статус"
-                display="chip"
-            ></p-multiSelect>
-        </div>
+    <div class="ms-filter__multiselect-forms">
+        <pe-multiselect 
+            [dataset]="multiselectDataSetsEnum.GetPaymentStatuses" 
+            placeholder="Выберите статус"
+            label="Статус"
+            [labelStyle]="{'min-width': '235px', 'display': 'block'}"
+            [validationMessage]="validations['codeStatuses']"
+            [(selected)]="filter.codeStatuses">
+        </pe-multiselect>
     </div>
-    <div class="ms-filter__forms">
-        <div>
-            <label>Тип перевода</label>
-        </div>
-        <div class="ms-filter__multiselect">
-            <p-multiSelect
-                [options]="transferTypes"
-                [(ngModel)]="filter.type"
-                optionLabel="label"
-                defaultLabel="Выберите тип перевода"
-                display="chip"
-            ></p-multiSelect>
-        </div>
+    <div class="ms-filter__multiselect-forms">
+        <pe-multiselect 
+            [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions" 
+            placeholder="Выберите тип перевода"
+            label="Тип перевода"
+            [labelStyle]="{'min-width': '235px', 'display': 'block'}"
+            [validationMessage]="validations['parentType']"
+            [(selected)]="filter.parentType">
+        </pe-multiselect>
     </div>
 
     <div class="ms-filter__buttons">

@@ -23,8 +23,7 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
   constructor(
     private mcService: ManualChecksService, 
     private changeDetectionRef: ChangeDetectorRef, 
-    private toastService: ToastService,
-    private multiselectDataSets: MultiselectDatasetsService
+    private toastService: ToastService
   ) {}
 
   @ViewChild('dateFromRef') dateFromRef!: Calendar;
@@ -35,9 +34,7 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     dateTo: null,
   };
 
-  public transferTypes = this.multiselectDataSets.getDataset(MultiselectDataSets.GetManualChecksTransferTypes);
-  public paymentStatuses = this.multiselectDataSets.getDataset(MultiselectDataSets.GetPaymentStatuses);
-  public receivingChanelOptions = this.multiselectDataSets.getDataset(MultiselectDataSets.GetReceivingChanelOptions);
+  public multiselectDataSetsEnum = MultiselectDataSets;
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
   public filter!: ISearchPaymentFilters;
   public validateDates: boolean = false;
@@ -69,7 +66,6 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
       dateTimeFrom: null,
       dateTimeTo: null,
     };
-
     this.validations = {};
     this.changeDetectionRef.detectChanges();
   }
@@ -91,11 +87,8 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
   }
 
   onDateChange(dateFrom: string | null, dateTo: string | null) {
-    if (!this.validateDates) {
-      this.validateDates = true;
-      return;
-    }
     const { dateFromValidation, dateToValidation } = validateDates(dateFrom, dateTo);
+    this.validations = {};
     this.validations['dateFrom'] = dateFromValidation;
     this.validations['dateTo'] = dateToValidation;
   }

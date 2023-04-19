@@ -79,7 +79,7 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
       const validateEmpty = validateFilterOnEmpty(this.filter);
       if (validateEmpty) {
         this.validations = { ...this.validations, ...validateEmpty };
-        this.toastService.showErrorToast('Заполните хотя бы одно из полей ID PE, ID PH, ID заявки, Номер счета');
+        this.toastService.showErrorToast('Заполните хотя бы одно из полей фильтров или укажите интервал дат');
       } else {
         this.toastService.showErrorToast(filterValidation.validationMessage!);
       }

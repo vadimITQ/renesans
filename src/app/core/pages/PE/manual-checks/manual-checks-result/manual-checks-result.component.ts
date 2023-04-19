@@ -9,13 +9,19 @@ import { PaymentOrderWService } from '../../../../services/payment-order-w/payme
 import { forkJoin, skip, Subscription } from 'rxjs';
 import { Table } from 'primeng/table';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { rowStatusesColors } from "src/app/shared/variables/manual-checks-row-statuses";
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
-import { CancelReason, ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from 'src/app/core/services/payment-order-w/types';
-import {ISearchPayment} from 'src/app/core/services/search-payment/types';
+import {
+  CancelReason,
+  ICancelPaymentPayload,
+  ICancelPaymentResponse,
+  IResumePaymentPayload,
+  IResumePaymentResponse,
+} from 'src/app/core/services/payment-order-w/types';
+import { ISearchPayment } from 'src/app/core/services/search-payment/types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ObjectHelper } from 'src/app/shared/classes/object-helper';
+import { failStatusList, successStatusList } from './manual-checks-result.constants';
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -23,7 +29,6 @@ import { ObjectHelper } from 'src/app/shared/classes/object-helper';
   styleUrls: ['./manual-checks-result.component.scss'],
 })
 export class ManualChecksResultComponent implements OnInit, OnDestroy {
-
   constructor(
     public mcService: ManualChecksService,
     private paymentOrderW: PaymentOrderWService,
@@ -32,7 +37,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     private toasterService: ToastService,
     private peNavigationService: PeNavigationService,
     private authService: AuthService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
   ) {}
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
@@ -44,7 +49,6 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   public selection: GetPaymentsResponse[] = [];
   public commentary: string = '';
   private paymentResponseStateSubscribtion!: Subscription;
-  public rowStatusesColors = rowStatusesColors;
 
   get selectedItems(): GetPaymentsResponse[] {
     return this.mcService.componentState.$selectedItems.value ?? [];
@@ -56,27 +60,26 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   public cols = [
-    {field: 'paymentApplication.applicationID', header: 'ID PE'},
-    {field: 'plannedDate', header: 'ID заявки'},
-    {field: 'paymentApplication.amount', header: 'Дата исполнения платежа'},
-    {field: 'type', header: 'Сумма'},
-    {field: 'statusCode', header: 'Тип перевода'},
-    {field: 'statusCodePE', header: 'Статус PE'},
-    {field: 'paymentApplication.statusPE', header: 'Код статуса'},
-    {field: 'ipt.idPH', header: 'ID PH'},
-    {field: 'aymentApplication.channelIP', header: 'IP адрес'},
-    {field: 'pmtCreationTime', header: 'Дата заявки в PE'},
-    {field: 'errorType', header: 'Тип ошибки'}
-  ]
+    { field: 'paymentApplication.applicationID', header: 'ID PE' },
+    { field: 'plannedDate', header: 'ID заявки' },
+    { field: 'paymentApplication.amount', header: 'Дата исполнения платежа' },
+    { field: 'type', header: 'Сумма' },
+    { field: 'statusCode', header: 'Тип перевода' },
+    { field: 'statusCodePE', header: 'Статус PE' },
+    { field: 'paymentApplication.statusPE', header: 'Код статуса' },
+    { field: 'ipt.idPH', header: 'ID PH' },
+    { field: 'aymentApplication.channelIP', header: 'IP адрес' },
+    { field: 'pmtCreationTime', header: 'Дата заявки в PE' },
+    { field: 'errorType', header: 'Тип ошибки' },
+  ];
 
   @ViewChild('manualChecksTable') manualChecksTable!: Table;
 
   ngOnInit(): void {
-
     this.initComponentState();
     this.paymentResponseStateSubscribtion = this.mcService.$tableData.pipe(skip(1)).subscribe(paymentData => {
       this.selectedItems = [];
-      this.commentary = "";
+      this.commentary = '';
       this.paymentResponse = paymentData;
     });
     this.changeDetector.detectChanges();
@@ -84,25 +87,21 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   initComponentState() {
     this.selection = this.mcService.componentState.$selectedItems.value ?? [];
-    this.commentary = this.mcService.componentState.commentary ?? "";
+    this.commentary = this.mcService.componentState.commentary ?? '';
     this.paymentResponse = this.mcService.$tableData.value;
   }
 
   ngOnDestroy(): void {
     this.mcService.componentState.$selectedItems.next(this.selection);
     this.mcService.componentState.commentary = this.commentary;
-    if (this.paymentResponseStateSubscribtion){
+    if (this.paymentResponseStateSubscribtion) {
       this.paymentResponseStateSubscribtion.unsubscribe();
     }
   }
 
-  onRowSelected(e: any) {
+  onRowSelected(e: any) {}
 
-  }
-
-  onHeaderCheckboxToggle(e: any) {
-
-  }
+  onHeaderCheckboxToggle(e: any) {}
 
   back() {
     this.peNavigationService.goBack();
@@ -115,26 +114,32 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
-          const paymentIds: string[] = this.selection.map(selection => selection.paymentID  ?? "");
-          const $paymentsToCancel = this.selection.map(selection => (this.paymentOrderW.cancelPayment(ObjectHelper.deleteUndefinedProperties({
-            cancelReason: CancelReason.CLIENT,
-            paymentID: selection.paymentID ?? "",
-            description: this.commentary ?? "",
-            channelName: 'PEW',
-            chennelUser: this.authService.user?.connectionName ?? "Unknown_User"
-          } as ICancelPaymentPayload))));
-          if (!$paymentsToCancel?.length){
-            this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на отмену");
+          const paymentIds: string[] = this.selection.map(selection => selection.paymentID ?? '');
+          const $paymentsToCancel = this.selection.map(selection =>
+            this.paymentOrderW.cancelPayment(
+              ObjectHelper.deleteUndefinedProperties({
+                cancelReason: CancelReason.CLIENT,
+                paymentID: selection.paymentID ?? '',
+                description: this.commentary ?? '',
+                channelName: 'PEW',
+                chennelUser: this.authService.user?.connectionName ?? 'Unknown_User',
+              } as ICancelPaymentPayload),
+            ),
+          );
+          if (!$paymentsToCancel?.length) {
+            this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на отмену');
             return;
           }
-          this.loadingService.attach(forkJoin($paymentsToCancel)).then((response) => {
-            console.log(response);
-            this.validateResponsesFromCancelPayment(response, paymentIds);
-          })
-          .catch((e) => {
-            console.log(e);
-            this.toasterService.showErrorToast("Ошибка сервера");
-          });
+          this.loadingService
+            .attach(forkJoin($paymentsToCancel))
+            .then(response => {
+              console.log(response);
+              this.validateResponsesFromCancelPayment(response, paymentIds);
+            })
+            .catch(e => {
+              console.log(e);
+              this.toasterService.showErrorToast('Ошибка сервера');
+            });
         },
       },
       reject: {
@@ -150,26 +155,32 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       accept: {
         label: 'Да',
         handler: () => {
-          const paymentIds: string[] = this.selection.map(selection => selection.paymentID  ?? "");
-          const $paymentsToResume = this.selection.map(selection => (this.paymentOrderW.resumePayment(ObjectHelper.deleteUndefinedProperties({
-            paymentID: selection.paymentID ?? "",
-            channelUser: this.authService.user?.connectionName ?? "Unknown_User",
-            ResumeComment: this.commentary ?? "",
-            АpplicationChannelName: "PEW"
-          } as IResumePaymentPayload))));
-          if (!$paymentsToResume?.length){
-            this.toasterService.showWarnToast("Необходимо выбрать хотя бы один платеж/перевод на возобновление");
+          const paymentIds: string[] = this.selection.map(selection => selection.paymentID ?? '');
+          const $paymentsToResume = this.selection.map(selection =>
+            this.paymentOrderW.resumePayment(
+              ObjectHelper.deleteUndefinedProperties({
+                paymentID: selection.paymentID ?? '',
+                channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
+                ResumeComment: this.commentary ?? '',
+                АpplicationChannelName: 'PEW',
+              } as IResumePaymentPayload),
+            ),
+          );
+          if (!$paymentsToResume?.length) {
+            this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на возобновление');
             return;
           }
-          this.loadingService.attach(forkJoin($paymentsToResume)).then((response) => {
-            console.log(response);
-            this.validateResponsesFromResumePayment(response, paymentIds);
-          })
-          .catch((e) => {
-            console.log(e);
-            this.toasterService.showErrorToast("Ошибка сервера");
-          });
-      },
+          this.loadingService
+            .attach(forkJoin($paymentsToResume))
+            .then(response => {
+              console.log(response);
+              this.validateResponsesFromResumePayment(response, paymentIds);
+            })
+            .catch(e => {
+              console.log(e);
+              this.toasterService.showErrorToast('Ошибка сервера');
+            });
+        },
       },
       reject: {
         label: 'Нет',
@@ -177,31 +188,32 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     });
   }
 
-  validateResponsesFromCancelPayment(responses: ICancelPaymentResponse[], paymentIds: string[]){
-    if (responses){
+  validateResponsesFromCancelPayment(responses: ICancelPaymentResponse[], paymentIds: string[]) {
+    if (responses) {
       responses.forEach((response, idx) => {
-        const errorMessage = response?.errorMessage ?? "";
-        const paymentId = paymentIds[idx] ?? "";
-        if (errorMessage){
+        const errorMessage = response?.errorMessage ?? '';
+        const paymentId = paymentIds[idx] ?? '';
+        if (errorMessage) {
           this.toasterService.showWarnToast(`Ошибка отклонения. ${errorMessage}`, `Платёж/перевод № ${paymentId}`);
-        }
-        else{
-          this.toasterService.showSuccessToast("Запрос на отклонение платежа/перевода отправлен успешно", `Платёж/перевод № ${paymentId}`)
+        } else {
+          this.toasterService.showSuccessToast('Запрос на отклонение платежа/перевода отправлен успешно', `Платёж/перевод № ${paymentId}`);
         }
       });
     }
   }
 
-  validateResponsesFromResumePayment(responses: IResumePaymentResponse[], paymentIds: string[]){
-    if (responses){
+  validateResponsesFromResumePayment(responses: IResumePaymentResponse[], paymentIds: string[]) {
+    if (responses) {
       responses.forEach((response, idx) => {
-        const errorMessage = response.errorMessage ?? "";
-        const paymentId = paymentIds[idx] ?? "";
-        if (errorMessage){
+        const errorMessage = response.errorMessage ?? '';
+        const paymentId = paymentIds[idx] ?? '';
+        if (errorMessage) {
           this.toasterService.showWarnToast(`Ошибка возобновления. ${errorMessage}`, `Платёж/перевод № ${paymentId}`);
-        }
-        else{
-          this.toasterService.showSuccessToast("Запрос на возобновление платежа/перевода отправлен успешно", `Платёж/перевод № ${paymentId}`)
+        } else {
+          this.toasterService.showSuccessToast(
+            'Запрос на возобновление платежа/перевода отправлен успешно',
+            `Платёж/перевод № ${paymentId}`,
+          );
         }
       });
     }
@@ -215,18 +227,18 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     this.peNavigationService.goToViewTransferDetails(id);
   }
 
-
-  tableCheckboxDisabled(paymentItem: GetPaymentsResponse) {
-    return paymentItem.rowStatus === 'successful'
+  tableRowStatusColor(paymentItem: ISearchPayment): string {
+    console.log(paymentItem);
+    if (successStatusList.includes(paymentItem.statusCode)) {
+      return '#FFCC00';
+    }
+    if (failStatusList.includes(paymentItem.statusCode)) {
+      return 'red';
+    }
+    return '';
   }
 
   onSelectionChange(selection: any) {
-    for (let i = selection.length - 1; i >= 1; i--) {
-      let data = selection[i];
-      if (this.tableCheckboxDisabled(data)) {
-        selection.splice(i, 1);
-      }
-    }
     this.selection = selection;
   }
 
@@ -237,5 +249,4 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     });
     return obj;
   }
-
 }

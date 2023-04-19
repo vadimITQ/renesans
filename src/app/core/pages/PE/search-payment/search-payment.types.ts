@@ -1,7 +1,7 @@
 export interface ISearchPaymentTableData {
   appCreationTime: string;
   plannedDate: string;
-  statusCode: string;
+  statusCode: number;
   type: string;
   paymentSubType: string;
   budgetPaymentSubtype: string;

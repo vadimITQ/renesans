@@ -248,7 +248,7 @@ export interface ISearchPayment {
   idW4: string;
   payerName: string;
   payerNameCBR: string;
-  statusCode: string;
+  statusCode: number;
   statusChangeTime: string;
   faults: (string | null)[];
   payDocs: PayDoc[] | null;

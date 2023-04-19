@@ -76,9 +76,9 @@
             </tr> -->
       </ng-template>
       <ng-template pTemplate="body" let-paymentItem>
-        <tr [ngStyle]="{ color: rowStatusesColors[paymentItem.rowStatus] }">
+        <tr [ngStyle]="{ color: tableRowStatusColor(paymentItem) }">
           <td>
-            <p-tableCheckbox [value]="paymentItem" [disabled]="tableCheckboxDisabled(paymentItem)"></p-tableCheckbox>
+            <p-tableCheckbox [value]="paymentItem"></p-tableCheckbox>
           </td>
           <td>
             <a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a>

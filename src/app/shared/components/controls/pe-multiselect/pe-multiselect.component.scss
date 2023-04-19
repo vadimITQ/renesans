@@ -2,9 +2,9 @@
 $errorColor:  #f44336;
 
 .pe-multiselect {
+    position: relative;
     &__label {
         display: inline-block;
-        margin-right: 10px;
     }
     &__container {
         display: contents;
@@ -16,7 +16,11 @@ $errorColor:  #f44336;
     border-color: $errorColor;
 }
 
-:host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
-    max-width: calc(100%)
+.error-message {
+    color: $errorColor;
+    position: absolute;
+    top: 43px;
+    z-index: 999;
+    font-size: 13px;
+    line-height: 14px;
 }
-  

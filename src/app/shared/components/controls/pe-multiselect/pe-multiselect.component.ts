@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { MultiSelect } from "primeng/multiselect";
 import { MultiselectDataSets } from "src/app/shared/enums/datasets.enums";
 import { MultiselectDatasetsService } from "src/app/shared/services/multiselect-datasets.service";
 import { ValidationMessage } from "src/app/shared/validation/types";
@@ -19,6 +20,10 @@ export class PeMuitiselectComponent implements OnInit {
 
     private _selected!: IMultiSelectData[];
     private _dataset!: IMultiSelectData[];
+    private _labelStyle!: {[key: string]: string};
+
+    @ViewChild("labelRef", { static: true }) labelRef!: ElementRef;
+    @ViewChild("multiselectRef", { static: true }) multiselectRef!: MultiSelect;
 
     @Output() selectedChange = new EventEmitter<IMultiSelectData[]>();
 
@@ -34,6 +39,17 @@ export class PeMuitiselectComponent implements OnInit {
     @Input() label: string = "";
 
     @Input() placeholder: string = "";
+
+    @Input() set labelStyle(style: {[key: string]: string}) {
+        this._labelStyle = style;
+        setTimeout(() => {
+            this.fixMultiselectOverflowingProgrammatically(); 
+        });
+    };
+
+    get labelStyle(): {[key: string]: string}{
+        return this._labelStyle;
+    }
 
     @Input() validationMessage!: ValidationMessage;
 
@@ -52,6 +68,30 @@ export class PeMuitiselectComponent implements OnInit {
         return this._dataset;
     }
 
-    ngOnInit(): void { }
+    get labelWidth(): string {
+        let result = "";
+        const width = (this.labelRef.nativeElement as HTMLLabelElement)?.offsetWidth;
+        if (!!width){
+            result = width + 'px';
+        }
+        else {
+            result = '0px';
+        }
+        return result;
+    }
+
+    ngOnInit(): void { 
+        this.fixMultiselectOverflowingProgrammatically();   
+    }
+
+    private fixMultiselectOverflowingProgrammatically() {
+        const label = this.labelRef?.nativeElement as HTMLLabelElement;
+        if (!label){
+            return;
+        }
+        const multiselectContainer = this.multiselectRef.containerViewChild.nativeElement as HTMLElement;
+        const labelWidth = label.offsetWidth;
+        multiselectContainer.style.maxWidth = `calc(100% - ${ labelWidth }px)`;
+    }
 
 }

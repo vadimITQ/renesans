@@ -64,8 +64,8 @@
         [dataset]="multiselectDataSetsEnum.GetPaymentStatuses" 
         placeholder="Выберите статус"
         label="Статус"
+        [validationMessage]="'hello world error'"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}"
-        [validationMessage]="filtersValidation['codeStatuses']"
         [(selected)]="filters.codeStatuses">
       </pe-multiselect>
     </div>

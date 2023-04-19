@@ -12,7 +12,7 @@ $errorColor:  #f44336;
     }
 }
 
-.multiselect-input-error {
+:host ::ng-deep .multiselect-input-error .p-multiselect.p-component.p-multiselect-chip {
     border-color: $errorColor;
 }
 

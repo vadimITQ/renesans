@@ -85,13 +85,15 @@ export class PeMuitiselectComponent implements OnInit {
     }
 
     private fixMultiselectOverflowingProgrammatically() {
-        const label = this.labelRef?.nativeElement as HTMLLabelElement;
-        if (!label){
-            return;
-        }
-        const multiselectContainer = this.multiselectRef.containerViewChild.nativeElement as HTMLElement;
-        const labelWidth = label.offsetWidth;
-        multiselectContainer.style.maxWidth = `calc(100% - ${ labelWidth }px)`;
+        setTimeout(() => { 
+            const label = this.labelRef?.nativeElement as HTMLLabelElement;
+            if (!label){
+                return;
+            }
+            const multiselectContainer = this.multiselectRef.containerViewChild.nativeElement as HTMLElement;
+            const labelWidth = label.offsetWidth;
+            multiselectContainer.style.maxWidth = `calc(100% - ${ labelWidth }px)`;
+        });
     }
 
 }

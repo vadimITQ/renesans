@@ -129,7 +129,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
           }
           this.loadingService.attach(forkJoin($paymentsToCancel)).then((response) => {
             console.log(response);
-            this.validateResponsesFromCancePayment(response, paymentIds);
+            this.validateResponsesFromCancelPayment(response, paymentIds);
           })
           .catch((e) => {
             console.log(e);
@@ -177,17 +177,16 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     });
   }
 
-  validateResponsesFromCancePayment(responses: ICancelPaymentResponse[], paymentIds: string[]){
+  validateResponsesFromCancelPayment(responses: ICancelPaymentResponse[], paymentIds: string[]){
     if (responses){
       responses.forEach((response, idx) => {
         const errorMessage = response?.errorMessage ?? "";
-        const attrErrors = response?.attrErrors ?? [];
         const paymentId = paymentIds[idx] ?? "";
         if (errorMessage){
-          this.toasterService.showWarnToast(`Ошибка отмены. ${errorMessage}`, `Платёж/перевод № ${paymentId}`);
+          this.toasterService.showWarnToast(`Ошибка отклонения. ${errorMessage}`, `Платёж/перевод № ${paymentId}`);
         }
         else{
-          this.toasterService.showSuccessToast("Запрос на отмену платежа/перевода отправлен успешно", `Платёж/перевод № ${paymentId}`)
+          this.toasterService.showSuccessToast("Запрос на отклонение платежа/перевода отправлен успешно", `Платёж/перевод № ${paymentId}`)
         }
       });
     }

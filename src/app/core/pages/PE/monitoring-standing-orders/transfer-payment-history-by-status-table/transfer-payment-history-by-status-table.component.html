@@ -2,7 +2,7 @@
 <div class="tps-by-status">
     <h5 class="mb-3">История перевода/платежа постатусно</h5>
 
-    <p-table 
+    <p-table
         *ngIf="monitoringDataRecord"
         [value]="monitoringDataRecord"
         (onRowSelect)="onRowSelected($event)"
@@ -18,7 +18,7 @@
                 <th>Счет приемник</th>
                 <th>Срок действия</th>
                 <th>Периодичность</th>
-                <th>Ссылка на платеж\перевод</th>
+                <th>Ссылка на платеж/перевод</th>
                 <th>Статус операции по распоряжению</th>
                 <th>Описание ошибки</th>
                 <th>Ссылка на заявку</th>

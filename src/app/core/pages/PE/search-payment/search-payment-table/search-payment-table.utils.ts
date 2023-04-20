@@ -187,7 +187,7 @@ export function generateReport_prepareDataToExportXlsx(data: ISearchPayment[] | 
       statusIb: "",
       statusDescriptionPe: x?.paymentApplication?.statusDescriptionPe,
       parentType: x?.paymentApplication?.parentType,
-      typeApplication: "Платеж\перевод",
+      typeApplication: "Платеж/перевод",
       once: "Разовый",
       channelIP: x?.paymentApplication?.applicationChannel?.channelIP,
       browserData: "",

@@ -2,6 +2,7 @@
 @import "./buttons.scss";
 @import "./indents.scss";
 @import "./typography.scss";
+@import "./variables.scss";
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -36,3 +37,11 @@ a.link-hover {
 .uppercase {
     text-transform: uppercase;
 }
+
+.error-message {
+    color: $errorColor;
+    z-index: 999;
+    font-size: 13px;
+    line-height: 14px;
+}
+  

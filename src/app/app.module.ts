@@ -52,6 +52,7 @@ import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component
 import { PaymentEngineInitializerService } from './core/services/payment-engine-initializer/payment-engine-initializer';
 import { PeMuitiselectComponent } from './shared/components/controls/pe-multiselect/pe-multiselect.component';
 import { PeRInputComponent } from './shared/components/reactive-controls/pe-r-input/pe-r-input.component';
+import { PeRTextareaComponent } from './shared/components/reactive-controls/pe-r-textarea/pe-r-textarea.component';
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -88,7 +89,8 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeHeaderComponent,
     PeFooterComponent,
     PeMuitiselectComponent,
-    PeRInputComponent
+    PeRInputComponent,
+    PeRTextareaComponent
   ],
   imports: [
     BrowserModule,

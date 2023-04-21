@@ -6,14 +6,14 @@
     <div class="mb-5"></div>
     <pe-r-input label="ID Заявки"   [control]="filter.controls['applicationID']" [maxLength]="70"></pe-r-input>
     <div class="mb-5"></div>
-    <pe-r-input label="ID PH"       [control]="filter.controls['paymentHubPaymentId']"></pe-r-input>
+    <pe-r-textarea label="ID PH"       [control]="filter.controls['paymentHubPaymentId']"></pe-r-textarea>
     <div class="mb-5"></div>
-    <pe-r-input label="Номер счета" [control]="filter.controls['account']"></pe-r-input>
+    <pe-r-textarea label="Номер счета" [control]="filter.controls['account']"></pe-r-textarea>
     <div class="mb-5"></div>
     <button type="submit">Check Filter Validation</button>
     <ng-container *ngIf="filter.errors && (filter.touched && filter.dirty)">
         <ng-container *ngFor="let error of filter.errors | keyvalue">
-            {{ errorMessages[error.key] }}
+            <div class="error-message">{{ errorMessages[error.key] }}</div>
         </ng-container>
     </ng-container>
 </form>

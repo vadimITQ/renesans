@@ -17,11 +17,11 @@ import {
   IResumePaymentPayload,
   IResumePaymentResponse,
 } from 'src/app/core/services/payment-order-w/types';
-import { ISearchPayment } from 'src/app/core/services/search-payment/types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ObjectHelper } from 'src/app/shared/classes/object-helper';
 import { failStatusList, successStatusList } from './manual-checks-result.constants';
+import {SearchPaymentWithManualParse} from "./manual-checks-result.types";
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -42,7 +42,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
   public readonly COMMENTARY_LENGTH = commentaryLength;
-  public paymentResponse: ISearchPayment[] | null | undefined = undefined;
+  public paymentResponse: SearchPaymentWithManualParse[] | null | undefined = undefined;
   public types = this.prepareTypes(Object.entries(PaymentTypes));
   public statues = paymentStatusObj;
   public selectedAll: boolean = false;
@@ -227,8 +227,10 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     this.peNavigationService.goToViewTransferDetails(id);
   }
 
-  tableRowStatusColor(paymentItem: ISearchPayment): string {
-    console.log(paymentItem);
+  tableRowStatusColor(paymentItem: SearchPaymentWithManualParse): string {
+    if(paymentItem.manualParse === 1 || !paymentItem.manualParse) {
+      return ''
+    }
     if (successStatusList.includes(paymentItem.statusCode)) {
       return '#FFCC00';
     }

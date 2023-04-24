@@ -7,6 +7,6 @@ export const environment = {
         'x-ibm-client-secret': 'aL6uX7kN7vG1qP3nO6gV2vE2cA0mA1wC1rI4cS4vG6kR0nX7uV'
     },
     forDev: {
-        apiOrigin: "http://web-facade-test10-int-minor-test.apps.test.ocp.rccf.ru"
+        apiOrigin: "https://pe-web-int-minor-test.apps.test.ocp.rccf.ru"
     }
 };

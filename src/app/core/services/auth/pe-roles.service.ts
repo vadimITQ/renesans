@@ -19,10 +19,8 @@ export class PeRolesService {
 
   hasAccessToManualChecks(): boolean {
     return this.rolesService.hasSomeOfRoles(
-      RolesList.AP_TEST_PE_Users,
       RolesList.AP_TEST_PEWeb_ManualChecks,
-      ProdRolesList.AP_PEWeb_ManualChecks,
-      ProdRolesList.PE_Users,
+      ProdRolesList.AP_PEWeb_ManualChecks
     );
   }
 

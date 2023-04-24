@@ -53,6 +53,7 @@ import { PaymentEngineInitializerService } from './core/services/payment-engine-
 import { PeMuitiselectComponent } from './shared/components/controls/pe-multiselect/pe-multiselect.component';
 import { PeRInputComponent } from './shared/components/reactive-controls/pe-r-input/pe-r-input.component';
 import { PeRTextareaComponent } from './shared/components/reactive-controls/pe-r-textarea/pe-r-textarea.component';
+import { PeRDatePickerComponent } from './shared/components/reactive-controls/pe-r-date-picker/pe-r-date-picker.component';
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -90,7 +91,8 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeFooterComponent,
     PeMuitiselectComponent,
     PeRInputComponent,
-    PeRTextareaComponent
+    PeRTextareaComponent,
+    PeRDatePickerComponent
   ],
   imports: [
     BrowserModule,

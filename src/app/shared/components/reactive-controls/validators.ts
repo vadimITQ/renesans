@@ -21,7 +21,6 @@ export class PEValidators {
             FormControlValidators: {
                 Required: (abstractControl: AbstractControl): ValidationErrors | null => {
                     const formControl = abstractControl as FormControl;
-                    console.log(formControl);
                     if (!formControl?.value){
                         return {required: {value: true}};
                     }

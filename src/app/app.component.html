@@ -10,6 +10,8 @@
     <div class="mb-5"></div>
     <pe-r-textarea label="Номер счета" [control]="filter.controls['account']"></pe-r-textarea>
     <div class="mb-5"></div>
+    <pe-r-date-picker label="Дата с" [control]="filter.controls['dateStart']" [showTime]="true"></pe-r-date-picker>
+    <div class="mb-5"></div>
     <button type="submit">Check Filter Validation</button>
     <ng-container *ngIf="filter.errors && (filter.touched && filter.dirty)">
         <ng-container *ngFor="let error of filter.errors | keyvalue">

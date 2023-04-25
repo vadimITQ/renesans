@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { PEValidators } from 'src/app/shared/components/reactive-controls/validators';
 import { messages, ErrorMesssagesList } from './shared/components/reactive-controls/global-error-messages';
-import { DatePickerHelper } from './shared/components/controls/date-picker/date-picker-helper';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +24,7 @@ export class AppComponent implements OnInit {
       applicationID: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
       paymentHubPaymentId: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
       account: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-      dateStart: new FormControl(DatePickerHelper.convertToDatePicker(new Date()), PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required)
+      dateStart: new FormControl(new Date(), PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required)
     },{
       validators: PEValidators.ManualChecksFilterValidators.PeInputValidators.FormGroupValidators.Required
     });
@@ -45,6 +44,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  listenISODate(iso: string | null){
+    console.log(iso);
+    console.log(this.filter.controls['dateStart'].value);
   }
 
   submit(){

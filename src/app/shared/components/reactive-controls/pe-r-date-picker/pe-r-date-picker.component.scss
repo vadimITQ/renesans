@@ -32,3 +32,7 @@ $errorColor:  #f44336;
 :host ::ng-deep .p-datepicker table td {
   padding: 0px;
 }
+
+:host ::ng-deep .p-datepicker {
+  left: 200px!important;
+}

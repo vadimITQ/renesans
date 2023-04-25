@@ -3,7 +3,10 @@
 export class DateHelper {
 
     public static dateValid(date: Date | null): boolean{
-        return date !== null && !Number.isNaN(date.getTime());
+        if (typeof date !== "object"){
+            return false;
+        }
+        return date !== null && !Number.isNaN(date?.getTime());
     }
 
     public static getDiffInDays(dateFrom: Date | null, dateTo: Date | null): number | null {

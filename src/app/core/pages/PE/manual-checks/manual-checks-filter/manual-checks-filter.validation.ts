@@ -81,7 +81,6 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
 
 export function validateFilterOnEmpty(filter: ISearchPaymentFilters): Validation | null {
   const noFilter: boolean = !filter;
-  console.log(filter);
     const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateTimeFrom) || !!DatePickerHelper.convertToDate(filter.dateTimeTo);
     const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.idPH || !!filter.account;
     if (noFilter || (!filterHasDates && !filterHasId)){

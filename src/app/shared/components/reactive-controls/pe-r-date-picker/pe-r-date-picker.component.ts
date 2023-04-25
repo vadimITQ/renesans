@@ -3,7 +3,6 @@ import { AbstractControl, FormControl } from "@angular/forms";
 import { messages } from "../global-error-messages";
 import { ErrorMesssagesList } from "../global-error-messages";
 import { Subscription } from "rxjs";
-import { RDatePickerHelper } from './r-date-picker-helper';
 
 @Component({
     selector: "pe-r-date-picker",
@@ -20,7 +19,6 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
     @Input() labelStyle?: { [styleKey: string]: string };
     @Output() listenISODate: EventEmitter<string | null> = new EventEmitter<string | null>();
 
-    _timeControl: FormControl = new FormControl();
     _dateControl: FormControl = new FormControl();
     errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
     dateControlSubscribtion!: Subscription;
@@ -28,7 +26,6 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
 
     @Input() set control(abstractControl: AbstractControl) {
         this._dateControl = abstractControl as FormControl;
-        this._timeControl = new FormControl();
     }
     
     ngOnDestroy(): void {
@@ -39,14 +36,8 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
     ngOnInit(): void { 
         this.dateControlSubscribtion = this._dateControl.valueChanges.subscribe(
             () => {
-                console.log(RDatePickerHelper.getISODate(this._dateControl, this._timeControl));
-                this.listenISODate.emit(RDatePickerHelper.getISODate(this._dateControl, this._timeControl));
-            }
-        );
-        this.timeControlSubscribtion = this._timeControl.valueChanges.subscribe(
-            () => {
-                console.log(RDatePickerHelper.getISODate(this._dateControl, this._timeControl));
-                this.listenISODate.emit(RDatePickerHelper.getISODate(this._dateControl, this._timeControl));
+                const iso = (this._dateControl.value as Date).toISOString();
+                this.listenISODate.emit(iso);
             }
         );
     }

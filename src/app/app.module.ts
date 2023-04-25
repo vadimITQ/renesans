@@ -54,6 +54,8 @@ import { PeMuitiselectComponent } from './shared/components/controls/pe-multisel
 import { PeRInputComponent } from './shared/components/reactive-controls/pe-r-input/pe-r-input.component';
 import { PeRTextareaComponent } from './shared/components/reactive-controls/pe-r-textarea/pe-r-textarea.component';
 import { PeRDatePickerComponent } from './shared/components/reactive-controls/pe-r-date-picker/pe-r-date-picker.component';
+import { PeRMultiCheckboxComponent } from './shared/components/reactive-controls/pe-r-multi-checkbox/pe-r-multi-checkbox.component';
+import { PeRMultiselectComponent } from './shared/components/reactive-controls/pe-r-multiselect/pe-r-multiselect.component';
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -92,7 +94,9 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeMuitiselectComponent,
     PeRInputComponent,
     PeRTextareaComponent,
-    PeRDatePickerComponent
+    PeRDatePickerComponent,
+    PeRMultiCheckboxComponent,
+    PeRMultiselectComponent
   ],
   imports: [
     BrowserModule,

@@ -11,9 +11,9 @@ import { ErrorMesssagesList, messages } from "../global-error-messages";
 export class PeRTextareaComponent {
     
     constructor(){}
-
-    _value!: any;
-    _control!: FormControl;
+    
+    public readonly errorMessages: ErrorMesssagesList = {...messages.formControlMessages.global, ...messages.formControlMessages.peInput};
+    private _control!: FormControl;
 
     @Input() disabled: boolean = false;
 
@@ -26,7 +26,9 @@ export class PeRTextareaComponent {
     @Input() set control(abstractControl: AbstractControl) {
       this._control = abstractControl as FormControl;
     }
-  
-    public readonly errorMessages: ErrorMesssagesList = {...messages.formControlMessages.global, ...messages.formControlMessages.peInput};
+
+    get control(): FormControl {
+      return this._control;
+    }
 
 }

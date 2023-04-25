@@ -1,0 +1,26 @@
+
+<div class="pe-multiselect">
+    <div class="pe-multiselect__label">
+        <label [ngStyle]="labelStyle" #labelRef>{{ label }}</label>
+    </div>
+    <div class="pe-multiselect__container">
+        <p-multiSelect
+            #multiselectRef
+            optionLabel="label"
+            [formControl]="control"
+            [ngClass]="{ 'multiselect-input-error': !control.valid && (control.dirty || control.touched)}"
+            [options]="dataset"
+            [defaultLabel]="placeholder"
+            [display]="displayType">
+        </p-multiSelect>
+        <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
+            <ng-container *ngFor="let error of control.errors | keyvalue">
+                <div 
+                    class="pe-multiselect__validationMessage error-message"
+                    [ngStyle]="{'left': labelWidth}">
+                    {{ errorMessages[error.key] }}
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

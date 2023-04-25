@@ -12,12 +12,24 @@
     <div class="mb-5"></div>
     <pe-r-date-picker label="Дата с"   [control]="filter.controls['dateStart']" [showTime]="true" (listenISODate)="listenISODate($event)"></pe-r-date-picker>
     <div class="mb-5"></div>
+    <pe-r-multi-checkbox></pe-r-multi-checkbox>
+    <div class="mb-5"></div>
+    <pe-r-multiselect 
+        [label]="'Мультиселект'" 
+        [labelStyle]="{'min-width': '130px', 'display': 'block'}" 
+        [control]="filter.controls['multiselect']" 
+        [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes">
+    </pe-r-multiselect>
+    <div class="mb-5"></div>
     <button type="submit">Check Filter Validation</button>
-    <ng-container *ngIf="filter.errors && (filter.touched && filter.dirty)">
+    <ng-container *ngIf="filter.errors && (filter.touched && filter.dirty); else OKTemplate;">
         <ng-container *ngFor="let error of filter.errors | keyvalue">
             <div class="error-message">{{ errorMessages[error.key] }}</div>
         </ng-container>
     </ng-container>
+    <ng-template #OKTemplate>
+        <div *ngIf="filter.dirty && filter.valid" style="color: green">OK</div>
+    </ng-template>
 </form>
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>

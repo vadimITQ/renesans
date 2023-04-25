@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { PEValidators } from 'src/app/shared/components/reactive-controls/validators';
 import { messages, ErrorMesssagesList } from './shared/components/reactive-controls/global-error-messages';
+import { MultiselectDataSets } from './shared/enums/datasets.enums';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
   filter: FormGroup = this.createFormGroup();
 
   errorMessages: ErrorMesssagesList = messages.formGroupMessages.global;
+  public multiselectDataSetsEnum = MultiselectDataSets;
 
   createFormGroup(){
     return this.fb.group({
@@ -24,7 +26,8 @@ export class AppComponent implements OnInit {
       applicationID: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
       paymentHubPaymentId: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
       account: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-      dateStart: new FormControl(new Date(), PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required)
+      dateStart: new FormControl(new Date(), PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
+      multiselect: new FormControl([], PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiselect.Required)
     },{
       validators: PEValidators.ManualChecksFilterValidators.PeInputValidators.FormGroupValidators.Required
     });

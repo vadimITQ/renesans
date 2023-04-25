@@ -19,13 +19,17 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
     @Input() labelStyle?: { [styleKey: string]: string };
     @Output() listenISODate: EventEmitter<string | null> = new EventEmitter<string | null>();
 
-    _dateControl: FormControl = new FormControl();
-    errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
-    dateControlSubscribtion!: Subscription;
-    timeControlSubscribtion!: Subscription;
+    public readonly errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
+    private _control: FormControl = new FormControl();
+    private dateControlSubscribtion!: Subscription;
+    private timeControlSubscribtion!: Subscription;
 
     @Input() set control(abstractControl: AbstractControl) {
-        this._dateControl = abstractControl as FormControl;
+        this._control = abstractControl as FormControl;
+    }
+
+    get control(): FormControl {
+        return this._control;
     }
     
     ngOnDestroy(): void {
@@ -33,13 +37,13 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
         this.timeControlSubscribtion?.unsubscribe();
     }
 
-    ngOnInit(): void { 
-        this.dateControlSubscribtion = this._dateControl.valueChanges.subscribe(
+    ngOnInit(): void {
+        this.dateControlSubscribtion = this.control.valueChanges.subscribe(
             () => {
-                const iso = (this._dateControl.value as Date).toISOString();
+                const iso = (this.control.value as Date)?.toISOString() ?? null;
                 this.listenISODate.emit(iso);
             }
-        );
+        );   
     }
 
 }

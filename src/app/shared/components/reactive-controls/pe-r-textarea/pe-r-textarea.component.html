@@ -1,23 +1,24 @@
+
 <div class="textarea-with-error-container">
-    <span class="p-float-label">
-      <textarea
-        [formControl]="_control"
-        #peTextarea
-        pInputTextarea
-        id="textarea"
-        type="text"
-        style="width: 100%"
-        [class]="{'textarea-error': !_control.valid && (_control.dirty || _control.touched)}"
-        [maxLength]="maxLength"
-        [disabled]="disabled"
-        [allowedInputCharactersReg]="regExprValidation"
-      ></textarea>
-      <label for="textarea">{{ label }}</label>
-    </span>
-    <ng-container *ngIf="_control.dirty || _control.touched">
-      <ng-container *ngFor="let error of _control.errors | keyvalue">
-        <span class="error-message" *ngIf="!_control.valid">{{ errorMessages[error.key] }}</span>
-      </ng-container>
+  <span class="p-float-label">
+    <textarea
+      [formControl]="control"
+      #peTextarea
+      pInputTextarea
+      id="textarea"
+      type="text"
+      style="width: 100%"
+      [class]="{'textarea-error': !control.valid && (control.dirty || control.touched)}"
+      [maxLength]="maxLength"
+      [disabled]="disabled"
+      [allowedInputCharactersReg]="regExprValidation"
+    ></textarea>
+    <label for="textarea">{{ label }}</label>
+  </span>
+  <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
+    <ng-container *ngFor="let error of control.errors | keyvalue">
+      <span class="error-message">{{ errorMessages[error.key] }}</span>
     </ng-container>
-  </div>
+  </ng-container>
+</div>
   

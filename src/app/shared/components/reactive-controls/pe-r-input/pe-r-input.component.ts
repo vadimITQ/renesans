@@ -10,8 +10,8 @@ import { messages, ErrorMesssagesList } from "../global-error-messages";
 })
 export class PeRInputComponent implements OnInit {
     
-    _value!: any;
-    _control!: FormControl;
+    public readonly errorMessages: ErrorMesssagesList = {...messages.formControlMessages.global, ...messages.formControlMessages.peInput};
+    private _control!: FormControl;
 
     @Input() disabled: boolean = false;
 
@@ -25,7 +25,9 @@ export class PeRInputComponent implements OnInit {
         this._control = abstractControl as FormControl;
     };
 
-    public readonly errorMessages: ErrorMesssagesList = {...messages.formControlMessages.global, ...messages.formControlMessages.peInput};
+    get control(): FormControl {
+        return this._control;
+    }
 
     ngOnInit(): void {}
   

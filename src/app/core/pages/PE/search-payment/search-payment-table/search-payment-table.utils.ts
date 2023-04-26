@@ -10,7 +10,7 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
     const senderPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => searchPayment.sourceSystem === payDoc?.accountingSystem)[0]: null;
     const receiverPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => !!payDoc.accntDeb && !!payDoc.accntCre)[0]: null;
     const plannedDate = datePipeRef ? datePipeRef.transform(searchPayment.plannedDate, "dd-MM-yyyy") ?? "": searchPayment.plannedDate;
-    const appCreationTime = datePipeRef ? datePipeRef.transform(searchPayment.paymentApplication?.appCreationTime, "dd-MM-yyyy HH:mm:ss") ?? "": searchPayment.paymentApplication?.appCreationTime;
+    const appCreationTime = datePipeRef ? datePipeRef.transform(searchPayment.pmtCreationTime, "dd-MM-yyyy HH:mm:ss") ?? "": searchPayment.pmtCreationTime ?? '';
     const settlementDate = datePipeRef ? datePipeRef.transform(searchPayment.paymentApplication?.sbp?.settlementDate, "dd-MM-yyyy") ?? "": searchPayment.paymentApplication?.sbp?.settlementDate;
     return {
       appCreationTime: appCreationTime,

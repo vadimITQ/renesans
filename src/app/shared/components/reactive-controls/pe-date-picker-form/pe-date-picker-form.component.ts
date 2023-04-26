@@ -3,11 +3,12 @@ import { AbstractControl, FormControl } from "@angular/forms";
 import { messages } from "../global-error-messages";
 import { ErrorMesssagesList } from "../global-error-messages";
 import { Subscription } from "rxjs";
+import { PEReactiveHelper } from "../utils";
 
 @Component({
-    selector: "pe-r-date-picker",
-    templateUrl: "./pe-r-date-picker.component.html",
-    styleUrls: ["./pe-r-date-picker.component.scss"]
+    selector: "pe-date-picker-form",
+    templateUrl: "./pe-date-picker-form.component.html",
+    styleUrls: ["./pe-date-picker-form.component.scss"]
 })
 export class PeRDatePickerComponent implements OnInit, OnDestroy {
 
@@ -22,10 +23,9 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
     public readonly errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
     private _control: FormControl = new FormControl();
     private dateControlSubscribtion!: Subscription;
-    private timeControlSubscribtion!: Subscription;
 
     @Input() set control(abstractControl: AbstractControl) {
-        this._control = abstractControl as FormControl;
+        this._control = PEReactiveHelper.abstractControl.toFormControl(abstractControl);
     }
 
     get control(): FormControl {
@@ -34,7 +34,6 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
     
     ngOnDestroy(): void {
         this.dateControlSubscribtion?.unsubscribe();
-        this.timeControlSubscribtion?.unsubscribe();
     }
 
     ngOnInit(): void {

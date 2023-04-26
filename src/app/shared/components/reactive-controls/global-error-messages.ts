@@ -11,6 +11,9 @@ export const messages = {
         },
         peInput: {
 
+        },
+        peMulticheckbox: {
+            allTrue: "Все чекбоксы должны быть выбраны"
         }
     },
     formGroupMessages: {

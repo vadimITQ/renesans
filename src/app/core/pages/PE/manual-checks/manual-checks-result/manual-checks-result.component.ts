@@ -133,11 +133,9 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
           this.loadingService
             .attach(forkJoin($paymentsToCancel))
             .then(response => {
-              console.log(response);
               this.validateResponsesFromCancelPayment(response, paymentIds);
             })
             .catch(e => {
-              console.log(e);
               this.toasterService.showErrorToast('Ошибка сервера');
             });
         },
@@ -173,11 +171,9 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
           this.loadingService
             .attach(forkJoin($paymentsToResume))
             .then(response => {
-              console.log(response);
               this.validateResponsesFromResumePayment(response, paymentIds);
             })
             .catch(e => {
-              console.log(e);
               this.toasterService.showErrorToast('Ошибка сервера');
             });
         },
@@ -228,7 +224,6 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   tableRowStatusColor(paymentItem: ISearchPayment): string {
-    console.log(paymentItem);
     if (successStatusList.includes(paymentItem.statusCode)) {
       return '#FFCC00';
     }

@@ -15,7 +15,6 @@ export class ViewTransferDetailsService {
     this.$transferDetailsState.next(null);
     return this.paymentOrderWService.getTransferDetails(id).pipe(
       tap(response => {
-        console.log(response);
         // if (this.instanceOfSearchPayment(response)) {
         this.$transferDetailsState.next(response);
         // }

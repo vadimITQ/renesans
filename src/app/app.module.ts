@@ -51,11 +51,13 @@ import { PeHeaderComponent } from './core/pages/PE/pe-header/pe-header.component
 import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component';
 import { PaymentEngineInitializerService } from './core/services/payment-engine-initializer/payment-engine-initializer';
 import { PeMuitiselectComponent } from './shared/components/controls/pe-multiselect/pe-multiselect.component';
-import { PeRInputComponent } from './shared/components/reactive-controls/pe-r-input/pe-r-input.component';
-import { PeRTextareaComponent } from './shared/components/reactive-controls/pe-r-textarea/pe-r-textarea.component';
-import { PeRDatePickerComponent } from './shared/components/reactive-controls/pe-r-date-picker/pe-r-date-picker.component';
-import { PeRMultiCheckboxComponent } from './shared/components/reactive-controls/pe-r-multi-checkbox/pe-r-multi-checkbox.component';
-import { PeRMultiselectComponent } from './shared/components/reactive-controls/pe-r-multiselect/pe-r-multiselect.component';
+import { PeRInputComponent } from './shared/components/reactive-controls/pe-input-form/pe-input-form.component';
+import { PeRTextareaComponent } from './shared/components/reactive-controls/pe-textarea-form/pe-textarea-form.component';
+import { PeRDatePickerComponent } from './shared/components/reactive-controls/pe-date-picker-form/pe-date-picker-form.component';
+import { PeRMultiCheckboxForm } from './shared/components/reactive-controls/pe-multi-checkbox-form/pe-r-multi-checkbox/pe-r-multi-checkbox.component';
+import { PeRMultiselectComponent } from './shared/components/reactive-controls/pe-multiselect-form/pe-multiselect-form.component';
+import { PeRMultiCheckboxComponent } from './shared/components/reactive-controls/pe-multi-checkbox-form/pe-multi-checkbox-form.component';
+import { PeErrorMessagesComponent } from './shared/components/reactive-controls/pe-error-messages/pe-error-messages.component';
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -95,8 +97,10 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeRInputComponent,
     PeRTextareaComponent,
     PeRDatePickerComponent,
+    PeRMultiCheckboxForm,
+    PeRMultiselectComponent,
     PeRMultiCheckboxComponent,
-    PeRMultiselectComponent
+    PeErrorMessagesComponent
   ],
   imports: [
     BrowserModule,

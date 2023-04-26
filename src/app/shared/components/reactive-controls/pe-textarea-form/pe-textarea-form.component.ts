@@ -2,11 +2,12 @@ import { Component, Input } from "@angular/core";
 import { defaultExpr, defaultLength } from "../../../variables/pe-input-validations";
 import { AbstractControl, FormControl } from "@angular/forms";
 import { ErrorMesssagesList, messages } from "../global-error-messages";
+import { PEReactiveHelper } from "../utils";
 
 @Component({
-    selector: "pe-r-textarea",
-    templateUrl: "./pe-r-textarea.component.html",
-    styleUrls: ["./pe-r-textarea.component.scss"]
+    selector: "pe-textarea-form",
+    templateUrl: "./pe-textarea-form.component.html",
+    styleUrls: ["./pe-textarea-form.component.scss"]
 })
 export class PeRTextareaComponent {
     
@@ -24,7 +25,7 @@ export class PeRTextareaComponent {
     @Input() label: string = '';
 
     @Input() set control(abstractControl: AbstractControl) {
-      this._control = abstractControl as FormControl;
+      this._control = PEReactiveHelper.abstractControl.toFormControl(abstractControl);
     }
 
     get control(): FormControl {

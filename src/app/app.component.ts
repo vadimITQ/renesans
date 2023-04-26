@@ -5,6 +5,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { PEValidators } from 'src/app/shared/components/reactive-controls/validators';
 import { messages, ErrorMesssagesList } from './shared/components/reactive-controls/global-error-messages';
 import { MultiselectDataSets } from './shared/enums/datasets.enums';
+import { IMultiCheckboxData } from './shared/components/reactive-controls/pe-multi-checkbox-form/pe-r-multi-checkbox/pe-r-multi-checkbox.component';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,21 @@ import { MultiselectDataSets } from './shared/enums/datasets.enums';
 export class AppComponent implements OnInit {
   
   title = 'PE';
+
+  checkboxes: IMultiCheckboxData[] = [
+    {
+      label: "check1",
+      value: false
+    },
+    {
+      label: "check2",
+      value: true
+    },
+    {
+      label: "check3",
+      value: false
+    }
+  ];
 
   filter: FormGroup = this.createFormGroup();
 
@@ -27,10 +43,15 @@ export class AppComponent implements OnInit {
       paymentHubPaymentId: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
       account: new FormControl("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
       dateStart: new FormControl(new Date(), PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-      multiselect: new FormControl([], PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiselect.Required)
+      multiselect: new FormControl([], PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiselect.Required),
+      multicheckbox: new FormControl(this.checkboxes, PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiCheckbox.AllTrue)
     },{
       validators: PEValidators.ManualChecksFilterValidators.PeInputValidators.FormGroupValidators.Required
     });
+  }
+  
+  get multicheckboxControl(): FormControl {
+    return this.filter.controls['multicheckbox'] as FormControl;
   }
 
   constructor(private translateService: TranslateService, private config: PrimeNGConfig, private fb: FormBuilder){
@@ -45,17 +66,12 @@ export class AppComponent implements OnInit {
       );
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void { }
 
-  listenISODate(iso: string | null){
-    console.log(iso);
-    console.log(this.filter.controls['dateStart'].value);
-  }
+  listenISODate(iso: string | null){ }
 
   submit(){
-    this.filter.markAsDirty();  
+    this.filter.markAsDirty();
     this.filter.markAsTouched();
     this.filter.controls["paymentID"].markAsDirty();
     this.filter.controls["applicationID"].markAsDirty();
@@ -65,7 +81,11 @@ export class AppComponent implements OnInit {
     this.filter.controls["applicationID"].markAsTouched();
     this.filter.controls["paymentHubPaymentId"].markAsTouched();
     this.filter.controls["account"].markAsTouched();
-    
+    this.filter.controls["dateStart"].markAsDirty();
+    this.filter.controls["dateStart"].markAsTouched();
+    this.filter.controls["multiselect"].markAsDirty();
+    this.filter.controls["multiselect"].markAsTouched();
+
   }
 
 }

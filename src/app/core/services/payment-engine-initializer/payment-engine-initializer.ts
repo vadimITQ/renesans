@@ -13,7 +13,6 @@ export class PaymentEngineInitializerService {
                 resolve();
             }
             catch(error) {
-                console.log(error);
                 reject();
             }
         });

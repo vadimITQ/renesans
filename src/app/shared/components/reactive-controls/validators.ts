@@ -1,24 +1,45 @@
 import { AbstractControl, FormGroup, ValidatorFn, ValidationErrors, FormControl } from "@angular/forms";
+import { IMultiCheckboxData } from "./pe-multi-checkbox-form/pe-r-multi-checkbox/pe-r-multi-checkbox.component";
+import { PEReactiveHelper } from "./utils";
+import { IMultiSelectData } from "../controls/pe-multiselect/pe-multiselect.component";
 
 export class PEValidators {
     static ManualChecksFilterValidators = {
+        GlobalValidators: { },
         PeInputValidators: {
             FormGroupValidators: {
                 Required: (formGroup: FormGroup): ValidationErrors | null => {
                     // formGroup
-                    const paymentIDRequired = !!formGroup.controls["paymentID"]?.value;
-                    const applicationIDRequired = !!formGroup.controls["applicationID"]?.value;
-                    const paymentHubPaymentIdRequired = !!formGroup.controls["paymentHubPaymentId"]?.value;
-                    const accountRequired = !!formGroup.controls["account"]?.value;
-                    const dateStartRequired = !!formGroup.controls["dateStart"]?.value;
-                    const multiselectRequired = formGroup.controls["multiselect"]?.value?.length > 0;
+
+                    const abstractControls: AbstractControl[] = PEReactiveHelper.formGroup.getControls(
+                        formGroup, 
+                        "paymentID",
+                        "applicationID",
+                        "paymentHubPaymentId",
+                        "account",
+                        "dateStart",
+                        "multiselect",
+                        "multicheckbox"
+                    );
+                    const formControls: FormControl[] = PEReactiveHelper.abstractControl.toFormControls(...abstractControls);
+                    const [
+                        paymentIDValue, 
+                        applicationIDValue, 
+                        paymentHubPaymentIdValue, 
+                        accountValue, 
+                        dateStartValue, 
+                        multiselectValue,
+                        multicheckboxValue
+                    ]: any[] = PEReactiveHelper.formControl.getValues(...formControls);
+
                     if (
-                        !paymentIDRequired || 
-                        !applicationIDRequired || 
-                        !paymentHubPaymentIdRequired || 
-                        !accountRequired || 
-                        !dateStartRequired || 
-                        !multiselectRequired
+                        !paymentIDValue || 
+                        !applicationIDValue || 
+                        !paymentHubPaymentIdValue || 
+                        !accountValue || 
+                        !dateStartValue || 
+                        !(multiselectValue?.length > 0) ||
+                        !((<Array<IMultiCheckboxData>>multicheckboxValue).every(box => box.value === true))
                     ){
                         return {required: {value: true}};
                     }
@@ -45,6 +66,18 @@ export class PEValidators {
                         }
                         else{ 
                             return {required: {value: true}};
+                        }
+                    }
+                },
+                PeMultiCheckbox: {
+                    AllTrue: (AbstractControl: AbstractControl): ValidationErrors | null => {
+                        const formControl = AbstractControl as FormControl;
+                        const boxes = formControl?.value as IMultiCheckboxData[];
+                        if (boxes.every(box => box.value === true)){
+                            return null;
+                        }
+                        else{
+                            return {allTrue: {value: true}};
                         }
                     }
                 }

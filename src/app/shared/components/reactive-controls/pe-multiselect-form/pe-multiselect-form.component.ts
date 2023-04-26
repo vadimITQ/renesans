@@ -3,14 +3,15 @@ import { MultiselectDatasetsService } from "src/app/shared/services/multiselect-
 import { IMultiSelectData } from "../../controls/pe-multiselect/pe-multiselect.component";
 import { MultiSelect } from "primeng/multiselect";
 import { ValidationMessage } from "src/app/shared/validation/types";
-import { PeRMultiselectHelper } from "./pe-r-multiselect-helper";
+import { PeRMultiselectHelper } from "./pe-multiselect-form-helper";
 import { AbstractControl, FormControl } from "@angular/forms";
 import { ErrorMesssagesList, messages } from "../global-error-messages";
+import { PEReactiveHelper } from "../utils";
 
 @Component({
-    selector: "pe-r-multiselect",
-    templateUrl: "./pe-r-multiselect.component.html",
-    styleUrls: ["./pe-r-multiselect.component.scss"]
+    selector: "pe-multiselect-form",
+    templateUrl: "./pe-multiselect-form.component.html",
+    styleUrls: ["./pe-multiselect-form.component.scss"]
 })
 export class PeRMultiselectComponent {
 
@@ -46,7 +47,7 @@ export class PeRMultiselectComponent {
     };
 
     @Input() set control(control: AbstractControl){
-        this._control = control as FormControl;
+        this._control = PEReactiveHelper.abstractControl.toFormControl(control);
     }
 
     get dataset(): IMultiSelectData[]{
@@ -79,9 +80,7 @@ export class PeRMultiselectComponent {
             this.multiselectRef
         );
         setTimeout(() => {
-            this.control.valueChanges.subscribe(val => {
-                console.log(val);
-            }); 
+            this.control.valueChanges.subscribe(val => { }); 
         });
     }
 }

@@ -2,34 +2,29 @@
 <!-- <router-outlet></router-outlet> -->
 <form [formGroup]="filter" (ngSubmit)="submit()">
     <div class="mb-5"></div>
-    <pe-r-input label="ID PE"          [control]="filter.controls['paymentID']" [maxLength]="36"></pe-r-input>
+    <pe-input-form label="ID PE"             [control]="filter.controls['paymentID']" [maxLength]="36"></pe-input-form>
     <div class="mb-5"></div>
-    <pe-r-input label="ID Заявки"      [control]="filter.controls['applicationID']" [maxLength]="70"></pe-r-input>
+    <pe-input-form label="ID Заявки"         [control]="filter.controls['applicationID']" [maxLength]="70"></pe-input-form>
     <div class="mb-5"></div>
-    <pe-r-textarea label="ID PH"       [control]="filter.controls['paymentHubPaymentId']"></pe-r-textarea>
+    <pe-textarea-form label="ID PH"          [control]="filter.controls['paymentHubPaymentId']"></pe-textarea-form>
     <div class="mb-5"></div>
-    <pe-r-textarea label="Номер счета" [control]="filter.controls['account']"></pe-r-textarea>
+    <pe-textarea-form label="Номер счета"    [control]="filter.controls['account']"></pe-textarea-form>
     <div class="mb-5"></div>
-    <pe-r-date-picker label="Дата с"   [control]="filter.controls['dateStart']" [showTime]="true" (listenISODate)="listenISODate($event)"></pe-r-date-picker>
+    <pe-date-picker-form label="Дата с"      [control]="filter.controls['dateStart']" [showTime]="true" (listenISODate)="listenISODate($event)"></pe-date-picker-form>
     <div class="mb-5"></div>
-    <pe-r-multi-checkbox></pe-r-multi-checkbox>
+    <pe-multi-checkbox-form title="checkbox" [control]="filter.controls['multicheckbox']" [horizontal]="true"></pe-multi-checkbox-form>
     <div class="mb-5"></div>
-    <pe-r-multiselect 
+    <pe-multiselect-form 
         [label]="'Мультиселект'" 
         [labelStyle]="{'min-width': '130px', 'display': 'block'}" 
         [control]="filter.controls['multiselect']" 
         [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes">
-    </pe-r-multiselect>
+    </pe-multiselect-form>
     <div class="mb-5"></div>
     <button type="submit">Check Filter Validation</button>
-    <ng-container *ngIf="filter.errors && (filter.touched && filter.dirty); else OKTemplate;">
-        <ng-container *ngFor="let error of filter.errors | keyvalue">
-            <div class="error-message">{{ errorMessages[error.key] }}</div>
-        </ng-container>
-    </ng-container>
-    <ng-template #OKTemplate>
-        <div *ngIf="filter.dirty && filter.valid" style="color: green">OK</div>
-    </ng-template>
+    <pe-error-messages [errorMessagesList]="errorMessages" [control]="filter">
+        <div style="color: green">OK</div>
+    </pe-error-messages>
 </form>
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>

@@ -108,7 +108,6 @@ export class AuthService {
     return this.authenticateUser("tst_full_test", "yiqH9iR5").pipe(
       tap({
         next: response => {
-          console.log(response);
           this._isLoggedIn = response.auth;
           this.rolesService.userRoles = userHasRoles;
           this._user = credentials;

@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
 export class PEReactiveHelper {
 
     static abstractControl = {
-        toFormControl: (abstractControl: AbstractControl): FormControl => {
+        toFormControl: (abstractC\ontrol: AbstractControl): FormControl => {
             return abstractControl as FormControl;
         },
         toFormControls: (...abstractControls: AbstractControl[]): FormControl[] => {
@@ -12,11 +12,11 @@ export class PEReactiveHelper {
         toFormGroup: (abstractControl: AbstractControl): FormGroup => {
             return abstractControl as FormGroup;
         },
-        getValue: <T>(abstractControl: AbstractControl): T => {
+        getValue: <TValue>(abstractControl: AbstractControl): TValue | null => {
             return abstractControl?.value ?? null;
         },
         getValues: (...abstractControls: AbstractControl[]): any[] => {
-            return abstractControls?.map(abstractControl => abstractControl?.value ?? null) ?? null;
+            return (abstractControls ?? []).map(abstractControl => abstractControl?.value);
         }
     };
 

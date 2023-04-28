@@ -26,14 +26,14 @@
       (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
       (onRowSelect)="onRowSelected($event)"
       sortMode="multiple"
-      styleClass="p-datatable-striped"
+      styleClass="p-datatable-gridlines"
     >
       <ng-template pTemplate="header" let-columns>
         <tr class="ms-result__row-gray">
           <th style="width: 4rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th style="min-width: 200px" *ngFor="let col of columns">
+          <th pResizableColumn style="min-width: 200px" *ngFor="let col of columns">
             {{ col.header }}
           </th>
         </tr>
@@ -84,14 +84,14 @@
             <a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a>
           </td>
           <td>{{ paymentItem.paymentApplication?.applicationID }}</td>
+          <td>{{ paymentItem.ipt?.idPH }}</td>
+          <td>{{ paymentItem.pmtCreationTime | date : 'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>{{ paymentItem.plannedDate | date : 'dd-MM-yyyy' }}</td>
           <td>{{ paymentItem.paymentApplication?.amount }}</td>
           <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
           <td>{{ statues[paymentItem.statusCode] }}</td>
           <td>{{ paymentItem.statusCode }}</td>
-          <td>{{ paymentItem.ipt?.idPH }}</td>
           <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
-          <td>{{ paymentItem.pmtCreationTime | date : 'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>{{ paymentItem.errorType }}</td>
         </tr>
       </ng-template>

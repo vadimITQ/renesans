@@ -6,22 +6,23 @@
         *ngIf="monitoringDataRecord"
         [value]="monitoringDataRecord"
         (onRowSelect)="onRowSelected($event)"
-        styleClass="p-datatable-striped">
+        [resizableColumns]="true"
+        styleClass="p-datatable-gridlines">
         <ng-template pTemplate="header">
             <tr class="tps-by-status__row-gray">
                 <th style="width: 4rem"></th>
-                <th>ID длительного поручения</th>
-                <th>Начало действия</th>
-                <th>Тип перевода\платежа</th>
-                <th>Сумма</th>
-                <th>Счет источник</th>
-                <th>Счет приемник</th>
-                <th>Срок действия</th>
-                <th>Периодичность</th>
-                <th>Ссылка на платеж/перевод</th>
-                <th>Статус операции по распоряжению</th>
-                <th>Описание ошибки</th>
-                <th>Ссылка на заявку</th>
+                <th pResizableColumn>ID длительного поручения</th>
+                <th pResizableColumn>Начало действия</th>
+                <th pResizableColumn>Тип перевода\платежа</th>
+                <th pResizableColumn>Сумма</th>
+                <th pResizableColumn>Счет источник</th>
+                <th pResizableColumn>Счет приемник</th>
+                <th pResizableColumn>Срок действия</th>
+                <th pResizableColumn>Периодичность</th>
+                <th pResizableColumn>Ссылка на платеж/перевод</th>
+                <th pResizableColumn>Статус операции по распоряжению</th>
+                <th pResizableColumn>Описание ошибки</th>
+                <th pResizableColumn>Ссылка на заявку</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-tpsItem>

@@ -27,10 +27,12 @@
     <h5>История перевода/платежа постатусно</h5>
 
     <div>
-      <p-table [value]="transferDetails.statusHistory" styleClass="p-datatable-striped">
+      <p-table [value]="transferDetails.statusHistory"
+               [resizableColumns]="true"
+               styleClass="p-datatable-gridlines">
         <ng-template pTemplate="header">
           <tr class="tps-by-status__row-gray">
-            <th *ngFor="let column of tableColumns">
+            <th pResizableColumn *ngFor="let column of tableColumns">
               {{ column.header }}
             </th>
           </tr>

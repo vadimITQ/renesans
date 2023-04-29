@@ -4,14 +4,15 @@ import {ISearchPayment,  PayDoc} from '../../../../services/search-payment/types
 import { ISearchPaymentTableData } from '../search-payment.types';
 import {paymentStatusObj} from "../../../../../shared/variables/payment-status";
 import {manualChecksTransferTypes} from "../../../../../shared/variables/manual-checks-transfer-types";
+import {DatePickerHelper} from "../../../../../shared/components/controls/date-picker/date-picker-helper";
 
 export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: DatePipe): ISearchPaymentTableData[] {
   return data.map(searchPayment => {
     const senderPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => searchPayment.sourceSystem === payDoc?.accountingSystem)[0]: null;
     const receiverPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => !!payDoc.accntDeb && !!payDoc.accntCre)[0]: null;
-    const plannedDate = datePipeRef ? datePipeRef.transform(searchPayment.plannedDate, "dd-MM-yyyy") ?? "": searchPayment.plannedDate;
-    const appCreationTime = datePipeRef ? datePipeRef.transform(searchPayment.pmtCreationTime, "dd-MM-yyyy HH:mm:ss") ?? "": searchPayment.pmtCreationTime ?? '';
-    const settlementDate = datePipeRef ? datePipeRef.transform(searchPayment.paymentApplication?.sbp?.settlementDate, "dd-MM-yyyy") ?? "": searchPayment.paymentApplication?.sbp?.settlementDate;
+    const plannedDate = datePipeRef ? datePipeRef.transform(DatePickerHelper.parseFromLocaleStringToDate(searchPayment.plannedDate), "dd-MM-yyyy") ?? "": searchPayment.plannedDate;
+    const appCreationTime = datePipeRef ? datePipeRef.transform(DatePickerHelper.parseFromLocaleStringToDate(searchPayment.pmtCreationTime), "dd-MM-yyyy HH:mm:ss") ?? "": DatePickerHelper.parseFromLocaleStringToDate(searchPayment.pmtCreationTime)?.toISOString() ?? '';
+    const settlementDate = datePipeRef ? datePipeRef.transform(DatePickerHelper.parseFromLocaleStringToDate(searchPayment.paymentApplication?.sbp?.settlementDate), "dd-MM-yyyy") ?? "": DatePickerHelper.parseFromLocaleStringToDate(searchPayment.paymentApplication?.sbp?.settlementDate)?.toISOString();
     return {
       appCreationTime: appCreationTime,
       plannedDate: plannedDate,

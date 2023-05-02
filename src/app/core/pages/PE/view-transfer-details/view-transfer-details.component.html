@@ -13,7 +13,8 @@
         <pe-input label="Сумма перевода" [(value)]="transferDetails.amount" [disabled]="true" />
       </div>
       <div class="transfer-details-column">
-        <date-picker [(date)]="transferDetails.appCreationTime" label="Дата и время создания заявки" [disabled]="true"></date-picker>
+        <pe-input label="Ret Ref Number (WAY4)" [(value)]="transferDetails.retRefNumber" [disabled]="true" />
+        <pe-input label="Дата и время создания заявки" [(value)]="transferDetails.appCreationTime" [disabled]="true" />
         <pe-input label="Счет списания" [(value)]="transferDetails.payerAccount" [disabled]="true" />
         <pe-input label="Счет получателя" [(value)]="transferDetails.payeeAccount" [disabled]="true" />
         <pe-input label="БИК Банка получателя" [(value)]="transferDetails.payeeBankBIC" [disabled]="true" />

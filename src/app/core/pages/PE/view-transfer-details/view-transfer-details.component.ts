@@ -5,8 +5,8 @@ import { ViewTransferDetailsService } from '../../../services/view-transfer-deta
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
-import {ITransferDetails} from "../../../services/view-transfer-details/types";
 import {prepareTransferDetails} from "./view-transfer-details.utils";
+import {ITransferDetailsWithRetRefNumber} from "./view-transfer-details.types";
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -14,7 +14,7 @@ import {prepareTransferDetails} from "./view-transfer-details.utils";
   styleUrls: ['./view-transfer-details.component.scss'],
 })
 export class ViewTransferDetailsComponent implements OnInit {
-  transferDetails: ITransferDetails = transferDetailDefaultValue;
+  transferDetails: ITransferDetailsWithRetRefNumber = transferDetailDefaultValue;
   tableColumns = tableColumns;
 
   constructor(

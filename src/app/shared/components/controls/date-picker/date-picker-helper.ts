@@ -51,8 +51,9 @@ export class DatePickerHelper {
     const timezoneWithSign = timezone.replace('GMT', '');
     const timezoneSign = timezoneWithSign.charAt(0);
     const timezoneValue = timezoneWithSign.replace(/[+-]/g, '');
+    const fullTimezoneValue = +timezoneValue < 10 ? `0${timezoneValue}` : timezoneValue
 
-    return `${date}T${time}${timezoneSign}${timezoneValue}:00`;
+        return `${date}T${time.substring(0,2).includes(':') ? `0${time}`: time}${timezoneSign}${fullTimezoneValue}:00`;
   }
 
   public static parseFromLocaleStringToDate(localeString: string | null):Date | null{

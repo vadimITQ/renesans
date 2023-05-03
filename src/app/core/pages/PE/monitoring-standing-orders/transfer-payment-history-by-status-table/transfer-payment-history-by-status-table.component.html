@@ -7,6 +7,7 @@
         [value]="monitoringDataRecord"
         (onRowSelect)="onRowSelected($event)"
         [resizableColumns]="true"
+        [columnResizeMode]="'expand'"
         styleClass="p-datatable-gridlines">
         <ng-template pTemplate="header">
             <tr class="tps-by-status__row-gray">

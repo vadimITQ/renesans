@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, catchError,  map,  of, } from 'rxjs';
+import { BehaviorSubject, catchError,  map,  of } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { ICancelPaymentPayload, IResumePaymentPayload } from '../payment-order-w/types';
 import { ISearchPayment, ISearchPaymentsFiltersPayload,} from '../search-payment/types';
 import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
-import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
-import {Pagination, TableService} from "../../../shared/services/table.service";
+import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
+import { Pagination, TableService } from "../../../shared/services/table.service";
+import { FormGroup } from '@angular/forms';
+import { ManualChecksHelper } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.utils';
 
 interface ManualChecksComponentState {
-  $filters: BehaviorSubject<ISearchPaymentFilters | null>,
+  $filters: BehaviorSubject<FormGroup<ManualChecksFilter>>,
   $selectedItems: BehaviorSubject<GetPaymentsResponse[] | null>,
   commentary: string;
 }
@@ -21,7 +23,8 @@ export class ManualChecksService extends TableService<ISearchPayment, ISearchPay
 
   constructor(
     private paymentOrderWService: PaymentOrderWService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private manualChecksHelper: ManualChecksHelper
   ) {
     function getSearchPaymentsManual(payload: ISearchPaymentsFiltersPayload, pagination: Pagination) {
       return paymentOrderWService.getSearchPaymentsManual(payload, pagination).pipe(
@@ -41,7 +44,7 @@ export class ManualChecksService extends TableService<ISearchPayment, ISearchPay
   }
 
   public componentState: ManualChecksComponentState = {
-    $filters: new BehaviorSubject<ISearchPaymentFilters | null>(null),
+    $filters: new BehaviorSubject(this.manualChecksHelper.createDefaultForm()),
     $selectedItems: new BehaviorSubject<GetPaymentsResponse[] | null>(null),
     commentary: ""
   };

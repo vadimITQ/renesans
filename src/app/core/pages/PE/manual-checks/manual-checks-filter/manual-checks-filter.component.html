@@ -1,65 +1,67 @@
 
-<div class="ms-filter">
+<form [formGroup]="filter" class="ms-filter" (ngSubmit)="searchPayments()">
     <h5>Ручной разбор ошибочных переводов/платежей</h5>
 
     <div class="ms-filter__forms">
-        <pe-input label="ID PE"        [(value)]="filter.paymentID"     [validationMessage]="validations['paymentID']" [maxLength]="36"/>
-        <pe-input label="ID Заявки"    [(value)]="filter.applicationID" [validationMessage]="validations['applicationID']" [maxLength]="70"/>
-        <pe-input label="ID PH"        [(value)]="filter.idPH"          [validationMessage]="validations['paymentHubPaymentId']" />
-        <pe-input label="Номер счета"  [(value)]="filter.account"       [validationMessage]="validations['account']" />
+        <pe-input-form label="ID PE"       [control]="filter.controls['paymentID']"     [errorMessages]="validation.messages" [maxLength]="36"></pe-input-form>
+        <pe-input-form label="ID Заявки"   [control]="filter.controls['applicationID']" [errorMessages]="validation.messages" [maxLength]="70"></pe-input-form>
+        <pe-input-form label="ID PH"       [control]="filter.controls['idPH']"          [errorMessages]="validation.messages" ></pe-input-form>
+        <pe-input-form label="Номер счета" [control]="filter.controls['account']"       [errorMessages]="validation.messages" ></pe-input-form>
     </div>
     <div class="ms-filter__forms">
-        <date-picker
-            [(date)]="filter.dateTimeFrom"
-            [validationMessage]="validations['dateFrom']"
+        <!-- OnDateChange validation ! -->
+        <pe-date-picker-form 
             label="Дата/Время с"
-            (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
-            [labelStyle]="{ 'width': '125px' }">
-        </date-picker>
+            [control]="filter.controls['dateTimeFrom']"
+            [labelStyle]="{ 'width': '125px' }"
+            [errorMessages]="validation.messages">
+        </pe-date-picker-form>
     </div>
     <div class="ms-filter__forms">
-        <date-picker
-            [(date)]="filter.dateTimeTo"
-            [validationMessage]="validations['dateTo']"
+         <!-- OnDateChange validation ! -->
+        <pe-date-picker-form
             label="Дата/Время по"
-            (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
-            [labelStyle]="{ 'width': '125px' }">
-        </date-picker>
+            [control]="filter.controls['dateTimeTo']"
+            [labelStyle]="{ 'width': '125px' }"
+            [errorMessages]="validation.messages">
+        </pe-date-picker-form>
     </div>
     <div class="ms-filter__multiselect-forms">
-        <pe-multiselect 
-            [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions" 
-            placeholder="Выберите канал поступления заявки"
+        <pe-multiselect-form
+            [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions"
             label="Канал поступления заявки"
+            [control]="filter.controls['channelName']"
+            placeholder="Выберите канал поступления заявки"
             [labelStyle]="{'min-width': '235px', 'display': 'block'}"
-            [validationMessage]="validations['channelName']"
-            [(selected)]="filter.channelName">
-        </pe-multiselect>
+            [errorMessages]="validation.messages">
+        </pe-multiselect-form>
     </div>
     <div class="ms-filter__multiselect-forms">
-        <pe-multiselect 
-            [dataset]="multiselectDataSetsEnum.GetPaymentStatuses" 
-            placeholder="Выберите статус"
+        <pe-multiselect-form
+            [dataset]="multiselectDataSetsEnum.GetPaymentStatuses"
             label="Статус"
+            [control]="filter.controls['codeStatuses']"
+            placeholder="Выберите статус"
             [labelStyle]="{'min-width': '235px', 'display': 'block'}"
-            [validationMessage]="validations['codeStatuses']"
-            [(selected)]="filter.codeStatuses">
-        </pe-multiselect>
+            [errorMessages]="validation.messages">
+        </pe-multiselect-form>
     </div>
     <div class="ms-filter__multiselect-forms">
-        <pe-multiselect 
-            [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions" 
-            placeholder="Выберите тип перевода"
+        <pe-multiselect-form
+            [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions"
             label="Тип перевода"
+            [control]="filter.controls['parentType']"
+            placeholder="Выберите тип перевода"
             [labelStyle]="{'min-width': '235px', 'display': 'block'}"
-            [validationMessage]="validations['parentType']"
-            [(selected)]="filter.parentType">
-        </pe-multiselect>
+            [errorMessages]="validation.messages">
+        </pe-multiselect-form>
     </div>
 
     <div class="ms-filter__buttons">
         <button pButton class="pe-button"      [label]="'Очистить'" (click)="clearFilter()"></button>
-        <button pButton class="pe-button ml-2" [label]="'Найти'"    (click)="searchPayments()"></button>
+        <button pButton class="pe-button ml-2" [label]="'Найти'"    type="submit"></button>
     </div>
 
-</div>
+    <pe-error-messages [control]="filter"></pe-error-messages>
+
+</form>

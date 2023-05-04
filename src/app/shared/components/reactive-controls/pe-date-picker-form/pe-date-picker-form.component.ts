@@ -12,6 +12,9 @@ import { PEReactiveHelper } from "../utils";
 })
 export class PeRDatePickerComponent implements OnInit, OnDestroy {
 
+    private _control: FormControl = new FormControl();
+    private dateControlSubscribtion!: Subscription;
+
     @Input() label: string = '';
     @Input() showTime: boolean = true;
     @Input() disabled: boolean = false;
@@ -19,13 +22,12 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
     @Input() maxDate: Date | null = null;
     @Input() labelStyle?: { [styleKey: string]: string };
     @Output() listenISODate: EventEmitter<string | null> = new EventEmitter<string | null>();
+    @Input() errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
 
-    public readonly errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
-    private _control: FormControl = new FormControl();
-    private dateControlSubscribtion!: Subscription;
-
-    @Input() set control(abstractControl: AbstractControl) {
-        this._control = PEReactiveHelper.abstractControl.toFormControl(abstractControl);
+    @Input() set control(abstractControl: AbstractControl | FormControl) {
+        if (PEReactiveHelper.isFormControl(abstractControl)){
+            this._control = abstractControl;
+        }
     }
 
     get control(): FormControl {

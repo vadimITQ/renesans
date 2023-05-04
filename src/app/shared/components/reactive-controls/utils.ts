@@ -1,41 +1,34 @@
-import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
+import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/forms";
 
 export class PEReactiveHelper {
-
-    static abstractControl = {
-        toFormControl: (abstractC\ontrol: AbstractControl): FormControl => {
-            return abstractControl as FormControl;
-        },
-        toFormControls: (...abstractControls: AbstractControl[]): FormControl[] => {
-            return abstractControls.map(abstractControl => abstractControl as FormControl);
-        },
-        toFormGroup: (abstractControl: AbstractControl): FormGroup => {
-            return abstractControl as FormGroup;
-        },
-        getValue: <TValue>(abstractControl: AbstractControl): TValue | null => {
-            return abstractControl?.value ?? null;
-        },
-        getValues: (...abstractControls: AbstractControl[]): any[] => {
-            return (abstractControls ?? []).map(abstractControl => abstractControl?.value);
+    
+    static getValues<TValue extends { [ K in keyof TValue ]: AbstractControl } >(formGroup: FormGroup<TValue>): TValue | null {
+        if (!formGroup) {
+            return null;
         }
-    };
+        return Object.keys(formGroup.controls).reduce((res: TValue, key) => {
+            const controls = formGroup.controls;
+            // res[key]
+            
+            return res;
+        }, {} as TValue)
+    }
 
-    static formGroup = {
-        getControls: (formGroup: FormGroup, ...controlNames: string[]): AbstractControl[] => {
-            if (!formGroup){
-                return [];
-            }
-            const controls = controlNames.map(controlName => formGroup.controls[controlName]);
-            return controls;
+    static isFormControl(abstractControl: AbstractControl | FormControl): abstractControl is FormControl {
+        if (abstractControl instanceof FormControl){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    static formControl = {
-        getValue: <T>(formControl: FormControl): T => {
-            return formControl?.value ?? null;
-        },
-        getValues: (...formControls: FormControl[]): any[] => {
-            return formControls?.map(formControl => formControl?.value ?? null) ?? null;
+    static isFormGroup(abstractControl: AbstractControl | FormGroup | any): abstractControl is FormGroup {
+        if (abstractControl instanceof FormGroup){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 

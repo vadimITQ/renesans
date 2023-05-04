@@ -1,30 +1,4 @@
 <app-loading></app-loading>
-<!-- <router-outlet></router-outlet> -->
-<form [formGroup]="filter" (ngSubmit)="submit()">
-    <div class="mb-5"></div>
-    <pe-input-form label="ID PE"             [control]="filter.controls['paymentID']" [maxLength]="36"></pe-input-form>
-    <div class="mb-5"></div>
-    <pe-input-form label="ID Заявки"         [control]="filter.controls['applicationID']" [maxLength]="70"></pe-input-form>
-    <div class="mb-5"></div>
-    <pe-textarea-form label="ID PH"          [control]="filter.controls['paymentHubPaymentId']"></pe-textarea-form>
-    <div class="mb-5"></div>
-    <pe-textarea-form label="Номер счета"    [control]="filter.controls['account']"></pe-textarea-form>
-    <div class="mb-5"></div>
-    <pe-date-picker-form label="Дата с"      [control]="filter.controls['dateStart']" [showTime]="true" (listenISODate)="listenISODate($event)"></pe-date-picker-form>
-    <div class="mb-5"></div>
-    <pe-multi-checkbox-form title="checkbox" [control]="filter.controls['multicheckbox']" [horizontal]="true"></pe-multi-checkbox-form>
-    <div class="mb-5"></div>
-    <pe-multiselect-form 
-        [label]="'Мультиселект'" 
-        [labelStyle]="{'min-width': '130px', 'display': 'block'}" 
-        [control]="filter.controls['multiselect']" 
-        [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes">
-    </pe-multiselect-form>
-    <div class="mb-5"></div>
-    <button type="submit">Check Filter Validation</button>
-    <pe-error-messages [errorMessagesList]="errorMessages" [control]="filter">
-        <div style="color: green">OK</div>
-    </pe-error-messages>
-</form>
+<router-outlet></router-outlet>
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>

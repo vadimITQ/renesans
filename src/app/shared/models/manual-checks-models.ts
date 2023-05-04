@@ -1,15 +1,28 @@
+import { FormControl } from "@angular/forms";
+import { IMultiSelectData } from "../components/controls/pe-multiselect/pe-multiselect.component";
+
 export interface ManualChecksFilter {
-  paymentID?: number;
-  applicationID?: number;
-  paymentHubPaymentId?: number;
-  account?: number;
-  dateFrom: string | null;
-  dateTo: string | null;
-  timeFrom?: string | Date;
-  timeTo?: string | Date;
-  status?: string[] | number[];
-  types?: string[] | number[];
-  channelName?: string;
+  paymentID: FormControl<string | null>,
+  applicationID: FormControl<string | null>,
+  idPH: FormControl<string | null>,
+  account: FormControl<string | null>,
+  dateTimeFrom: FormControl<Date | null>
+  dateTimeTo: FormControl<Date | null>
+  channelName: FormControl<IMultiSelectData[]>,
+  codeStatuses: FormControl<IMultiSelectData[]>,
+  parentType: FormControl<IMultiSelectData[]>
+}
+
+export interface ManualChecksProps {
+  paymentID: string | null;
+  applicationID: string | null;
+  idPH: string | null;
+  account: string | null;
+  dateTimeFrom: Date | null;
+  dateTimeTo: Date | null;
+  channelName: IMultiSelectData[];
+  codeStatuses: IMultiSelectData[];
+  parentType: IMultiSelectData[];
 }
 
 export interface GetPaymentsResponse {

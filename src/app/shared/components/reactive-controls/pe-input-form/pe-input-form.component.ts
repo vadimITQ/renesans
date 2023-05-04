@@ -11,7 +11,6 @@ import { PEReactiveHelper } from "../utils";
 })
 export class PeRInputComponent implements OnInit {
     
-    public readonly errorMessages: ErrorMesssagesList = {...messages.formControlMessages.global, ...messages.formControlMessages.peInput};
     private _control!: FormControl;
 
     @Input() disabled: boolean = false;
@@ -22,8 +21,12 @@ export class PeRInputComponent implements OnInit {
 
     @Input() label: string = '';
 
-    @Input() set control(abstractControl: AbstractControl){
-        this._control = PEReactiveHelper.abstractControl.toFormControl(abstractControl);
+    @Input() errorMessages: ErrorMesssagesList = {...messages.formControlMessages.global, ...messages.formControlMessages.peInput};
+
+    @Input() set control(abstractControl: AbstractControl | FormControl){
+        if (PEReactiveHelper.isFormControl(abstractControl)){
+            this._control = abstractControl;
+        }
     };
 
     get control(): FormControl {

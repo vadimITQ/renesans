@@ -13,14 +13,16 @@ export class PeRMultiCheckboxComponent {
 
     constructor(){ }
 
-    public readonly errorMessages: ErrorMesssagesList = messages.formControlMessages.peMulticheckbox;
     _control!: FormControl;
 
     @Input() title: string = '';
     @Input() horizontal: boolean = false;
+    @Input() errorMessages: ErrorMesssagesList = messages.formControlMessages.peMulticheckbox;
     
-    @Input() set control(abstractControl: AbstractControl) {
-        this._control = PEReactiveHelper.abstractControl.toFormControl(abstractControl);
+    @Input() set control(abstractControl: AbstractControl | FormControl) {
+        if (PEReactiveHelper.isFormControl(abstractControl)){
+            this._control = abstractControl;
+        }
     }
 
     get control(): FormControl {

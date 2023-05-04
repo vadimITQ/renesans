@@ -17,18 +17,17 @@ export class PeRMultiselectComponent {
 
     constructor(private multiselectDatasetsService: MultiselectDatasetsService){}
 
-    public readonly errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
     private _dataset!: IMultiSelectData[];
     private _labelStyle!: {[key: string]: string};
     private _control!: FormControl;
 
     @ViewChild("labelRef", { static: true }) labelRef!: ElementRef;
     @ViewChild("multiselectRef", { static: true }) multiselectRef!: MultiSelect;
-    @Output() selectedChange = new EventEmitter<IMultiSelectData[]>();
     @Input() label: string = "";
     @Input() displayType: string = "chip";
     @Input() placeholder: string = "";
     @Input() validationMessage!: ValidationMessage;
+    @Input() errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
 
     @Input() set dataset(dataSet: any){ // !! (dataSet: MultiselectDataSets)
         if (!!dataSet){
@@ -46,8 +45,10 @@ export class PeRMultiselectComponent {
         });
     };
 
-    @Input() set control(control: AbstractControl){
-        this._control = PEReactiveHelper.abstractControl.toFormControl(control);
+    @Input() set control(control: AbstractControl | FormControl){
+        if (PEReactiveHelper.isFormControl(control)){
+            this._control = control;
+        }
     }
 
     get dataset(): IMultiSelectData[]{

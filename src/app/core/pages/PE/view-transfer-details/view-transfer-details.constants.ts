@@ -1,5 +1,5 @@
-import { IColumn } from '../search-payment/search-payment-table/search-payment-table.constants';
 import {ITransferDetailsWithRetRefNumber} from "./view-transfer-details.types";
+import {IColumn} from "../../../../shared/types/table.types";
 
 export const tableColumns: IColumn[] = [
   {

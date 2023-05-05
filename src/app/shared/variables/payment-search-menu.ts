@@ -12,6 +12,11 @@ export const paymentEngineLinks: PaymentEngineMenuLink[] = [
     navigation: RouterPath.ManualChecks,
     clicked: false,
   },
+  {
+    name: 'BankOps проверка',
+    navigation: RouterPath.BankOpsCheck,
+    clicked: false,
+  },
   // {
   //   name: 'Заявки PE',
   //   navigation: RouterPath.Test,

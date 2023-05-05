@@ -11,6 +11,7 @@ import { ManualChecksComponent } from './core/pages/PE/manual-checks/manual-chec
 import { PaymentEngineRolesGuard } from './shared/guards/payment-engine-roles.guard';
 import { SearchPaymentComponent } from './core/pages/PE/search-payment/search-payment.component';
 import { ViewTransferDetailsComponent } from './core/pages/PE/view-transfer-details/view-transfer-details.component';
+import {BankOpsCheckComponent} from "./core/pages/PE/bank-ops-check/bank-ops-check.component";
 
 const routes: Routes = [
   { path: RouterPath.Login, component: LoginComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: RouterPath.ManualChecks, component: ManualChecksComponent, canActivate: [PaymentEngineRolesGuard] },
       { path: RouterPath.SearchPayment, component: SearchPaymentComponent, canActivate: [PaymentEngineRolesGuard] },
       { path: `${RouterPath.ViewTransferDetails}/:id`, component: ViewTransferDetailsComponent, canActivate: [PaymentEngineRolesGuard]},
+      { path: RouterPath.BankOpsCheck, component: BankOpsCheckComponent, canActivate: [PaymentEngineRolesGuard] },
     ],
   },
   {

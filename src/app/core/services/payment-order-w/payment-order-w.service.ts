@@ -9,6 +9,7 @@ import { ITransferDetails } from '../view-transfer-details/types';
 import { ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
 import { ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from './types';
 import { Pagination } from '../../../shared/services/table.service';
+import {IBankOpsCheckFiltersPayload, IBankOpsCheckResponse} from "../bank-ops-check/types";
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,12 @@ export class PaymentOrderWService {
   public getPaymentsReport(filters?: ISearchPaymentsFiltersPayload): Observable<ArrayBuffer> {
     return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', filters, {
       responseType: 'arraybuffer' as 'json'
+    });
+  }
+
+  public getApplicationsList (filters: IBankOpsCheckFiltersPayload, pagination: Pagination): Observable<IBankOpsCheckResponse> {
+    return this.http.post<IBankOpsCheckResponse>(API_URL + '/getApplicationsList', filters, {
+      params: pagination ,
     });
   }
 }

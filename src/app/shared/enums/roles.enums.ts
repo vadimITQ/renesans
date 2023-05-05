@@ -2,7 +2,8 @@
 export enum RolesList {
     AP_TEST_PEWeb_STORDAPP = "AP.TEST.PEWeb.STORDAPP",
     AP_TEST_PE_Users = "AP.TEST.PE_Users",
-    AP_TEST_PEWeb_ManualChecks = "AP.TEST.PEWeb.ManualChecks"
+    AP_TEST_PEWeb_ManualChecks = "AP.TEST.PEWeb.ManualChecks",
+    AP_TEST_PEWeb_BankOps = "AP.TEST.PEWeb.BankOps"
 }
 
 export enum ProdRolesList {

@@ -51,6 +51,13 @@ import { PeHeaderComponent } from './core/pages/PE/pe-header/pe-header.component
 import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component';
 import { PaymentEngineInitializerService } from './core/services/payment-engine-initializer/payment-engine-initializer';
 import { PeMuitiselectComponent } from './shared/components/controls/pe-multiselect/pe-multiselect.component';
+import {BankOpsCheckComponent} from "./core/pages/PE/bank-ops-check/bank-ops-check.component";
+import {
+  BankOpsCheckFiltersComponent
+} from "./core/pages/PE/bank-ops-check/bank-ops-check-filters/bank-ops-check-filters.component";
+import {
+  BankOpsCheckTableComponent
+} from "./core/pages/PE/bank-ops-check/bank-ops-check-table/bank-ops-check-table.component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -75,11 +82,16 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     ClickToDirective,
     SearchPaymentComponent,
     SearchPaymentFiltersComponent,
+    SearchPaymentTableComponent,
+    BankOpsCheckComponent,
+    BankOpsCheckFiltersComponent,
+    BankOpsCheckTableComponent,
+    SearchPaymentFiltersComponent,
+    SearchPaymentTableComponent,
     PeInputComponent,
     AllowedInputCharactersDirective,
     AppLoadingComponent,
     PeMultiCheckboxComponent,
-    SearchPaymentTableComponent,
     AllowedInputCharactersDirective,
     DatePickerComponent,
     ViewTransferDetailsComponent,

@@ -68,6 +68,8 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
     };
 
     this.filtersValidation = {};
+
+    this.changeDetectionRef.detectChanges();
   }
 
   validate(validateOnlyDates?: boolean): boolean {
@@ -85,15 +87,17 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
     if (!generalFieldsFilled(this.filters)) {
       const [dateFromValidation, dateToValidation] = [
         this.filters.dateTimeTo && (required(this.filters.dateTimeFrom) ||
-          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»')),
+          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»') || 
+          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40, ' ')),
         this.filters.dateTimeFrom && (required(this.filters.dateTimeTo) ||
-          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40)),
+          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40) || 
+          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, ' ')),
       ];
 
       this.filtersValidation = {
         ...this.filtersValidation,
-        dateFrom: dateFromValidation,
-        dateTo: dateToValidation,
+        dateTimeFrom: dateFromValidation,
+        dateTimeTo: dateToValidation,
       };
     } else {
       this.filtersValidation = {

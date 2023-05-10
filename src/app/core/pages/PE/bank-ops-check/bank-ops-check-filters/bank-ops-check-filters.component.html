@@ -2,7 +2,11 @@
   <h5>BankOps проверка</h5>
 
   <div class="input-row">
-    <pe-input label="ID РЕ" [(value)]="filters.paymentID" [validationMessage]="filtersValidation['paymentID']" [maxLength]="36" />
+    <pe-input 
+      label="ID РЕ" 
+      [(value)]="filters.paymentID" 
+      [validationMessage]="filtersValidation['paymentID']" 
+      [maxLength]="36" />
     <pe-input
       label="ID Заявки"
       [(value)]="filters.applicationID"
@@ -14,7 +18,7 @@
   <div class="date-row">
     <date-picker
       [(date)]="filters.dateTimeFrom"
-      [validationMessage]="filtersValidation['dateFrom']"
+      [validationMessage]="filtersValidation['dateTimeFrom']"
       label="Дата/Время с"
       (dateChange)="validate(true)"
       [labelStyle]="{ width: '200px' }"
@@ -24,7 +28,7 @@
   <div class="date-row">
     <date-picker
       [(date)]="filters.dateTimeTo"
-      [validationMessage]="filtersValidation['dateTo']"
+      [validationMessage]="filtersValidation['dateTimeTo']"
       label="Дата/Время по"
       (dateChange)="validate(true)"
       [labelStyle]="{ width: '200px' }"
@@ -37,7 +41,7 @@
         [dataset]="multiselectDataSetsEnum.GetApplicationStatuses"
         placeholder="Выберите состояние заявки"
         label="Состояния заявки"
-        [labelStyle]="{ 'min-width': '260px', display: 'block' }"
+        [labelStyle]="{ 'min-width': '225px', display: 'block' }"
         [validationMessage]="filtersValidation['applicationStatus']"
         [(selected)]="filters.applicationStatus"
       >

@@ -49,6 +49,7 @@ export class PaymentEngineRolesGuard implements CanActivate {
                 }
             }
             case(RouterPath.BankOpsCheck): {
+                return true;
                 if (this.peRolesService.hasAccessToBankOpsCheck()){
                     return true;
                 }

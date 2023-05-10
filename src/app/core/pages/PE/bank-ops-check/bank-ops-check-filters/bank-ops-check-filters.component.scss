@@ -10,7 +10,8 @@
   justify-content: flex-start;
   gap: 20px;
   > pe-input {
-    width: calc(25% - 20px);
+    width: 300px;
+    // width: calc(25% - 20px);
   }
 }
 

@@ -1,7 +1,7 @@
 @use "sass:list";
 
 $spacers: (
-    .25, .5, 1, 1.5, 3, 4, 5, 6
+    .25, .5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6
 );
 
 $unit: rem;
@@ -34,12 +34,12 @@ $unit: rem;
     }
 }
 
-@include margin(mb, bottom, 5);
-@include margin(mt, top, 5);
-@include margin(ml, left, 5);
-@include margin(mr, right, 5);
+@include margin(mb, bottom, 13);
+@include margin(mt, top, 13);
+@include margin(ml, left, 13);
+@include margin(mr, right, 13);
 
-@include padding(pb, bottom, 5);
-@include padding(pt, top, 5);
-@include padding(pl, left, 5);
-@include padding(pr, right, 5);
+@include padding(pb, bottom, 13);
+@include padding(pt, top, 13);
+@include padding(pl, left, 13);
+@include padding(pr, right, 13);

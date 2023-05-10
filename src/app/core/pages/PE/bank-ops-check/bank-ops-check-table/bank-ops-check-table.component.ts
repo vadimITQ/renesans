@@ -36,6 +36,7 @@ export class BankOpsCheckTableComponent implements OnInit, OnDestroy {
 
   linkClick(id: string) {
     // todo: implement me
+    this.peNavigationService.goToBankOpsDetails(2);
   }
 
   get hasAccessToViewTransferDetails() {

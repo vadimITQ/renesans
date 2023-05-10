@@ -1,0 +1,41 @@
+
+<div class="pe-bank-ops-header">
+    <pe-indent [mTop]="4"></pe-indent>
+    <pe-back-arrow></pe-back-arrow>
+    <pe-indent [mBottom]="3"></pe-indent>
+</div>
+
+<div class="pe-bank-ops-details pe-border" *ngIf="hasAccessToComponent">
+
+    <h5>BankOps проверка: просмотр деталей по заявке</h5>
+    
+    <div class="paragraph">
+        <pe-indent [mBottom]="4"></pe-indent>
+        Информация по заявке
+        <pe-indent [mBottom]="4"></pe-indent>
+    </div>
+
+    <div class="info-block">
+        <pe-input label="ID PE"></pe-input>
+        <pe-input label="Дата заявки PE"></pe-input>
+        <pe-input label="ФИО плательщика"></pe-input>
+        <pe-input label="Счёт списания"></pe-input>
+        <pe-input label="ФИО получателя/наименование организации"></pe-input>
+        <pe-input label="Счёт получателя"></pe-input>
+        <pe-input label="ИНН получателя"></pe-input>
+        <pe-input label="БИК банка получателя"></pe-input>
+        <pe-input label="Назначение"></pe-input>
+        <pe-input label="Сумма перевода"></pe-input>
+    </div>
+
+    <div class="paragraph">
+        <pe-indent [mBottom]="5"></pe-indent>
+        Автоматические проверки
+        <pe-indent [mBottom]="4"></pe-indent>
+    </div>
+
+    <div class="automatic-checks">
+
+    </div>
+
+</div>

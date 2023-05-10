@@ -13,7 +13,7 @@ import {bankOpsCheckTableMock} from "../../pages/PE/bank-ops-check/bank-ops-chec
 export class BankOpsCheckService extends TableService<IBankOpsCheck, IBankOpsCheckFiltersPayload> {
   constructor(private paymentOrderWService: PaymentOrderWService, private toastService: ToastService) {
     function getApplicationsList(payload: IBankOpsCheckFiltersPayload, pagination: Pagination) {
-      return of({...bankOpsCheckTableMock, data: bankOpsCheckTableMock.bankOpsChecks}).pipe(delay(2000))
+      return of({...bankOpsCheckTableMock, data: bankOpsCheckTableMock.bankOpsChecks}).pipe(delay(1000))
       // return paymentOrderWService.getApplicationsList(payload, pagination).pipe(
       //   map(value => ({ ...value, data: value.bankOpsChecks })),
       //   catchError(error => {

@@ -1,0 +1,14 @@
+
+.pe-bank-ops-details {
+
+    >.paragraph {
+        font-size: 1.1rem;
+    }
+
+    >.info-block {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px
+    }
+
+}

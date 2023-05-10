@@ -37,11 +37,15 @@ export class PeRolesService {
     return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_STORDAPP, ProdRolesList.AP_PEWeb_STORDAPP);
   }
 
-
   hasAccessToBankOpsCheck(): boolean {
     return this.rolesService.hasSomeOfRoles(
       RolesList.AP_TEST_PEWeb_BankOps,
       ProdRolesList.AP_PEWeb_BankOps,
     );
   }
+
+  hasAccessToBankOpsDetails(): boolean{
+    return this.hasAccessToBankOpsCheck();
+  }
+
 }

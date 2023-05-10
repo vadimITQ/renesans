@@ -5,6 +5,7 @@ export enum RouterPath {
   MonitoringStandingOrders = 'monitoringStandingOrders',
   SearchPayment = 'searchPayment',
   BankOpsCheck = 'bankOpsCheck',
+  BankOpsDetails = 'bankOpsDetails',
   ViewTransferDetails = 'viewTransferDetails',
   ManualChecks = 'manualChecks',
   NotFound = '**',

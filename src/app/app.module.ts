@@ -58,6 +58,9 @@ import {
 import {
   BankOpsCheckTableComponent
 } from "./core/pages/PE/bank-ops-check/bank-ops-check-table/bank-ops-check-table.component";
+import { BankOpsDetailsComponent } from "./core/pages/PE/bank-ops-details/bank-ops-details.component";
+import { PeBackArrowComponent } from "./shared/components/back-arrow/back-arrow.component";
+import { PeIndentComponent } from "./shared/components/pe-indent/pe-indent-component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -98,7 +101,10 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeTextareaComponent,
     PeHeaderComponent,
     PeFooterComponent,
-    PeMuitiselectComponent
+    PeMuitiselectComponent,
+    BankOpsDetailsComponent,
+    PeBackArrowComponent,
+    PeIndentComponent
   ],
   imports: [
     BrowserModule,

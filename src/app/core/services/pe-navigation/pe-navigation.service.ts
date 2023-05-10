@@ -45,4 +45,8 @@ export class PeNavigationService {
     this.goToSpecificPath([RouterPath.ViewTransferDetails, '' + id])
   }
 
+  public goToBankOpsDetails(id: number | string){
+    this.goToSpecificPath([RouterPath.BankOpsDetails, '' + id])
+  }
+
 }

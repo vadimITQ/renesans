@@ -62,6 +62,6 @@
         <button pButton class="pe-button ml-2" [label]="'Найти'"    type="submit"></button>
     </div>
 
-    <pe-error-messages [control]="filter"></pe-error-messages>
+    <pe-error-messages [control]="filter" [errorMessagesList]="validation.messages"></pe-error-messages>
 
 </form>

@@ -15,11 +15,13 @@
         </p-multiSelect>
         <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
             <ng-container *ngFor="let error of control.errors | keyvalue">
-                <div 
-                    class="pe-multiselect__validationMessage error-message"
-                    [ngStyle]="{'left': labelWidth}">
-                    {{ errorMessages[error.key] }}
-                </div>
+                <ng-container *ngIf="error.value === true">
+                    <div 
+                        class="pe-multiselect__validationMessage error-message"
+                        [ngStyle]="{'left': labelWidth}">
+                        {{ errorMessages[error.key] }}
+                    </div>
+                </ng-container>
             </ng-container>
         </ng-container>
     </div>

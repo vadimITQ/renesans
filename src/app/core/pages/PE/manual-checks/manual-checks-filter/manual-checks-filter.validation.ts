@@ -1,32 +1,142 @@
 
 import { ManualChecksFilter } from '../../../../../shared/models/manual-checks-models';
-import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
 import { Injectable } from '@angular/core';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { ErrorMesssagesList } from 'src/app/shared/components/reactive-controls/global-error-messages';
 
-@Injectable()
+export enum ValidationErrorsEnum {
+  ValidateOnEmpty = "validateOnEmpty",
+  ValidateOnEmptyControl = "validateOnEmptyControl",
+  Required = "required",
+  DateFromMoreThanDateTo = "dateFromMoreThanDateTo",
+  DatesRangeLimit = "datesRangeLimit",
+  EmptyError = "emptyError"
+}
+
+@Injectable({
+  providedIn: "root"
+})
 export class ManualChecksValidation {
 
   constructor(private toastService: ToastService){}
 
   readonly messages: ErrorMesssagesList = {
-    validateOnEmpty: "Заполните хотя бы одно из полей фильтров или укажите интервал дат",
-    validateOnEmptyControl: " ",
-    required: "Поле обязательно к заполнению",
-    dateFromMoreThanDateTo: "«Дата/Время с» превышает «Дата/Время по»",
-    datesRangeLimit: "Диапазон дат не должен превышать 40 дней"
+    [ValidationErrorsEnum.ValidateOnEmpty]: "Заполните хотя бы одно из полей фильтров или укажите интервал дат",
+    [ValidationErrorsEnum.ValidateOnEmptyControl]: "  ",
+    [ValidationErrorsEnum.Required]: "Поле обязательно к заполнению",
+    [ValidationErrorsEnum.DateFromMoreThanDateTo]: "«Дата/Время с» превышает «Дата/Время по»",
+    [ValidationErrorsEnum.DatesRangeLimit]: "Диапазон дат не должен превышать 40 дней",
+    [ValidationErrorsEnum.EmptyError]: "  "
   }
-   
+
+  validateEmpty(control: FormGroup<ManualChecksFilter>): ValidationErrors | null {
+    if (!control){
+      return null;
+    }
+    const noFilter: boolean = !control;
+    const filterHasDates: boolean =  !!control.controls.dateTimeFrom.value || !!control.controls.dateTimeTo.value;
+    const filterHasId: boolean = !!control.controls.paymentID.value || !!control.controls.applicationID.value || !!control.controls.idPH.value || !!control.controls.account.value;
+    if ((control.touched || control.dirty) && (noFilter || (!filterHasDates && !filterHasId))){
+        control.markAllAsTouched();
+        Object.keys(control.controls)
+          .forEach(key => {
+            control.get(key)?.setErrors({ [ValidationErrorsEnum.EmptyError]: { value: true } });
+          });
+        return {
+            [ValidationErrorsEnum.ValidateOnEmpty]: {
+              value: true
+            }
+        };
+    }
+    else {
+      Object.keys(control.controls)
+          .forEach(key => {
+            const _control = control.get(key);
+            if (_control){
+              const errors = Object.keys(_control.errors ?? {}).filter(error => error !== ValidationErrorsEnum.EmptyError);
+              _control.setErrors({...errors})
+            }
+          });
+    }
+    return null;
+  }
+
+  validateDates(control: AbstractControl): ValidationErrors | null{
+    const formGroup = control.parent;
+    if (PEReactiveHelper.isFormGroup(formGroup)){
+      const dateFrom = formGroup.controls["dateTimeFrom"];
+      const dateTo = formGroup.controls["dateTimeTo"];
+      const dateFromValue = dateFrom.value as Date;
+      const dateToValue = dateTo.value as Date;
+      const dateFromErrors = dateFrom.errors;
+      const dateToErrors = dateTo.errors;
+      const timeValueFrom = dateFromValue?.getTime() ?? 0;
+      const timeValueTo = dateToValue?.getTime() ?? 0;
+      const range: number = (timeValueFrom - timeValueTo) / (1000 * 60 * 60 * 24);
+
+      if (!dateFromValue && !dateToValue){
+        dateFrom.setErrors(null);
+        dateTo.setErrors(null);
+      }
+      if (!dateFromValue){
+        dateFrom.setErrors({...dateFromErrors, [ValidationErrorsEnum.Required]: true });
+      }
+      if (!dateToValue) {
+        dateTo.setErrors({...dateToErrors, [ValidationErrorsEnum.Required]: true });
+      }
+      if (timeValueFrom > timeValueTo){
+        dateFrom.setErrors({...dateFromErrors, [ValidationErrorsEnum.EmptyError]:  true })
+        dateFrom.setErrors({...dateFromErrors, [ValidationErrorsEnum.DateFromMoreThanDateTo]: true});
+      }
+      if (range > 40){
+        dateFrom.setErrors({...dateFromErrors, [ValidationErrorsEnum.EmptyError]: true })
+        dateTo.setErrors({...dateToErrors, [ValidationErrorsEnum.DateFromMoreThanDateTo]: true  })
+      }
+      console.log(dateFrom.errors, dateTo.errors)
+      dateFrom.markAsTouched();
+      dateTo.markAsTouched();
+    }
+    return null;
+  }
+  
+  testFormGroupValidaion(control: AbstractControl): ValidationErrors | null {
+    console.log(control);
+    return {
+      validateOnEmpty: {
+        value: true
+      }
+    };
+  }
+
+  validateFilterControlsOnEmpty(control: AbstractControl): ValidationErrors | null {
+    const filter = control.parent as FormGroup<ManualChecksFilter>;
+    if (!filter){
+      return null;
+    }
+    const noFilter: boolean = !filter;
+    const filterHasDates: boolean =  !!filter.controls.dateTimeFrom.value || !!filter.controls.dateTimeTo.value;
+    const filterHasId: boolean = !!filter.controls.paymentID.value || !!filter.controls.applicationID.value || !!filter.controls.idPH.value || !!filter.controls.account.value;
+    if ((filter.touched || filter.dirty) && (noFilter || (!filterHasDates && !filterHasId))){
+        filter.markAllAsTouched();
+        return {
+            [ValidationErrorsEnum.ValidateOnEmpty]: {
+              value: true
+            }
+        };
+    }
+    return null;
+  }
+
   validateFilterOnEmpty(filter: FormGroup<ManualChecksFilter>): ValidationErrors | null {
     const noFilter: boolean = !filter;
     const filterHasDates: boolean =  !!filter.controls.dateTimeFrom.value || !!filter.controls.dateTimeTo.value;
     const filterHasId: boolean = !!filter.controls.paymentID.value || !!filter.controls.applicationID.value || !!filter.controls.idPH.value || !!filter.controls.account.value;
-    if (noFilter || (!filterHasDates && !filterHasId)){
-        this.toastService.showErrorToast('Заполните хотя бы одно из полей фильтров или укажите интервал дат');
+    if ((filter.touched || filter.dirty) && (noFilter || (!filterHasDates && !filterHasId))){
+        filter.markAllAsTouched();
         return {
-            validateOnEmpty: {
+            [ValidationErrorsEnum.ValidateOnEmpty]: {
               value: true
             }
         };
@@ -43,7 +153,7 @@ export class ManualChecksValidation {
       case("number"):
       case("string"):
       case("symbol"): {
-        hasValue = value !== null && value !== undefined;
+        hasValue = !!value;
         break;
       }
       case("undefined"): {
@@ -56,40 +166,49 @@ export class ManualChecksValidation {
           hasValue = value?.length > 0 ?? false;
         }
         else {
-          hasValue = value !== null && value !== undefined;
+          hasValue = !!value && Object.keys(value).length > 0;
         }
       }
     }
     const parentValid = !!control.parent?.valid;
     const parentErrors = control.parent?.errors ?? {} as ValidationErrors;
-    const parentHasValidateOnEmptyError = parentErrors["validateOnEmpty"]?.value;
+    const parentHasValidateOnEmptyError = !!parentErrors["validateOnEmpty"]?.value;
+    console.log(hasValue, parentValid, parentHasValidateOnEmptyError)
     if (!hasValue && !parentValid && parentHasValidateOnEmptyError){
       return {
-        validateOnEmptyControl: { 
+        [ValidationErrorsEnum.ValidateOnEmptyControl]: { 
           value: true
         }
       }
     }
     return null;
   }
-  
+
   validateDateTimeFrom(control: AbstractControl): ValidationErrors | null {
     const formGroup = control.parent;
     if (PEReactiveHelper.isFormGroup(formGroup)){
-      const dateTimeFrom = formGroup.controls["dateTimeFrom"].value as Date | null;
-      const dateTimeTo = formGroup.controls["dateTimeTo"].value as Date | null;
+      const dateTimeFromControl = formGroup.controls["dateTimeFrom"];
+      const dateTimeToControl = formGroup.controls["dateTimeTo"];
+      const dateTimeFrom = dateTimeFromControl.value as Date | null;
+      const dateTimeTo = dateTimeToControl.value as Date | null;
       const timeFrom : number = dateTimeFrom?.getTime() ?? 0;
       const timeTo : number = dateTimeTo?.getTime() ?? 0;
-  
-      if (!dateTimeFrom){
+      const timeToIsEmpty = timeTo === 0;
+
+      if (!dateTimeFrom && !dateTimeTo) {
+        console.log(formGroup);
+        return null;
+      }
+
+      if (!dateTimeFrom && !!dateTimeTo){
         return {
-          required: { value: true }
+          [ValidationErrorsEnum.Required]: { value: true }
         };
       }
-  
-      if (timeFrom > timeTo){
+
+      if (timeFrom > timeTo && !timeToIsEmpty){
         return {
-          dateFromMoreThanDateTo: { value: true }
+          [ValidationErrorsEnum.DateFromMoreThanDateTo]: { value: true }
         };
       }
   
@@ -100,24 +219,32 @@ export class ManualChecksValidation {
   validateDateTimeTo(control: AbstractControl): ValidationErrors | null {
     const formGroup = control.parent;
     if (PEReactiveHelper.isFormGroup(formGroup)) {
-      const dateTimeFrom = formGroup.controls["dateTimeFrom"].value as Date | null;
-      const dateTimeTo = formGroup.controls["dateTimeTo"].value as Date | null;
+      const dateTimeFromControl = formGroup.controls["dateTimeFrom"];
+      const dateTimeToControl = formGroup.controls["dateTimeTo"];
+      const dateTimeFrom = dateTimeFromControl.value as Date | null;
+      const dateTimeTo = dateTimeToControl.value as Date | null;
       const timeFrom: number = dateTimeFrom?.getTime() ?? 0;
       const timeTo: number = dateTimeTo?.getTime() ?? 0;
       const range: number = (timeTo - timeFrom) / (1000 * 60 * 60 * 24);
-  
-      if (!dateTimeTo) {
+      const timeFromIsEmpty = timeFrom === 0;
+
+      if (!dateTimeFrom && !dateTimeTo) {
+        console.log(formGroup);
+        return null;
+      }
+
+      if (!dateTimeTo && !!dateTimeFrom) {
         return {
-          required: { value: true }
+          [ValidationErrorsEnum.Required]: { value: true }
         };
       }
   
-      if (range > 40) {
+      if (range > 40 && !timeFromIsEmpty) {
         return {
-          datesRangeLimit: { value: true }
+          [ValidationErrorsEnum.DatesRangeLimit]: { value: true }
         }
       }
-  
+      
     }
     return null;
   }

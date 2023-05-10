@@ -2,6 +2,23 @@ import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/for
 
 export class PEReactiveHelper {
     
+    static resetForm(formGroup: FormGroup): void {
+        Object.values(formGroup.controls).forEach(control => {
+            control.setErrors(null);
+        });
+        formGroup.reset();
+    }
+
+    static triggerControlsValidations(formGroup: FormGroup): void {
+        Object.keys(formGroup.controls).forEach(key => {
+            const control = formGroup.get(key);
+            if (control){
+              control.markAsTouched();
+              control.updateValueAndValidity();
+            }
+        });
+    }
+
     static getValues<TValue extends { [ K in keyof TValue ]: AbstractControl } >(formGroup: FormGroup<TValue>): TValue | null {
         if (!formGroup) {
             return null;

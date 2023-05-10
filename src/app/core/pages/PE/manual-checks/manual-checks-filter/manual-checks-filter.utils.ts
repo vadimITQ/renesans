@@ -7,7 +7,9 @@ import { ISearchPaymentsFiltersPayload } from "src/app/core/services/search-paym
 import { DatePickerHelper } from "src/app/shared/components/controls/date-picker/date-picker-helper";
 import { ManualChecksValidation } from "./manual-checks-filter.validation";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ManualChecksHelper {
 
   constructor(private fb: FormBuilder, private validation: ManualChecksValidation){}
@@ -30,21 +32,38 @@ export class ManualChecksHelper {
   }
 
   createDefaultForm(): FormGroup<ManualChecksFilter> {
-    return this.fb.group<ManualChecksFilter>({
-      paymentID: new FormControl("",      { validators: [this.validation.validateControlOnEmpty] }),
-      applicationID: new FormControl("",  { validators: [this.validation.validateControlOnEmpty] }),
-      idPH: new FormControl("",           { validators: [this.validation.validateControlOnEmpty] }),
-      dateTimeFrom: new FormControl(null, { validators: [this.validation.validateControlOnEmpty, this.validation.validateDateTimeFrom] }),
-      dateTimeTo: new FormControl(null,   { validators: [this.validation.validateControlOnEmpty, this.validation.validateDateTimeTo] }),
-      account: new FormControl("",        { validators: [this.validation.validateControlOnEmpty] }),
-      channelName: new FormControl([],    { validators: [this.validation.validateControlOnEmpty], nonNullable: true }),
-      codeStatuses: new FormControl([],   { validators: [this.validation.validateControlOnEmpty], nonNullable: true }),
-      parentType: new FormControl([],     { validators: [this.validation.validateControlOnEmpty], nonNullable: true })
-    },
+    const dateTo = new Date();
+    const dateFrom = sub(dateTo, { days: 3 });
+    return this.fb.group<ManualChecksFilter>(
       {
-        validators: [() => this.validation.validateFilterOnEmpty]
+        paymentID: new FormControl(""),
+        applicationID: new FormControl(""),
+        idPH: new FormControl(""),
+        dateTimeFrom: new FormControl(dateFrom),
+        dateTimeTo: new FormControl(dateTo),
+        account: new FormControl(""),
+        channelName: new FormControl([], { nonNullable: true }),
+        codeStatuses: new FormControl([], { nonNullable: true }),
+        parentType: new FormControl([], { nonNullable: true })
+      },
+      {
+        validators: (c) => this.validation.validateEmpty(c as FormGroup<ManualChecksFilter>),
+        updateOn: "change"
       }
     );
+    // return this.fb.group<ManualChecksFilter>(
+    //   {
+    //     paymentID: new FormControl("",          { validators: [this.validation.validateFilterControlsOnEmpty] }),
+    //     applicationID: new FormControl("",      { validators: [this.validation.validateFilterControlsOnEmpty] }),
+    //     idPH: new FormControl("",               { validators: [this.validation.validateFilterControlsOnEmpty] }),
+    //     dateTimeFrom: new FormControl(dateFrom, { validators: [this.validation.validateFilterControlsOnEmpty, this.validation.validateDates] }),
+    //     dateTimeTo: new FormControl(dateTo,     { validators: [this.validation.validateFilterControlsOnEmpty, this.validation.validateDates] }),
+    //     account: new FormControl("",            { validators: [this.validation.validateFilterControlsOnEmpty] }),
+    //     channelName: new FormControl([],        { validators: [this.validation.validateFilterControlsOnEmpty], nonNullable: true }),
+    //     codeStatuses: new FormControl([],       { validators: [this.validation.validateFilterControlsOnEmpty], nonNullable: true }),
+    //     parentType: new FormControl([],         { validators: [this.validation.validateFilterControlsOnEmpty], nonNullable: true })
+    //   }
+    // );
   }
 
   prepareSearchFilters(filter: FormGroup<ManualChecksFilter>): ISearchPaymentsFiltersPayload {

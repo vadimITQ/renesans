@@ -1,12 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
+import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
 import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
 import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 import { FormGroup } from '@angular/forms';
 import { ManualChecksHelper } from './manual-checks-filter.utils';
 import { prepareSearchFilters } from '../../search-payment/search-payment-filters/search-payment-filters.utils';
-import { ManualChecksValidation } from './manual-checks-filter.validation';
+import { ValidationErrorsEnum, ManualChecksValidation } from './manual-checks-filter.validation';
+import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-manual-checks-filter',
@@ -18,12 +20,14 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
   constructor(
     private mcService: ManualChecksService,
     private manualChecksHelper: ManualChecksHelper,
+    private toastService: ToastService,
+    private changeDetector: ChangeDetectorRef,
     public validation: ManualChecksValidation
   ) {}
 
   public multiselectDataSetsEnum = MultiselectDataSets;
   public $paymentsResponse!: Observable<GetPaymentsResponse[]>;
-  public filter: FormGroup = this.manualChecksHelper.createDefaultForm();
+  public filter: FormGroup<ManualChecksFilter> = this.manualChecksHelper.createDefaultForm();
   public validateDates: boolean = false;
 
   ngOnDestroy(): void {
@@ -36,16 +40,25 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     }
     else {
       this.filter.setValue(this.manualChecksHelper.defineDefaultFiltersValues());
+      this.changeDetector.detectChanges();
     }
   }
 
   clearFilter() {
-    this.filter.setValue({});
+    PEReactiveHelper.resetForm(this.filter);
   }
 
   searchPayments() {
+    this.filter.markAllAsTouched();
+    this.filter.updateValueAndValidity();
+    PEReactiveHelper.triggerControlsValidations(this.filter);
     if (this.filter.valid){
       this.mcService.filter(this.manualChecksHelper.prepareSearchFilters(this.filter));
+    }
+    else{
+      Object.keys(this.filter.errors ?? {}).includes(ValidationErrorsEnum.ValidateOnEmpty)
+        ? this.toastService.showErrorToast(this.validation.messages[ValidationErrorsEnum.ValidateOnEmpty])
+        : null;
     }
   }
 

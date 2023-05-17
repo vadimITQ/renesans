@@ -19,7 +19,8 @@ export class PeDropdownComponent {
     private _selected!: IMultiCheckboxData;
 
     @Output() selectedChange: EventEmitter<IMultiCheckboxData> = new EventEmitter<IMultiCheckboxData>();
-    @Output() onFileTypeSelected: EventEmitter<IMultiCheckboxData> = new EventEmitter<IMultiCheckboxData>();
+    @Output() onSelected: EventEmitter<IMultiCheckboxData> = new EventEmitter<IMultiCheckboxData>();
+    @Output() onShowed: EventEmitter<void> = new EventEmitter<void>();
 
     @Input() placeholder: string = "";
 
@@ -47,8 +48,12 @@ export class PeDropdownComponent {
         this.selectedChange.emit(selected);
     }
 
+    onShow(): void {
+        this.onShowed.emit();
+    }
+
     onChange(event: any): void {
-        this.onFileTypeSelected.emit(event.value);
+        this.onSelected.emit(event.value);
     }
 
 }

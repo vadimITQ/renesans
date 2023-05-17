@@ -5,7 +5,8 @@
         [(selected)]="uploadingModal.data.docType"
         [dataset]="multiselectDataSetsEnum.GetFileTypes"
         placeholder="Выберите тип документа"
-        (onFileTypeSelected)="addFile($event)">
+        (onSelected)="addFile($event)"
+        (onShowed)="onDropdownShowed()">
     </pe-dropdown>
     <pe-indent [mBottom]="7"></pe-indent>
     <pe-textarea 

@@ -58,7 +58,7 @@ export class FileUploadingModalComponent {
             this.fileForm.nativeElement.click();
         });
     }
-    
+
     cancelChanges() {
         this.onCancel.emit();
     }
@@ -90,5 +90,10 @@ export class FileUploadingModalComponent {
             );
         }
     }
-
+   
+    onDropdownShowed(): void {
+        this.uploadingModal.data.files = [];
+        this.uploadingModal.data.docType = {} as IMultiSelectData;
+    }
+    
 }

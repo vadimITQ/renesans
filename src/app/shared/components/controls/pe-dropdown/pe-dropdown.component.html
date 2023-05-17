@@ -9,6 +9,7 @@
         [(ngModel)]="selected"
         [options]="dataset"
         [placeholder]="placeholder"
+        (onShow)="onShow()"
         (onChange)="onChange($event)">
     </p-dropdown>
 </div>

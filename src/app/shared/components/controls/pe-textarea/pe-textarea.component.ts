@@ -11,6 +11,7 @@ export class PeTextareaComponent {
   @Input() disabled: boolean = false;
   @Input() regExprValidation: RegExp = defaultExpr;
   @Input() maxLength: number = defaultLength;
+  @Input() rows: number = 2;
 
   _value!: any;
 

@@ -8,23 +8,28 @@ import { Component, Input } from "@angular/core";
     `,
     styles: [
         `
-            :host {
-                display: block;
+            div {
+                height: 0.1px;
+            }
+            :host:has(.inline) {
+                display: inline-block;
             }
         `
     ]
 })
 export class PeIndentComponent {
 
-    @Input() mTop: number = 0;
-    @Input() mRight: number = 0;
-    @Input() mBottom: number = 0;
-    @Input() mLeft: number = 0;
+    @Input() mTop: number | 'auto' = 0;
+    @Input() mRight: number | 'auto' = 0;
+    @Input() mBottom: number | 'auto' = 0;
+    @Input() mLeft: number | 'auto' = 0;
 
-    @Input() pTop: number = 0;
-    @Input() pRight: number = 0;
-    @Input() pBottom: number = 0;
-    @Input() pLeft: number = 0;
+    @Input() pTop: number | 'auto' = 0;
+    @Input() pRight: number | 'auto' = 0;
+    @Input() pBottom: number | 'auto' = 0;
+    @Input() pLeft: number | 'auto' = 0;
+
+    @Input() inline: boolean = false;
 
     public get indents() {
         return {
@@ -35,7 +40,8 @@ export class PeIndentComponent {
             [this.paddingTop]: true,
             [this.paddingBottom]: true,
             [this.paddingLeft]: true,
-            [this.paddingRight]: true
+            [this.paddingRight]: true,
+            ["inline"]: this.inline
         };
     }
 

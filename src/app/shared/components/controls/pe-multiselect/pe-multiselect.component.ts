@@ -1,6 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { MultiSelect } from "primeng/multiselect";
-import { MultiselectDataSets } from "src/app/shared/enums/datasets.enums";
 import { MultiselectDatasetsService } from "src/app/shared/services/multiselect-datasets.service";
 import { ValidationMessage } from "src/app/shared/validation/types";
 

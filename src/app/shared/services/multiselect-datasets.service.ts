@@ -53,6 +53,22 @@ export class MultiselectDatasetsService {
           return [];
         }
       }
+      case MultiselectDataSets.GetFileTypes: {
+        return [
+          {
+            label: "Файл",
+            value: "*"
+          },
+          {
+            label: "pdf",
+            value: ".pdf"
+          },
+          {
+            label: "Эксель файл",
+            value: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+          }
+        ]
+      }
     }
   }
 

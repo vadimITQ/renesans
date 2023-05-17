@@ -10,32 +10,296 @@
     <h5>BankOps проверка: просмотр деталей по заявке</h5>
     
     <div class="paragraph">
-        <pe-indent [mBottom]="4"></pe-indent>
+        <pe-indent [mTop]="3"></pe-indent>
         Информация по заявке
-        <pe-indent [mBottom]="4"></pe-indent>
+        <pe-indent [mBottom]="5"></pe-indent>
     </div>
 
     <div class="info-block">
-        <pe-input label="ID PE"></pe-input>
-        <pe-input label="Дата заявки PE"></pe-input>
-        <pe-input label="ФИО плательщика"></pe-input>
-        <pe-input label="Счёт списания"></pe-input>
-        <pe-input label="ФИО получателя/наименование организации"></pe-input>
-        <pe-input label="Счёт получателя"></pe-input>
-        <pe-input label="ИНН получателя"></pe-input>
-        <pe-input label="БИК банка получателя"></pe-input>
-        <pe-input label="Назначение"></pe-input>
-        <pe-input label="Сумма перевода"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="ID PE"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Дата заявки PE"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'"              label="ФИО плательщика"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'"              label="Счёт списания"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'"              label="ФИО получателя/наименование организации"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Счёт получателя"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="ИНН получателя"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="БИК банка получателя"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Назначение"></pe-input>
+        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Сумма перевода"></pe-input>
     </div>
 
     <div class="paragraph">
-        <pe-indent [mBottom]="5"></pe-indent>
+        <pe-indent [mTop]="4"></pe-indent>
         Автоматические проверки
         <pe-indent [mBottom]="4"></pe-indent>
     </div>
 
     <div class="automatic-checks">
-
+        <p-table
+            *ngIf="bankOpsDetailsData !== 'loading'"
+            [value]="bankOpsDetailsData.automaticChecksData"
+            [scrollable]="true"
+            [autoLayout]="true"
+            [resizableColumns]="true"
+            [showCurrentPageReport]="true"
+            [lazy]="true"
+            [columnResizeMode]="'expand'"
+            styleClass="p-datatable-gridlines p-datatable-sm">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        Статус автоматических проверок BankOps
+                    </th>
+                    <th>
+                        Сработавшие правила автоматических проверок BankOps
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detailsItem>
+                <tr>
+                    <td>
+                        {{detailsItem.status}}
+                    </td>
+                    <td>
+                        {{detailsItem.rules}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+    </div>
+    
+    <div class="paragraph">
+        <pe-indent [mTop]="4"></pe-indent>
+        Ручные проверки
+        <pe-indent [mBottom]="4"></pe-indent>
     </div>
 
-</div>
+    <div class="manual-checks">
+        <p-table
+            *ngIf="bankOpsDetailsData !== 'loading'"
+            [value]="bankOpsDetailsData.manualChecksData"
+            [scrollable]="true"
+            [autoLayout]="true"
+            [resizableColumns]="true"
+            [showCurrentPageReport]="true"
+            [lazy]="true"
+            [columnResizeMode]="'expand'"
+            styleClass="p-datatable-gridlines p-datatable-sm">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        Тип проверки
+                    </th>
+                    <th>
+                        Статус
+                    </th>
+                    <th>
+                        Логин пользователя
+                    </th>
+                    <th>
+                        Дата начала рассмотрения
+                    </th>
+                    <th>
+                        Дата окончания рассмотрения
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detailsItem>
+                <tr>
+                    <td>
+                        {{detailsItem.type}}
+                    </td>
+                    <td>
+                        {{detailsItem.status}}
+                    </td>
+                    <td>
+                        {{detailsItem.login}}
+                    </td>
+                    <td>
+                        {{detailsItem.startData | date : "dd.MM.yyyy HH:mm"}}
+                    </td>
+                    <td>
+                        {{detailsItem.endData | date : "dd.MM.yyyy HH:mm"}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+    </div>
+
+    <div class="paragraph">
+        <pe-indent [mTop]="4"></pe-indent>
+        Приложенные документы
+        <pe-indent [inline]="true" [mRight]="2"></pe-indent>
+        <div class="badge" *ngIf="!!docsDataCount">
+            <p-badge [value]="docsDataCount"></p-badge>
+        </div>
+        <pe-indent [mBottom]="4"></pe-indent>
+    </div>
+
+    <div class="docs">
+        <p-table
+            *ngIf="bankOpsDetailsData !== 'loading'"
+            [value]="bankOpsDetailsData.docsData"
+            [scrollable]="true"
+            [autoLayout]="true"
+            [resizableColumns]="true"
+            [showCurrentPageReport]="true"
+            [lazy]="true"
+            [columnResizeMode]="'expand'"
+            styleClass="p-datatable-gridlines p-datatable-sm">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        ID документа
+                    </th>
+                    <th>
+                        Дата и время вложения
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detailsItem>
+                <tr>
+                    <td style="width: 50%">
+                        {{detailsItem.docID}}
+                    </td>
+                    <td style="width: 50%">
+                        {{detailsItem.fileData}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+    </div>
+
+    <div class="paragraph">
+        <pe-indent [mTop]="4"></pe-indent>
+        Запрошенные документы
+        <pe-indent [mBottom]="3"></pe-indent>
+    </div>
+
+    <div class="requested-docs">
+
+        <p-button 
+            *ngIf="bankOpsDetailsData !== 'loading'"
+            [label]="'Добавить документ'"
+            styleClass="p-button-info p-button-sm" 
+            (click)="addDocument()">
+        </p-button>
+
+        <pe-indent [mBottom]="4"></pe-indent>
+
+        <p-table
+            *ngIf="bankOpsDetailsData !== 'loading'"
+            [value]="uploadingData"
+            [scrollable]="true"
+            [autoLayout]="true"
+            [resizableColumns]="true"
+            [showCurrentPageReport]="true"
+            [lazy]="true"
+            [columnResizeMode]="'expand'"
+            styleClass="p-datatable-gridlines p-datatable-sm">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>
+                        Тип документа
+                    </th>
+                    <th>
+                        Комментарий
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td style="width: 35%">
+                        {{data.docType.label}}
+                    </td>
+                    <td style="width: 60%">
+                        {{data.commentary}}
+                    </td>
+                    <td class="button-td">
+                        <p-button 
+                            label="Редактировать"
+                            icon="pi pi-user-edit"
+                            iconPos="right"
+                            (click)="editUploadingItem(data)"
+                            styleClass="p-button-sm p-button-outlined p-button-success">
+                        </p-button>
+                    </td>
+                    <td class="button-td">
+                        <p-button 
+                            label="Удалить"
+                            icon="pi pi-trash"
+                            iconPos="right"
+                            (click)="deleteUploadingItem(data)"
+                            styleClass="p-button-sm p-button-outlined p-button-danger">
+                        </p-button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+
+    </div>
+    
+    <pe-indent [mTop]="4"></pe-indent>
+
+    <div class="commentary">
+        <pe-input label="Общий комментарий к документам" [maxLength]="250"></pe-input>
+    </div>
+
+    <pe-indent [mTop]="4"></pe-indent>
+
+    <div class="bottom-buttons">
+        <p-button 
+            class="bottom-button-approve"
+            label="Подтвердить заявку"
+            icon="pi pi-check"
+            iconPos="right"
+            styleClass="p-button-success">
+        </p-button>
+        <p-button 
+            class="bottom-button-cancel"
+            label="Отклонить заявку"
+            icon="pi pi-times"
+            iconPos="right"
+            styleClass="p-button-secondary">
+        </p-button>
+        <p-button 
+            class="bottom-button-send-docs"
+            label="Отправить документы"
+            icon="pi pi-reply"
+            iconPos="right"
+            styleClass="p-button-info">
+        </p-button>
+        <p-button 
+            class="bottom-button-request-swift"
+            label="Запросить документы по SWIFT-платежу"
+            icon="pi pi-file"
+            iconPos="right"
+            styleClass="p-button-info">
+        </p-button>
+    </div>
+
+    <pe-indent [mBottom]="2"></pe-indent>
+
+</div>  
+
+<pe-file-uploading-modal
+    [uploadingModal]="uploadingModal"
+    [(show)]="uploadingModal.show"
+    [multipleFiles]="false"
+    [showCancelModal]="false"
+    [showCancelButton]="true"
+    [showSaveButton]="true"
+    [style]="{
+        width: '450px',
+        height: '500px'
+    }"
+    (getUploadigData)="getFiles($event)"
+    (onCancel)="onCancel()"
+    (onSave)="onSave($event)">
+</pe-file-uploading-modal>

@@ -61,6 +61,10 @@ import {
 import { BankOpsDetailsComponent } from "./core/pages/PE/bank-ops-details/bank-ops-details.component";
 import { PeBackArrowComponent } from "./shared/components/back-arrow/back-arrow.component";
 import { PeIndentComponent } from "./shared/components/pe-indent/pe-indent-component";
+import { BadgeModule } from 'primeng/badge';
+import { FileUploadingModalComponent } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.component';
+import { DialogModule } from 'primeng/dialog';
+import { PeDropdownComponent } from "src/app/shared/components/controls/pe-dropdown/pe-dropdown.component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -104,7 +108,9 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeMuitiselectComponent,
     BankOpsDetailsComponent,
     PeBackArrowComponent,
-    PeIndentComponent
+    PeIndentComponent,
+    FileUploadingModalComponent,
+    PeDropdownComponent
   ],
   imports: [
     BrowserModule,
@@ -123,6 +129,8 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     CheckboxModule,
     MultiSelectModule,
     ButtonModule,
+    BadgeModule,
+    DialogModule,
     TranslateModule.forRoot({
       loader:{
         provide: TranslateLoader,

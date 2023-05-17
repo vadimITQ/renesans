@@ -6,6 +6,7 @@ import { ToastService } from "../../services/toast.service";
 import { LoadingService } from "../../services/loading.service";
 import { FileHelper } from "../../classes/file-helper";
 import { FileUploadingModal, IPEUploadingData } from "./file-uploading-modal.types";
+import { DEFAULT_MODAL_STYLE } from "./file-uploading-modal.variables";
 
 @Component({
     selector: "pe-file-uploading-modal",
@@ -19,15 +20,10 @@ export class FileUploadingModalComponent {
         private loading: LoadingService
     ){}
 
-    private readonly DEFAULT_MODAL_STYLE: { [key: string]: string } = {
-        width: '50vw',
-        height: '50vh'
-    };
-
     @ViewChild("fileForm", { static: true }) fileForm!: ElementRef<HTMLInputElement>;
 
     @Input() uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
-    @Input() style: { [key: string]: string } = this.DEFAULT_MODAL_STYLE;
+    @Input() style: { [key: string]: string } = DEFAULT_MODAL_STYLE;
     @Input() showCancelModal: boolean = true;
     @Input() showCancelButton: boolean = true;
     @Input() showSaveButton: boolean = true;
@@ -51,8 +47,13 @@ export class FileUploadingModalComponent {
         this.showChange.emit(showValue);
     }
 
+    get filesUploaded(): boolean {
+        return !!this.uploadingModal.data.files.length;
+    }
+
     addFile(event: IMultiSelectData) {
         setTimeout(() => {
+            this.uploadingModal.data.files = [];
             this.fileForm.nativeElement.accept = event.value;
             this.fileForm.nativeElement.click();
         });
@@ -63,7 +64,9 @@ export class FileUploadingModalComponent {
     }
 
     saveChanges() {
-        this.onSave.emit(this.uploadingModal.data);
+        if (this.filesUploaded){
+            this.onSave.emit(this.uploadingModal.data);
+        }
     }
 
     fileUpload(e: Event): void {
@@ -79,7 +82,7 @@ export class FileUploadingModalComponent {
                 .then(uploadingFileList => {
                     uploadingFileList.forEach(file => {
                         this.toast.showSuccessToast(`Добавлен файл ${ file.file?.name ?? '' }`);
-                    })
+                    });
                     this.uploadingModal.data.files = uploadingFileList;
                     this.getUploadigData.emit(this.uploadingModal.data);
                     htmlInputElement.value = ""; // for detecting same file

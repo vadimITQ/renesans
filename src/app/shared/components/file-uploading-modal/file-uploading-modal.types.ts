@@ -8,11 +8,30 @@ export class FileUploadingModal {
         public data: IPEUploadingData
     ){}
 
-    public editMode: boolean = false;
+    showModal() {
+        this.show = true;
+    }
+
+    hideModal() {
+        this.show = false;
+    }
+
+    setData(data: IPEUploadingData): void {
+        this.data = { 
+            commentary: data.commentary,
+            docType: data.docType,
+            files: [...data.files]
+        };
+    }
+
+    setState(state: FileUploadingModal): void {
+        this.setData(state.data);
+        this.header = state.header;
+        this.show = state.show;
+    }
 
     clear(){
         const defaultModal = FileUploadingModal.createDefaultModal();
-        this.editMode = false;
         this.show = defaultModal.show;
         this.header = defaultModal.header;
         this.data = {
@@ -20,18 +39,6 @@ export class FileUploadingModal {
             docType: defaultModal.data.docType,
             files: defaultModal.data.files
         };
-    }
-
-    showModal(additional: { editMode: boolean } = { editMode: false }) {
-        this.editMode = additional.editMode;
-        this.show = true;
-    }
-
-    hideModal(additional: { clear: boolean } = { clear: false }) {
-        if (additional.clear){
-            this.clear();
-        }
-        this.show = false;
     }
 
     static createModal(configuration: { show: boolean, header: string, data: IPEUploadingData }): FileUploadingModal {

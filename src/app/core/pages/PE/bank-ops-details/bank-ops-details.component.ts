@@ -6,6 +6,7 @@ import { IBankOpsDetails } from "./bank-ops-details.types";
 import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
 import { LoadingService } from "src/app/shared/services/loading.service";
 import { FileUploadingModal, IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
+import { ToastService } from "src/app/shared/services/toast.service";
 
 @Component({
     selector: "app-bank-ops-details",
@@ -17,7 +18,8 @@ export class BankOpsDetailsComponent implements OnInit {
     constructor(
         private peRolesService: PeRolesService,
         private bankOpsDetailsService: BankOpsDetailsService,
-        private loading: LoadingService
+        private loading: LoadingService,
+        private toast: ToastService
     ) { }
 
     public bankOpsDetailsData: IBankOpsDetails | "loading" = "loading";
@@ -27,7 +29,7 @@ export class BankOpsDetailsComponent implements OnInit {
         "font-weight": "500"
     };
 
-    public uploadingDataForEdit!: IPEUploadingData;
+    public uploadingDataForChanges: IPEUploadingData | null = null;
 
     get hasAccessToComponent(): boolean {
         return this.peRolesService.hasAccessToBankOpsDetails();
@@ -59,30 +61,42 @@ export class BankOpsDetailsComponent implements OnInit {
         this.uploadingModal.showModal();
     }
 
-    getFiles(data: IPEUploadingData) {
-        console.log(data);
-    }
-
     onSave(data: IPEUploadingData){
         this.loading.showLoading();
+        if (!data.files.length){
+            this.loading.hideLoading();
+            this.clearUploadingModal();
+            return;
+        }
         setTimeout(() => {
-            if (this.uploadingModal.editMode){
-                console.log(this.uploadingDataForEdit, data);
-                this.uploadingDataForEdit.commentary = data.commentary;
-                this.uploadingDataForEdit.docType = data.docType;
-                this.uploadingDataForEdit.files = data.files;
-                console.log(this.uploadingDataForEdit, data);
+            if (!!this.uploadingDataForChanges){
+                this.changeUploadingItem(data);
+                this.toast.showSuccessToast("Документ был успешно изменён");
+                console.log(this.uploadingDataForChanges);
             }
             else{
                 this.uploadingData.push(data);
+                console.log(this.uploadingData);
             }
             this.loading.hideLoading();
-            this.uploadingModal.hideModal({ clear: true });
+            this.clearUploadingModal();
         }, 1500);
     }
 
+    changeUploadingItem(data: IPEUploadingData) {
+        if (!this.uploadingDataForChanges){
+            return;
+        }
+        const docTypeIsChanged = this.uploadingDataForChanges.docType !== data.docType;
+        this.uploadingDataForChanges.commentary = data.commentary;
+        this.uploadingDataForChanges.docType = data.docType;
+        if (docTypeIsChanged || !!data.files.length){
+            this.uploadingDataForChanges.files = data.files;
+        }
+    }
+
     onCancel(){
-        this.uploadingModal.hideModal({ clear: true });
+        this.clearUploadingModal();
     }
 
     deleteUploadingItem(data: IPEUploadingData) {
@@ -90,15 +104,15 @@ export class BankOpsDetailsComponent implements OnInit {
     }
 
     editUploadingItem(data: IPEUploadingData) {
-        this.uploadingDataForEdit = data;
-        this.uploadingModal.data = {
-            commentary: data.commentary,
-            docType: data.docType,
-            files: JSON.parse(JSON.stringify(data))
-        };
-        this.uploadingModal.showModal({
-            editMode: true
-        });
+        this.uploadingDataForChanges = data;
+        this.uploadingModal.setData(data);
+        this.uploadingModal.showModal();
+    }
+    
+    clearUploadingModal() {
+        this.uploadingDataForChanges = null;
+        this.uploadingModal.hideModal();
+        this.uploadingModal.clear();
     }
 
 }

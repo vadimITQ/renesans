@@ -27,7 +27,8 @@
         <p-button 
             *ngIf="showSaveButton"
             styleClass="p-button-success" 
-            [label]="'Сохранить'" 
+            [label]="'Сохранить'"
+            [disabled]="!filesUploaded"
             (click)="saveChanges()">
         </p-button>
     </div>

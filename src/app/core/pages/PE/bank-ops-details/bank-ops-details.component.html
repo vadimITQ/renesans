@@ -215,7 +215,8 @@
             <ng-template pTemplate="body" let-data>
                 <tr>
                     <td style="width: 35%">
-                        {{data.docType.label}}
+                        {{data.docType.label}}: <br />
+                        <ng-container *ngFor="let file of data.files">{{ file.file.name }}<br/></ng-container>
                     </td>
                     <td style="width: 60%">
                         {{data.commentary}}
@@ -291,7 +292,7 @@
 <pe-file-uploading-modal
     [uploadingModal]="uploadingModal"
     [(show)]="uploadingModal.show"
-    [multipleFiles]="false"
+    [multipleFiles]="true"
     [showCancelModal]="false"
     [showCancelButton]="true"
     [showSaveButton]="true"
@@ -299,7 +300,6 @@
         width: '450px',
         height: '500px'
     }"
-    (getUploadigData)="getFiles($event)"
     (onCancel)="onCancel()"
     (onSave)="onSave($event)">
 </pe-file-uploading-modal>

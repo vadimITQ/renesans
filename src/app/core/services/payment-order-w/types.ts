@@ -12,7 +12,7 @@ export interface ICancelPaymentPayload {
     cancelReason: string;
     paymentID: string;
     channelName: string;
-    chennelUser: string;
+    channelUser: string;
     // АpplicationChannelName: string;
     // cancelReason?: string;
     // DESCRIPTION?: string;

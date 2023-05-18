@@ -122,7 +122,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
                 paymentID: selection.paymentID ?? '',
                 description: this.commentary ?? '',
                 channelName: 'PEW',
-                chennelUser: this.authService.user?.connectionName ?? 'Unknown_User',
+                channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
               } as ICancelPaymentPayload),
             ),
           );

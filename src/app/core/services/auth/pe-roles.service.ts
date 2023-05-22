@@ -42,6 +42,22 @@ export class PeRolesService {
     return this.hasAccessToBankOpsCheck();
   }
 
+  hasAccessToAmlCheck(): boolean {
+    return this.rolesService.hasSomeOfRoles(
+      RolesList.AP_TEST_PEWeb_AML,
+      ProdRolesList.AP_PEWeb_AML,
+      RolesList.AP_TEST_PEWeb_AMLControl,
+      ProdRolesList.AP_PEWeb_AMLControl,
+    );
+  }
+
+  hasAccessToAmlDetails(): boolean {
+    return this.hasAccessToAmlCheck();
+  }
+
+  hasAccessToSearchOnlyExpired(): boolean {
+    return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_AMLControl, ProdRolesList.AP_PEWeb_AMLControl);
+  }
   hasAccessToAntiFraudCheck(): boolean {
     return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_AntiFraud, ProdRolesList.AP_PEWeb_AntiFraud);
   }

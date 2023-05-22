@@ -58,6 +58,16 @@ export class PaymentEngineRolesGuard implements CanActivate {
                     return false;
                 }
             }
+            case(RouterPath.AmlCheck):
+            case(RouterPath.AmlDetails): {
+                if (this.peRolesService.hasAccessToAmlCheck()){
+                    return true;
+                }
+                else {
+                    this.toastService.showErrorToast("Нет прав на взаимодействие с формой «AML проверка»");
+                    return false;
+                }
+            }
         }
         return true;
     }

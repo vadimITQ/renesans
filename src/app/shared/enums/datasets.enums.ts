@@ -5,5 +5,6 @@ export enum MultiselectDataSets {
     GetManualChecksTransferTypes = "GetManualChecksTransferTypes",
     GetPaymentStatuses = "GetPaymentStatuses",
     GetApplicationStatuses = "GetApplicationStatuses",
+    GetAmlApplicationStatuses = "GetAmlApplicationStatuses",
     GetFileTypes = "GetFileTypes"
 }

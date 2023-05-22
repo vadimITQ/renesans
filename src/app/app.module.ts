@@ -65,6 +65,9 @@ import { BadgeModule } from 'primeng/badge';
 import { FileUploadingModalComponent } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.component';
 import { DialogModule } from 'primeng/dialog';
 import { PeDropdownComponent } from "src/app/shared/components/controls/pe-dropdown/pe-dropdown.component";
+import {AmlCheckComponent} from "./core/pages/PE/aml-check/aml-check.component";
+import {AmlCheckFiltersComponent} from "./core/pages/PE/aml-check/aml-check-filters/aml-check-filters.component";
+import {AmlCheckTableComponent} from "./core/pages/PE/aml-check/aml-check-table/aml-check-table.component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -93,6 +96,9 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     BankOpsCheckComponent,
     BankOpsCheckFiltersComponent,
     BankOpsCheckTableComponent,
+    AmlCheckComponent,
+    AmlCheckFiltersComponent,
+    AmlCheckTableComponent,
     SearchPaymentFiltersComponent,
     SearchPaymentTableComponent,
     PeInputComponent,

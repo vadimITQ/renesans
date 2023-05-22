@@ -60,7 +60,16 @@ export class PaymentEngineRolesGuard implements CanActivate {
                     this.toastService.showSuccessToast("Нет прав на взаимодействие с формой «AntiFraud проверка»")
                 }
             }
-
+            case(RouterPath.AmlCheck):
+            case(RouterPath.AmlDetails): {
+                if (this.peRolesService.hasAccessToAmlCheck()){
+                    return true;
+                }
+                else {
+                    this.toastService.showErrorToast("Нет прав на взаимодействие с формой «AML проверка»");
+                    return false;
+                }
+            }
         }
         return true;
     }

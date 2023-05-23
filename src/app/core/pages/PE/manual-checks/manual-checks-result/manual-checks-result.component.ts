@@ -231,10 +231,10 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     if(paymentItem.manualParse === 1 || !paymentItem.manualParse) {
       return ''
     }
-    if (successStatusList.includes(paymentItem.statusCode)) {
+    if (successStatusList.includes(paymentItem.statusCodePE)) {
       return '#FFCC00';
     }
-    if (failStatusList.includes(paymentItem.statusCode)) {
+    if (failStatusList.includes(paymentItem.statusCodePE)) {
       return 'red';
     }
     return '';

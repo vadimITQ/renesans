@@ -89,8 +89,8 @@
           <td>{{ paymentItem.plannedDate | date : 'dd-MM-yyyy' }}</td>
           <td>{{ paymentItem.paymentApplication?.amount }}</td>
           <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
-          <td>{{ statues[paymentItem.statusCode] }}</td>
-          <td>{{ paymentItem.statusCode }}</td>
+          <td>{{ statues[paymentItem.statusCodePE] }}</td>
+          <td>{{ paymentItem.statusCodePE }}</td>
           <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
           <td>{{ paymentItem.errorType }}</td>
         </tr>

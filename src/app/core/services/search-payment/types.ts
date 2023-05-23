@@ -208,9 +208,6 @@ export interface IPaymentApplication {
   transferPurpose: string;
   subscriptionPurpose: string;
   messageToReceiver: string;
-  statusDescriptionPe: string;
-  statusCodePE: string;
-  statusPE: string;
   parentID: string;
   parentType: string;
   paymentSubType: string;
@@ -248,7 +245,7 @@ export interface ISearchPayment {
   idW4: string;
   payerName: string;
   payerNameCBR: string;
-  statusCode: number;
+  statusCodePE: number;
   statusChangeTime: string;
   faults: (string | null)[];
   payDocs: PayDoc[] | null;
@@ -259,6 +256,10 @@ export interface ISearchPayment {
   eventTime: string | null;
   errorType: string | null;
   description: string | null;
+  dcHeader: string | null;
+  paymentPosting: string | null;
+  statusDescriptionPe: string | null;
+  statusPE: string | null;
   manualParse?: number | null;
   rowStatus?: string;
 }

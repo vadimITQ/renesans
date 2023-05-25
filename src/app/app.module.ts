@@ -61,6 +61,10 @@ import { BadgeModule } from 'primeng/badge';
 import { FileUploadingModalComponent } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.component';
 import { DialogModule } from 'primeng/dialog';
 import { PeDropdownComponent } from 'src/app/shared/components/controls/pe-dropdown/pe-dropdown.component';
+import { AntiFraudCheckComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check.component";
+import { AntiFraudDetailsComponent } from "src/app/core/pages/PE/anti-fraud-details/anti-fraud-details.component";
+import { AntiFraudCheckFilterComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check-filter/anti-fraud-check-filter.component";
+import { AntiFraudCheckTableComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check-table/anti-fraud-check-table.component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService) {
   return () => initService.init();
@@ -107,6 +111,10 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeIndentComponent,
     FileUploadingModalComponent,
     PeDropdownComponent,
+    AntiFraudCheckComponent,
+    AntiFraudDetailsComponent,
+    AntiFraudCheckFilterComponent,
+    AntiFraudCheckTableComponent
   ],
   imports: [
     CommonModule,

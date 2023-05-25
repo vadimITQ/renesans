@@ -1,0 +1,23 @@
+
+@import "/src/app/shared/styles/variables.scss";
+
+.anti-fraud-check-filter {
+    .id-inputs {
+        display: flex;  
+    }
+}
+
+:host ::ng-deep {
+    .anti-fraud-check-filter .buttons {
+        p-button {
+            > button {
+                width: 140px;
+                border-radius: 6px;
+            }
+        }
+    }
+    
+    div.anti-fraud-checkbox.onlyExpired-error > p-checkbox > div.p-checkbox.p-component > div.p-checkbox-box {
+        border-color: $errorColor;
+    }
+}

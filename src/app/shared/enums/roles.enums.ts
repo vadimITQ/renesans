@@ -3,7 +3,8 @@ export enum RolesList {
     AP_TEST_PEWeb_STORDAPP = "AP.TEST.PEWeb.STORDAPP",
     AP_TEST_PE_Users = "AP.TEST.PE_Users",
     AP_TEST_PEWeb_ManualChecks = "AP.TEST.PEWeb.ManualChecks",
-    AP_TEST_PEWeb_BankOps = "AP.TEST.PEWeb.BankOps"
+    AP_TEST_PEWeb_BankOps = "AP.TEST.PEWeb.BankOps",
+    AP_TEST_PEWeb_AntiFraud = "AP.TEST.PEWeb.AntiFraud"
 }
 
 export enum ProdRolesList {
@@ -26,5 +27,5 @@ export enum ProdRolesList {
   AP_PEWeb_ManualChecks= "AP.PEWeb.ManualChecks",
   AP_PEWeb_STORDAPP= "AP.PEWeb.STORDAPP",
   AP_PEWeb_STORDCHARGES= "AP.PEWeb.STORDCHARGES",
-  PE_Users= "PEUsers"
+  PE_Users= "PEUsers",
 }

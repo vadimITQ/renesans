@@ -1,0 +1,83 @@
+
+<div class="anti-fraud-check-filter pe-border">
+
+    <h5>AntiFraud проверка: поиск заявок</h5>
+
+    <pe-indent [mBottom]="5"></pe-indent>
+
+    <div class="id-inputs">
+        <pe-input 
+            label="ID PE" 
+            [(value)]="antiFraudCheckFilter.IdPE"
+            [validationMessage]="validations['IdPE']">
+        </pe-input>
+        <pe-indent [mRight]="5"></pe-indent>
+        <pe-input 
+            label="ID Заявки" 
+            [(value)]="antiFraudCheckFilter.applicationId"
+            [validationMessage]="validations['applicationId']">
+        </pe-input>
+    </div>
+
+    <pe-indent [mBottom]="4"></pe-indent>
+
+    <date-picker 
+        label="Дата/время с"
+        [(date)]="antiFraudCheckFilter.dateFrom"
+        [validationMessage]="validations['dateFrom']"
+        (dateChange)="validateDates()"
+        [labelStyle]="{ 'width': '130px' }"
+        [showTime]="false">
+    </date-picker>
+
+    <pe-indent [mBottom]="4"></pe-indent>
+
+    <date-picker 
+        label="Дата/время по" 
+        [(date)]="antiFraudCheckFilter.dateTo"
+        [validationMessage]="validations['dateTo']"
+        (dateChange)="validateDates()"
+        [labelStyle]="{ 'width': '130px' }"
+        [showTime]="false">
+    </date-picker>
+
+    <pe-indent [mBottom]="4"></pe-indent>
+
+    <pe-multiselect 
+        label="Состояние заявки"
+        placeholder="Выберите состояние заявки"
+        [(selected)]="antiFraudCheckFilter.applicationStatus"
+        [dataset]="multiselectDataSets.GetAntiFraudApplicationStatus"
+        [validationMessage]="validations['applicationStatus']"
+        [labelStyle]="{ 'width': '155px' }">
+    </pe-multiselect>
+
+    <pe-indent [mBottom]="4"></pe-indent>
+
+    <div class="anti-fraud-checkbox" [ngClass]="{ 'onlyExpired-error': !!validations['onlyExpired'] }">
+        <p-checkbox
+            *ngIf="showCheckbox"
+            label="Только просроченные" 
+            [(ngModel)]="antiFraudCheckFilter.onlyExpired"
+            [binary]="true">
+        </p-checkbox>
+
+        <pe-indent [mBottom]="5"></pe-indent>
+    </div>
+
+    <div class="buttons">
+        <p-button
+            label="Очистить"
+            (click)="clear()"
+            styleClass="p-button-secondary p-button-outlined">
+        </p-button>
+        <pe-indent [inline]="true" [mRight]="5"></pe-indent>
+        <p-button 
+            (click)="search()"
+            label="Найти">
+        </p-button>
+    </div>
+
+    <pe-indent [mBottom]="5"></pe-indent>
+
+</div>

@@ -58,6 +58,16 @@ export class PaymentEngineRolesGuard implements CanActivate {
                     return false;
                 }
             }
+            case(RouterPath.AntiFraudCheck):
+            case(RouterPath.AntiFraudDetails): {
+                if (this.peRolesService.hasAccessToAntiFraudCheck()){
+                    return true;
+                }
+                else {
+                    this.toastService.showSuccessToast("Нет прав на взаимодействие с формой «AntiFraud проверка»")
+                }
+            }
+
         }
         return true;
     }

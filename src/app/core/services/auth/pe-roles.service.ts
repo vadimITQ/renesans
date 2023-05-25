@@ -48,4 +48,12 @@ export class PeRolesService {
     return this.hasAccessToBankOpsCheck();
   }
 
+  hasAccessToAntiFraudCheck(): boolean {
+    return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_AntiFraud, ProdRolesList.AP_PEWeb_AntiFraud);
+  }
+
+  hasAccessToAntiFraudDetails(): boolean {
+    return this.hasAccessToAntiFraudCheck();
+  }
+
 }

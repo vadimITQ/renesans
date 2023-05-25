@@ -134,20 +134,18 @@ export const searchPaymentTableColumns: IColumn[] = [
     header: 'ID GL',
     field: 'docID',
   },
-  // todo: update me
   {
     header: 'Статус GL',
-    field: '',
+    field: 'statusGl',
   },
   {
     header: 'Счет по дебету GL',
-    field: '',
+    field: 'accntDeb',
   },
   {
     header: 'Счет по кредиту GL',
-    field: '',
+    field: 'accntCre',
   },
-  //
   {
     header: 'БИК банка- получателя',
     field: 'bankBIC',

@@ -38,7 +38,19 @@ export class PeNavigationService {
     this.goToSpecificPath([RouterPath.ViewTransferDetails, '' + id]);
   }
 
-  public goToBankOpsDetails(id: number | string) {
+  public goToBankOpsCheck() {
+    this.goToSpecificPath([RouterPath.BankOpsCheck]);
+  }
+
+  public goToBankOpsDetails(id: number | string){
     this.goToSpecificPath([RouterPath.BankOpsDetails, '' + id]);
+  }
+
+  public goToAntiFraudCheck() {
+    this.goToSpecificPath([RouterPath.AntiFraudCheck]);
+  }
+
+  public goToAntiFraudDetails(id: number | string) {
+    this.goToSpecificPath([RouterPath.AntiFraudDetails, '' + id]);
   }
 }

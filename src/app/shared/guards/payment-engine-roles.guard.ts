@@ -48,10 +48,20 @@ export class PaymentEngineRolesGuard implements CanActivate {
           return true;
         } else {
           this.toastService.showErrorToast('Нет прав на взаимодействие с формой «BankOps проверка»');
-          return false;
+                    return false;
+                }
+            }
+            case(RouterPath.AntiFraudCheck):
+            case(RouterPath.AntiFraudDetails): {
+                if (this.peRolesService.hasAccessToAntiFraudCheck()){
+                    return true;
+                }
+                else {
+                    this.toastService.showSuccessToast("Нет прав на взаимодействие с формой «AntiFraud проверка»")
+                }
+            }
+
         }
-      }
+        return true;
     }
-    return true;
-  }
 }

@@ -37,46 +37,42 @@ export type ServicePaymentParameter = {
 };
 
 export type User = {
-  account: string;
-  contractNumber: string;
-  sbpIdType: string;
-  sbpMtel: string;
-  bankBIC: string;
-  bankName: string;
-  bankSbpMemberId: string;
-  bankCorrAccount: string;
-  naturalName: string;
-  naturalSurname: string;
-  naturalPatronymic: string;
-  address: string;
-  cardNumber: string;
-  inn: string;
-  status: string;
-  phoneNumber: string;
-  cifID: string;
+  cardNumber:string| null
+  cifID:string| null
+  inn: string
+  naturalName: string
+  naturalPatronymic: string
+  naturalSurname: string
+  phoneNumber:string| null
+  sbpMtel:string| null
+  status: string
 };
 
+export type Requisites = {
+  account: string
+  address: string|null
+  bankBIC: string
+  bankCorrAccount: string
+  bankName: string
+  bankSbpMemberId: string|null
+  contractNumber: string
+  sbpIdType: string | null
+}
+
 export type Entity = {
-  account: string;
-  contractNumber: string;
-  sbpIdType: string;
-  sbpQrId: string;
-  bankBIC: string;
-  bankName: string;
-  bankSbpMemberId: string;
-  bankCorrAccount: string;
-  legalName: string;
-  tradeName: string;
-  address: string;
-  sbpMerchantId: string;
-  tspAgentId: string;
-  legalEntityId: string;
-  ogrn: string;
-  kpp: string;
+  kpp:string | null
+  legalEntityId:string | null
+  legalName:string | null
+  ogrn:string | null
+  sbpMerchantId:string | null
+  sbpQrId:string | null
+  tradeName:string | null
+  tspAgentId:string | null
 };
 
 export type PayerOrPayee = {
   user: User;
+  requisites: Requisites;
   entity: Entity;
 };
 

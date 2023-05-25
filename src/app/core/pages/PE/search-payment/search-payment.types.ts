@@ -35,6 +35,11 @@ export interface ISearchPaymentTableData {
   accountReceiver: string;
   sbpMtelReceiver: string;
 
+
+  statusGl: string;
+  accntDeb: string;
+  accntCre: string;
+
   docNum: string;
   docID: string;
   bankBIC: string;

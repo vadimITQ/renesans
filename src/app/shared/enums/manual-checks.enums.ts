@@ -16,8 +16,7 @@ export enum PaymentTypes {
   INC_SBP = 'Входящий перевод через СБП',
   EXT_FSSP = 'Внешний перевод ФССП',
   INC_MFO = 'Перевод в счет погашения займа МКК (проект МФО)',
-  EXT_SWIFT = 'Исходящий SWIFT-перевод',
-  IPT_UNDONE = 'Отменный перевод в терминале'
+  EXT_SWIFT = 'Исходящий SWIFT-перевод'
 }
 
 export enum PaymentStatus {

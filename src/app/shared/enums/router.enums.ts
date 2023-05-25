@@ -8,6 +8,8 @@ export enum RouterPath {
   BankOpsDetails = 'bankOpsDetails',
   AntiFraudCheck = 'antiFraudCheck',
   AntiFraudDetails = 'antiFraudDetails',
+  AmlCheck = 'amlCheck',
+  AmlDetails = 'amlDetails',
   ViewTransferDetails = 'viewTransferDetails',
   ManualChecks = 'manualChecks',
   NotFound = '**',

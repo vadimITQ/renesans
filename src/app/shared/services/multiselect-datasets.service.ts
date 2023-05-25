@@ -9,6 +9,7 @@ import { paymentStatuses } from '../variables/payment-status';
 import { MultiselectDataSets } from '../enums/datasets.enums';
 import { applicationStatusOptions } from '../../core/pages/PE/bank-ops-check/bank-ops-check-filters/bank-ops-check-filters.constants';
 import { antiFraudApplicationStatuses } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check-filter/anti-fraud-checks-filter.constants";
+import {amlApplicationStatusOptions} from "../../core/pages/PE/aml-check/aml-check-filters/aml-check-filters.constants";
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +51,13 @@ export class MultiselectDatasetsService {
       case MultiselectDataSets.GetApplicationStatuses: {
         if (this.validateDataset(applicationStatusOptions)) {
           return applicationStatusOptions;
+        } else {
+          return [];
+        }
+      }
+      case MultiselectDataSets.GetAmlApplicationStatuses: {
+        if (this.validateDataset(amlApplicationStatusOptions)) {
+          return amlApplicationStatusOptions;
         } else {
           return [];
         }

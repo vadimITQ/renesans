@@ -1,0 +1,49 @@
+<div class="aml-check-table">
+  <h5>Результаты поиска</h5>
+
+  <ng-container *ngIf="tableData">
+    <p-table
+      [value]="tableData"
+      [scrollable]="true"
+      [autoLayout]="true"
+      [paginator]="true"
+      [resizableColumns]="true"
+      [columnResizeMode]="'expand'"
+      [loading]="amlCheckService.$loading.value"
+      [totalRecords]="amlCheckService.count"
+      [showCurrentPageReport]="true"
+      [rows]="amlCheckService.pagination.limit"
+      [first]="amlCheckService.pagination.offset"
+      [lazy]="true"
+      (onPage)="amlCheckService.paginate($event)"
+      currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} платежей"
+      [rowsPerPageOptions]="amlCheckService.rowsPerPageOptions"
+      styleClass="p-datatable-gridlines"
+    >
+      <ng-template pTemplate="header">
+        <tr class="tps-by-status__row-gray">
+          <th pResizableColumn *ngIf="hasAccessToSearchOnlyExpired">Просрочка</th>
+          <th pResizableColumn>ID PE</th>
+          <th pResizableColumn *ngFor="let column of tableColumns">
+            {{ column.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-amlCheckItem>
+        <tr style="height: 50px">
+          <td *ngIf="hasAccessToSearchOnlyExpired">{{amlCheckItem.expired}}</td>
+          <td>
+            <a *ngIf="hasAccessToAmlCheckDetails; else elseBlock" class="link" (click)="linkClick(amlCheckItem.paymentId)">{{
+              amlCheckItem.paymentId
+            }}</a>
+            <ng-template #elseBlock>{{ amlCheckItem.paymentId }}</ng-template>
+          </td>
+          <td *ngFor="let column of tableColumns">
+            {{ amlCheckItem[column.field] }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-container>
+  <pe-loading-spinner *ngIf="amlCheckService.$loading.value && !tableData" [marginTop]="'10px'"></pe-loading-spinner>
+</div>

@@ -21,7 +21,12 @@ export const paymentEngineLinks: PaymentEngineMenuLink[] = [
     name: 'AntiFraud проверка',
     navigation: RouterPath.AntiFraudCheck,
     clicked: false
-  }
+  },
+  {
+    name: 'AML проверка',
+    navigation: RouterPath.AmlCheck,
+    clicked: false,
+  },
 
   // {
   //   name: 'Заявки PE',

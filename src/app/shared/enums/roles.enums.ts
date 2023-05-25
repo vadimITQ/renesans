@@ -4,7 +4,9 @@ export enum RolesList {
     AP_TEST_PE_Users = "AP.TEST.PE_Users",
     AP_TEST_PEWeb_ManualChecks = "AP.TEST.PEWeb.ManualChecks",
     AP_TEST_PEWeb_BankOps = "AP.TEST.PEWeb.BankOps",
-    AP_TEST_PEWeb_AntiFraud = "AP.TEST.PEWeb.AntiFraud"
+    AP_TEST_PEWeb_AntiFraud = "AP.TEST.PEWeb.AntiFraud",
+    AP_TEST_PEWeb_AML= "AP.PEWeb.AML",
+    AP_TEST_PEWeb_AMLControl = "AP.TEST.PEWeb.AMLControl"
 }
 
 export enum ProdRolesList {
@@ -19,6 +21,7 @@ export enum ProdRolesList {
   // CSDUsers= "CSDUsers",
   // PINviaPhoneUsers= "PINviaPhoneUsers",
   AP_PEWeb_AML= "AP.PEWeb.AML",
+  AP_PEWeb_AMLControl= "AP.PEWeb.AMLControl",
   AP_PEWeb_AntiFraud= "AP.PEWeb.AntiFraud",
   AP_PEWeb_BankOps= "AP.PEWeb.BankOps",
   AP_PEWeb_Currency= "AP.PEWeb.Currency",

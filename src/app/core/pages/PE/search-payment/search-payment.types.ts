@@ -17,7 +17,7 @@ export interface ISearchPaymentTableData {
   bonusMaxPercent: string;
   paymentId: string;
   idPH: string;
-  linkedChequeId: string;
+  chequeId: string;
   sourceSystem: string;
 
   //источник

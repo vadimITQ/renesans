@@ -10,7 +10,7 @@ export interface ISearchPaymentsFiltersPayload {
   account: string | null;
   channelIP: string | null;
   chequeNumber: string | null;
-  linkedChequeId: string | null;
+  chequeId: string | null;
   plannedDate: string | null;
   statusCode: string[] | null;
   channelName: string[] | null;

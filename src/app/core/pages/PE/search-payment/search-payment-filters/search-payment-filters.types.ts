@@ -6,7 +6,7 @@ export interface ISearchPaymentFilters {
   applicationID: string | null;
   idPH: string | null;
   docID: string | null;
-  linkedChequeId: string | null;
+  chequeId: string | null;
   docNum: string | null;
   account: string | null;
   channelIP: string | null;

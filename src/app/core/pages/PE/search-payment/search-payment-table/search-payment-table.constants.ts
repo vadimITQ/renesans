@@ -76,7 +76,7 @@ export const searchPaymentTableColumns: IColumn[] = [
   },
   {
     header: 'ID чека',
-    field: 'linkedChequeId',
+    field: 'chequeId',
   },
   {
     header: 'ABS источник',
@@ -188,7 +188,7 @@ export const searchPaymentTableColumns: IColumn[] = [
   },
   {
     header: 'Идентификатор связанного чека',
-    field: 'linkedChequeId',
+    field: 'chequeId',
   },
   {
     header: 'IP адрес',

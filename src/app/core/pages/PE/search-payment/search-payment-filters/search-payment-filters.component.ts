@@ -122,7 +122,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       applicationID: containInvalidSymbols(this.filters.applicationID ?? ''),
       idPH: containInvalidSymbols(this.filters.idPH ?? ''),
       docID: containInvalidSymbols(this.filters.docID ?? ''),
-      linkedChequeId: containInvalidSymbols(this.filters.linkedChequeId ?? ''),
+      chequeId: containInvalidSymbols(this.filters.chequeId ?? ''),
       docNum: containInvalidSymbols(this.filters.docNum ?? ''),
       account: containInvalidSymbols(this.filters.account ?? ''),
       chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),

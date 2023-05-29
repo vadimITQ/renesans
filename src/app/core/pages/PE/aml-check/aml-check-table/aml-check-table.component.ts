@@ -36,7 +36,7 @@ export class AmlCheckTableComponent implements OnInit, OnDestroy {
 
   linkClick(id: string) {
     // todo: implement me
-    // this.peNavigationService.goToAmlDetails(2);
+    this.peNavigationService.goToAmlDetails(2);
   }
 
   get hasAccessToViewTransferDetails() {

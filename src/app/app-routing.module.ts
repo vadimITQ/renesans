@@ -16,6 +16,7 @@ import { BankOpsDetailsComponent } from './core/pages/PE/bank-ops-details/bank-o
 import { AntiFraudCheckComponent } from './core/pages/PE/anti-fraud-check/anti-fraud-check.component';
 import { AntiFraudDetailsComponent } from './core/pages/PE/anti-fraud-details/anti-fraud-details.component';
 import {AmlCheckComponent} from "./core/pages/PE/aml-check/aml-check.component";
+import {AmlDetailsComponent} from "./core/pages/PE/aml-details/aml-details.component";
 
 const routes: Routes = [
   { path: RouterPath.Login, component: LoginComponent },
@@ -38,9 +39,9 @@ const routes: Routes = [
       { path: RouterPath.BankOpsCheck, component: BankOpsCheckComponent, canActivate: [PaymentEngineRolesGuard] },
       { path: `${RouterPath.BankOpsDetails}/:id`, component: BankOpsDetailsComponent, canActivate: [PaymentEngineRolesGuard] },
       { path: RouterPath.AntiFraudCheck, component: AntiFraudCheckComponent, canActivate: [PaymentEngineRolesGuard] },
-      { path: `${RouterPath.AntiFraudDetails}/:id`, component: AntiFraudDetailsComponent, canActivate: [PaymentEngineRolesGuard] }
+      { path: `${RouterPath.AntiFraudDetails}/:id`, component: AntiFraudDetailsComponent, canActivate: [PaymentEngineRolesGuard] },
       { path: RouterPath.AmlCheck, component: AmlCheckComponent, canActivate: [PaymentEngineRolesGuard] },
-      // { path: `${RouterPath.AmlDetails}/:id`, component: AmlDetailsComponent, canActivate: [PaymentEngineRolesGuard] }
+      { path: `${RouterPath.AmlDetails}/:id`, component: AmlDetailsComponent, canActivate: [PaymentEngineRolesGuard] }
     ],
   },
   {

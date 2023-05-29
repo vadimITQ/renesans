@@ -16,7 +16,7 @@
   </div>
 
   <div class="input-row">
-    <pe-input label="IP Адрес" [(value)]="filters.channelIP" [regExprValidation]="ipRegExp" [maxLength]="35"/>
+    <pe-input label="IP Адрес" [(value)]="filters.channelIP" [regExprValidation]="ipRegExp" [maxLength]="35" [validationMessage]="filtersValidation['channelIP']"/>
     <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
 
@@ -50,8 +50,8 @@
   </div>
   <div class="multiselect-row">
     <div>
-      <pe-multiselect 
-        [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions" 
+      <pe-multiselect
+        [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions"
         placeholder="Выберите канал поступления заявки"
         label="Канал поступления заявки"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}"
@@ -60,8 +60,8 @@
       </pe-multiselect>
     </div>
     <div>
-      <pe-multiselect 
-        [dataset]="multiselectDataSetsEnum.GetPaymentStatuses" 
+      <pe-multiselect
+        [dataset]="multiselectDataSetsEnum.GetPaymentStatuses"
         placeholder="Выберите статус"
         label="Статус"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}"
@@ -70,8 +70,8 @@
       </pe-multiselect>
     </div>
     <div>
-      <pe-multiselect 
-        [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions" 
+      <pe-multiselect
+        [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions"
         placeholder="Выберите тип объекта создавшего запрос"
         label="Тип объекта создавшего запрос"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}"
@@ -80,8 +80,8 @@
       </pe-multiselect>
     </div>
     <div>
-      <pe-multiselect 
-        [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes" 
+      <pe-multiselect
+        [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes"
         placeholder="Выберите тип перевода"
         label="Тип перевода"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}"

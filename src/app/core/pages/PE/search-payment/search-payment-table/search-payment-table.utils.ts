@@ -43,7 +43,7 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
       bonusMaxPercent: '', //searchPayment.paymentApplication?.bonus?.bonusMaxPercent,
       paymentId: searchPayment.paymentID,
       idPH: searchPayment.paymentApplication?.ipt?.idPH,
-      chequeId: '', //searchPayment.paymentApplication?.ipt?.chequeId,
+      chequeId: searchPayment.paymentApplication?.ipt?.chequeId,
       sourceSystem: searchPayment.sourceSystem,
 
       //источник

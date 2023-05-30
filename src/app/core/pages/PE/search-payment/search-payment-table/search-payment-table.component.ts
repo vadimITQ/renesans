@@ -11,6 +11,9 @@ import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navi
 import { ISearchPayment } from 'src/app/core/services/search-payment/types';
 import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import {IColumn} from "../../../../../shared/types/table.types";
+import { DialogService } from 'src/app/shared/services/dialog.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
+import { ICancelPaymentResponse } from 'src/app/core/services/payment-order-w/types';
 
 @Component({
   selector: 'app-search-payment-table',
@@ -21,6 +24,8 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   constructor(
     public searchPaymentService: SearchPaymentService,
     private toastService: ToastService,
+    private dialogService: DialogService,
+    private loadingService: LoadingService,
     private datePipe: DatePipe,
     private peNavigationService: PeNavigationService,
     private peRolesService: PeRolesService,
@@ -35,6 +40,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   public tableColumns: IColumn[] = searchPaymentTableColumns;
   public tableData: ISearchPaymentTableData[] | null = null;
   public paymentResponse: ISearchPayment[] | null = [];
+  public selectedPayments: ISearchPaymentTableData[] = [];
   private paymentResponseStateSubscription!: Subscription;
 
   generateReport() {
@@ -71,4 +77,51 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse, this.datePipe) : null;
     });
   }
+
+  cancelPayments() {
+    console.log(this.selectedPayments);
+    if (this.selectedPayments.length > 0){
+      this.dialogService.showConfirmDialog({
+        message: 'Вы действительно хотите отменить платеж/перевод?',
+        header: 'Подтверждение',
+        accept: {
+          label: 'Да',
+          handler: () => {
+            this.loadingService.attach(
+              this.searchPaymentService.cancelPayments(this.selectedPayments)
+            )
+            .then(cancelResponses => {
+              cancelResponses.forEach((cancelResponse, idx) => {
+                const hasError = !!cancelResponse?.errorMessage;
+                const paymentID = this.selectedPayments[idx].paymentId ?? '';
+                if (hasError) {
+                  this.toastService.showWarnToast(
+                    `Ошибка отклонения. ${cancelResponse.errorMessage}`, 
+                    `Платёж/перевод № ${paymentID}`
+                  );
+                }
+                else {
+                  this.toastService.showSuccessToast(
+                    'Запрос на отклонение платежа/перевода отправлен успешно', 
+                    `Платёж/перевод № ${paymentID}`
+                  );
+                }
+              })
+            })
+            .catch(() => {
+              this.toastService.showErrorToast('Ошибка сервера');
+            });
+          }
+        },
+        reject: {
+          label: 'Нет',
+          handler: () => {}
+        }
+      })
+    }
+    else {
+      this.toastService.showWarnToast('Выберите хотя бы один платеж/перевод на отмену', 'Внимание');
+    }
+  }
+
 }

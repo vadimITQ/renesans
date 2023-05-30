@@ -25,7 +25,7 @@ export class LoadingService {
         return this.$loadingState;
     }
 
-    public attach(stream: Promise<any> | Observable<any>): Promise<any> {
+    public attach<T>(stream: Promise<T> | Observable<T>): Promise<T> {
         let promise: Promise<any>;
         if (stream instanceof Observable){
             promise = lastValueFrom(stream);

@@ -2,8 +2,13 @@
   <h5>Поиск платежа</h5>
 
   <div class="input-row">
-    <pe-input label="ID РЕ" [(value)]="filters.paymentID" [validationMessage]="filtersValidation['paymentID']" [maxLength]="36"/>
-    <pe-input label="ID Заявки" [(value)]="filters.applicationID" [validationMessage]="filtersValidation['applicationID']" [maxLength]="70" />
+    <pe-input label="ID РЕ" [(value)]="filters.paymentID" [validationMessage]="filtersValidation['paymentID']" [maxLength]="36" />
+    <pe-input
+      label="ID Заявки"
+      [(value)]="filters.applicationID"
+      [validationMessage]="filtersValidation['applicationID']"
+      [maxLength]="70"
+    />
     <pe-input label="ID РН" [(value)]="filters.idPH" [validationMessage]="filtersValidation['idPH']" />
     <pe-input label="ID АБС" [(value)]="filters.docID" [validationMessage]="filtersValidation['docID']" />
   </div>
@@ -11,12 +16,18 @@
   <div class="input-row">
     <pe-input label="ID Чека" [(value)]="filters.chequeId" [validationMessage]="filtersValidation['chequeId']" />
     <pe-input label="Номер документа" [(value)]="filters.docNum" [validationMessage]="filtersValidation['docNum']" />
-    <pe-input label="Номер счета" [(value)]="filters.account" [validationMessage]="filtersValidation['account']" [maxLength]="35"/>
+    <pe-input label="Номер счета" [(value)]="filters.account" [validationMessage]="filtersValidation['account']" [maxLength]="35" />
     <pe-input label="Номер чека" [(value)]="filters.chequeNumber" [validationMessage]="filtersValidation['chequeNumber']" />
   </div>
 
   <div class="input-row">
-    <pe-input label="IP Адрес" [(value)]="filters.channelIP" [regExprValidation]="ipRegExp" [maxLength]="35" [validationMessage]="filtersValidation['channelIP']"/>
+    <pe-input
+      label="IP Адрес"
+      [(value)]="filters.channelIP"
+      [regExprValidation]="ipRegExp"
+      [maxLength]="35"
+      [validationMessage]="filtersValidation['channelIP']"
+    />
     <pe-input label="User Agent" [(value)]="filters.userAgent" />
   </div>
 
@@ -26,7 +37,8 @@
       [validationMessage]="filtersValidation['dateFrom']"
       label="Дата/Время с"
       (dateChange)="validate(true)"
-      [labelStyle]="{ 'width': '200px' }">
+      [labelStyle]="{ width: '200px' }"
+    >
     </date-picker>
   </div>
   <div class="date-row">
@@ -35,7 +47,8 @@
       [validationMessage]="filtersValidation['dateTo']"
       label="Дата/Время по"
       (dateChange)="validate(true)"
-      [labelStyle]="{ 'width': '200px' }">
+      [labelStyle]="{ width: '200px' }"
+    >
     </date-picker>
   </div>
   <div class="date-row">
@@ -45,7 +58,8 @@
       label="Дата исполнения платежа"
       (dateChange)="validate(true)"
       [showTime]="false"
-      [labelStyle]="{ 'width': '200px' }">
+      [labelStyle]="{ width: '200px' }"
+    >
     </date-picker>
   </div>
   <div class="multiselect-row">
@@ -54,9 +68,10 @@
         [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions"
         placeholder="Выберите канал поступления заявки"
         label="Канал поступления заявки"
-        [labelStyle]="{'min-width': '260px', 'display': 'block'}"
+        [labelStyle]="{ 'min-width': '260px', display: 'block' }"
         [validationMessage]="filtersValidation['channelName']"
-        [(selected)]="filters.channelName">
+        [(selected)]="filters.channelName"
+      >
       </pe-multiselect>
     </div>
     <div>
@@ -64,9 +79,10 @@
         [dataset]="multiselectDataSetsEnum.GetPaymentStatuses"
         placeholder="Выберите статус"
         label="Статус"
-        [labelStyle]="{'min-width': '260px', 'display': 'block'}"
+        [labelStyle]="{ 'min-width': '260px', display: 'block' }"
         [validationMessage]="filtersValidation['codeStatuses']"
-        [(selected)]="filters.codeStatuses">
+        [(selected)]="filters.codeStatuses"
+      >
       </pe-multiselect>
     </div>
     <div>
@@ -74,9 +90,10 @@
         [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions"
         placeholder="Выберите тип объекта создавшего запрос"
         label="Тип объекта создавшего запрос"
-        [labelStyle]="{'min-width': '260px', 'display': 'block'}"
+        [labelStyle]="{ 'min-width': '260px', display: 'block' }"
         [validationMessage]="filtersValidation['parentType']"
-        [(selected)]="filters.parentType">
+        [(selected)]="filters.parentType"
+      >
       </pe-multiselect>
     </div>
     <div>
@@ -84,15 +101,22 @@
         [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes"
         placeholder="Выберите тип перевода"
         label="Тип перевода"
-        [labelStyle]="{'min-width': '260px', 'display': 'block'}"
+        [labelStyle]="{ 'min-width': '260px', display: 'block' }"
         [validationMessage]="filtersValidation['type']"
-        [(selected)]="filters.type">
+        [(selected)]="filters.type"
+      >
       </pe-multiselect>
     </div>
   </div>
   <div>
-    <button pButton class="pe-button"      [label]="'Очистить'"                       (click)="onClear()"></button>
-    <button pButton class="pe-button ml-2" [label]="'Найти'"                          (click)="onSearch()"></button>
-   <button  pButton class="pe-button ml-2" [label]="'Найти и сформировать отчет СБП'" (click)="searchAndGenerateDoc()" [disabled]="true"></button>
+    <button pButton class="pe-button-grey" [label]="'Очистить'" (click)="onClear()"></button>
+    <button pButton class="pe-button ml-2" [label]="'Найти'" (click)="onSearch()"></button>
+    <button
+      pButton
+      class="pe-button ml-2"
+      [label]="'Найти и сформировать отчет СБП'"
+      (click)="searchAndGenerateDoc()"
+      [disabled]="true"
+    ></button>
   </div>
 </div>

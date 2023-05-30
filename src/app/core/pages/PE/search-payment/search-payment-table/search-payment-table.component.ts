@@ -13,7 +13,6 @@ import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import {IColumn} from "../../../../../shared/types/table.types";
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
-import { ICancelPaymentResponse } from 'src/app/core/services/payment-order-w/types';
 
 @Component({
   selector: 'app-search-payment-table',
@@ -79,7 +78,6 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   }
 
   cancelPayments() {
-    console.log(this.selectedPayments);
     if (this.selectedPayments.length > 0){
       this.dialogService.showConfirmDialog({
         message: 'Вы действительно хотите отменить платеж/перевод?',
@@ -96,20 +94,20 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
                 const paymentID = this.selectedPayments[idx].paymentId ?? '';
                 if (hasError) {
                   this.toastService.showWarnToast(
-                    `Ошибка отклонения. ${cancelResponse.errorMessage}`, 
+                    `Ошибка отклонения. ${cancelResponse.errorMessage}`,
                     `Платёж/перевод № ${paymentID}`
                   );
                 }
                 else {
                   this.toastService.showSuccessToast(
-                    'Запрос на отклонение платежа/перевода отправлен успешно', 
+                    'Запрос на отклонение платежа/перевода отправлен успешно',
                     `Платёж/перевод № ${paymentID}`
                   );
                 }
               })
             })
             .catch(() => {
-              this.toastService.showErrorToast('Ошибка сервера');
+              this.toastService.showErrorToast('Внутренняя ошибка сервиса.');
             });
           }
         },
@@ -120,7 +118,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
       })
     }
     else {
-      this.toastService.showWarnToast('Выберите хотя бы один платеж/перевод на отмену', 'Внимание');
+      this.toastService.showWarnToast('Выберите хотя бы один платеж/перевод на отмену');
     }
   }
 

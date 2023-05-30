@@ -17,7 +17,7 @@ export class ToastService {
   }
 
   showWarnToast(detail: string, header?: string) {
-    this.messageService.add({ severity: 'warn', summary: header ? header: 'Осторожно', detail: detail });
+    this.messageService.add({ severity: 'warn', summary: header ? header: 'Внимание', detail: detail });
   }
 
   showErrorToast(detail: string, header?: string) {

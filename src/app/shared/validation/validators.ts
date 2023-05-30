@@ -66,5 +66,5 @@ export function containInvalidSymbols(value: string): ValidationMessage {
 }
 
 export function invalidIpAddress(value: string): ValidationMessage {
-  return /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/gm.test(value) ? null : 'Неверный формат IP адреса'
+  return /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g.test(value) ? null : 'Неверный формат IP адреса'
 }

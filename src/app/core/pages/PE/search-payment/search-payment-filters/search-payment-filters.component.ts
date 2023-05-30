@@ -1,11 +1,9 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { objectTypeOptions, receivingChanelOptions } from './search-payment-filters.constants';
-import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
 import { FormBuilder } from '@angular/forms';
 import {
   containInvalidSymbols,
-  earlierThen,
+  earlierThen, invalidIpAddress,
   laterOrEqualThen,
   lessThanDateDiapason,
   required,
@@ -19,8 +17,6 @@ import {
   generalFieldsFilled,
   prepareSearchFilters,
 } from './search-payment-filters.utils';
-import { paymentStatuses } from 'src/app/shared/variables/payment-status';
-import { MultiselectDatasetsService } from 'src/app/shared/services/multiselect-datasets.service';
 import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 
 @Component({
@@ -129,6 +125,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
       plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
+      channelIP: this.filters.channelIP ? invalidIpAddress(this.filters.channelIP) : null,
       channelName: "",
       codeStatuses: "",
       parentType: "",

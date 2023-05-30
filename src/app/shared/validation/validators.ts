@@ -64,3 +64,7 @@ export function required(value: unknown, message?: string): ValidationMessage {
 export function containInvalidSymbols(value: string): ValidationMessage {
   return /[^а-яА-Яa-zA-Z0-9\s\-_]/ig.test(value) ? 'Поле содержит недопустимые символы' : null
 }
+
+export function invalidIpAddress(value: string): ValidationMessage {
+  return /(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/gm.test(value) ? null : 'Неверный формат IP адреса'
+}

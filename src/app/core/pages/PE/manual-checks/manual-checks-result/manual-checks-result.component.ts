@@ -103,10 +103,6 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   onHeaderCheckboxToggle(e: any) {}
 
-  back() {
-    this.peNavigationService.goBack();
-  }
-
   cancelPayments() {
     this.dialogService.showConfirmDialog({
       message: 'Вы действительно хотите отменить платеж/перевод?',

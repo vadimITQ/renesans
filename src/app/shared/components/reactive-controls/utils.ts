@@ -2,10 +2,15 @@ import { AbstractControl, FormArray, FormControl, FormGroup } from "@angular/for
 
 export class PEReactiveHelper {
     
-    static resetForm(formGroup: FormGroup): void {
+    static clearErrors(formGroup: FormGroup): void {
+        formGroup.setErrors(null);
         Object.values(formGroup.controls).forEach(control => {
             control.setErrors(null);
         });
+    }
+
+    static resetForm(formGroup: FormGroup): void {
+        this.clearErrors(formGroup);
         formGroup.reset();
     }
 
@@ -17,18 +22,6 @@ export class PEReactiveHelper {
               control.updateValueAndValidity();
             }
         });
-    }
-
-    static getValues<TValue extends { [ K in keyof TValue ]: AbstractControl } >(formGroup: FormGroup<TValue>): TValue | null {
-        if (!formGroup) {
-            return null;
-        }
-        return Object.keys(formGroup.controls).reduce((res: TValue, key) => {
-            const controls = formGroup.controls;
-            // res[key]
-            
-            return res;
-        }, {} as TValue)
     }
 
     static isFormControl(abstractControl: AbstractControl | FormControl): abstractControl is FormControl {

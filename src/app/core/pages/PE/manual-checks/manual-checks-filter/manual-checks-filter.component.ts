@@ -20,7 +20,6 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
   constructor(
     private mcService: ManualChecksService,
     private manualChecksHelper: ManualChecksHelper,
-    private toastService: ToastService,
     private changeDetector: ChangeDetectorRef,
     public validation: ManualChecksValidation
   ) {}
@@ -48,17 +47,13 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     PEReactiveHelper.resetForm(this.filter);
   }
 
-  searchPayments() {
-    this.filter.markAllAsTouched();
-    this.filter.updateValueAndValidity();
-    PEReactiveHelper.triggerControlsValidations(this.filter);
+  searchPayments(): void {
+    this.validation.validateFilter(this.filter, true);
     if (this.filter.valid){
       this.mcService.filter(this.manualChecksHelper.prepareSearchFilters(this.filter));
     }
-    else{
-      Object.keys(this.filter.errors ?? {}).includes(ValidationErrorsEnum.ValidateOnEmpty)
-        ? this.toastService.showErrorToast(this.validation.messages[ValidationErrorsEnum.ValidateOnEmpty])
-        : null;
+    else {
+      this.manualChecksHelper.showErrorMessages(this.filter);
     }
   }
 

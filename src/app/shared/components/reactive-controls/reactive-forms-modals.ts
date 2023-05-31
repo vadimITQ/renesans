@@ -11,3 +11,8 @@ export interface FormGroupManualChecksFilter {
     multiselect: FormControl<IMultiSelectData[] | null>
     multicheckbox: FormControl<IMultiCheckboxData[] | null>
 }
+
+export interface SearchPaymentChecksFilter {
+    dateTimeFrom: FormControl<Date | null>
+    dateTimeTo: FormControl<Date | null>
+}

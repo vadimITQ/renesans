@@ -5,14 +5,19 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Injectable } from "@angular/core";
 import { ISearchPaymentsFiltersPayload } from "src/app/core/services/search-payment/types";
 import { DatePickerHelper } from "src/app/shared/components/controls/date-picker/date-picker-helper";
-import { ManualChecksValidation } from "./manual-checks-filter.validation";
+import { ManualChecksValidation, ValidationErrorsEnum } from "./manual-checks-filter.validation";
+import { ToastService } from "src/app/shared/services/toast.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class ManualChecksHelper {
 
-  constructor(private fb: FormBuilder, private validation: ManualChecksValidation){}
+  constructor(
+    private fb: FormBuilder, 
+    private validation: ManualChecksValidation,
+    private toast: ToastService
+  ){}
 
   defineDefaultFiltersValues(): ManualChecksProps {
     const dateTo = new Date();
@@ -47,23 +52,10 @@ export class ManualChecksHelper {
         parentType: new FormControl([], { nonNullable: true })
       },
       {
-        validators: (c) => this.validation.validateEmpty(c as FormGroup<ManualChecksFilter>),
+        validators: (group) => this.validation.validateFilter(group as FormGroup<ManualChecksFilter>),
         updateOn: "change"
       }
     );
-    // return this.fb.group<ManualChecksFilter>(
-    //   {
-    //     paymentID: new FormControl("",          { validators: [this.validation.validateFilterControlsOnEmpty] }),
-    //     applicationID: new FormControl("",      { validators: [this.validation.validateFilterControlsOnEmpty] }),
-    //     idPH: new FormControl("",               { validators: [this.validation.validateFilterControlsOnEmpty] }),
-    //     dateTimeFrom: new FormControl(dateFrom, { validators: [this.validation.validateFilterControlsOnEmpty, this.validation.validateDates] }),
-    //     dateTimeTo: new FormControl(dateTo,     { validators: [this.validation.validateFilterControlsOnEmpty, this.validation.validateDates] }),
-    //     account: new FormControl("",            { validators: [this.validation.validateFilterControlsOnEmpty] }),
-    //     channelName: new FormControl([],        { validators: [this.validation.validateFilterControlsOnEmpty], nonNullable: true }),
-    //     codeStatuses: new FormControl([],       { validators: [this.validation.validateFilterControlsOnEmpty], nonNullable: true }),
-    //     parentType: new FormControl([],         { validators: [this.validation.validateFilterControlsOnEmpty], nonNullable: true })
-    //   }
-    // );
   }
 
   prepareSearchFilters(filter: FormGroup<ManualChecksFilter>): ISearchPaymentsFiltersPayload {
@@ -97,6 +89,39 @@ export class ManualChecksHelper {
       plannedDate: null,
       type: null,
     }
+  }
+
+  showErrorMessages(filter: FormGroup<ManualChecksFilter>) {
+    const errors = Object.keys(filter.errors ?? {});
+
+      if (errors.includes(ValidationErrorsEnum.ValidateOnEmpty)){
+        this.toast.showErrorToast(
+          this.validation.messages[ValidationErrorsEnum.ValidateOnEmpty]
+        );
+        return;
+      }
+
+      if (errors.includes(ValidationErrorsEnum.DateFromMoreThanDateTo)){
+        this.toast.showErrorToast(
+          this.validation.messages[ValidationErrorsEnum.DateFromMoreThanDateTo]
+        );
+        return;
+      }
+
+      if (errors.includes(ValidationErrorsEnum.DatesRangeLimit)){
+        this.toast.showErrorToast(
+          this.validation.messages[ValidationErrorsEnum.DatesRangeLimit]
+        );
+        return;
+      }
+
+      if (errors.includes(ValidationErrorsEnum.Required)){
+        this.toast.showErrorToast(
+          "Заполните обязательные поля"
+        );
+        return;
+      }
+
   }
 
 };

@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { FormGroupManualChecksFilter } from "../reactive-forms-modals";
-import { PEValidators } from "../validators";
+import { PEGlobalValidators } from "../validations";
 import { IMultiSelectData } from "../../controls/pe-multiselect/pe-multiselect.component";
 import { IMultiCheckboxData } from "../pe-multi-checkbox-form/pe-r-multi-checkbox/pe-r-multi-checkbox.component";
 import { ErrorMesssagesList, messages } from "../global-error-messages";
@@ -42,15 +42,15 @@ export class PeTestingFormComponent {
 
     createFormGroup(){
         return this.fb.group<FormGroupManualChecksFilter>({
-          paymentID: new FormControl<string | null>("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-          applicationID: new FormControl<string | null>("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-          paymentHubPaymentId: new FormControl<string | null>("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-          account: new FormControl<string | null>("", PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-          dateStart: new FormControl<Date | null>(new Date(), PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
-          multiselect: new FormControl<IMultiSelectData[] | null>([], PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiselect.Required),
-          multicheckbox: new FormControl<IMultiCheckboxData[] | null>(this.checkboxes, PEValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiCheckbox.AllTrue)
+          paymentID: new FormControl<string | null>("", PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
+          applicationID: new FormControl<string | null>("", PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
+          paymentHubPaymentId: new FormControl<string | null>("", PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
+          account: new FormControl<string | null>("", PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
+          dateStart: new FormControl<Date | null>(new Date(), PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.Required),
+          multiselect: new FormControl<IMultiSelectData[] | null>([], PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiselect.Required),
+          multicheckbox: new FormControl<IMultiCheckboxData[] | null>(this.checkboxes, PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormControlValidators.PeMultiCheckbox.AllTrue)
         },{
-          validators: [PEValidators.ManualChecksFilterValidators.PeInputValidators.FormGroupValidators.Required]
+          validators: [PEGlobalValidators.ManualChecksFilterValidators.PeInputValidators.FormGroupValidators.Required]
         });
       }
 

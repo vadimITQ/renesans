@@ -51,12 +51,12 @@
   </div>
   <div class="ms-filter__multiselect-forms">
     <pe-multiselect
-      [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions"
+      [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes"
       placeholder="Выберите тип перевода"
       label="Тип перевода"
       [labelStyle]="{ 'min-width': '235px', display: 'block' }"
-      [validationMessage]="validations['parentType']"
-      [(selected)]="filter.parentType"
+      [validationMessage]="validations['type']"
+      [(selected)]="filter.type"
     >
     </pe-multiselect>
   </div>

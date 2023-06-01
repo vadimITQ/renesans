@@ -72,6 +72,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
       this.tableData = prepareSearchPaymentsData(this.paymentResponse, this.datePipe);
     }
     this.paymentResponseStateSubscription = this.searchPaymentService.$tableData.subscribe(paymentResponse => {
+      this.selectedPayments = [];
       this.paymentResponse = paymentResponse;
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse, this.datePipe) : null;
     });

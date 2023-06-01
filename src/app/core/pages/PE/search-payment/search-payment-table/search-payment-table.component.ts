@@ -92,7 +92,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
             .then(cancelResponses => {
               cancelResponses.forEach((cancelResponse, idx) => {
                 const hasError = !!cancelResponse?.errorMessage;
-                const paymentID = this.selectedPayments[idx].paymentId ?? '';
+                const paymentID = this.selectedPayments[idx].paymentID ?? '';
                 if (hasError) {
                   this.toastService.showWarnToast(
                     `Ошибка отклонения. ${cancelResponse.errorMessage}`,

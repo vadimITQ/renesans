@@ -9,7 +9,6 @@
         <pe-input-form label="Номер счета" [control]="filter.controls['account']"       [errorMessages]="validation.messages" ></pe-input-form>
     </div>
     <div class="ms-filter__forms">
-        <!-- OnDateChange validation ! -->
         <pe-date-picker-form 
             label="Дата/Время с"
             [control]="filter.controls['dateTimeFrom']"
@@ -18,7 +17,6 @@
         </pe-date-picker-form>
     </div>
     <div class="ms-filter__forms">
-         <!-- OnDateChange validation ! -->
         <pe-date-picker-form
             label="Дата/Время по"
             [control]="filter.controls['dateTimeTo']"

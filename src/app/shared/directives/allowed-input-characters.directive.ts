@@ -10,6 +10,8 @@ export class AllowedInputCharactersDirective implements OnDestroy {
 
     @Input() allowedInputCharactersReg!: RegExp;
 
+    @Input() disableCharactersValidation: boolean = false;
+
     private bindKeypressEventSubscribtion!: Subscription;
 
     constructor(private ngControl: NgControl, private el: ElementRef) { 
@@ -23,6 +25,9 @@ export class AllowedInputCharactersDirective implements OnDestroy {
     }
 
     @HostListener("keydown", ['$event']) onKeyDown(event: KeyboardEvent) {
+        if (this.disableCharactersValidation){
+            return;
+        }
         if (this.allowedInputCharactersReg) {
             const validCharacter = this.allowedInputCharactersReg.test(event.key);
             const backspace = event.key == "Backspace"
@@ -33,10 +38,16 @@ export class AllowedInputCharactersDirective implements OnDestroy {
     }
 
     private listenCtrlV(){
+        if (this.disableCharactersValidation){
+            return;
+        }
         this.bindKeypressEventSubscribtion = this.bindKeypressEvent().subscribe(($event: KeyboardEvent) => this.onCtrvPressed($event));
     }
 
     private onCtrvPressed($event: KeyboardEvent) {
+        if (this.disableCharactersValidation){
+            return;
+        }
         const valid = this.allowedInputCharactersReg.test(this.ngControl.value);
         if (!valid && !!this.ngControl.value) {
             let result = "";

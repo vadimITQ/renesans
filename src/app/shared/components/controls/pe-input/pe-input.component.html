@@ -12,7 +12,7 @@
       [(ngModel)]="value"
       [allowedInputCharactersReg]="regExprValidation"
     />
-    <label for="input">{{ label }}</label>
+    <label [ngStyle]="labelStyle" for="input">{{ label }}</label>
   </span>
   <span class="error-message" *ngIf="!!validationMessage">{{ validationMessage }}</span>
 </div>

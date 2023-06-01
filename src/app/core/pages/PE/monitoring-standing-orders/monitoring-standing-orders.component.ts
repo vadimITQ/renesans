@@ -29,12 +29,12 @@ export class MonitoringStandingOrdersComponent implements OnInit {
   public monitoringDataRecord: MonitoringDataRecord[] | null = null;
   private ordersStat: OrdersStat = OrdersStat.ProcessedOrder;
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.msoService
       .$selectedMonitoringDataRecord
       .subscribe((selectedMonitoringDataRecord: MonitoringDataRecord) => {
         if (!!selectedMonitoringDataRecord){
-          
+
         }
       });
   }
@@ -77,7 +77,7 @@ export class MonitoringStandingOrdersComponent implements OnInit {
         break;
       }
     }
-    this.monitoringDataRecord = this.standingOrderStat?.monitoringDataRecord.filter(filter) ?? [];  
+    this.monitoringDataRecord = this.standingOrderStat?.monitoringDataRecord.filter(filter) ?? [];
   }
 
   back() {
@@ -89,7 +89,7 @@ export class MonitoringStandingOrdersComponent implements OnInit {
       this.monitoringDataRecord = null;
       this.ordersStat = ordersStat as OrdersStat;
       setTimeout(() => {
-        this.filterMonitoringDataRecord();  
+        this.filterMonitoringDataRecord();
       }, 1000);
     }
   }
@@ -100,14 +100,14 @@ export class MonitoringStandingOrdersComponent implements OnInit {
     //     (
     //       this.monitoringDataRecord as MonitoringDataRecord[]
     //     )?.map(
-    //       record => {  
+    //       record => {
     //         return {
     //           ...record,
     //           startDate: this.datePipe.transform(record.startDate, "dd.MM.yyyy"),
     //           planEndDate: this.datePipe.transform(record.planEndDate, "dd.MM.yyyy")
     //         }
     //       }
-    //     ) ?? [], 
+    //     ) ?? [],
     //     [
     //       "",
     //       "ID длительного поручения»",
@@ -118,7 +118,7 @@ export class MonitoringStandingOrdersComponent implements OnInit {
     //       "Счет приемник»",
     //       "Срок действия»",
     //       "Периодичность»",
-    //       "Ссылка на платеж\перевод»",
+    //       "Ссылка на платеж/перевод»",
     //       "Статус операции по распоряжению»",
     //       "Описание ошибки",
     //       "Ссылка на заявку"

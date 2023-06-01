@@ -144,8 +144,8 @@ export function prepareSearchFilters({
   codeStatuses,
 }: ISearchPaymentFilters): ISearchPaymentsFiltersPayload {
   return {
-    dateTimeFrom: !!dateTimeFrom ? dateTimeFrom : null,
-    dateTimeTo: !!dateTimeTo ? dateTimeTo : null,
+    dateTimeFrom: !!dateTimeFrom ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom) : null,
+    dateTimeTo: !!dateTimeTo ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo) : null,
     paymentID: !!paymentID ? paymentID : null,
     applicationID: !!applicationID ? applicationID : null,
     idPH: !!idPH ? idPH : null,
@@ -156,7 +156,7 @@ export function prepareSearchFilters({
     channelIP: !!channelIP ? channelIP : null,
     chequeNumber: !!chequeNumber ? chequeNumber : null,
     linkedChequeId: !!linkedChequeId ? linkedChequeId : null,
-    plannedDate: !!plannedDate ? plannedDate : null,
+    plannedDate: !!plannedDate ? DatePickerHelper.convertToLocaleStringWithTimezone(plannedDate) : null,
     statusCode: codeStatuses?.length > 0 ? codeStatuses.map(v => v.value) : null,
     channelName: channelName?.length > 0 ? channelName.map(v => v.value) : null,
     parentType: parentType?.length > 0 ? parentType.map(v => v.value) : null,

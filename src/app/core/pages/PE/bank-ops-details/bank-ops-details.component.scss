@@ -1,0 +1,58 @@
+
+.pe-bank-ops-details {
+
+    >.paragraph {
+        font-size: 1.1rem;
+    }
+
+    >.info-block {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 35px
+    }
+
+    >.manual-checks {
+        td.button-td{
+            width: 0px;
+        }
+    }
+
+    >.paragraph > .badge {
+        user-select: none;
+        display: inline-block;
+    }
+
+    >.bottom-buttons {
+        display: flex;
+        justify-content: space-between;
+        
+        > p-button.bottom-button-approve {
+            width: 20%;
+        }
+        > p-button.bottom-button-cancel {
+            width: 20%;
+        }
+        > p-button.bottom-button-send-docs {
+            width: 20%;
+        }
+        > p-button.bottom-button-request-swift {
+            width: 30%;
+        }
+    }
+
+}
+
+:host ::ng-deep {
+    p-button {
+        > button {
+            border-radius: 6px;
+        }
+    }
+    .bottom-buttons {
+        > p-button {
+            > button {
+                width: -webkit-fill-available;
+            }
+        }
+    }
+}

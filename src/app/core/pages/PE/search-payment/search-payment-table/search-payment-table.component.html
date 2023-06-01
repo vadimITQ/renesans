@@ -8,6 +8,7 @@
       [autoLayout]="true"
       [paginator]="true"
       [resizableColumns]="true"
+      [columnResizeMode]="'expand'"
       [loading]="searchPaymentService.$loading.value"
       [totalRecords]="searchPaymentService.count"
       [showCurrentPageReport]="true"
@@ -17,12 +18,12 @@
       (onPage)="searchPaymentService.paginate($event)"
       currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} платежей"
       [rowsPerPageOptions]="searchPaymentService.rowsPerPageOptions"
-      styleClass="p-datatable-striped"
+      styleClass="p-datatable-gridlines"
     >
       <ng-template pTemplate="header">
         <tr class="tps-by-status__row-gray">
-          <th>ID PE</th>
-          <th *ngFor="let column of tableColumns">
+          <th pResizableColumn>ID PE</th>
+          <th pResizableColumn *ngFor="let column of tableColumns">
             {{ column.header }}
           </th>
         </tr>
@@ -47,5 +48,5 @@
       <button pButton class="pe-button" [label]="'Сформировать отчет СБП'" (click)="generateSbpReport()" [disabled]="true"></button>
     </div>
   </ng-container>
-  <app-loading-spinner *ngIf="searchPaymentService.$loading.value && !tableData" [marginTop]="'10px'"></app-loading-spinner>
+  <pe-loading-spinner *ngIf="searchPaymentService.$loading.value && !tableData" [marginTop]="'10px'"></pe-loading-spinner>
 </div>

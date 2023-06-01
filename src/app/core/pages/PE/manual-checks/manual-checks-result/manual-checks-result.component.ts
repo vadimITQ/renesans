@@ -17,11 +17,11 @@ import {
   IResumePaymentPayload,
   IResumePaymentResponse,
 } from 'src/app/core/services/payment-order-w/types';
-import { ISearchPayment } from 'src/app/core/services/search-payment/types';
 import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ObjectHelper } from 'src/app/shared/classes/object-helper';
 import { failStatusList, successStatusList } from './manual-checks-result.constants';
+import {SearchPaymentWithManualParse} from "./manual-checks-result.types";
 
 @Component({
   selector: 'app-manual-checks-result',
@@ -42,7 +42,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   public readonly COMMENTARY_EXPR = commentaryExpr;
   public readonly COMMENTARY_LENGTH = commentaryLength;
-  public paymentResponse: ISearchPayment[] | null | undefined = undefined;
+  public paymentResponse: SearchPaymentWithManualParse[] | null | undefined = undefined;
   public types = this.prepareTypes(Object.entries(PaymentTypes));
   public statues = paymentStatusObj;
   public selectedAll: boolean = false;
@@ -62,14 +62,14 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   public cols = [
     { field: 'paymentApplication.applicationID', header: 'ID PE' },
     { field: 'plannedDate', header: 'ID заявки' },
+    { field: 'ipt.idPH', header: 'ID PH' },
+    { field: 'pmtCreationTime', header: 'Дата заявки в PE' },
     { field: 'paymentApplication.amount', header: 'Дата исполнения платежа' },
     { field: 'type', header: 'Сумма' },
     { field: 'statusCode', header: 'Тип перевода' },
     { field: 'statusCodePE', header: 'Статус PE' },
     { field: 'paymentApplication.statusPE', header: 'Код статуса' },
-    { field: 'ipt.idPH', header: 'ID PH' },
     { field: 'aymentApplication.channelIP', header: 'IP адрес' },
-    { field: 'pmtCreationTime', header: 'Дата заявки в PE' },
     { field: 'errorType', header: 'Тип ошибки' },
   ];
 
@@ -122,7 +122,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
                 paymentID: selection.paymentID ?? '',
                 description: this.commentary ?? '',
                 channelName: 'PEW',
-                chennelUser: this.authService.user?.connectionName ?? 'Unknown_User',
+                channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
               } as ICancelPaymentPayload),
             ),
           );
@@ -223,7 +223,10 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
     this.peNavigationService.goToViewTransferDetails(id);
   }
 
-  tableRowStatusColor(paymentItem: ISearchPayment): string {
+  tableRowStatusColor(paymentItem: SearchPaymentWithManualParse): string {
+    if(paymentItem.manualParse === 1 || !paymentItem.manualParse) {
+      return ''
+    }
     if (successStatusList.includes(paymentItem.statusCode)) {
       return '#FFCC00';
     }

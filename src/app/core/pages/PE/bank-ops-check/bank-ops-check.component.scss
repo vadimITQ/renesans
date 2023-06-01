@@ -1,0 +1,28 @@
+.bank-ops-check {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > app-bank-ops-check-filters {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 15px;
+  }
+
+  > app-bank-ops-check-table {
+    min-height: 200px;
+    margin-bottom: 10px;
+  }
+
+}
+:host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
+  max-width: 100%;
+}
+// ::ng-deep p-multiselect .p-multiselect-label{
+//   display: flex;
+//   flex-wrap: wrap;
+// }
+
+// ::ng-deep p-multiselect .p-multiselect-token{
+//   margin-bottom: .5rem
+// }

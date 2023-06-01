@@ -1,7 +1,5 @@
-export interface IColumn {
-  header: string;
-  field: string;
-}
+import {IColumn} from "../../../../../shared/types/table.types";
+
 
 export const searchPaymentTableColumns: IColumn[] = [
   // {

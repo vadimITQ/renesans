@@ -1,0 +1,54 @@
+<div class="bank-ops-check-table">
+  <h5>Результаты поиска</h5>
+
+  <ng-container *ngIf="tableData">
+    <p-table
+      [value]="tableData"
+      [scrollable]="true"
+      [autoLayout]="true"
+      [paginator]="true"
+      [resizableColumns]="true"
+      [columnResizeMode]="'expand'"
+      [loading]="bankOpsCheckService.$loading.value"
+      [totalRecords]="bankOpsCheckService.count"
+      [showCurrentPageReport]="true"
+      [rows]="bankOpsCheckService.pagination.limit"
+      [first]="bankOpsCheckService.pagination.offset"
+      [lazy]="true"
+      (onPage)="bankOpsCheckService.paginate($event)"
+      currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} платежей"
+      [rowsPerPageOptions]="bankOpsCheckService.rowsPerPageOptions"
+      styleClass="p-datatable-gridlines"
+    >
+      <ng-template pTemplate="header">
+        <tr class="tps-by-status__row-gray">
+          <th pResizableColumn>ID PE</th>
+          <th pResizableColumn *ngFor="let column of tableColumns">
+            {{ column.header }}
+          </th>
+          <th pResizableColumn>Количество приложенных документов</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bankOpsCheckItem>
+        <tr style="height: 50px">
+          <td>
+            <a *ngIf="hasAccessToBankOpsCheckDetails; else elseBlock" class="link" (click)="linkClick(bankOpsCheckItem.paymentId)">{{
+              bankOpsCheckItem.paymentId
+            }}</a>
+            <ng-template #elseBlock>{{ bankOpsCheckItem.paymentId }}</ng-template>
+          </td>
+          <td *ngFor="let column of tableColumns">
+            {{ bankOpsCheckItem[column.field] }}
+          </td>
+          <td>
+            <a *ngIf="hasAccessToBankOpsCheckDetails; else elseBlock" class="link" (click)="linkClick(bankOpsCheckItem.paymentId)">{{
+              bankOpsCheckItem.docAmount
+              }}</a>
+            <ng-template #elseBlock>{{ bankOpsCheckItem.docAmount }}</ng-template>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-container>
+  <pe-loading-spinner *ngIf="bankOpsCheckService.$loading.value && !tableData" [marginTop]="'10px'"></pe-loading-spinner>
+</div>

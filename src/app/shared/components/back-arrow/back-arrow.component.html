@@ -1,0 +1,15 @@
+
+<div 
+    class="pe-back-arrow-container c-pointer" 
+    [ngClass]="{ 'animate': animate }" 
+    (click)="goBack()">
+    <i
+        class="pe-back-arrow-container__icon pi pi-chevron-left"
+        [ngStyle]="iconStyle">
+    </i>
+    <label
+        class="pe-back-arrow-container__label"
+        [ngStyle]="labelStyle">
+        {{ label }}
+    </label>
+</div>

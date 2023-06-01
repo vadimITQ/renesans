@@ -1,0 +1,10 @@
+
+:host ::ng-deep .pe-dropdown .p-dropdown.p-component {
+    width: 100%;
+}
+
+.pe-dropdown {
+    > label {
+        font-size: 1.05rem;
+    }
+}

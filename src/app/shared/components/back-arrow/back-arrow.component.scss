@@ -1,0 +1,31 @@
+
+.pe-back-arrow-container {
+    display: inline-block;
+    justify-content: center;
+    user-select: none;
+
+    &.animate {
+        > i {
+            position: relative;
+            transition: left 0.2s ease;
+            left: 0px;
+        }
+        &:hover {
+            > i {
+                left: 6px;
+            }
+        }
+    }
+
+    &__label {
+        cursor: pointer;
+        position: relative;
+        bottom: 3px;
+    }
+
+    &__icon {
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+}

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IColumn, searchPaymentTableColumns } from './search-payment-table.constants';
+import { searchPaymentTableColumns } from './search-payment-table.constants';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 import { SearchPaymentService } from 'src/app/core/services/search-payment/search-payment.service';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { ISearchPayment } from 'src/app/core/services/search-payment/types';
 import { PeRolesService } from '../../../../services/auth/pe-roles.service';
+import {IColumn} from "../../../../../shared/types/table.types";
 
 @Component({
   selector: 'app-search-payment-table',

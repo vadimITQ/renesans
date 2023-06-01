@@ -1,7 +1,7 @@
 <div class="ms-result">
   <h5 class="mb-3">Результат поиска</h5>
 
-  <div *ngIf="paymentResponse">
+  <div  *ngIf="paymentResponse">
     <p-table
       #manualChecksTable
       dataKey="paymentID"
@@ -20,60 +20,22 @@
       (onPage)="mcService.paginate($event)"
       currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} платежей"
       [rowsPerPageOptions]="mcService.rowsPerPageOptions"
-      [columns]="cols"
       [resizableColumns]="true"
+      [columnResizeMode]="'expand'"
       (selectionChange)="onSelectionChange($event)"
       (onHeaderCheckboxToggle)="onHeaderCheckboxToggle($event)"
       (onRowSelect)="onRowSelected($event)"
       sortMode="multiple"
-      styleClass="p-datatable-striped"
-    >
-      <ng-template pTemplate="header" let-columns>
-        <tr class="ms-result__row-gray">
+      styleClass="p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
           <th style="width: 4rem">
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
           </th>
-          <th style="min-width: 200px" *ngFor="let col of columns">
+          <th pResizableColumn *ngFor="let col of cols">
             {{ col.header }}
           </th>
         </tr>
-        <!-- <tr>
-                <th>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="paymentApplication.applicationID" display="menu"></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="plannedDate" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="numeric" field="paymentApplication.amount" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="type" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="numeric" field="statusCode" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="numeric" field="statusCodePE" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="paymentApplication.statusPE" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="numeric" field="ipt.idPH" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="aymentApplication.channelIP" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="pmtCreationTime" ></p-columnFilter>
-                </th>
-                <th>
-                    <p-columnFilter type="text" field="errorType" ></p-columnFilter>
-                </th>
-            </tr> -->
       </ng-template>
       <ng-template pTemplate="body" let-paymentItem>
         <tr [ngStyle]="{ color: tableRowStatusColor(paymentItem) }">
@@ -84,14 +46,14 @@
             <a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a>
           </td>
           <td>{{ paymentItem.paymentApplication?.applicationID }}</td>
+          <td>{{ paymentItem.ipt?.idPH }}</td>
+          <td>{{ paymentItem.pmtCreationTime | date : 'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>{{ paymentItem.plannedDate | date : 'dd-MM-yyyy' }}</td>
           <td>{{ paymentItem.paymentApplication?.amount }}</td>
           <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
           <td>{{ statues[paymentItem.statusCode] }}</td>
           <td>{{ paymentItem.statusCode }}</td>
-          <td>{{ paymentItem.ipt?.idPH }}</td>
           <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
-          <td>{{ paymentItem.pmtCreationTime | date : 'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>{{ paymentItem.errorType }}</td>
         </tr>
       </ng-template>
@@ -112,5 +74,5 @@
     </div>
   </div>
 
-  <app-loading-spinner *ngIf="mcService.$loading.value && !paymentResponse" [marginTop]="'10px'"></app-loading-spinner>
+  <pe-loading-spinner *ngIf="mcService.$loading.value && !paymentResponse" [marginTop]="'10px'"></pe-loading-spinner>
 </div>

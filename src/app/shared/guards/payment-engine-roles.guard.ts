@@ -7,7 +7,7 @@ import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 
 @Injectable()
 export class PaymentEngineRolesGuard implements CanActivate {
-    
+
     constructor(private peRolesService: PeRolesService, private toastService: ToastService) {}
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -45,6 +45,16 @@ export class PaymentEngineRolesGuard implements CanActivate {
                 }
                 else {
                     this.toastService.showErrorToast("Нет прав на взаимодействие с формой «Мониторинг распоряжений на регулярные переводы/платежи»");
+                    return false;
+                }
+            }
+            case(RouterPath.BankOpsCheck):
+            case(RouterPath.BankOpsDetails): {
+                if (this.peRolesService.hasAccessToBankOpsCheck()){
+                    return true;
+                }
+                else {
+                    this.toastService.showErrorToast("Нет прав на взаимодействие с формой «BankOps проверка»");
                     return false;
                 }
             }

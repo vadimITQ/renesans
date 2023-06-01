@@ -1,0 +1,55 @@
+<div class="bank-ops-check-filter">
+  <h5>BankOps проверка</h5>
+
+  <div class="input-row">
+    <pe-input 
+      label="ID РЕ" 
+      [(value)]="filters.paymentID" 
+      [validationMessage]="filtersValidation['paymentID']" 
+      [maxLength]="36" />
+    <pe-input
+      label="ID Заявки"
+      [(value)]="filters.applicationID"
+      [validationMessage]="filtersValidation['applicationID']"
+      [maxLength]="70"
+    />
+  </div>
+
+  <div class="date-row">
+    <date-picker
+      [(date)]="filters.dateTimeFrom"
+      [validationMessage]="filtersValidation['dateTimeFrom']"
+      label="Дата/Время с"
+      (dateChange)="validate(true)"
+      [labelStyle]="{ width: '200px' }"
+    >
+    </date-picker>
+  </div>
+  <div class="date-row">
+    <date-picker
+      [(date)]="filters.dateTimeTo"
+      [validationMessage]="filtersValidation['dateTimeTo']"
+      label="Дата/Время по"
+      (dateChange)="validate(true)"
+      [labelStyle]="{ width: '200px' }"
+    >
+    </date-picker>
+  </div>
+  <div class="multiselect-row">
+    <div>
+      <pe-multiselect
+        [dataset]="multiselectDataSetsEnum.GetApplicationStatuses"
+        placeholder="Выберите состояние заявки"
+        label="Состояния заявки"
+        [labelStyle]="{ 'min-width': '225px', display: 'block' }"
+        [validationMessage]="filtersValidation['applicationStatus']"
+        [(selected)]="filters.applicationStatus"
+      >
+      </pe-multiselect>
+    </div>
+  </div>
+  <div>
+    <button pButton class="pe-button" [label]="'Очистить'" (click)="onClear()"></button>
+    <button pButton class="pe-button ml-2" [label]="'Найти'" (click)="onSearch()"></button>
+  </div>
+</div>

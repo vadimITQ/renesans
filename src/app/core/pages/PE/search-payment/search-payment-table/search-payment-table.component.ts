@@ -72,6 +72,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
       this.tableData = prepareSearchPaymentsData(this.paymentResponse, this.datePipe);
     }
     this.paymentResponseStateSubscription = this.searchPaymentService.$tableData.subscribe(paymentResponse => {
+      this.selectedPayments = [];
       this.paymentResponse = paymentResponse;
       this.tableData = paymentResponse ? prepareSearchPaymentsData(paymentResponse, this.datePipe) : null;
     });
@@ -91,7 +92,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
             .then(cancelResponses => {
               cancelResponses.forEach((cancelResponse, idx) => {
                 const hasError = !!cancelResponse?.errorMessage;
-                const paymentID = this.selectedPayments[idx].paymentId ?? '';
+                const paymentID = this.selectedPayments[idx].paymentID ?? '';
                 if (hasError) {
                   this.toastService.showWarnToast(
                     `Ошибка отклонения. ${cancelResponse.errorMessage}`,

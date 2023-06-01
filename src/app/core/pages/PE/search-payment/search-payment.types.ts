@@ -1,62 +1,23 @@
 export interface ISearchPaymentTableData {
-  appCreationTime: string;
+  paymentID: string;
+  pmtCreationTime: string;
   plannedDate: string;
-  statusCode: number;
+  statusCodePE: number;
+  statusDescriptionPE: string;
   type: string;
-  paymentSubType: string;
-  budgetPaymentSubtype: string;
-  paymentMethod: string;
   amount: number;
   fee: number;
-  ownFeeAmount: number;
-  creditFeeAmount: number;
-  bonusAmount: number | string;
-  bonusRub: number| string;
-  loyaltyRate: number| string;
-  bonusTypeName: string;
-  bonusMaxPercent: string;
-  paymentId: string;
-  idPH: string;
-  chequeId: string;
   sourceSystem: string;
-
-  //источник
-  docNumSender: string;
-  docIDSender: string;
-  docStatusSender: string;
-  accountSender: string;
-  sbpMtelSender: string;
-
-  //приемник
+  docNum_D: string;
+  docStatus_D: string;
+  docID_D: string;
   targetSystem: string;
-  docNumReceiver: string;
-  docIDReceiver: string;
-  docStatusReceiver: string;
-  accountReceiver: string;
-  sbpMtelReceiver: string;
-
-
-  statusGl: string;
-  accntDeb: string;
-  accntCre: string;
-
-  docNum: string;
-  docID: string;
-  bankBIC: string;
-  serviceName: string;
-  operatorLegalName: string;
-  iptID: string;
+  docNum_C: string;
+  docStatus_C: string;
+  docID_C: string;
   cifID: string;
   applicationID: string;
-  statusDescriptionPe: string;
-  parentType: string;
-  chequeNumber: string;
-  linkedChequeNumber: string;
-  channelIP: string;
-  messageToReceiver: string;
-  sbpTransactionId: string;
+  referenceSbpTransactionId: string;
   sbpWorkflowType: string;
-  sbpFraudScore: string;
-  transactionStatus: string;
-  settlementDate: string;
+  idPH: string;
 }

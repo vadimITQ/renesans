@@ -60,16 +60,16 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   public cols = [
-    { field: 'paymentApplication.applicationID', header: 'ID PE' },
-    { field: 'plannedDate', header: 'ID заявки' },
-    { field: 'ipt.idPH', header: 'ID PH' },
-    { field: 'pmtCreationTime', header: 'Дата заявки в PE' },
-    { field: 'paymentApplication.amount', header: 'Дата исполнения платежа' },
-    { field: 'type', header: 'Сумма' },
-    { field: 'statusCode', header: 'Тип перевода' },
-    { field: 'statusCodePE', header: 'Статус PE' },
-    { field: 'paymentApplication.statusPE', header: 'Код статуса' },
-    { field: 'aymentApplication.channelIP', header: 'IP адрес' },
+    { field: 'paymentID', header: 'ID PE' },
+    { field: 'paymentApplication.applicationID', header: 'ID заявки' },
+    { field: 'paymentApplication.ipt.idPH', header: 'ID PH' },
+    { field: 'pmtCreationTime', header: 'Дата заявки' },
+    { field: 'plannedDate', header: 'Дата исполнения' },
+    { field: 'statusCodePE', header: 'Код статуса' },
+    { field: 'paymentApplication.amount', header: 'Сумма' },
+    { field: 'paymentApplication.type', header: 'Тип перевода' },
+    { field: 'statusDescriptionPE', header: 'Статус PE' },
+    { field: 'description', header: 'Детали' },
     { field: 'errorType', header: 'Тип ошибки' },
   ];
 

@@ -84,14 +84,14 @@
             <a class="link" (click)="paymentIdClick(paymentItem.paymentID)">{{ paymentItem.paymentID }}</a>
           </td>
           <td>{{ paymentItem.paymentApplication?.applicationID }}</td>
-          <td>{{ paymentItem.ipt?.idPH }}</td>
+          <td>{{ paymentItem.paymentApplication?.ipt?.idPH }}</td>
           <td>{{ paymentItem.pmtCreationTime | date : 'yyyy-MM-dd HH:mm:ss' }}</td>
           <td>{{ paymentItem.plannedDate | date : 'dd-MM-yyyy' }}</td>
+          <td>{{ paymentItem.statusCodePE }}</td>
           <td>{{ paymentItem.paymentApplication?.amount }}</td>
           <td>{{ types[paymentItem.paymentApplication?.type] }}</td>
           <td>{{ statues[paymentItem.statusCodePE] }}</td>
-          <td>{{ paymentItem.statusCodePE }}</td>
-          <td>{{ paymentItem.paymentApplication?.applicationChannel?.channelIP }}</td>
+          <td>{{ paymentItem.description }}</td>
           <td>{{ paymentItem.errorType }}</td>
         </tr>
       </ng-template>

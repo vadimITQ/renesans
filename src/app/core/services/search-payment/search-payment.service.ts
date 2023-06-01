@@ -9,7 +9,6 @@ import { prepareSearchFilters } from '../../pages/PE/search-payment/search-payme
 import { ISearchPaymentTableData } from '../../pages/PE/search-payment/search-payment.types';
 import { CancelReason, ICancelPaymentResponse } from '../payment-order-w/types';
 import { AuthService } from '../auth/auth.service';
-import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +16,7 @@ import { LoadingService } from 'src/app/shared/services/loading.service';
 export class SearchPaymentService extends TableService<ISearchPayment, ISearchPaymentsFiltersPayload> {
 
   constructor(
-      private paymentOrderWService: PaymentOrderWService, 
+      private paymentOrderWService: PaymentOrderWService,
       private toastService: ToastService,
       private authService: AuthService
     ) {
@@ -57,7 +56,7 @@ export class SearchPaymentService extends TableService<ISearchPayment, ISearchPa
     const $paymentStreams = payments.map(payment => {
       return this.paymentOrderWService.cancelPayment({
         cancelReason: CancelReason.CLIENT,
-        paymentID: payment.paymentId ?? "",
+        paymentID: payment.paymentID ?? "",
         description: "",
         channelName: 'PEW',
         channelUser: this.authService.user?.connectionName ?? 'Unknown_User',

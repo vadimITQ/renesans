@@ -38,7 +38,7 @@
             <p-tableCheckbox [value]="searchPaymentItem"></p-tableCheckbox>
           </td>
           <td>
-            <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentId)">{{
+            <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentID)">{{
               searchPaymentItem.paymentID
             }}</a>
             <ng-template #elseBlock>{{ searchPaymentItem.paymentId }}</ng-template>

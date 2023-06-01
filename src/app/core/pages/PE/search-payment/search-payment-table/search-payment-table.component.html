@@ -39,7 +39,7 @@
           </td>
           <td>
             <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentId)">{{
-              searchPaymentItem.paymentId
+              searchPaymentItem.paymentID
             }}</a>
             <ng-template #elseBlock>{{ searchPaymentItem.paymentId }}</ng-template>
           </td>

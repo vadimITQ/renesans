@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
-import { LoginModel } from '../../../shared/models/login-models';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { PeNavigationService } from '../../services/pe-navigation/pe-navigation.service';
+import { LoginModel } from './login.types';
 
 @Component({
   selector: 'app-login',

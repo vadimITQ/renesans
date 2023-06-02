@@ -1,4 +1,4 @@
-import { MonitoringDataRecord } from "../models/monitoring-standing-orders"
+import { MonitoringDataRecord } from "src/app/core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.types";
 
 export const monitoringDataRecordMock: MonitoringDataRecord[] = [
     {

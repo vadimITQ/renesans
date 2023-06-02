@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { MonitoringStandingOrdersService } from 'src/app/core/services/monitoring-standing-orders/monitoring-standing-orders.service';
-import { MonitoringDataRecord, StandingOrderStatResponse } from 'src/app/shared/models/monitoring-standing-orders';
 import { OrdersStat } from 'src/app/shared/enums/orders-Stat.enums';
 import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
 import { DialogService } from '../../../../shared/services/dialog.service';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
+import { MonitoringDataRecord, StandingOrderStatResponse } from './monitoring-standing-orders.types';
 
 @Component({
   selector: 'app-monitoring-standing-orders',

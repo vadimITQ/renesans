@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, Observable, of } from 'rxjs';
-import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
 import { manualChecksTableData } from 'src/app/shared/mocks/manual-checks-table.mock';
 import { ISearchPaymentTableData } from '../../pages/PE/search-payment/search-payment.types';
 import { API_URL } from '../../../shared/variables/http-constants';
@@ -10,6 +9,7 @@ import { ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../searc
 import { ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from './types';
 import { Pagination } from '../../../shared/services/table.service';
 import {IBankOpsCheckFiltersPayload, IBankOpsCheckResponse} from "../bank-ops-check/types";
+import { GetPaymentsResponse } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.types';
 
 @Injectable({
   providedIn: 'root',

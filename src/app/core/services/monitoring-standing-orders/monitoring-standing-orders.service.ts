@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { tableValuesMock } from "../../../shared/mocks/number-of-orders-table.mock"
 import { of } from 'rxjs/internal/observable/of';
 import { delay, Observable, Subject } from 'rxjs';
-import { MonitoringDataRecord, StandingOrderStatResponse } from 'src/app/shared/models/monitoring-standing-orders';
+import { MonitoringDataRecord, StandingOrderStatResponse } from '../../pages/PE/monitoring-standing-orders/monitoring-standing-orders.types';
 
 @Injectable({
   providedIn: 'root'

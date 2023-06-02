@@ -1,10 +1,10 @@
 
-import { ManualChecksFilter } from '../../../../../shared/models/manual-checks-models';
 import { FormGroup, ValidationErrors } from '@angular/forms';
 import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
 import { Injectable } from '@angular/core';
 import { ErrorMesssagesList } from 'src/app/shared/components/reactive-controls/global-error-messages';
 import { PEGlobalValidators } from 'src/app/shared/components/reactive-controls/validations';
+import { ManualChecksFilter } from "./manual-checks-filter.types";
 
 export enum ValidationErrorsEnum {
   ValidateOnEmpty = "validateOnEmpty",

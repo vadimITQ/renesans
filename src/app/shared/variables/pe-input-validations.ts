@@ -5,3 +5,5 @@ export const defaultLength = 100;
 export const commentaryExpr = defaultExpr;
 
 export const commentaryLength = 250;
+
+export const ipRegExp = /^([\d.]+)$/i;

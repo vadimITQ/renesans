@@ -1,4 +1,4 @@
-import { GetPaymentsResponse } from '../models/manual-checks-models';
+import { GetPaymentsResponse } from "src/app/core/pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.types";
 
 export const manualChecksTableData: GetPaymentsResponse[] = [
   {

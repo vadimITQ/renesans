@@ -1,14 +1,12 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
 import { ManualChecksService } from '../../../../services/manual-checks/manual-checks.service';
 import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 import { FormGroup } from '@angular/forms';
 import { ManualChecksHelper } from './manual-checks-filter.utils';
-import { prepareSearchFilters } from '../../search-payment/search-payment-filters/search-payment-filters.utils';
-import { ValidationErrorsEnum, ManualChecksValidation } from './manual-checks-filter.validation';
+import { ManualChecksValidation } from './manual-checks-filter.validation';
 import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
-import { ToastService } from 'src/app/shared/services/toast.service';
+import { GetPaymentsResponse, ManualChecksFilter } from './manual-checks-filter.types';
 
 @Component({
   selector: 'app-manual-checks-filter',
@@ -37,10 +35,7 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     if (this.mcService.componentState.$filters.value) {
       this.filter = this.mcService.componentState.$filters.value;
     }
-    else {
-      this.filter.setValue(this.manualChecksHelper.defineDefaultFiltersValues());
-      this.changeDetector.detectChanges();
-    }
+    this.changeDetector.detectChanges();
   }
 
   clearFilter() {

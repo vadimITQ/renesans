@@ -1,12 +1,12 @@
 
 import { sub } from "date-fns";
-import { ManualChecksFilter, ManualChecksProps } from '../../../../../shared/models/manual-checks-models';
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Injectable } from "@angular/core";
 import { ISearchPaymentsFiltersPayload } from "src/app/core/services/search-payment/types";
 import { DatePickerHelper } from "src/app/shared/components/controls/date-picker/date-picker-helper";
 import { ManualChecksValidation, ValidationErrorsEnum } from "./manual-checks-filter.validation";
 import { ToastService } from "src/app/shared/services/toast.service";
+import { ManualChecksFilter } from "./manual-checks-filter.types";
 
 @Injectable({
   providedIn: "root"
@@ -18,23 +18,6 @@ export class ManualChecksHelper {
     private validation: ManualChecksValidation,
     private toast: ToastService
   ){}
-
-  defineDefaultFiltersValues(): ManualChecksProps {
-    const dateTo = new Date();
-    const dateFrom = sub(dateTo, { days: 3 });
-
-    return {
-      account: null,
-      applicationID: null,
-      channelName: [],
-      codeStatuses: [],
-      dateTimeFrom: dateFrom,
-      dateTimeTo: dateTo,
-      idPH: null,
-      parentType: [],
-      paymentID: null
-    };
-  }
 
   createDefaultForm(): FormGroup<ManualChecksFilter> {
     const dateTo = new Date();
@@ -59,27 +42,27 @@ export class ManualChecksHelper {
   }
 
   prepareSearchFilters(filter: FormGroup<ManualChecksFilter>): ISearchPaymentsFiltersPayload {
-    const values: ManualChecksProps = {
-      account: filter.controls.account.value,
-      applicationID: filter.controls.account.value,
-      channelName: filter.controls.channelName.value,
-      codeStatuses: filter.controls.codeStatuses.value,
-      dateTimeFrom: filter.controls.dateTimeFrom.value,
-      dateTimeTo: filter.controls.dateTimeTo.value,
-      idPH: filter.controls.idPH.value,
-      parentType: filter.controls.parentType.value,
-      paymentID: filter.controls.paymentID.value
-    }
+    const {
+      account,
+      applicationID,
+      channelName,
+      codeStatuses,
+      dateTimeFrom,
+      dateTimeTo,
+      idPH,
+      parentType,
+      paymentID
+    } = filter.controls;
     return {
-      account: values.account,
-      applicationID: values.applicationID,
-      channelName: values.channelName?.length > 0 ? values.channelName.map(v => v.value) : null,
-      statusCode: values.codeStatuses?.length > 0 ? values.codeStatuses.map(v => v.value) : null,
-      dateTimeFrom: DatePickerHelper.convertToDatePicker(values.dateTimeFrom),
-      dateTimeTo: DatePickerHelper.convertToDatePicker(values.dateTimeTo),
-      idPH: values.idPH,
-      parentType: values.parentType?.length > 0 ? values.parentType.map(v => v.value) : null,
-      paymentID: values.paymentID,
+      account: account.value,
+      applicationID: applicationID.value,
+      channelName: channelName.value?.length > 0 ? channelName.value.map(v => v.value) : null,
+      statusCode: codeStatuses.value?.length > 0 ? codeStatuses.value.map(v => v.value) : null,
+      dateTimeFrom: DatePickerHelper.convertToDatePicker(dateTimeFrom.value),
+      dateTimeTo: DatePickerHelper.convertToDatePicker(dateTimeTo.value),
+      idPH: idPH.value,
+      parentType: parentType.value?.length > 0 ? parentType.value.map(v => v.value) : null,
+      paymentID: paymentID.value,
       docID: null,
       docNum: null,
       userAgent: null,

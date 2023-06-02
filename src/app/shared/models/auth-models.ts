@@ -1,3 +1,4 @@
+
 export interface UserCredentials {
   connectionName: string;
   connectionPassword: string;

@@ -3,15 +3,20 @@ import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { ISearchPayment, ISearchPaymentsFiltersPayload } from './types';
-import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
+import { ISearchPaymentFilterForm, ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
 import { Pagination, TableService } from '../../../shared/services/table.service';
-import { prepareSearchFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
+import { SearchPaymentsFilterUtils } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchPaymentService extends TableService<ISearchPayment, ISearchPaymentsFiltersPayload> {
-  constructor(private paymentOrderWService: PaymentOrderWService, private toastService: ToastService) {
+  constructor(
+    private paymentOrderWService: PaymentOrderWService, 
+    private toastService: ToastService,
+    private searchPaymentUtils: SearchPaymentsFilterUtils
+  ) {
     function getSearchPayments(payload: ISearchPaymentsFiltersPayload, pagination: Pagination) {
       return paymentOrderWService.getSearchPayments(payload, pagination).pipe(
         //todo: update me
@@ -29,15 +34,15 @@ export class SearchPaymentService extends TableService<ISearchPayment, ISearchPa
     super(getSearchPayments);
   }
 
-  public $filters: BehaviorSubject<ISearchPaymentFilters | null> = new BehaviorSubject<ISearchPaymentFilters | null>(null);
+  public $filter: BehaviorSubject<FormGroup<ISearchPaymentFilterForm>> = new BehaviorSubject<FormGroup<ISearchPaymentFilterForm>>(this.searchPaymentUtils.createDefaultFilterFormGroup());
   public $reportLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   public getPaymentsReport(): Observable<ArrayBuffer | null> {
-    if (!this.$filters.value) {
+    if (!this.$filter.value) {
       return of(null);
     }
     this.$reportLoading.next(true);
-    return this.paymentOrderWService.getPaymentsReport(prepareSearchFilters(this.$filters.value)).pipe(
+    return this.paymentOrderWService.getPaymentsReport(this.searchPaymentUtils.prepareSearchFilters(this.$filter.value)).pipe(
       tap(() => {
         this.$reportLoading.next(false);
       }),

@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ManualChecksService } from 'src/app/core/services/manual-checks/manual-checks.service';
 import { PaymentTypes } from 'src/app/shared/enums/manual-checks.enums';
-import { GetPaymentsResponse } from 'src/app/shared/models/manual-checks-models';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { commentaryExpr, commentaryLength } from 'src/app/shared/variables/pe-input-validations';
@@ -22,6 +21,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { ObjectHelper } from 'src/app/shared/classes/object-helper';
 import { failStatusList, successStatusList } from './manual-checks-result.constants';
 import {SearchPaymentWithManualParse} from "./manual-checks-result.types";
+import { GetPaymentsResponse } from '../manual-checks-filter/manual-checks-filter.types';
 
 @Component({
   selector: 'app-manual-checks-result',

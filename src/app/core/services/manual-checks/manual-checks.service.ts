@@ -4,12 +4,11 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { ICancelPaymentPayload, IResumePaymentPayload } from '../payment-order-w/types';
 import { ISearchPayment, ISearchPaymentsFiltersPayload } from '../search-payment/types';
-import { ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
-import { GetPaymentsResponse, ManualChecksFilter } from 'src/app/shared/models/manual-checks-models';
 import { Pagination, TableService } from "../../../shared/services/table.service";
 import { FormGroup } from '@angular/forms';
 import { ManualChecksHelper } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.utils';
 import { SearchPaymentWithManualParse } from '../../pages/PE/manual-checks/manual-checks-result/manual-checks-result.types';
+import { GetPaymentsResponse, ManualChecksFilter } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.types';
 
 // ISearchPaymentFilters
 interface ManualChecksComponentState {

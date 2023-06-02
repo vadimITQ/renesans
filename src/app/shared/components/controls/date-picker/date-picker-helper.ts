@@ -42,7 +42,10 @@ export class DatePickerHelper {
     // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 
-  public static convertToLocaleStringWithTimezone(isoDate: string): string {
+  public static convertToLocaleStringWithTimezone(isoDate: string): string | null {
+    if (!isoDate){
+      return null;
+    }
     const dateValue = new Date(isoDate);
 
     const localeDateString = dateValue.toLocaleString('sv', { timeZoneName: 'short' });

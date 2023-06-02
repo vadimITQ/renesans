@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { OrdersStat } from 'src/app/shared/enums/orders-Stat.enums';
-import { StandingOrderStatResponse } from '../../../../../shared/models/monitoring-standing-orders';
+import { StandingOrderStatResponse } from '../monitoring-standing-orders.types';
 
 @Component({
   selector: 'app-number-of-orders-table',

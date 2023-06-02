@@ -1,5 +1,5 @@
 
-import { StandingOrderStatResponse } from "../models/monitoring-standing-orders";
+import { StandingOrderStatResponse } from "src/app/core/pages/PE/monitoring-standing-orders/monitoring-standing-orders.types";
 import { monitoringDataRecordMock } from "../mocks/transfer-payment-history-by-status-table.mock"
 
 export const tableValuesMock: StandingOrderStatResponse = {

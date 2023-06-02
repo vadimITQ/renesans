@@ -58,7 +58,6 @@ import { PeRMultiCheckboxForm } from './shared/components/reactive-controls/pe-m
 import { PeRMultiselectComponent } from './shared/components/reactive-controls/pe-multiselect-form/pe-multiselect-form.component';
 import { PeRMultiCheckboxComponent } from './shared/components/reactive-controls/pe-multi-checkbox-form/pe-multi-checkbox-form.component';
 import { PeErrorMessagesComponent } from './shared/components/reactive-controls/pe-error-messages/pe-error-messages.component';
-import { PeTestingFormComponent } from './shared/components/reactive-controls/pe-testing-form/pe-testing-form.component';
 import {BankOpsCheckComponent} from "./core/pages/PE/bank-ops-check/bank-ops-check.component";
 import {
   BankOpsCheckFiltersComponent
@@ -121,7 +120,6 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeRMultiselectComponent,
     PeRMultiCheckboxComponent,
     PeErrorMessagesComponent,
-    PeTestingFormComponent,
     BankOpsDetailsComponent,
     PeBackArrowComponent,
     PeIndentComponent,

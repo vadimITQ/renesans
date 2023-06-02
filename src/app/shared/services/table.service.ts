@@ -47,11 +47,13 @@ export class TableService<TData, TFilters> {
       throw new Error('Please, provide fetch table data function');
     }
     this.$loading.next(true);
-    this.fetchFn(this.filters, this.pagination).subscribe(response => {
+    const sub = this.fetchFn(this.filters, this.pagination).subscribe(response => {
       this.$tableData.next(response.data);
       this.count = response.count;
 
       this.$loading.next(false);
+      sub.unsubscribe()
+
     });
   }
 }

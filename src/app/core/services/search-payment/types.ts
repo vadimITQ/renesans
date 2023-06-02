@@ -113,7 +113,7 @@ export type Bonus = {
 export type SBP = {
   sbpTransactionId: string;
   streamId: string;
-  referenceSbpTransactionId: string;
+  referenceSbpTransactionId: string | null;
   sbpWorkflowType: string;
   scenario: string;
   senderBankFraudScore: string;
@@ -183,9 +183,9 @@ export interface IPaymentApplication {
   budget: Budget;
   conversion: Conversion;
   bonus: Bonus;
-  sbp: SBP;
+  sbp: SBP | null;
   servicePayment: ServicePayment;
-  ipt: IPT;
+  ipt: IPT | null;
   check: Check;
   applicationID: string;
   appCreationTime: string;

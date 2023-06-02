@@ -41,7 +41,7 @@
             <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentID)">{{
               searchPaymentItem.paymentID
             }}</a>
-            <ng-template #elseBlock>{{ searchPaymentItem.paymentId }}</ng-template>
+            <ng-template #elseBlock>{{ searchPaymentItem.paymentID }}</ng-template>
           </td>
           <td *ngFor="let column of tableColumns">
             {{ searchPaymentItem[column.field] }}

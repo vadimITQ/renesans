@@ -39,9 +39,9 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
       docID_C: creditPayDoc?.docID ?? '',
       cifID: searchPayment.paymentApplication.payer.user.cifID ?? '',
       applicationID: searchPayment.paymentApplication.applicationID,
-      referenceSbpTransactionId: searchPayment.paymentApplication.sbp.referenceSbpTransactionId,
-      sbpWorkflowType: searchPayment.paymentApplication.sbp.sbpWorkflowType,
-      idPH: searchPayment.paymentApplication.ipt.idPH,
+      referenceSbpTransactionId: searchPayment.paymentApplication.sbp?.referenceSbpTransactionId ?? '',
+      sbpWorkflowType: searchPayment.paymentApplication.sbp?.sbpWorkflowType ?? '',
+      idPH: searchPayment.paymentApplication.ipt?.idPH ?? '',
     };
   });
 }

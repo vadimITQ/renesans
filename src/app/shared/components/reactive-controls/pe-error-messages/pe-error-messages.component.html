@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="control?.errors && (control.touched || control.dirty); else OKTemplate">
+<ng-container *ngIf="!!control && control.errors && (control.touched || control.dirty); else OKTemplate">
     <ng-container *ngFor="let error of control.errors | keyvalue">
         <ng-container *ngIf="error.value === true">
             <div class="error-message">{{ errorMessagesList[error.key] }}</div>

@@ -33,12 +33,8 @@ export class PEGlobalValidators {
           !dateFromValue ? dateFrom.setErrors({[GlobalReavtiveErrorsEnum.Required]: true }): "";
           !dateToValue ? dateTo.setErrors({[GlobalReavtiveErrorsEnum.Required]: true }): "";
           group.setErrors({
-            [GlobalReavtiveErrorsEnum.FormGroupNoValid]: {
-              value: true
-            },
-            [GlobalReavtiveErrorsEnum.Required]: {
-              value: true
-            }
+            [GlobalReavtiveErrorsEnum.FormGroupNoValid]: true,
+            [GlobalReavtiveErrorsEnum.Required]: true
           });
           return;
         }
@@ -47,12 +43,8 @@ export class PEGlobalValidators {
           dateFrom.setErrors({[GlobalReavtiveErrorsEnum.DateFromMoreThanDateTo]: true});
           dateTo.setErrors({[GlobalReavtiveErrorsEnum.EmptyError]: true })
           group.setErrors({
-            [GlobalReavtiveErrorsEnum.FormGroupNoValid]: {
-              value: true
-            },
-            [GlobalReavtiveErrorsEnum.DateFromMoreThanDateTo]: {
-              value: true
-            }
+            [GlobalReavtiveErrorsEnum.FormGroupNoValid]: true,
+            [GlobalReavtiveErrorsEnum.DateFromMoreThanDateTo]: true
           });
           return;
         }
@@ -61,12 +53,8 @@ export class PEGlobalValidators {
           dateFrom.setErrors({[GlobalReavtiveErrorsEnum.EmptyError]: true })
           dateTo.setErrors({[GlobalReavtiveErrorsEnum.DatesRangeLimit]: true })
           group.setErrors({
-            [GlobalReavtiveErrorsEnum.FormGroupNoValid]: {
-              value: true
-            },
-            [GlobalReavtiveErrorsEnum.DatesRangeLimit]: {
-              value: true
-            }
+            [GlobalReavtiveErrorsEnum.FormGroupNoValid]: true,
+            [GlobalReavtiveErrorsEnum.DatesRangeLimit]: true
           });
           return;
         }

@@ -76,8 +76,8 @@ export class SearchPaymentFilterValidation {
           [ValidationErrorsEnum.PlannedDateNoValid]: true
         });
         group.setErrors({
-          [ValidationErrorsEnum.SearchPaymentsFormNoValid]: {value: true},
-          [ValidationErrorsEnum.PlannedDateNoValid]: {value: true}
+          [ValidationErrorsEnum.SearchPaymentsFormNoValid]: true,
+          [ValidationErrorsEnum.PlannedDateNoValid]: true
         });
       }
 
@@ -115,12 +115,8 @@ export class SearchPaymentFilterValidation {
         })
         group.setErrors(
           {
-            [ValidationErrorsEnum.SearchPaymentsFormNoValid]: {
-              value: true
-            },
-            [ValidationErrorsEnum.ValidateOnEmpty]: {
-              value: true
-            }
+            [ValidationErrorsEnum.SearchPaymentsFormNoValid]: true,
+            [ValidationErrorsEnum.ValidateOnEmpty]: true
           }
         );
       }

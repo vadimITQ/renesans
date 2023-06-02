@@ -31,9 +31,6 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    setInterval(() => {
-      console.log(this.filter);
-    }, 2000)
     if (this.searchPaymentService.$filter.value) {
       this.filter = this.searchPaymentService.$filter.value;
     }

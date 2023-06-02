@@ -47,7 +47,6 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       this.searchPaymentService.filter(this.searchPaymentsUtils.prepareSearchFilters(this.filter));
     }
     else {
-      console.log(this.filter);
       this.searchPaymentsUtils.showErrorMessages(this.filter);
     }
   }

@@ -117,7 +117,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       ),
     );
     if (!$paymentsToCancel?.length) {
-      this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на отмену');
+      this.toasterService.showWarnToast('Выберите хотя бы один платеж/перевод на отмену');
       return;
     }
 
@@ -157,7 +157,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
       ),
     );
     if (!$paymentsToResume?.length) {
-      this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на возобновление');
+      this.toasterService.showWarnToast('Выберите хотя бы один платеж/перевод на возобновление');
       return;
     }
 

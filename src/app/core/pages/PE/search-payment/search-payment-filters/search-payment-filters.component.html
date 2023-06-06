@@ -33,7 +33,7 @@
 
   <div class="date-row">
     <date-picker
-      [(date)]="filters.dateTimeFrom"
+      [(ngModel)]="filters.dateTimeFrom"
       [validationMessage]="filtersValidation['dateFrom']"
       label="Дата/Время с"
       (dateChange)="validate(true)"
@@ -43,7 +43,7 @@
   </div>
   <div class="date-row">
     <date-picker
-      [(date)]="filters.dateTimeTo"
+      [(ngModel)]="filters.dateTimeTo"
       [validationMessage]="filtersValidation['dateTo']"
       label="Дата/Время по"
       (dateChange)="validate(true)"
@@ -53,7 +53,7 @@
   </div>
   <div class="date-row">
     <date-picker
-      [(date)]="filters.plannedDate"
+      [(ngModel)]="filters.plannedDate"
       [validationMessage]="filtersValidation['plannedDate']"
       label="Дата исполнения платежа"
       (dateChange)="validate(true)"

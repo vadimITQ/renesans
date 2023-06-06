@@ -24,12 +24,38 @@
   @extend .btn-base;
 }
 
+.btn-red {
+  &:hover {
+    background: #ff665e !important;
+    opacity: 0.8 !important;
+  }
+  background-color: #ff5d55 !important;
+  @extend .btn-base;
+}
+
+.btn-orange {
+  &:hover {
+    background: #e89338 !important;
+    opacity: 0.8 !important;
+  }
+  background-color: #d68227 !important;
+  @extend .btn-base;
+}
+
 .pe-button {
   @extend .btn-success;
 }
 
 .pe-button-grey {
   @extend .btn-clear;
+}
+
+.pe-button-red {
+  @extend .btn-red;
+}
+
+.pe-button-orange {
+  @extend .btn-orange;
 }
 
 .btn-round {

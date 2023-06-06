@@ -5,7 +5,6 @@ import { MultiselectDataSets } from "src/app/shared/enums/datasets.enums";
 import { AntiFraudCheckFilter } from "./anti-fraud-checks-filter.types";
 import { AntiFraudChecksFilterUtils } from "./anti-fraud-checks-filter.utils";
 import { Validation } from "src/app/shared/validation/types";
-import { validateDates } from "../../manual-checks/manual-checks-filter/manual-checks-filter.validation";
 import { AntiFraudChecksValidation } from "./anti-fraud-checks-filter.validation";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { AntiFraudCheckService } from "src/app/core/services/anti-fraud-checks/anti-fraud-check.service";
@@ -87,12 +86,12 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
 
     public validateDates(): boolean {
         this.validations = {};
-        const { dateFromValidation, dateToValidation } = validateDates(
-            this.antiFraudCheckFilter.dateFrom, 
-            this.antiFraudCheckFilter.dateTo
-        );
-        this.validations["dateFrom"] = dateFromValidation;
-        this.validations["dateTo"] = dateToValidation;
+        // const { dateFromValidation, dateToValidation } = validateDates(
+        //     this.antiFraudCheckFilter.dateFrom, 
+        //     this.antiFraudCheckFilter.dateTo
+        // );
+        // this.validations["dateFrom"] = dateFromValidation;
+        // this.validations["dateTo"] = dateToValidation;
         if (!!this.validations["dateFrom"] || !!this.validations["dateTo"]) {
             return false;
         } 

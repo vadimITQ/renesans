@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { AbstractControl, FormControl } from "@angular/forms";
-import { messages } from "../global-error-messages";
 import { ErrorMesssagesList } from "../global-error-messages";
 import { Subscription } from "rxjs";
 import { PEReactiveHelper } from "../utils";
@@ -22,7 +21,7 @@ export class PeRDatePickerComponent implements OnInit, OnDestroy {
     @Input() maxDate: Date | null = null;
     @Input() labelStyle?: { [styleKey: string]: string };
     @Output() listenISODate: EventEmitter<string | null> = new EventEmitter<string | null>();
-    @Input() errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
+    @Input() errorMessages: ErrorMesssagesList = {};
 
     @Input() set control(abstractControl: AbstractControl | FormControl) {
         if (PEReactiveHelper.isFormControl(abstractControl)){

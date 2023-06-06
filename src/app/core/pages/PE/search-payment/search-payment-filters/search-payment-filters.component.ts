@@ -23,7 +23,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   ) {}
 
   public filter: FormGroup<ISearchPaymentFilterForm> = this.searchPaymentsUtils.createDefaultFilterFormGroup();
-  multiselectDataSetsEnum = MultiselectDataSets;
+  readonly multiselectDataSetsEnum = MultiselectDataSets;
   readonly IP_REG_EXPR = ipRegExp;
 
   ngOnDestroy(): void {

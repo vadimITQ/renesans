@@ -1,55 +1,55 @@
-<div class="bank-ops-check-filter">
+<div class="bank-ops-check-filter" [formGroup]="filter">
   <h5>BankOps проверка</h5>
 
   <div class="input-row">
-    <pe-input 
-      label="ID РЕ" 
-      [(value)]="filters.paymentID" 
-      [validationMessage]="filtersValidation['paymentID']" 
-      [maxLength]="36" />
-    <pe-input
+    <pe-input-form 
+      label="ID PE"
+      [control]="filter.controls.paymentID"
+      [maxLength]="36"
+      [errorMessages]="validation.messages">
+    </pe-input-form>
+    <pe-input-form 
       label="ID Заявки"
-      [(value)]="filters.applicationID"
-      [validationMessage]="filtersValidation['applicationID']"
+      [control]="filter.controls.applicationID"
       [maxLength]="70"
-    />
+      [errorMessages]="validation.messages">
+    </pe-input-form>
   </div>
 
   <div class="date-row">
-    <date-picker
-      [(date)]="filters.dateTimeFrom"
-      [validationMessage]="filtersValidation['dateTimeFrom']"
+    <pe-date-picker-form 
+      [control]="filter.controls.dateTimeFrom"
       label="Дата/Время с"
-      (dateChange)="validate(true)"
       [labelStyle]="{ width: '200px' }"
-    >
-    </date-picker>
+      [errorMessages]="validation.messages">
+    </pe-date-picker-form>
   </div>
+  
   <div class="date-row">
-    <date-picker
-      [(date)]="filters.dateTimeTo"
-      [validationMessage]="filtersValidation['dateTimeTo']"
+    <pe-date-picker-form 
+      [control]="filter.controls.dateTimeTo"
       label="Дата/Время по"
-      (dateChange)="validate(true)"
       [labelStyle]="{ width: '200px' }"
-    >
-    </date-picker>
+      [errorMessages]="validation.messages">
+    </pe-date-picker-form>
   </div>
+
   <div class="multiselect-row">
     <div>
-      <pe-multiselect
+      <pe-multiselect-form
+        [control]="filter.controls.applicationStatus"
         [dataset]="multiselectDataSetsEnum.GetApplicationStatuses"
         placeholder="Выберите состояние заявки"
         label="Состояния заявки"
         [labelStyle]="{ 'min-width': '225px', display: 'block' }"
-        [validationMessage]="filtersValidation['applicationStatus']"
-        [(selected)]="filters.applicationStatus"
-      >
-      </pe-multiselect>
+        [errorMessages]="validation.messages">
+      </pe-multiselect-form>
     </div>
   </div>
+
   <div>
     <button pButton class="pe-button" [label]="'Очистить'" (click)="onClear()"></button>
     <button pButton class="pe-button ml-2" [label]="'Найти'" (click)="onSearch()"></button>
   </div>
+
 </div>

@@ -38,8 +38,8 @@ const routes: Routes = [
       { path: RouterPath.BankOpsCheck, component: BankOpsCheckComponent, canActivate: [PaymentEngineRolesGuard] },
       { path: `${RouterPath.BankOpsDetails}/:id`, component: BankOpsDetailsComponent, canActivate: [PaymentEngineRolesGuard] },
       { path: RouterPath.AntiFraudCheck, component: AntiFraudCheckComponent, canActivate: [PaymentEngineRolesGuard] },
-      { path: `${RouterPath.AntiFraudDetails}/:id`, component: AntiFraudDetailsComponent, canActivate: [PaymentEngineRolesGuard] }
-      { path: RouterPath.AmlCheck, component: AmlCheckComponent, canActivate: [PaymentEngineRolesGuard] },
+      { path: `${RouterPath.AntiFraudDetails}/:id`, component: AntiFraudDetailsComponent, canActivate: [PaymentEngineRolesGuard] },
+      { path: RouterPath.AmlCheck, component: AmlCheckComponent, canActivate: [PaymentEngineRolesGuard] }
       // { path: `${RouterPath.AmlDetails}/:id`, component: AmlDetailsComponent, canActivate: [PaymentEngineRolesGuard] }
     ],
   },

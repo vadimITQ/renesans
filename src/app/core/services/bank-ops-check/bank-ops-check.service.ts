@@ -4,8 +4,9 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { Pagination, TableService } from '../../../shared/services/table.service';
 import {IBankOpsCheck, IBankOpsCheckFiltersPayload} from "./types";
-import {IBankOpsCheckFilters} from "../../pages/PE/bank-ops-check/bank-ops-check-filters/bank-ops-check-filters.types";
+import {IBankOpsCheckFilterForm, IBankOpsCheckFilters} from "../../pages/PE/bank-ops-check/bank-ops-check-filters/bank-ops-check-filters.types";
 import {bankOpsCheckTableMock} from "../../pages/PE/bank-ops-check/bank-ops-check-table/bank-ops-check-table.mock";
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class BankOpsCheckService extends TableService<IBankOpsCheck, IBankOpsChe
     super(getApplicationsList);
   }
 
+  public $filter: BehaviorSubject<FormGroup<IBankOpsCheckFilterForm> | null> = new BehaviorSubject<FormGroup<IBankOpsCheckFilterForm> | null>(null);
   public $filters: BehaviorSubject<IBankOpsCheckFilters | null> = new BehaviorSubject<IBankOpsCheckFilters | null>(null);
   public $reportLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 

@@ -1,4 +1,4 @@
-import { ISearchPaymentFilterForm, ISearchPaymentFilters } from './search-payment-filters.types';
+import { ISearchPaymentFilterForm } from './search-payment-filters.types';
 import { sub } from 'date-fns';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
@@ -6,8 +6,9 @@ import { SearchPaymentFilterValidation, ValidationErrorsEnum } from './search-pa
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 import { ISearchPaymentsFiltersPayload } from 'src/app/core/services/search-payment/types';
-import { Validation } from 'src/app/shared/validation/types';
 import { DatePipe } from '@angular/common';
+import { GlobalReactiveErrorsEnum } from 'src/app/shared/components/reactive-controls/global-error-messages';
+import { PEGlobalValidators } from 'src/app/shared/components/reactive-controls/validations';
 
 @Injectable({
   providedIn: "root"
@@ -64,32 +65,10 @@ export class SearchPaymentsFilterUtils {
         return;
       }
 
-      if (errors.includes(ValidationErrorsEnum.DateFromMoreThanDateTo)){
+      const message = PEGlobalValidators.getLastErrorMessage(filter);
+      if (!!message){
         this.toast.showErrorToast(
-          this.validation.messages[ValidationErrorsEnum.DateFromMoreThanDateTo]
-        );
-        return;
-      }
-
-      if (errors.includes(ValidationErrorsEnum.DatesRangeLimit)){
-        this.toast.showErrorToast(
-          this.validation.messages[ValidationErrorsEnum.DatesRangeLimit]
-        );
-        return;
-      }
-
-      if (errors.includes(ValidationErrorsEnum.Required)){
-        this.toast.showErrorToast(
-          "Заполните обязательные поля"
-        );
-        return;
-      }
-
-      if (errors.includes(ValidationErrorsEnum.PlannedDateNoValid)){
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        this.toast.showErrorToast(
-          `Плановая дата не должна быть раньше, чем ${ this.datePipe.transform(today, "dd/MM/yyyy") }`
+          message
         );
         return;
       }

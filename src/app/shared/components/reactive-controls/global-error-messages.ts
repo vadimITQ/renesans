@@ -3,22 +3,23 @@ export interface ErrorMesssagesList {
     [key: string]: string;
 }
 
-export const messages = {
-    formControlMessages: {
-        global: {
-            required: "Поле обязательно к заполнению",
-            email: "Email введён некорректно"
-        },
-        peInput: {
+export enum GlobalReactiveErrorsEnum {
+  FormGroupNoValid = "formGroupNoValid",
+  Required = "required",
+  EmptyError = "emptyError",
+  DateFromMoreThanDateTo = "dateFromMoreThanDateTo",
+  DatesRangeLimit = "datesRangeLimit",
+  PlannedDateNoValid = "plannedDateNoValid"
+}
 
-        },
-        peMulticheckbox: {
-            allTrue: "Все чекбоксы должны быть выбраны"
-        }
-    },
-    formGroupMessages: {
-        global: {
-            required: "Заполните обязательные поля"
-        }
-    }
-};
+const globalMessages_datesValidation: ErrorMesssagesList = {
+  [GlobalReactiveErrorsEnum.Required]: "Поле обязательно к заполнению",
+  [GlobalReactiveErrorsEnum.DateFromMoreThanDateTo]: "«Дата/Время с» превышает «Дата/Время по»",
+  [GlobalReactiveErrorsEnum.DatesRangeLimit]: "Диапазон дат не должен превышать 40 дней",
+  [GlobalReactiveErrorsEnum.EmptyError]: "  "
+}
+
+export const globalMessages = {
+    datesValidation: globalMessages_datesValidation
+}
+

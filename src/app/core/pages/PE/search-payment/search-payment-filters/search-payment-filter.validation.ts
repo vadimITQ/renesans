@@ -1,19 +1,13 @@
 import { Injectable } from "@angular/core";
-import { ErrorMesssagesList } from "../../../../../shared/components/reactive-controls/global-error-messages";
+import { ErrorMesssagesList, GlobalReactiveErrorsEnum, globalMessages } from "../../../../../shared/components/reactive-controls/global-error-messages";
 import { FormGroup, ValidationErrors } from "@angular/forms";
 import { ISearchPaymentFilterForm } from "./search-payment-filters.types";
 import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/utils";
 import { PEGlobalValidators } from "src/app/shared/components/reactive-controls/validations";
-import { ToastService } from "src/app/shared/services/toast.service";
 import { DatePipe } from "@angular/common";
 
 export enum ValidationErrorsEnum {
     ValidateOnEmpty = "validateOnEmpty",
-    ValidateOnEmptyControl = "validateOnEmptyControl",
-    Required = "required",
-    DateFromMoreThanDateTo = "dateFromMoreThanDateTo",
-    DatesRangeLimit = "datesRangeLimit",
-    EmptyError = "emptyError",
     SearchPaymentsFormNoValid = "searchPaymentsFormNoValid",
     PlannedDateNoValid = "plannedDateNoValid"
 }
@@ -32,13 +26,9 @@ export class SearchPaymentFilterValidation {
     readonly today: Date = new Date();
 
     readonly messages: ErrorMesssagesList = {
+      ...globalMessages.datesValidation,
       [ValidationErrorsEnum.SearchPaymentsFormNoValid]: " ",
       [ValidationErrorsEnum.ValidateOnEmpty]: "Заполните хотя бы одно из полей фильтров или укажите интервал дат",
-      [ValidationErrorsEnum.ValidateOnEmptyControl]: "  ",
-      [ValidationErrorsEnum.Required]: "Поле обязательно к заполнению",
-      [ValidationErrorsEnum.DateFromMoreThanDateTo]: "«Дата/Время с» превышает «Дата/Время по»",
-      [ValidationErrorsEnum.DatesRangeLimit]: "Диапазон дат не должен превышать 40 дней",
-      [ValidationErrorsEnum.EmptyError]: "  ",
       [ValidationErrorsEnum.PlannedDateNoValid]: `Не должно быть раньше, чем ${ this.datePipe.transform(this.today, "dd/MM/yyyy") }` 
     }
 
@@ -49,8 +39,7 @@ export class SearchPaymentFilterValidation {
         PEReactiveHelper.clearErrors(group);
     
         PEGlobalValidators.validateDates(group);
-
-        this.validatePlannedDate(group);
+        PEGlobalValidators.validatePlannedDateWithToday(group.controls.plannedDate);
         
         if (triggeredBySubmitButton) {
           this.validateOnEmpty(group);
@@ -60,30 +49,7 @@ export class SearchPaymentFilterValidation {
     
     }
 
-    validatePlannedDate(group: FormGroup<ISearchPaymentFilterForm>) {
-      if (!group){
-        return;
-      }
-
-      const plannedDate = group.controls.plannedDate.value;
-
-      if (!plannedDate){
-        return;
-      }
-
-      if (this.today.getTime() > plannedDate.getTime()){
-        group.controls.plannedDate.setErrors({
-          [ValidationErrorsEnum.PlannedDateNoValid]: true
-        });
-        group.setErrors({
-          [ValidationErrorsEnum.SearchPaymentsFormNoValid]: true,
-          [ValidationErrorsEnum.PlannedDateNoValid]: true
-        });
-      }
-
-    }
-
-    validateOnEmpty(group: FormGroup<ISearchPaymentFilterForm>) {
+    private validateOnEmpty(group: FormGroup<ISearchPaymentFilterForm>): void {
       if (!group){
         return;
       }
@@ -100,18 +66,37 @@ export class SearchPaymentFilterValidation {
         userAgent,
         channelName,
         codeStatuses,
-        parentType
+        parentType,
+        dateTimeFrom,
+        dateTimeTo,
+        plannedDate,
+        type
       } = group.controls;
 
-      const noFilter: boolean = !group;
-      const filterHasDates: boolean =  !!group.controls.dateTimeFrom.value || !!group.controls.dateTimeTo.value || !!group.controls.plannedDate.value;
-      const filterHasId: boolean = !!paymentID.value || !!applicationID.value || !!idPH.value || !!account.value
-        || !!docID.value || !!linkedChequeId.value || !!docNum.value || !!chequeNumber.value || !!channelIP.value || !!userAgent.value;
-      const filterHasSelected = !!channelName.value.length || !!codeStatuses.value.length || !!parentType.value.length;
+      const emptyValidation = [
+        dateTimeFrom.value,
+        dateTimeTo.value,
+        plannedDate.value,
+        paymentID.value,
+        applicationID.value,
+        idPH.value,
+        account.value,
+        docID.value,
+        linkedChequeId.value,
+        docNum.value,
+        chequeNumber.value,
+        channelIP.value,
+        userAgent.value,
+        codeStatuses.value?.length,
+        channelName.value?.length,
+        parentType.value?.length
+      ].every(v => !v);
 
-      if ((group.touched || group.dirty) && (noFilter || (!filterHasDates && !filterHasId && !filterHasSelected))){
+      const noFilter: boolean = !group;
+      
+      if ((group.touched || group.dirty) && (noFilter || emptyValidation)){
         Object.keys(group.controls).forEach(key => {
-          group.get(key)?.setErrors({ [ValidationErrorsEnum.EmptyError]: true });
+          group.get(key)?.setErrors({ [GlobalReactiveErrorsEnum.EmptyError]: true });
         })
         group.setErrors(
           {

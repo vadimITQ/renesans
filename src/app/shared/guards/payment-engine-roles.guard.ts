@@ -64,7 +64,8 @@ export class PaymentEngineRolesGuard implements CanActivate {
                     return true;
                 }
                 else {
-                    this.toastService.showSuccessToast("Нет прав на взаимодействие с формой «AntiFraud проверка»")
+                    this.toastService.showSuccessToast("Нет прав на взаимодействие с формой «AntiFraud проверка»");
+                    return false;
                 }
             }
 

@@ -2,7 +2,7 @@
 <div [class]="{ 'date-picker-container': true, error: !control.valid && (control.dirty || control.touched)}">
   <label [ngStyle]="labelStyle">{{ label }}</label>
   <div class="date-with-error-container">
-    <p-calendar [disabled]="disabled" [formControl]="control" [showButtonBar]="true" [showTime]="showTime" dateFormat="dd/mm/yy" #datePickerRef></p-calendar>
+    <p-calendar [disabled]="disabled" [formControl]="control" [showButtonBar]="true" [showTime]="showTime" [showSeconds]="true" dateFormat="dd/mm/yy" #datePickerRef></p-calendar>
     <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
       <ng-container *ngFor="let error of control.errors | keyvalue">
         <ng-container *ngIf="error.value === true">

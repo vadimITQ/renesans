@@ -5,7 +5,7 @@ import { MultiSelect } from "primeng/multiselect";
 import { ValidationMessage } from "src/app/shared/validation/types";
 import { PeRMultiselectHelper } from "./pe-multiselect-form-helper";
 import { AbstractControl, FormControl } from "@angular/forms";
-import { ErrorMesssagesList, messages } from "../global-error-messages";
+import { ErrorMesssagesList } from "../global-error-messages";
 import { PEReactiveHelper } from "../utils";
 
 @Component({
@@ -27,7 +27,7 @@ export class PeRMultiselectComponent {
     @Input() displayType: string = "chip";
     @Input() placeholder: string = "";
     @Input() validationMessage!: ValidationMessage;
-    @Input() errorMessages: ErrorMesssagesList = messages.formControlMessages.global;
+    @Input() errorMessages: ErrorMesssagesList = {};
 
     @Input() set dataset(dataSet: any){ // !! (dataSet: MultiselectDataSets)
         if (!!dataSet){

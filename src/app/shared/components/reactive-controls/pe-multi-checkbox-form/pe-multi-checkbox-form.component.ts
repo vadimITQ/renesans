@@ -1,7 +1,7 @@
 
 import { Component, Input } from "@angular/core";
 import { AbstractControl, FormControl } from "@angular/forms";
-import { ErrorMesssagesList, messages } from "../global-error-messages";
+import { ErrorMesssagesList } from "../global-error-messages";
 import { PEReactiveHelper } from "../utils";
 
 @Component({
@@ -17,7 +17,7 @@ export class PeRMultiCheckboxComponent {
 
     @Input() title: string = '';
     @Input() horizontal: boolean = false;
-    @Input() errorMessages: ErrorMesssagesList = messages.formControlMessages.peMulticheckbox;
+    @Input() errorMessages: ErrorMesssagesList = {};
     
     @Input() set control(abstractControl: AbstractControl | FormControl) {
         if (PEReactiveHelper.isFormControl(abstractControl)){

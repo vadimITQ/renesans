@@ -7,6 +7,8 @@ import { DatePickerHelper } from "src/app/shared/components/controls/date-picker
 import { ManualChecksValidation, ValidationErrorsEnum } from "./manual-checks-filter.validation";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { ManualChecksFilter } from "./manual-checks-filter.types";
+import { GlobalReactiveErrorsEnum } from "src/app/shared/components/reactive-controls/global-error-messages";
+import { PEGlobalValidators } from "src/app/shared/components/reactive-controls/validations";
 
 @Injectable({
   providedIn: "root"
@@ -58,8 +60,8 @@ export class ManualChecksHelper {
       applicationID: applicationID.value,
       channelName: channelName.value?.length > 0 ? channelName.value.map(v => v.value) : null,
       statusCode: codeStatuses.value?.length > 0 ? codeStatuses.value.map(v => v.value) : null,
-      dateTimeFrom: DatePickerHelper.convertToDatePicker(dateTimeFrom.value),
-      dateTimeTo: DatePickerHelper.convertToDatePicker(dateTimeTo.value),
+      dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? ''),
+      dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? ''),
       idPH: idPH.value,
       parentType: parentType.value?.length > 0 ? parentType.value.map(v => v.value) : null,
       paymentID: paymentID.value,
@@ -84,24 +86,9 @@ export class ManualChecksHelper {
         return;
       }
 
-      if (errors.includes(ValidationErrorsEnum.DateFromMoreThanDateTo)){
-        this.toast.showErrorToast(
-          this.validation.messages[ValidationErrorsEnum.DateFromMoreThanDateTo]
-        );
-        return;
-      }
-
-      if (errors.includes(ValidationErrorsEnum.DatesRangeLimit)){
-        this.toast.showErrorToast(
-          this.validation.messages[ValidationErrorsEnum.DatesRangeLimit]
-        );
-        return;
-      }
-
-      if (errors.includes(ValidationErrorsEnum.Required)){
-        this.toast.showErrorToast(
-          "Заполните обязательные поля"
-        );
+      const message = PEGlobalValidators.getLastErrorMessage(filter);
+      if (!!message){
+        this.toast.showErrorToast(message);
         return;
       }
 

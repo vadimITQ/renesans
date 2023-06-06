@@ -1,0 +1,72 @@
+
+<div class="anti-fraud-check-table">
+
+    <pe-indent [mTop]="4"></pe-indent>
+
+    <h5>Результат поиска</h5>
+
+    <pe-indent [mTop]="4"></pe-indent>
+
+    <ng-container *ngIf="!!tableData">
+        <p-table
+          [value]="tableData"
+          [scrollable]="true"
+          [autoLayout]="true"
+          [paginator]="true"
+          [resizableColumns]="true"
+          [columnResizeMode]="'expand'"
+          [loading]="antiFraudCheckService.$loading.value"
+          [totalRecords]="antiFraudCheckService.count"
+          [showCurrentPageReport]="true"
+          [rows]="antiFraudCheckService.pagination.limit"
+          [first]="antiFraudCheckService.pagination.offset"
+          [lazy]="true"
+          (onPage)="antiFraudCheckService.paginate($event)"
+          currentPageReportTemplate="Отображено с {first} по {last} из {totalRecords} записей"
+          [rowsPerPageOptions]="antiFraudCheckService.rowsPerPageOptions"
+          styleClass="p-datatable-gridlines"
+        >
+          <ng-template pTemplate="header">
+            <tr class="tps-by-status__row-gray">
+              <th pResizableColumn>Просрочка</th>
+              <th pResizableColumn>ID PE</th>
+              <th pResizableColumn>ID заявки</th>
+              <th pResizableColumn>Дата заявки в PE</th>
+              <th pResizableColumn>сумма AML</th>
+              <th pResizableColumn>Статус AntiFraud</th>
+              <th pResizableColumn>Статус BankOps</th>
+              <th pResizableColumn>Тип</th>
+              <th pResizableColumn>Количество приложенных документов</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-antiFraudItem>
+            <tr style="height: 50px">
+              <td>{{antiFraudItem.expireValue}}</td>
+              <td>
+                <div class="link" (click)="goToAntiFraudDetails(antiFraudItem.IdPE)">
+                    {{antiFraudItem.IdPE}}
+                </div>
+              </td>
+              <td>{{antiFraudItem.applicationId}}</td>
+              <td>{{antiFraudItem.dateTime | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+              <td>{{antiFraudItem.amlStatus}}</td>
+              <td>{{antiFraudItem.antiFraudStatus}}</td>
+              <td>{{antiFraudItem.bankOpsStatus}}</td>
+              <td>{{antiFraudItem.type}}</td>
+              <td>{{antiFraudItem.docCount}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+    </ng-container>
+
+    <pe-indent [mTop]="4"></pe-indent>
+
+    <ng-container *ngIf="!tableData">
+        <pe-loading-spinner *ngIf="antiFraudCheckService.$loading | async" [contentHeight]="'200px'"></pe-loading-spinner>
+    </ng-container>
+    
+
+</div>
+
+
+

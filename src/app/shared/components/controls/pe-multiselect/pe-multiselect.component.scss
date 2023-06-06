@@ -5,6 +5,9 @@ $errorColor:  #f44336;
     position: relative;
     &__label {
         display: inline-block;
+        > label {
+            display: block;
+        }
     }
     &__container {
         display: contents;

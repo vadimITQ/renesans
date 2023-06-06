@@ -11,17 +11,22 @@ export interface IMultiCheckboxData {
   styleUrls: ['./pe-multi-checkbox.component.scss'],
 })
 export class PeMultiCheckboxComponent {
-  @Input() title: string = '';
-  @Input() vertical: boolean = false;
-  @Input() values: IMultiCheckboxData[] = [];
-  _value: string[] = [];
-  @Input() get value() {
-    return this._value;
-  }
-  @Output() valueChange = new EventEmitter();
 
-  set value(newValue) {
-    this._value = newValue;
-    this.valueChange.emit(this.value);
-  }
+    @Input() title: string = '';
+    @Input() vertical: boolean = false;
+    @Input() values: IMultiCheckboxData[] = [];
+
+    _value: string[] = [];
+
+    @Input() get value() {
+      return this._value;
+    }
+
+    @Output() valueChange = new EventEmitter();
+
+    set value(newValue) {
+      this._value = newValue;
+      this.valueChange.emit(this.value);
+    }
+
 }

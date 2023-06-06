@@ -72,6 +72,13 @@ import { FileUploadingModalComponent } from 'src/app/shared/components/file-uplo
 import { DialogModule } from 'primeng/dialog';
 import { PeDropdownComponent } from "src/app/shared/components/controls/pe-dropdown/pe-dropdown.component";
 import { BankOpsDetailsComponent } from './core/pages/PE/bank-ops-details/bank-ops-details.component';
+import { AntiFraudCheckComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check.component";
+import { AntiFraudDetailsComponent } from "src/app/core/pages/PE/anti-fraud-details/anti-fraud-details.component";
+import { AntiFraudCheckFilterComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check-filter/anti-fraud-check-filter.component";
+import { AntiFraudCheckTableComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check-table/anti-fraud-check-table.component";
+import {AmlCheckComponent} from "./core/pages/PE/aml-check/aml-check.component";
+import {AmlCheckFiltersComponent} from "./core/pages/PE/aml-check/aml-check-filters/aml-check-filters.component";
+import {AmlCheckTableComponent} from "./core/pages/PE/aml-check/aml-check-table/aml-check-table.component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -100,6 +107,9 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     BankOpsCheckComponent,
     BankOpsCheckFiltersComponent,
     BankOpsCheckTableComponent,
+    AmlCheckComponent,
+    AmlCheckFiltersComponent,
+    AmlCheckTableComponent,
     SearchPaymentFiltersComponent,
     SearchPaymentTableComponent,
     PeInputComponent,
@@ -124,7 +134,11 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeBackArrowComponent,
     PeIndentComponent,
     FileUploadingModalComponent,
-    PeDropdownComponent
+    PeDropdownComponent,
+    AntiFraudCheckComponent,
+    AntiFraudDetailsComponent,
+    AntiFraudCheckFilterComponent,
+    AntiFraudCheckTableComponent
   ],
   imports: [
     BrowserModule,

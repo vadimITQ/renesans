@@ -1,0 +1,40 @@
+.aml-check-filter {
+  h5 {
+    margin-bottom: 25px;
+  }
+}
+
+.input-row {
+  display: flex;
+  margin-bottom: 35px;
+  justify-content: flex-start;
+  gap: 20px;
+  > pe-input {
+    width: 300px;
+    // width: calc(25% - 20px);
+  }
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  > date-picker {
+    margin-right: 20px;
+    margin-bottom: 35px;
+  }
+}
+
+.multiselect-row {
+  > div {
+    white-space: nowrap;
+    margin-bottom: 30px;
+    > label {
+      display: inline-block;
+      min-width: 260px;
+    }
+  }
+}
+
+:host ::ng-deep p-multiselect > div.p-multiselect.p-component.p-multiselect-chip {
+  max-width: calc(100% - 260px)
+}

@@ -9,7 +9,7 @@
   </div>
   <div class="ms-filter__forms">
     <date-picker
-      [(date)]="filter.dateTimeFrom"
+      [(ngModel)]="filter.dateTimeFrom"
       [validationMessage]="validations['dateFrom']"
       label="Дата/Время с"
       (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
@@ -19,7 +19,7 @@
   </div>
   <div class="ms-filter__forms">
     <date-picker
-      [(date)]="filter.dateTimeTo"
+      [(ngModel)]="filter.dateTimeTo"
       [validationMessage]="validations['dateTo']"
       label="Дата/Время по"
       (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"

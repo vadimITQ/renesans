@@ -13,9 +13,9 @@ export interface ISearchPaymentFilters {
   userAgent: string | null;
   chequeNumber: string | null;
   statusCode: string | null;
-  dateTimeFrom: string | null;
-  dateTimeTo: string | null;
-  plannedDate: string | null;
+  dateTimeFrom: Date | null;
+  dateTimeTo: Date | null;
+  plannedDate: Date | null;
   channelName: IMultiSelectData[];
   parentType: IMultiSelectData[];
   type: IMultiSelectData[];

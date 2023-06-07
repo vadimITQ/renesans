@@ -94,9 +94,9 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     if (!generalFieldsFilled(this.filters)) {
       const [dateFromValidation, dateToValidation] = [
         this.filters.dateTimeTo && (required(this.filters.dateTimeFrom) ||
-          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»')),
+          earlierThen(this.filters.dateTimeFrom?.toISOString() ?? null, this.filters.dateTimeTo.toISOString(), '«Дата/Время с» превышает «Дата/Время по»')),
         this.filters.dateTimeFrom && (required(this.filters.dateTimeTo) ||
-          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40)),
+          lessThanDateDiapason(this.filters.dateTimeFrom.toISOString(), this.filters.dateTimeTo?.toISOString() ?? null, 40)),
       ];
 
       this.filtersValidation = {
@@ -124,7 +124,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
       statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
-      plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
+      plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate?.toISOString() ?? null),
       channelIP: this.filters.channelIP ? invalidIpAddress(this.filters.channelIP) : null,
       channelName: "",
       codeStatuses: "",

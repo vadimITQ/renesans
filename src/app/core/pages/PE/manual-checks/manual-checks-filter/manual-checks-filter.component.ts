@@ -86,8 +86,8 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDateChange(dateFrom: string | null, dateTo: string | null) {
-    const { dateFromValidation, dateToValidation } = validateDates(dateFrom, dateTo);
+  onDateChange(dateFrom: Date | null, dateTo: Date | null) {
+    const { dateFromValidation, dateToValidation } = validateDates(dateFrom?.toISOString() ?? null, dateTo?.toISOString() ?? null);
     this.validations = {};
     this.validations['dateFrom'] = dateFromValidation;
     this.validations['dateTo'] = dateToValidation;

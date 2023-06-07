@@ -12,7 +12,7 @@
       [(ngModel)]="filter.dateTimeFrom"
       [validationMessage]="validations['dateFrom']"
       label="Дата/Время с"
-      (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
+      (DateChanged)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
       [labelStyle]="{ width: '125px' }"
     >
     </date-picker>
@@ -22,7 +22,7 @@
       [(ngModel)]="filter.dateTimeTo"
       [validationMessage]="validations['dateTo']"
       label="Дата/Время по"
-      (dateChange)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
+      (DateChanged)="onDateChange(filter.dateTimeFrom, filter.dateTimeTo)"
       [labelStyle]="{ width: '125px' }"
     >
     </date-picker>

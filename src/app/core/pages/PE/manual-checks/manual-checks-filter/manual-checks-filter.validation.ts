@@ -6,7 +6,7 @@ import { ISearchPaymentFilters } from '../../search-payment/search-payment-filte
 
 export function validateFilter(filter: ISearchPaymentFilters): { success: boolean, validationMessage: ValidationMessage } {
     const noFilter: boolean = !filter;
-    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateTimeFrom) && !!DatePickerHelper.convertToDate(filter.dateTimeTo);
+    const filterHasDates: boolean =  !!filter.dateTimeFrom && !!filter.dateTimeTo;
     const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.idPH || !!filter.account;
     if (noFilter || (!filterHasDates && !filterHasId)){
         return {
@@ -16,8 +16,8 @@ export function validateFilter(filter: ISearchPaymentFilters): { success: boolea
     }
     if (filterHasDates){
       const [dateFrom, dateTo] = [
-        DatePickerHelper.convertToDate(filter.dateTimeFrom),
-        DatePickerHelper.convertToDate(filter.dateTimeTo)
+        filter.dateTimeFrom,
+        filter.dateTimeTo
       ];
       switch (DateHelper.validateDates(dateFrom, dateTo, 40)) {
         case(DatesValidationReasons.DateFromMoreThanDateTo): {
@@ -82,7 +82,7 @@ export function validateDates(dateFrom: string | null, dateTo: string | null): V
 export function validateFilterOnEmpty(filter: ISearchPaymentFilters): Validation | null {
   const noFilter: boolean = !filter;
   console.log(filter);
-    const filterHasDates: boolean =  !!DatePickerHelper.convertToDate(filter.dateTimeFrom) || !!DatePickerHelper.convertToDate(filter.dateTimeTo);
+    const filterHasDates: boolean =  !!filter.dateTimeFrom || !!filter.dateTimeTo;
     const filterHasId: boolean = !!filter.paymentID || !!filter.applicationID || !!filter.idPH || !!filter.account;
     if (noFilter || (!filterHasDates && !filterHasId)){
         return {

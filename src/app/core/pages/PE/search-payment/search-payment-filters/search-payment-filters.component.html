@@ -36,7 +36,7 @@
       [(ngModel)]="filters.dateTimeFrom"
       [validationMessage]="filtersValidation['dateFrom']"
       label="Дата/Время с"
-      (dateChange)="validate(true)"
+      (DateChanged)="validate(true)"
       [labelStyle]="{ width: '200px' }"
     >
     </date-picker>
@@ -46,7 +46,7 @@
       [(ngModel)]="filters.dateTimeTo"
       [validationMessage]="filtersValidation['dateTo']"
       label="Дата/Время по"
-      (dateChange)="validate(true)"
+      (DateChanged)="validate(true)"
       [labelStyle]="{ width: '200px' }"
     >
     </date-picker>
@@ -56,7 +56,7 @@
       [(ngModel)]="filters.plannedDate"
       [validationMessage]="filtersValidation['plannedDate']"
       label="Дата исполнения платежа"
-      (dateChange)="validate(true)"
+      (DateChanged)="validate(true)"
       [showTime]="false"
       [labelStyle]="{ width: '200px' }"
     >

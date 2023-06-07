@@ -11,8 +11,7 @@
       label="ID Заявки"
       [(value)]="filters.applicationID"
       [validationMessage]="filtersValidation['applicationID']"
-      [maxLength]="70"
-    />
+      [maxLength]="70" />
   </div>
 
   <div class="date-row">
@@ -20,9 +19,8 @@
       [(ngModel)]="filters.dateTimeFrom"
       [validationMessage]="filtersValidation['dateTimeFrom']"
       label="Дата/Время с"
-      (dateChange)="validate(true)"
-      [labelStyle]="{ width: '200px' }"
-    >
+      (DateChanged)="validate(true)"
+      [labelStyle]="{ width: '200px' }">
     </date-picker>
   </div>
   <div class="date-row">
@@ -30,9 +28,8 @@
       [(ngModel)]="filters.dateTimeTo"
       [validationMessage]="filtersValidation['dateTimeTo']"
       label="Дата/Время по"
-      (dateChange)="validate(true)"
-      [labelStyle]="{ width: '200px' }"
-    >
+      (DateChanged)="validate(true)"
+      [labelStyle]="{ width: '200px' }">
     </date-picker>
   </div>
   <div class="multiselect-row">

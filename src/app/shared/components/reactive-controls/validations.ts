@@ -2,7 +2,6 @@ import { PEReactiveHelper } from "./utils";
 import { GlobalReactiveErrorsEnum, globalMessages } from "./global-error-messages";
 import { IFormGroupWithDates } from "./reactive-forms-modals";
 import { FormControl, FormGroup } from "@angular/forms";
-import { ToastService } from "../../services/toast.service";
 import { format } from "date-fns";
 import { dateFormat } from "../controls/date-picker/date-picker.constants";
 
@@ -29,7 +28,7 @@ export class PEGlobalValidators {
           !dateFromValue ? dateFrom.setErrors({[GlobalReactiveErrorsEnum.Required]: true }): "";
           !dateToValue ? dateTo.setErrors({[GlobalReactiveErrorsEnum.Required]: true }): "";
           group.setErrors({
-            [GlobalReactiveErrorsEnum.FormGroupNoValid]: true,
+            [GlobalReactiveErrorsEnum.FormNoValid]: true,
             [GlobalReactiveErrorsEnum.Required]: true
           });
           return;
@@ -39,7 +38,7 @@ export class PEGlobalValidators {
           dateFrom.setErrors({[GlobalReactiveErrorsEnum.DateFromMoreThanDateTo]: true});
           dateTo.setErrors({[GlobalReactiveErrorsEnum.EmptyError]: true });
           group.setErrors({
-            [GlobalReactiveErrorsEnum.FormGroupNoValid]: true,
+            [GlobalReactiveErrorsEnum.FormNoValid]: true,
             [GlobalReactiveErrorsEnum.DateFromMoreThanDateTo]: true
           });
           return;
@@ -47,10 +46,10 @@ export class PEGlobalValidators {
 
         if (range > 40){
           dateFrom.setErrors({[GlobalReactiveErrorsEnum.EmptyError]: true });
-          dateTo.setErrors({[GlobalReactiveErrorsEnum.DatesRangeLimit]: true });
+          dateTo.setErrors({[GlobalReactiveErrorsEnum.DatesRangeLimit40]: true });
           group.setErrors({
-            [GlobalReactiveErrorsEnum.FormGroupNoValid]: true,
-            [GlobalReactiveErrorsEnum.DatesRangeLimit]: true
+            [GlobalReactiveErrorsEnum.FormNoValid]: true,
+            [GlobalReactiveErrorsEnum.DatesRangeLimit40]: true
           });
           return;
         }
@@ -67,11 +66,11 @@ export class PEGlobalValidators {
         today.setHours(0, 0, 0, 0);
         if (today.getTime() > plannedDate.getTime()){
           control.setErrors({
-            [GlobalReactiveErrorsEnum.PlannedDateNoValid]: true
+            [GlobalReactiveErrorsEnum.PlannedDateLessToday]: true
           });
           group.setErrors({
-            [GlobalReactiveErrorsEnum.FormGroupNoValid]: true,
-            [GlobalReactiveErrorsEnum.PlannedDateNoValid]: true
+            [GlobalReactiveErrorsEnum.FormNoValid]: true,
+            [GlobalReactiveErrorsEnum.PlannedDateLessToday]: true
           });
         }
       }
@@ -85,15 +84,15 @@ export class PEGlobalValidators {
         return globalMessages.datesValidation[GlobalReactiveErrorsEnum.DateFromMoreThanDateTo];
       }
   
-      if (errors.includes(GlobalReactiveErrorsEnum.DatesRangeLimit)) {
-        return globalMessages.datesValidation[GlobalReactiveErrorsEnum.DatesRangeLimit];
+      if (errors.includes(GlobalReactiveErrorsEnum.DatesRangeLimit40)) {
+        return globalMessages.datesValidation[GlobalReactiveErrorsEnum.DatesRangeLimit40];
       }
   
       if (errors.includes(GlobalReactiveErrorsEnum.Required)) {
         return "Заполните обязательные поля";
       }
 
-      if (errors.includes(GlobalReactiveErrorsEnum.PlannedDateNoValid)) {
+      if (errors.includes(GlobalReactiveErrorsEnum.PlannedDateLessToday)) {
         const today = format(new Date(), dateFormat);
         return `Плановая дата не должна быть раньше, чем ${ today }`;
       }

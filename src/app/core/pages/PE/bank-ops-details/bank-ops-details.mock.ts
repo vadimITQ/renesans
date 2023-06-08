@@ -1,6 +1,18 @@
 import { IBankOpsDetails } from "./bank-ops-details.types";
 
 export const bankOpsDetailsMockData: IBankOpsDetails = {
+    infoBlock: {
+        IdPE: "test test test",
+        PeDate: "test test test",
+        FioPayment: "-",
+        writeOffAccount: "-",
+        fioRecipient: "-",
+        accountRecipient: "test test test",
+        InnRecipient: "test test test",
+        bikBankRecipient: "test test test",
+        appointment: "test test test",
+        transferAmount: "test test test",
+    },
     automaticChecksData: [
         {
             rules: "Пройдена успешно",

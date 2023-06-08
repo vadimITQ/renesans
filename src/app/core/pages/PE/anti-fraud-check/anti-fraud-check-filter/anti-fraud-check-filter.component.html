@@ -1,68 +1,56 @@
 
-<div class="anti-fraud-check-filter pe-border">
+<div class="anti-fraud-check-filter pe-border" [formGroup]="filter">
 
     <h5>AntiFraud проверка: поиск заявок</h5>
 
     <pe-indent [mBottom]="5"></pe-indent>
 
     <div class="id-inputs">
-        <pe-input 
-            label="ID PE" 
-            [(value)]="antiFraudCheckFilter.IdPE"
-            [validationMessage]="validations['IdPE']">
-        </pe-input>
+        <pe-input-form label="ID PE" [control]="filter.controls.IdPE"></pe-input-form>
         <pe-indent [mRight]="5"></pe-indent>
-        <pe-input 
-            label="ID Заявки" 
-            [(value)]="antiFraudCheckFilter.applicationId"
-            [validationMessage]="validations['applicationId']">
-        </pe-input>
+        <pe-input-form label="ID Заявки" [control]="filter.controls.applicationId"></pe-input-form>
     </div>
 
     <pe-indent [mBottom]="4"></pe-indent>
 
-    <date-picker 
+    <pe-date-picker-form
         label="Дата/время с"
-        [(date)]="antiFraudCheckFilter.dateFrom"
-        [validationMessage]="validations['dateFrom']"
-        (dateChange)="validateDates()"
+        [control]="filter.controls.dateTimeFrom"
         [labelStyle]="{ 'width': '130px' }"
         [showTime]="false">
-    </date-picker>
+    </pe-date-picker-form>
 
     <pe-indent [mBottom]="4"></pe-indent>
 
-    <date-picker 
-        label="Дата/время по" 
-        [(date)]="antiFraudCheckFilter.dateTo"
-        [validationMessage]="validations['dateTo']"
-        (dateChange)="validateDates()"
+    <pe-date-picker-form
+        label="Дата/время по"
+        [control]="filter.controls.dateTimeTo"
         [labelStyle]="{ 'width': '130px' }"
         [showTime]="false">
-    </date-picker>
+    </pe-date-picker-form>
 
     <pe-indent [mBottom]="4"></pe-indent>
 
-    <pe-multiselect 
+    <pe-multiselect-form
         label="Состояние заявки"
         placeholder="Выберите состояние заявки"
-        [(selected)]="antiFraudCheckFilter.applicationStatus"
+        [control]="filter.controls.applicationStatus"
         [dataset]="multiselectDataSets.GetAntiFraudApplicationStatus"
-        [validationMessage]="validations['applicationStatus']"
-        [labelStyle]="{ 'width': '155px' }">
-    </pe-multiselect>
+        [labelStyle]="{ 'width': '155px', display: 'block' }">
+    </pe-multiselect-form>
 
     <pe-indent [mBottom]="4"></pe-indent>
 
-    <div class="anti-fraud-checkbox" [ngClass]="{ 'onlyExpired-error': !!validations['onlyExpired'] }">
-        <p-checkbox
+    <div class="anti-fraud-checkbox">
+
+        <pe-multi-checkbox-form 
             *ngIf="showCheckbox"
-            label="Только просроченные" 
-            [(ngModel)]="antiFraudCheckFilter.onlyExpired"
-            [binary]="true">
-        </p-checkbox>
+            [horizontal]="true"
+            [control]="filter.controls.onlyExpired">
+        </pe-multi-checkbox-form>
 
         <pe-indent [mBottom]="5"></pe-indent>
+
     </div>
 
     <div class="buttons">

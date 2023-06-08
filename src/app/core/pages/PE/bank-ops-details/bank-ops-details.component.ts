@@ -2,11 +2,12 @@
 import { Component, OnInit } from "@angular/core";
 import { PeRolesService } from "src/app/core/services/auth/pe-roles.service";
 import { BankOpsDetailsService } from "src/app/core/services/bank-ops-check/bank-ops-details.service";
-import { IBankOpsDetails } from "./bank-ops-details.types";
+import { IBankOpsDetails, IBankOpsFormGroup } from "./bank-ops-details.types";
 import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
 import { LoadingService } from "src/app/shared/services/loading.service";
 import { FileUploadingModal, IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 import { ToastService } from "src/app/shared/services/toast.service";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 
 @Component({
     selector: "app-bank-ops-details",
@@ -19,9 +20,11 @@ export class BankOpsDetailsComponent implements OnInit {
         private peRolesService: PeRolesService,
         private bankOpsDetailsService: BankOpsDetailsService,
         private loading: LoadingService,
-        private toast: ToastService
+        private toast: ToastService,
+        private fb: FormBuilder
     ) { }
 
+    public bankOpsGroup: FormGroup<IBankOpsFormGroup> = this.createForm();
     public bankOpsDetailsData: IBankOpsDetails | "loading" = "loading";
     public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
     public uploadingData: IPEUploadingData[] = [];
@@ -52,9 +55,26 @@ export class BankOpsDetailsComponent implements OnInit {
         this.bankOpsDetailsService.getBankOpsDetails().subscribe(
             response => {
                 this.bankOpsDetailsData = response;
+                this.bankOpsGroup.setValue({...response.infoBlock, commentary: null});
                 PaymentEngineHelper.scrollToTop();
             }
         );
+    }
+
+    createForm(): FormGroup<IBankOpsFormGroup> {
+        return this.fb.group<IBankOpsFormGroup>({
+            IdPE: new FormControl(""),
+            PeDate: new FormControl(""),
+            FioPayment: new FormControl(""),
+            writeOffAccount: new FormControl(""),
+            fioRecipient: new FormControl(""),
+            accountRecipient: new FormControl(""),
+            InnRecipient: new FormControl(""),
+            bikBankRecipient: new FormControl(""),
+            appointment: new FormControl(""),
+            transferAmount: new FormControl(""),
+            commentary: new FormControl("")
+        });
     }
 
     addDocument() {

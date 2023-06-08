@@ -2,28 +2,27 @@
   <h5>Поиск платежа</h5>
 
   <div class="input-row">
-    <pe-input-form [errorMessages]="validation.messages" label="ID РЕ"      [control]="filter.controls.paymentID"     [maxLength]="36"></pe-input-form>
-    <pe-input-form [errorMessages]="validation.messages" label="ID Заявки"  [control]="filter.controls.applicationID" [maxLength]="70"></pe-input-form>
-    <pe-input-form [errorMessages]="validation.messages" label="ID РН"      [control]="filter.controls.idPH" ></pe-input-form>
-    <pe-input-form [errorMessages]="validation.messages" label="ID АБС"     [control]="filter.controls.docID" ></pe-input-form>
+    <pe-input-form label="ID РЕ"      [control]="filter.controls.paymentID"     [maxLength]="36"></pe-input-form>
+    <pe-input-form label="ID Заявки"  [control]="filter.controls.applicationID" [maxLength]="70"></pe-input-form>
+    <pe-input-form label="ID РН"      [control]="filter.controls.idPH" ></pe-input-form>
+    <pe-input-form label="ID АБС"     [control]="filter.controls.docID" ></pe-input-form>
   </div>
 
   <div class="input-row">
-    <pe-input-form [errorMessages]="validation.messages" label="ID Чека"          [control]="filter.controls.linkedChequeId" ></pe-input-form>
-    <pe-input-form [errorMessages]="validation.messages" label="Номер документа"  [control]="filter.controls.docNum" ></pe-input-form>
-    <pe-input-form [errorMessages]="validation.messages" label="Номер счета"      [control]="filter.controls.account" [maxLength]="35"></pe-input-form>
-    <pe-input-form [errorMessages]="validation.messages" label="Номер чека"       [control]="filter.controls.chequeNumber" ></pe-input-form>
+    <pe-input-form label="ID Чека"          [control]="filter.controls.linkedChequeId" ></pe-input-form>
+    <pe-input-form label="Номер документа"  [control]="filter.controls.docNum" ></pe-input-form>
+    <pe-input-form label="Номер счета"      [control]="filter.controls.account" [maxLength]="35"></pe-input-form>
+    <pe-input-form label="Номер чека"       [control]="filter.controls.chequeNumber" ></pe-input-form>
   </div>
 
   <div class="input-row">
-    <pe-input-form [errorMessages]="validation.messages" label="IP Адрес"    [control]="filter.controls.channelIP" [regExprValidation]="IP_REG_EXPR" [maxLength]="35"></pe-input-form>
-    <pe-input-form [errorMessages]="validation.messages" label="User Agent"  [control]="filter.controls.userAgent" ></pe-input-form>
+    <pe-input-form label="IP Адрес"    [control]="filter.controls.channelIP" [regExprValidation]="IP_REG_EXPR" [maxLength]="35"></pe-input-form>
+    <pe-input-form label="User Agent"  [control]="filter.controls.userAgent" ></pe-input-form>
   </div>
 
   <div class="date-row">
     <pe-date-picker-form
       [control]="filter.controls.dateTimeFrom"
-      [errorMessages]="validation.messages"
       label="Дата/Время с"
       [labelStyle]="{ 'width': '200px' }">
     </pe-date-picker-form>
@@ -31,7 +30,6 @@
   <div class="date-row">
     <pe-date-picker-form
       [control]="filter.controls.dateTimeTo"
-      [errorMessages]="validation.messages"
       label="Дата/Время по"
       [labelStyle]="{ 'width': '200px' }">
     </pe-date-picker-form>
@@ -39,7 +37,6 @@
   <div class="date-row">
     <pe-date-picker-form
       [control]="filter.controls.plannedDate"
-      [errorMessages]="validation.messages"
       label="Дата исполнения платежа"
       [labelStyle]="{ 'width': '200px' }"
       [showTime]="false">
@@ -50,7 +47,6 @@
       <pe-multiselect-form
         [control]="filter.controls.channelName"
         [dataset]="multiselectDataSetsEnum.GetReceivingChanelOptions"
-        [errorMessages]="validation.messages"
         placeholder="Выберите канал поступления заявки"
         label="Канал поступления заявки"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}">
@@ -60,7 +56,6 @@
       <pe-multiselect-form
         [control]="filter.controls.codeStatuses"
         [dataset]="multiselectDataSetsEnum.GetPaymentStatuses"
-        [errorMessages]="validation.messages"
         placeholder="Выберите статус"
         label="Статус"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}">
@@ -70,7 +65,6 @@
       <pe-multiselect-form
         [control]="filter.controls.parentType"
         [dataset]="multiselectDataSetsEnum.GetObjectTypeOptions"
-        [errorMessages]="validation.messages"
         placeholder="Выберите тип объекта создавшего запрос"
         label="Тип объекта создавшего запрос"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}">
@@ -80,7 +74,6 @@
       <pe-multiselect-form
         [control]="filter.controls.type"
         [dataset]="multiselectDataSetsEnum.GetManualChecksTransferTypes"
-        [errorMessages]="validation.messages"
         placeholder="Выберите тип перевода"
         label="Тип перевода"
         [labelStyle]="{'min-width': '260px', 'display': 'block'}">

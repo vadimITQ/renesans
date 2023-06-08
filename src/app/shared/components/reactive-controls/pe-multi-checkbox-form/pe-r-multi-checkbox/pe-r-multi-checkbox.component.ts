@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from "@angular/forms";
 
 export interface IMultiCheckboxData {
     value: boolean;
@@ -30,6 +30,7 @@ export class PeRMultiCheckboxForm implements ControlValueAccessor {
 
     @Input() title: string = '';
     @Input() horizontal: boolean = false;
+    @Input() hasError: boolean = false;
 
     writeValue(values: IMultiCheckboxData[]): void {
         this.values = values;

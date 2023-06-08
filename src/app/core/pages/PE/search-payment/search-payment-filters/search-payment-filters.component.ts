@@ -19,7 +19,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     private searchPaymentService: SearchPaymentService,
     private changeDetectionRef: ChangeDetectorRef,
     private searchPaymentsUtils: SearchPaymentsFilterUtils,
-    public validation: SearchPaymentFilterValidation
+    private validation: SearchPaymentFilterValidation
   ) {}
 
   public filter: FormGroup<ISearchPaymentFilterForm> = this.searchPaymentsUtils.createDefaultFilterFormGroup();

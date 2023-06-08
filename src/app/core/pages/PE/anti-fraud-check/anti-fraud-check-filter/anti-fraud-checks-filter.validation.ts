@@ -1,17 +1,14 @@
 
-import { ErrorMesssagesList } from "src/app/shared/components/reactive-controls/global-error-messages";
-import { Validation } from "../../../../../shared/validation/types";
-import { AntiFraudCheckFilter } from "./anti-fraud-checks-filter.types";
+import { ErrorMesssagesList, GlobalReactiveErrorsEnum } from "src/app/shared/components/reactive-controls/global-error-messages";
+import { AntiFraudCheckFilterForm } from "./anti-fraud-checks-filter.types";
 import { Injectable } from "@angular/core";
-import { globalMessages, GlobalReactiveErrorsEnum} from "src/app/shared/components/reactive-controls/global-error-messages";
+import { globalMessages } from "src/app/shared/components/reactive-controls/global-error-messages";
+import { FormGroup, ValidationErrors } from "@angular/forms";
+import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/utils";
+import { PEGlobalValidators } from "src/app/shared/components/reactive-controls/validations";
 
 export enum ValidationErrorsEnum {
-    ValidateOnEmpty = "validateOnEmpty",
-    Required = "required",
-    DateFromMoreThanDateTo = "dateFromMoreThanDateTo",
-    DatesRangeLimit = "datesRangeLimit",
-    EmptyError = "emptyError",
-    AntiFraudChecksFilterNoValid = "antiFraudChecksNoValid"
+    AntiFraudChecksFilterNoValid = "bankOpsCheckFilterNoValid"
 }
 
 @Injectable({
@@ -19,20 +16,54 @@ export enum ValidationErrorsEnum {
 })
 export class AntiFraudChecksValidation {
 
-    readonly messages: ErrorMesssagesList = globalMessages.datesValidation;
+    readonly messages: ErrorMesssagesList = {
+      ...globalMessages.datesValidation,
+      ...globalMessages.formValidations,
+      [ValidationErrorsEnum.AntiFraudChecksFilterNoValid]: "  "
+    }
 
-    static validateAnyField(filter: AntiFraudCheckFilter): Validation | null {
-        let validation: Validation | null = null;
-        if (!filter.IdPE && !filter.applicationId && !filter.dateFrom && !filter.dateTo){
-            validation = {};
-            validation['IdPE'] = '  ';
-            validation['applicationId'] = '  ';
-            validation['dateFrom'] = '  ';
-            validation['dateTo'] = '  ';
-            !filter.applicationStatus || !filter.applicationStatus.length ? validation['applicationStatus'] = '  ': '';
-            !filter.onlyExpired ? validation['onlyExpired'] = '  ': '';
+    public validateFilter(group: FormGroup<AntiFraudCheckFilterForm>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
+      
+        group.markAllAsTouched();
+    
+        PEReactiveHelper.clearErrors(group);
+    
+        PEGlobalValidators.validateDates(group);
+        
+        if (triggeredBySubmitButton) {
+          this.validateOnEmpty(group);
         }
-        return validation;
+    
+        return null;
+    
+    }
+
+    public validateOnEmpty(group: FormGroup<AntiFraudCheckFilterForm>): void {
+        const { 
+            IdPE,
+            applicationId,
+            dateTimeFrom,
+            dateTimeTo
+        } = group.controls;
+
+        const emptyValidation = [
+            IdPE.value,
+            applicationId.value,
+            dateTimeFrom.value,
+            dateTimeTo.value
+        ].every(v => !v);
+        
+        if ((group.touched || group.dirty) && emptyValidation){
+          Object.keys(group.controls).forEach(key => {
+            group.get(key)?.setErrors({ [GlobalReactiveErrorsEnum.EmptyError]: true });
+          })
+          group.setErrors(
+            {
+              [ValidationErrorsEnum.AntiFraudChecksFilterNoValid]: true,
+              [GlobalReactiveErrorsEnum.ValidateOnEmpty]: true
+            }
+          );
+        }
     }
 
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { AbstractControl, FormControl } from "@angular/forms";
 import { defaultExpr, defaultLength } from "src/app/shared/variables/pe-input-validations";
-import { ErrorMesssagesList } from "../global-error-messages";
+import { ErrorMesssagesList, globalMessages } from "../global-error-messages";
 import { PEReactiveHelper } from "../utils";
 
 @Component({
@@ -21,7 +21,9 @@ export class PeRInputComponent implements OnInit {
 
     @Input() label: string = '';
 
-    @Input() errorMessages: ErrorMesssagesList = {};
+    @Input() errorMessages: ErrorMesssagesList = globalMessages.inputValidation;
+
+    @Input() labelStyle!: { [key: string]: string };;
 
     @Input() set control(abstractControl: AbstractControl | FormControl){
         if (PEReactiveHelper.isFormControl(abstractControl)){

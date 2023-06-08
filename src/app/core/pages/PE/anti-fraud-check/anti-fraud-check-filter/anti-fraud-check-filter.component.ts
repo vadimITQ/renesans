@@ -2,12 +2,14 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { RolesService } from "src/app/core/services/auth/roles.service";
 import { MultiselectDataSets } from "src/app/shared/enums/datasets.enums";
-import { AntiFraudCheckFilter } from "./anti-fraud-checks-filter.types";
+import { AntiFraudCheckFilter, AntiFraudCheckFilterForm } from "./anti-fraud-checks-filter.types";
 import { AntiFraudChecksFilterUtils } from "./anti-fraud-checks-filter.utils";
 import { Validation } from "src/app/shared/validation/types";
 import { AntiFraudChecksValidation } from "./anti-fraud-checks-filter.validation";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { AntiFraudCheckService } from "src/app/core/services/anti-fraud-checks/anti-fraud-check.service";
+import { FormGroup } from "@angular/forms";
+import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/utils";
 
 @Component({
     selector: "pe-anti-fraud-check-filter",
@@ -19,13 +21,13 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
     constructor(
         private rolesService: RolesService,
         private changeDetector: ChangeDetectorRef,
-        private toast: ToastService,
-        private antiFraudCheckService: AntiFraudCheckService
+        private antiFraudCheckService: AntiFraudCheckService,
+        private utils: AntiFraudChecksFilterUtils,
+        private validation: AntiFraudChecksValidation
     ) {}
 
     public multiselectDataSets: typeof MultiselectDataSets = MultiselectDataSets;
-    public antiFraudCheckFilter!: AntiFraudCheckFilter;
-    public validations: Validation = {};
+    public filter: FormGroup<AntiFraudCheckFilterForm> = this.utils.createDefaultFilter();
 
     get showCheckbox(): boolean {
         return true;
@@ -33,70 +35,27 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.log(this.antiFraudCheckService.$filter.value);
-        this.antiFraudCheckService.$filter.next(this.antiFraudCheckFilter);
+        this.antiFraudCheckService.$filter.next(this.filter);
     }
 
     ngOnInit(): void {
         if (!!this.antiFraudCheckService.$filter.value){
-            this.antiFraudCheckFilter = this.antiFraudCheckService.$filter.value;
+            this.filter = this.antiFraudCheckService.$filter.value;
         }
-        else {
-            this.antiFraudCheckFilter = AntiFraudChecksFilterUtils.getDefaultFilter();
-        }
-        
         this.changeDetector.detectChanges();
     }
 
     public clear(): void {
-        this.antiFraudCheckFilter = { 
-            ...AntiFraudChecksFilterUtils.getDefaultFilter(),
-            dateFrom: null,
-            dateTo: null
-        };
-        this.validations = {};
+        PEReactiveHelper.resetForm(this.filter);
     }
 
     public search(): void {
-        if (this.valid()) {
-            this.antiFraudCheckService.filter(this.antiFraudCheckFilter);
+        this.validation.validateFilter(this.filter, true);
+        if (this.filter.valid) {
+            this.antiFraudCheckService.filter(this.utils.prepareFilterValues(this.filter));
         }
         else {
-            console.log("filter is not valid");
-        }
-    }
-
-    valid(): boolean {
-
-        const validationAnyField = AntiFraudChecksValidation.validateAnyField(this.antiFraudCheckFilter);
-        if (!!validationAnyField){
-            this.validations = { ...this.validations,  ...validationAnyField };
-            this.toast.showErrorToast("Заполните хотя бы одно из полей фильтров или укажите интервал дат");
-            return false;
-        }
-
-        const datesValid = this.validateDates();
-        if (!datesValid){
-            return false;
-        }
-
-        return true;
-
-    }
-
-    public validateDates(): boolean {
-        this.validations = {};
-        // const { dateFromValidation, dateToValidation } = validateDates(
-        //     this.antiFraudCheckFilter.dateFrom, 
-        //     this.antiFraudCheckFilter.dateTo
-        // );
-        // this.validations["dateFrom"] = dateFromValidation;
-        // this.validations["dateTo"] = dateToValidation;
-        if (!!this.validations["dateFrom"] || !!this.validations["dateTo"]) {
-            return false;
-        } 
-        else {
-            return true;
+            this.utils.showErrorMessages(this.filter);
         }
     }
 

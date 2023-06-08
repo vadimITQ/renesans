@@ -2,7 +2,7 @@
 <div [class]="{'multi-checkbox': true, 'multi-checkbox-vertical': horizontal}">
   <label>{{ title }}</label>
   <div [class]="{'checkboxes-container': true, 'checkboxes-container-vertical': horizontal}">
-    <div class="checkbox" *ngFor="let data of values">
+    <div class="checkbox" [ngClass]="{'formHasError': hasError }" *ngFor="let data of values">
       <p-checkbox [name]="data.label" [(ngModel)]="data.value" [binary]="true" (onChange)="onValueChanged()" [inputId]="data.label"></p-checkbox>
       <label [for]="data.label">{{ data.label }}</label>
     </div>

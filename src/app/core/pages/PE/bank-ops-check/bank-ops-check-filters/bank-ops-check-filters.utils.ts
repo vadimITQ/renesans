@@ -61,9 +61,9 @@ export class BankOpsCheckFilterUtils {
   showErrorMessages(filter: FormGroup<IBankOpsCheckFilterForm>): void {
     const errors = Object.keys(filter.errors ?? {});
 
-    if (errors.includes(ValidationErrorsEnum.ValidateOnEmpty)) {
+    if (errors.includes(GlobalReactiveErrorsEnum.ValidateOnEmpty)) {
       this.toast.showErrorToast(
-        this.validation.messages[ValidationErrorsEnum.ValidateOnEmpty]
+        this.validation.messages[GlobalReactiveErrorsEnum.ValidateOnEmpty]
       );
       return;
     }

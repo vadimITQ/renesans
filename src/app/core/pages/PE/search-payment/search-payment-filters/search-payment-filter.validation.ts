@@ -7,9 +7,7 @@ import { PEGlobalValidators } from "src/app/shared/components/reactive-controls/
 import { DatePipe } from "@angular/common";
 
 export enum ValidationErrorsEnum {
-    ValidateOnEmpty = "validateOnEmpty",
-    SearchPaymentsFormNoValid = "searchPaymentsFormNoValid",
-    PlannedDateNoValid = "plannedDateNoValid"
+    SearchPaymentsFormNoValid = "searchPaymentsFormNoValid"
 }
 
 @Injectable({
@@ -27,9 +25,8 @@ export class SearchPaymentFilterValidation {
 
     readonly messages: ErrorMesssagesList = {
       ...globalMessages.datesValidation,
-      [ValidationErrorsEnum.SearchPaymentsFormNoValid]: " ",
-      [ValidationErrorsEnum.ValidateOnEmpty]: "Заполните хотя бы одно из полей фильтров или укажите интервал дат",
-      [ValidationErrorsEnum.PlannedDateNoValid]: `Не должно быть раньше, чем ${ this.datePipe.transform(this.today, "dd/MM/yyyy") }` 
+      ...globalMessages.formValidations,
+      [ValidationErrorsEnum.SearchPaymentsFormNoValid]: "  "
     }
 
     public validateFilter(group: FormGroup<ISearchPaymentFilterForm>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
@@ -101,7 +98,7 @@ export class SearchPaymentFilterValidation {
         group.setErrors(
           {
             [ValidationErrorsEnum.SearchPaymentsFormNoValid]: true,
-            [ValidationErrorsEnum.ValidateOnEmpty]: true
+            [GlobalReactiveErrorsEnum.ValidateOnEmpty]: true
           }
         );
       }

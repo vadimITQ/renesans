@@ -19,7 +19,7 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
     private changeDetectionRef: ChangeDetectorRef,
     private bankOpsService: BankOpsCheckService,
     private bankOpsUtils: BankOpsCheckFilterUtils,
-    public validation: BankOpsCheckFilterValidation
+    private validation: BankOpsCheckFilterValidation
   ) {}
 
   public filter: FormGroup<IBankOpsCheckFilterForm> = this.bankOpsUtils.createDefaultForm();
@@ -30,7 +30,6 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log()
     if (this.bankOpsCheckService.$filter.value) {
       this.filter = this.bankOpsCheckService.$filter.value;
     }

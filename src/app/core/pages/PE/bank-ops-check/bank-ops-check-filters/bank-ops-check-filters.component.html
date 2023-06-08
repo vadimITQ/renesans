@@ -5,14 +5,12 @@
     <pe-input-form 
       label="ID PE"
       [control]="filter.controls.paymentID"
-      [maxLength]="36"
-      [errorMessages]="validation.messages">
+      [maxLength]="36">
     </pe-input-form>
     <pe-input-form 
       label="ID Заявки"
       [control]="filter.controls.applicationID"
-      [maxLength]="70"
-      [errorMessages]="validation.messages">
+      [maxLength]="70">
     </pe-input-form>
   </div>
 
@@ -20,8 +18,7 @@
     <pe-date-picker-form 
       [control]="filter.controls.dateTimeFrom"
       label="Дата/Время с"
-      [labelStyle]="{ width: '200px' }"
-      [errorMessages]="validation.messages">
+      [labelStyle]="{ width: '200px' }">
     </pe-date-picker-form>
   </div>
   
@@ -29,8 +26,7 @@
     <pe-date-picker-form 
       [control]="filter.controls.dateTimeTo"
       label="Дата/Время по"
-      [labelStyle]="{ width: '200px' }"
-      [errorMessages]="validation.messages">
+      [labelStyle]="{ width: '200px' }">
     </pe-date-picker-form>
   </div>
 
@@ -41,8 +37,7 @@
         [dataset]="multiselectDataSetsEnum.GetApplicationStatuses"
         placeholder="Выберите состояние заявки"
         label="Состояния заявки"
-        [labelStyle]="{ 'min-width': '225px', display: 'block' }"
-        [errorMessages]="validation.messages">
+        [labelStyle]="{ 'min-width': '225px', display: 'block' }">
       </pe-multiselect-form>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { defaultExpr, defaultLength } from "../../../variables/pe-input-validations";
 import { AbstractControl, FormControl } from "@angular/forms";
-import { ErrorMesssagesList } from "../global-error-messages";
+import { ErrorMesssagesList, globalMessages } from "../global-error-messages";
 import { PEReactiveHelper } from "../utils";
 
 @Component({
@@ -23,7 +23,7 @@ export class PeRTextareaComponent {
 
     @Input() label: string = '';
 
-    @Input() errorMessages: ErrorMesssagesList = {};
+    @Input() errorMessages: ErrorMesssagesList = globalMessages.textareaValidation;
 
     @Input() set control(abstractControl: AbstractControl | FormControl) {
       if (PEReactiveHelper.isFormControl(abstractControl)){

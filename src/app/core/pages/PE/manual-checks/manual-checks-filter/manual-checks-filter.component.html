@@ -3,25 +3,23 @@
     <h5>Ручной разбор ошибочных переводов/платежей</h5>
 
     <div class="ms-filter__forms">
-        <pe-input-form label="ID PE"       [control]="filter.controls['paymentID']"     [errorMessages]="validation.messages" [maxLength]="36"></pe-input-form>
-        <pe-input-form label="ID Заявки"   [control]="filter.controls['applicationID']" [errorMessages]="validation.messages" [maxLength]="70"></pe-input-form>
-        <pe-input-form label="ID PH"       [control]="filter.controls['idPH']"          [errorMessages]="validation.messages" ></pe-input-form>
-        <pe-input-form label="Номер счета" [control]="filter.controls['account']"       [errorMessages]="validation.messages" ></pe-input-form>
+        <pe-input-form label="ID PE"       [control]="filter.controls['paymentID']"     [maxLength]="36"></pe-input-form>
+        <pe-input-form label="ID Заявки"   [control]="filter.controls['applicationID']" [maxLength]="70"></pe-input-form>
+        <pe-input-form label="ID PH"       [control]="filter.controls['idPH']"          ></pe-input-form>
+        <pe-input-form label="Номер счета" [control]="filter.controls['account']"       ></pe-input-form>
     </div>
     <div class="ms-filter__forms">
         <pe-date-picker-form 
             label="Дата/Время с"
             [control]="filter.controls['dateTimeFrom']"
-            [labelStyle]="{ 'width': '125px' }"
-            [errorMessages]="validation.messages">
+            [labelStyle]="{ 'width': '125px' }">
         </pe-date-picker-form>
     </div>
     <div class="ms-filter__forms">
         <pe-date-picker-form
             label="Дата/Время по"
             [control]="filter.controls['dateTimeTo']"
-            [labelStyle]="{ 'width': '125px' }"
-            [errorMessages]="validation.messages">
+            [labelStyle]="{ 'width': '125px' }">
         </pe-date-picker-form>
     </div>
     <div class="ms-filter__multiselect-forms">
@@ -30,8 +28,7 @@
             label="Канал поступления заявки"
             [control]="filter.controls['channelName']"
             placeholder="Выберите канал поступления заявки"
-            [labelStyle]="{'min-width': '235px', 'display': 'block'}"
-            [errorMessages]="validation.messages">
+            [labelStyle]="{'min-width': '235px', 'display': 'block'}">
         </pe-multiselect-form>
     </div>
     <div class="ms-filter__multiselect-forms">
@@ -40,8 +37,7 @@
             label="Статус"
             [control]="filter.controls['codeStatuses']"
             placeholder="Выберите статус"
-            [labelStyle]="{'min-width': '235px', 'display': 'block'}"
-            [errorMessages]="validation.messages">
+            [labelStyle]="{'min-width': '235px', 'display': 'block'}">
         </pe-multiselect-form>
     </div>
     <div class="ms-filter__multiselect-forms">
@@ -50,8 +46,7 @@
             label="Тип перевода"
             [control]="filter.controls['parentType']"
             placeholder="Выберите тип перевода"
-            [labelStyle]="{'min-width': '235px', 'display': 'block'}"
-            [errorMessages]="validation.messages">
+            [labelStyle]="{'min-width': '235px', 'display': 'block'}">
         </pe-multiselect-form>
     </div>
 

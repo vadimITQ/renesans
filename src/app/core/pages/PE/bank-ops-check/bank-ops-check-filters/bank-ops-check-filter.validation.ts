@@ -6,7 +6,6 @@ import { PEGlobalValidators } from "src/app/shared/components/reactive-controls/
 import { IBankOpsCheckFilterForm } from "./bank-ops-check-filters.types";
 
 export enum ValidationErrorsEnum {
-    ValidateOnEmpty = "validateOnEmpty",
     BankOpsCheckFilterNoValid = "bankOpsCheckFilterNoValid"
 }
 
@@ -19,8 +18,8 @@ export class BankOpsCheckFilterValidation {
 
     readonly messages: ErrorMesssagesList = {
       ...globalMessages.datesValidation,
-      [ValidationErrorsEnum.BankOpsCheckFilterNoValid]: " ",
-      [ValidationErrorsEnum.ValidateOnEmpty]: "Заполните хотя бы одно из полей фильтров или укажите интервал дат"
+      ...globalMessages.formValidations,
+      [ValidationErrorsEnum.BankOpsCheckFilterNoValid]: " "
     }
 
     public validateFilter(group: FormGroup<IBankOpsCheckFilterForm>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
@@ -62,7 +61,7 @@ export class BankOpsCheckFilterValidation {
         group.setErrors(
           {
             [ValidationErrorsEnum.BankOpsCheckFilterNoValid]: true,
-            [ValidationErrorsEnum.ValidateOnEmpty]: true
+            [GlobalReactiveErrorsEnum.ValidateOnEmpty]: true
           }
         );
       }

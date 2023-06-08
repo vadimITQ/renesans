@@ -18,8 +18,7 @@ export class SearchPaymentsFilterUtils {
   constructor(
     private fb: FormBuilder,
     private validation: SearchPaymentFilterValidation,
-    private toast: ToastService,
-    private datePipe: DatePipe
+    private toast: ToastService
   ) { }
   
   createDefaultFilterFormGroup(): FormGroup<ISearchPaymentFilterForm> {
@@ -58,9 +57,9 @@ export class SearchPaymentsFilterUtils {
   showErrorMessages(filter: FormGroup<ISearchPaymentFilterForm>) {
     const errors = Object.keys(filter.errors ?? {});
 
-      if (errors.includes(ValidationErrorsEnum.ValidateOnEmpty)){
+      if (errors.includes(GlobalReactiveErrorsEnum.ValidateOnEmpty)){
         this.toast.showErrorToast(
-          this.validation.messages[ValidationErrorsEnum.ValidateOnEmpty]
+          this.validation.messages[GlobalReactiveErrorsEnum.ValidateOnEmpty]
         );
         return;
       }

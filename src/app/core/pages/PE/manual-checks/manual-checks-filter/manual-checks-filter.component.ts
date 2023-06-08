@@ -19,7 +19,7 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     private mcService: ManualChecksService,
     private manualChecksHelper: ManualChecksHelper,
     private changeDetector: ChangeDetectorRef,
-    public validation: ManualChecksValidation
+    private validation: ManualChecksValidation
   ) {}
 
   public multiselectDataSetsEnum = MultiselectDataSets;

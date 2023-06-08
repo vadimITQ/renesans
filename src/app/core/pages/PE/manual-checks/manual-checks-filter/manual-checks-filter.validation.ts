@@ -8,9 +8,7 @@ import { ManualChecksFilter } from "./manual-checks-filter.types";
 import { globalMessages } from "src/app/shared/components/reactive-controls/global-error-messages";
 
 export enum ValidationErrorsEnum {
-  ManualChecksFormNoValid = "manualChecksFormNoValid",
-  ValidateOnEmpty = "validateOnEmpty",
-  ValidateOnEmptyControl = "validateOnEmptyControl"
+  ManualChecksFormNoValid = "manualChecksFormNoValid"
 }
 
 @Injectable({
@@ -22,9 +20,8 @@ export class ManualChecksValidation {
 
   readonly messages: ErrorMesssagesList = {
     ...globalMessages.datesValidation,
-    [ValidationErrorsEnum.ManualChecksFormNoValid]: " ",
-    [ValidationErrorsEnum.ValidateOnEmpty]: "Заполните хотя бы одно из полей фильтров или укажите интервал дат",
-    [ValidationErrorsEnum.ValidateOnEmptyControl]: "  ",
+    ...globalMessages.formValidations,
+    [ValidationErrorsEnum.ManualChecksFormNoValid]: "  "
   }
 
   public validateFilter(group: FormGroup<ManualChecksFilter>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
@@ -60,7 +57,7 @@ export class ManualChecksValidation {
           [ValidationErrorsEnum.ManualChecksFormNoValid]: {
             value: true
           },
-          [ValidationErrorsEnum.ValidateOnEmpty]: {
+          [GlobalReactiveErrorsEnum.ValidateOnEmpty]: {
             value: true
           }
         }

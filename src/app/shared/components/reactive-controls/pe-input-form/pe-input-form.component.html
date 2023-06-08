@@ -13,7 +13,7 @@
       [disabled]="disabled"
       [allowedInputCharactersReg]="regExprValidation"
     />
-    <label for="input">{{ label }}</label>
+    <label for="input" [ngStyle]="labelStyle">{{ label }}</label>
   </span>
   <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
     <ng-container *ngFor="let error of control.errors | keyvalue">

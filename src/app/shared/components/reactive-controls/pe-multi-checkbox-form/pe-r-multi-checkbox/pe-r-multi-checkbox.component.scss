@@ -1,5 +1,7 @@
+
+@import "/src/app/shared/styles/variables.scss";
+
 .multi-checkbox{
-    display: flex;
     align-items: center;
     gap: 20px;
   
@@ -24,4 +26,10 @@
     align-items: center;
     gap: 5px
   }
+
+  :host ::ng-deep {
+    div.formHasError > p-checkbox > div.p-checkbox.p-component > div.p-checkbox-box {
+        border-color: $errorColor;
+    }
+}
   

@@ -18,6 +18,7 @@ export class PeMultiCheckboxComponent {
   @Input() get value() {
     return this._value;
   }
+
   @Output() valueChange = new EventEmitter();
 
   set value(newValue) {

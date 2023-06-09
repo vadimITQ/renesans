@@ -20,11 +20,7 @@ import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
   styleUrls: ['./manual-checks-filter.component.scss'],
 })
 export class ManualChecksFilterComponent implements OnInit, OnDestroy {
-  constructor(
-    private mcService: ManualChecksService, 
-    private changeDetectionRef: ChangeDetectorRef, 
-    private toastService: ToastService
-  ) {}
+  constructor(private mcService: ManualChecksService, private changeDetectionRef: ChangeDetectorRef, private toastService: ToastService) {}
 
   @ViewChild('dateFromRef') dateFromRef!: Calendar;
   @ViewChild('dateToRef') dateToRef!: Calendar;

@@ -52,7 +52,13 @@
 
     <div>
       <button pButton class="pe-button-red mr-2" label="Отменить" (click)="cancelPayments()"></button>
-      <button pButton [loading]="searchPaymentService.$reportLoading.value" class="pe-button mr-2" [label]="'Сформировать отчет'" (click)="generateReport()"></button>
+      <button
+        pButton
+        [loading]="searchPaymentService.$reportLoading.value"
+        class="pe-button mr-2"
+        [label]="'Сформировать отчет'"
+        (click)="generateReport()"
+      ></button>
       <button pButton class="pe-button" [label]="'Сформировать отчет СБП'" (click)="generateSbpReport()" [disabled]="true"></button>
     </div>
   </ng-container>

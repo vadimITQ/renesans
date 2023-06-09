@@ -51,22 +51,18 @@ import { PeHeaderComponent } from './core/pages/PE/pe-header/pe-header.component
 import { PeFooterComponent } from './core/pages/PE/pe-footer/pe-footer.component';
 import { PaymentEngineInitializerService } from './core/services/payment-engine-initializer/payment-engine-initializer';
 import { PeMuitiselectComponent } from './shared/components/controls/pe-multiselect/pe-multiselect.component';
-import {BankOpsCheckComponent} from "./core/pages/PE/bank-ops-check/bank-ops-check.component";
-import {
-  BankOpsCheckFiltersComponent
-} from "./core/pages/PE/bank-ops-check/bank-ops-check-filters/bank-ops-check-filters.component";
-import {
-  BankOpsCheckTableComponent
-} from "./core/pages/PE/bank-ops-check/bank-ops-check-table/bank-ops-check-table.component";
-import { BankOpsDetailsComponent } from "./core/pages/PE/bank-ops-details/bank-ops-details.component";
-import { PeBackArrowComponent } from "./shared/components/back-arrow/back-arrow.component";
-import { PeIndentComponent } from "./shared/components/pe-indent/pe-indent-component";
+import { BankOpsCheckComponent } from './core/pages/PE/bank-ops-check/bank-ops-check.component';
+import { BankOpsCheckFiltersComponent } from './core/pages/PE/bank-ops-check/bank-ops-check-filters/bank-ops-check-filters.component';
+import { BankOpsCheckTableComponent } from './core/pages/PE/bank-ops-check/bank-ops-check-table/bank-ops-check-table.component';
+import { BankOpsDetailsComponent } from './core/pages/PE/bank-ops-details/bank-ops-details.component';
+import { PeBackArrowComponent } from './shared/components/back-arrow/back-arrow.component';
+import { PeIndentComponent } from './shared/components/pe-indent/pe-indent-component';
 import { BadgeModule } from 'primeng/badge';
 import { FileUploadingModalComponent } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.component';
 import { DialogModule } from 'primeng/dialog';
-import { PeDropdownComponent } from "src/app/shared/components/controls/pe-dropdown/pe-dropdown.component";
+import { PeDropdownComponent } from 'src/app/shared/components/controls/pe-dropdown/pe-dropdown.component';
 
-export function startPaymentEngine(initService: PaymentEngineInitializerService){
+export function startPaymentEngine(initService: PaymentEngineInitializerService) {
   return () => initService.init();
 }
 
@@ -110,7 +106,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeBackArrowComponent,
     PeIndentComponent,
     FileUploadingModalComponent,
-    PeDropdownComponent
+    PeDropdownComponent,
   ],
   imports: [
     BrowserModule,
@@ -132,12 +128,12 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     BadgeModule,
     DialogModule,
     TranslateModule.forRoot({
-      loader:{
+      loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
     AuthGuard,
@@ -156,8 +152,8 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
       provide: APP_INITIALIZER,
       useFactory: startPaymentEngine,
       multi: true,
-      deps: [PaymentEngineInitializerService]
-    }
+      deps: [PaymentEngineInitializerService],
+    },
   ],
   bootstrap: [AppComponent],
 })

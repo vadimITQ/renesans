@@ -1,19 +1,16 @@
-
 <div class="mso-filter">
-    <h5 class="mb-3">Мониторинг на регулярные переводы и платежи</h5>
+  <h5 class="mb-3">Мониторинг на регулярные переводы и платежи</h5>
 
-    <div class="row">
-        <div class="mr-3">
-            Дата исполнения
-        </div>
-        <div class="mr-3">
-            <p-calendar [(ngModel)]="executionDate" #calendar></p-calendar>
-        </div>
-        <div class="mr-3 c-pointer">
-            <i class="pi pi-calendar" (click)="openCalendar()"></i>
-        </div>
-        <div>
-            <button pButton class="pe-button" [label]="'Обновить'" (click)="refreshData()"></button>
-        </div>
+  <div class="row">
+    <div class="mr-3">Дата исполнения</div>
+    <div class="mr-3">
+      <p-calendar [(ngModel)]="executionDate" #calendar></p-calendar>
     </div>
+    <div class="mr-3 c-pointer">
+      <i class="pi pi-calendar" (click)="openCalendar()"></i>
+    </div>
+    <div>
+      <button pButton class="pe-button" [label]="'Обновить'" (click)="refreshData()"></button>
+    </div>
+  </div>
 </div>

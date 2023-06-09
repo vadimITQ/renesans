@@ -1,6 +1,6 @@
-<div [class]="{'multi-checkbox': true, 'multi-checkbox-vertical': vertical}">
+<div [class]="{ 'multi-checkbox': true, 'multi-checkbox-vertical': vertical }">
   <label>{{ title }}</label>
-  <div [class]="{'checkboxes-container': true, 'checkboxes-container-vertical': vertical}">
+  <div [class]="{ 'checkboxes-container': true, 'checkboxes-container-vertical': vertical }">
     <div class="checkbox" *ngFor="let data of values">
       <p-checkbox [name]="data.value" [value]="data.value" [(ngModel)]="value" [inputId]="data.value"></p-checkbox>
       <label [for]="data.value">{{ data.label }}</label>

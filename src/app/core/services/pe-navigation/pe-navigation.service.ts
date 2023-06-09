@@ -5,48 +5,40 @@ import { AuthService } from '../auth/auth.service';
 import { Location } from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PeNavigationService {
-
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private location: Location
-  ) { }
+  constructor(private router: Router, private authService: AuthService, private location: Location) {}
 
   public goToSpecificPath(path: string[], extras?: NavigationExtras | undefined) {
     this.router.navigate([RouterPath.PaymentEngine, ...path], extras);
   }
 
-  public goToHome(){
+  public goToHome() {
     this.goToSearchPayment();
   }
 
-  public goToLogin(logOut?: boolean){
-    logOut 
-      ? this.authService.logout()
-      : this.router.navigate([RouterPath.Login]);
+  public goToLogin(logOut?: boolean) {
+    logOut ? this.authService.logout() : this.router.navigate([RouterPath.Login]);
   }
 
-  public goBack(){
+  public goBack() {
     this.location.back();
   }
 
-  public goToManualChecks(){
+  public goToManualChecks() {
     this.goToSpecificPath([RouterPath.ManualChecks]);
   }
 
-  public goToSearchPayment(){
+  public goToSearchPayment() {
     this.goToSpecificPath([RouterPath.SearchPayment]);
   }
 
   public goToViewTransferDetails(id: number | string) {
-    this.goToSpecificPath([RouterPath.ViewTransferDetails, '' + id])
+    this.goToSpecificPath([RouterPath.ViewTransferDetails, '' + id]);
   }
 
-  public goToBankOpsDetails(id: number | string){
-    this.goToSpecificPath([RouterPath.BankOpsDetails, '' + id])
+  public goToBankOpsDetails(id: number | string) {
+    this.goToSpecificPath([RouterPath.BankOpsDetails, '' + id]);
   }
-
 }

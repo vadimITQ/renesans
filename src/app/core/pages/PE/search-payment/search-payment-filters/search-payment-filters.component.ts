@@ -3,7 +3,8 @@ import { SearchPaymentService } from '../../../../services/search-payment/search
 import { FormBuilder } from '@angular/forms';
 import {
   containInvalidSymbols,
-  earlierThen, invalidIpAddress,
+  earlierThen,
+  invalidIpAddress,
   laterOrEqualThen,
   lessThanDateDiapason,
   required,
@@ -43,7 +44,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     private searchPaymentService: SearchPaymentService,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private changeDetectionRef: ChangeDetectorRef
+    private changeDetectionRef: ChangeDetectorRef,
   ) {}
 
   ngOnDestroy(): void {
@@ -93,10 +94,11 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
 
     if (!generalFieldsFilled(this.filters)) {
       const [dateFromValidation, dateToValidation] = [
-        this.filters.dateTimeTo && (required(this.filters.dateTimeFrom) ||
-          earlierThen(this.filters.dateTimeFrom?.toISOString() ?? null, this.filters.dateTimeTo.toISOString(), '«Дата/Время с» превышает «Дата/Время по»')),
-        this.filters.dateTimeFrom && (required(this.filters.dateTimeTo) ||
-          lessThanDateDiapason(this.filters.dateTimeFrom.toISOString(), this.filters.dateTimeTo?.toISOString() ?? null, 40)),
+        this.filters.dateTimeTo &&
+          (required(this.filters.dateTimeFrom) ||
+            earlierThen(this.filters.dateTimeFrom?.toISOString() ?? null, this.filters.dateTimeTo.toISOString(), '«Дата/Время с» превышает «Дата/Время по»')),
+        this.filters.dateTimeFrom &&
+          (required(this.filters.dateTimeTo) || lessThanDateDiapason(this.filters.dateTimeFrom.toISOString(), this.filters.dateTimeTo?.toISOString() ?? null, 40)),
       ];
 
       this.filtersValidation = {
@@ -126,10 +128,10 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
       plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate?.toISOString() ?? null),
       channelIP: this.filters.channelIP ? invalidIpAddress(this.filters.channelIP) : null,
-      channelName: "",
-      codeStatuses: "",
-      parentType: "",
-      type: ""
+      channelName: '',
+      codeStatuses: '',
+      parentType: '',
+      type: '',
     };
 
     return Object.values(this.filtersValidation).every(value => !Boolean(value));

@@ -1,10 +1,10 @@
-export type StatusHistory = {
+export interface StatusHistory {
   codeStatus: string | null;
   description: string;
   errorType: string;
   statusChangeTime: string;
   statusComment: string | null;
-};
+}
 
 export interface ITransferDetails {
   amount: number;

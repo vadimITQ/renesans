@@ -134,7 +134,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
             })
             .catch(e => {
               console.log(e);
-              this.toasterService.showErrorToast("Внутренняя ошибка сервиса.");
+              this.toasterService.showErrorToast('Внутренняя ошибка сервиса.');
             });
         },
       },
@@ -174,7 +174,7 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
             })
             .catch(e => {
               console.log(e);
-              this.toasterService.showErrorToast("Внутренняя ошибка сервиса.");
+              this.toasterService.showErrorToast('Внутренняя ошибка сервиса.');
             });
         },
       },

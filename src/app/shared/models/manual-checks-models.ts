@@ -13,20 +13,20 @@ export interface ManualChecksFilter {
 }
 
 export interface GetPaymentsResponse {
-    paymentID?: string;
-    applicationID?: string;
-    paymentHubPaymentId?: number;
-    pmtCreationTime?: string;
-    plannedDate?: string;
-    amount?: number;
-    type?: string;
-    statusPE?: string;
-    errorType?: string;
-    channelIP?: string;
-    manualParse?: number;
-    statusCodePE?: number;
-    status?: string;
-    rowStatus?: "erroneous" | "successful";
+  paymentID?: string;
+  applicationID?: string;
+  paymentHubPaymentId?: number;
+  pmtCreationTime?: string;
+  plannedDate?: string;
+  amount?: number;
+  type?: string;
+  statusPE?: string;
+  errorType?: string;
+  channelIP?: string;
+  manualParse?: number;
+  statusCodePE?: number;
+  status?: string;
+  rowStatus?: 'erroneous' | 'successful';
 }
 //   paymentID?: number | string;
 //   applicationID?: string;

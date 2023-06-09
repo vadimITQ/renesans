@@ -18,10 +18,7 @@ export class PeRolesService {
   }
 
   hasAccessToManualChecks(): boolean {
-    return this.rolesService.hasSomeOfRoles(
-      RolesList.AP_TEST_PEWeb_ManualChecks,
-      ProdRolesList.AP_PEWeb_ManualChecks
-    );
+    return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_ManualChecks, ProdRolesList.AP_PEWeb_ManualChecks);
   }
 
   hasAccessToViewTransferDetails(): boolean {
@@ -38,14 +35,10 @@ export class PeRolesService {
   }
 
   hasAccessToBankOpsCheck(): boolean {
-    return this.rolesService.hasSomeOfRoles(
-      RolesList.AP_TEST_PEWeb_BankOps,
-      ProdRolesList.AP_PEWeb_BankOps,
-    );
+    return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_BankOps, ProdRolesList.AP_PEWeb_BankOps);
   }
 
-  hasAccessToBankOpsDetails(): boolean{
+  hasAccessToBankOpsDetails(): boolean {
     return this.hasAccessToBankOpsCheck();
   }
-
 }

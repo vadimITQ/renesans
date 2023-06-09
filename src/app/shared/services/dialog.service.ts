@@ -3,13 +3,12 @@ import { ConfirmationService } from 'primeng/api';
 import { ConfirmationDialogModel } from '../models/confirmation-dialog-model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DialogService {
+  constructor(private confirmationService: ConfirmationService) {}
 
-  constructor(private confirmationService: ConfirmationService) { }
-
-  showConfirmDialog(opts: ConfirmationDialogModel){
+  showConfirmDialog(opts: ConfirmationDialogModel) {
     if (!opts) {
       return;
     }
@@ -19,8 +18,7 @@ export class DialogService {
       accept: opts.accept?.handler,
       reject: opts.reject?.handler,
       acceptLabel: opts.accept?.label,
-      rejectLabel: opts.reject?.label
+      rejectLabel: opts.reject?.label,
     });
   }
-
 }

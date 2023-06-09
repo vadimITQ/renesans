@@ -1,7 +1,6 @@
-
 export enum OrdersStat {
-    ProcessedOrder,
-    SuccessfullyProcessed,
-    FailedProcessed,
-    Processing
+  ProcessedOrder,
+  SuccessfullyProcessed,
+  FailedProcessed,
+  Processing,
 }

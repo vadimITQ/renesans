@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'pe-indent',
-  template: `<div [style]="indents"></div>`,
+  template: ` <div [style]="indents"></div> `,
   styles: [
     `
       div {
@@ -73,3 +73,4 @@ export class PeIndentComponent {
     return `pr-${this.pRight}`;
   }
 }
+

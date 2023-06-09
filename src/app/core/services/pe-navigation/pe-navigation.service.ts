@@ -18,10 +18,8 @@ export class PeNavigationService {
     this.goToSearchPayment();
   }
 
-  public goToLogin(logOut?: boolean){
-    logOut
-      ? this.authService.logout()
-      : this.router.navigate([RouterPath.Login]);
+  public goToLogin(logOut?: boolean) {
+    logOut ? this.authService.logout() : this.router.navigate([RouterPath.Login]);
   }
 
   public goBack() {
@@ -59,5 +57,4 @@ export class PeNavigationService {
   public goToAmlDetails(id: number | string){
     this.goToSpecificPath([RouterPath.AmlDetails, '' + id])
   }
-
 }

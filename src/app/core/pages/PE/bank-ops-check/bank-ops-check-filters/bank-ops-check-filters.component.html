@@ -2,11 +2,7 @@
   <h5>BankOps проверка</h5>
 
   <div class="input-row">
-    <pe-input 
-      label="ID РЕ" 
-      [(value)]="filters.paymentID" 
-      [validationMessage]="filtersValidation['paymentID']" 
-      [maxLength]="36" />
+    <pe-input label="ID РЕ" [(value)]="filters.paymentID" [validationMessage]="filtersValidation['paymentID']" [maxLength]="36" />
     <pe-input
       label="ID Заявки"
       [(value)]="filters.applicationID"

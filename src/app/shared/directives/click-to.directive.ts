@@ -1,18 +1,16 @@
 import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
-    selector: '[clickTo]'
+  selector: '[clickTo]',
 })
 export class ClickToDirective {
+  @Input() clickTo!: any;
 
-    @Input() clickTo!: any;
+  constructor() {}
 
-    constructor(){ }
-
-    @HostListener("click") onClick(){
-        if (!!this.clickTo?.nativeElement?.click){
-            this.clickTo.nativeElement.click();
-        }
+  @HostListener('click') onClick() {
+    if (!!this.clickTo?.nativeElement?.click) {
+      this.clickTo.nativeElement.click();
     }
-    
+  }
 }

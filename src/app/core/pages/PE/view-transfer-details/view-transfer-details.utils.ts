@@ -2,7 +2,7 @@ import { ITransferDetails } from '../../../services/view-transfer-details/types'
 import { dateFormatWithDotsAndTime, dateFormatWithTime } from '../../../../shared/components/controls/date-picker/date-picker.constants';
 import { format } from 'date-fns';
 import { paymentStatusObj } from '../../../../shared/variables/payment-status';
-import {ITransferDetailsWithRetRefNumber} from "./view-transfer-details.types";
+import { ITransferDetailsWithRetRefNumber } from './view-transfer-details.types';
 
 export function prepareTransferDetails(transferDetails: ITransferDetails): ITransferDetailsWithRetRefNumber {
   return {

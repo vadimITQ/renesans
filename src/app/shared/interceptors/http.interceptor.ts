@@ -1,15 +1,14 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { delay, mergeMap, Observable, retryWhen } from 'rxjs';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { of } from 'rxjs/internal/observable/of';
-import {ToastService} from "../services/toast.service";
-import { environment } from "src/environments/environment";
+import { ToastService } from '../services/toast.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class PeHttpInterceptor implements HttpInterceptor {
-
-  constructor(private authService: AuthService, private toastService: ToastService) {}
+  constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const sessionId = localStorage.getItem('token');
@@ -17,7 +16,7 @@ export class PeHttpInterceptor implements HttpInterceptor {
     const headers: { [p: string]: string } = sessionId
       ? {
           ...environment.headers,
-          SESSION_ID: sessionId
+          SESSION_ID: sessionId,
         }
       : environment.headers;
 
@@ -26,21 +25,20 @@ export class PeHttpInterceptor implements HttpInterceptor {
     return next.handle(interceptedReq).pipe(
       retryWhen(error => {
         return error.pipe(
-          mergeMap((error, index) => {
-            if (error.status === 401) {
+          mergeMap((err, index) => {
+            if (err.status === 401) {
               this.authService.handleUnauthorized();
-              throw error;
+              throw err;
             }
             if (index < 2) {
-              return of(error).pipe(delay(2000));
+              return of(err).pipe(delay(2000));
             }
 
             // this.toastService.showErrorToast('В данный момент сервис недоступен. Обратитесь в тех. поддержку.')
-            throw error
+            throw err;
           }),
         );
       }),
     );
   }
-  
 }

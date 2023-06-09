@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { ISearchPayment } from 'src/app/core/services/search-payment/types';
 import { PeRolesService } from '../../../../services/auth/pe-roles.service';
-import {IColumn} from "../../../../../shared/types/table.types";
+import { IColumn } from '../../../../../shared/types/table.types';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 
@@ -46,7 +46,9 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
     this.searchPaymentService
       .getPaymentsReport()
       .subscribe(value =>
-        value ? XlsxHelper.saveAsExcelFile(value, `Отчет по платежам_${this.datePipe.transform(new Date(), 'ddMMYYYY')}`) : this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз'),
+        value
+          ? XlsxHelper.saveAsExcelFile(value, `Отчет по платежам_${this.datePipe.transform(new Date(), 'ddMMYYYY')}`)
+          : this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз'),
       );
   }
 
@@ -58,7 +60,9 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
     this.searchPaymentService
       .getPaymentsReport()
       .subscribe(value =>
-        value ? XlsxHelper.saveAsExcelFile(value, `Отчет по платежам_${this.datePipe.transform(new Date(), 'ddMMYYYY')}`) : this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз'),
+        value
+          ? XlsxHelper.saveAsExcelFile(value, `Отчет по платежам_${this.datePipe.transform(new Date(), 'ddMMYYYY')}`)
+          : this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз'),
       );
   }
 
@@ -79,48 +83,41 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   }
 
   cancelPayments() {
-    if (this.selectedPayments.length > 0){
+    if (this.selectedPayments.length > 0) {
       this.dialogService.showConfirmDialog({
         message: 'Вы действительно хотите отменить платеж/перевод?',
         header: 'Подтверждение',
         accept: {
           label: 'Да',
           handler: () => {
-            this.loadingService.attach(
-              this.searchPaymentService.cancelPayments(this.selectedPayments)
-            )
-            .then(cancelResponses => {
-              cancelResponses.forEach((cancelResponse, idx) => {
-                const hasError = !!cancelResponse?.errorMessage;
-                const paymentID = this.selectedPayments[idx].paymentID ?? '';
-                if (hasError) {
-                  this.toastService.showWarnToast(
-                    `Ошибка отклонения. ${cancelResponse.errorMessage}`,
-                    `Платёж/перевод № ${paymentID}`
-                  );
-                }
-                else {
-                  this.toastService.showSuccessToast(
-                    'Запрос на отклонение платежа/перевода отправлен успешно',
-                    `Платёж/перевод № ${paymentID}`
-                  );
-                }
+            this.loadingService
+              .attach(this.searchPaymentService.cancelPayments(this.selectedPayments))
+              .then(cancelResponses => {
+                cancelResponses.forEach((cancelResponse, idx) => {
+                  const hasError = !!cancelResponse?.errorMessage;
+                  const paymentID = this.selectedPayments[idx].paymentID ?? '';
+                  if (hasError) {
+                    this.toastService.showWarnToast(`Ошибка отклонения. ${cancelResponse.errorMessage}`, `Платёж/перевод № ${paymentID}`);
+                  } else {
+                    this.toastService.showSuccessToast(
+                      'Запрос на отклонение платежа/перевода отправлен успешно',
+                      `Платёж/перевод № ${paymentID}`,
+                    );
+                  }
+                });
               })
-            })
-            .catch(() => {
-              this.toastService.showErrorToast('Внутренняя ошибка сервиса.');
-            });
-          }
+              .catch(() => {
+                this.toastService.showErrorToast('Внутренняя ошибка сервиса.');
+              });
+          },
         },
         reject: {
           label: 'Нет',
-          handler: () => {}
-        }
-      })
-    }
-    else {
+          handler: () => {},
+        },
+      });
+    } else {
       this.toastService.showWarnToast('Выберите хотя бы один платеж/перевод на отмену');
     }
   }
-
 }

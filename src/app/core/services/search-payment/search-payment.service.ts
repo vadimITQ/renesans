@@ -14,12 +14,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root',
 })
 export class SearchPaymentService extends TableService<ISearchPayment, ISearchPaymentsFiltersPayload> {
-
-  constructor(
-      private paymentOrderWService: PaymentOrderWService,
-      private toastService: ToastService,
-      private authService: AuthService
-    ) {
+  constructor(private paymentOrderWService: PaymentOrderWService, private toastService: ToastService, private authService: AuthService) {
     function getSearchPayments(payload: ISearchPaymentsFiltersPayload, pagination: Pagination) {
       return paymentOrderWService.getSearchPayments(payload, pagination).pipe(
         //todo: update me
@@ -56,13 +51,12 @@ export class SearchPaymentService extends TableService<ISearchPayment, ISearchPa
     const $paymentStreams = payments.map(payment => {
       return this.paymentOrderWService.cancelPayment({
         cancelReason: CancelReason.CLIENT,
-        paymentID: payment.paymentID ?? "",
-        description: "",
+        paymentID: payment.paymentID ?? '',
+        description: '',
         channelName: 'PEW',
         channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
       });
     });
     return forkJoin($paymentStreams);
   }
-
 }

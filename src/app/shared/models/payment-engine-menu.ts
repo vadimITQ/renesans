@@ -1,6 +1,5 @@
-
 export interface PaymentEngineMenuLink {
-    name: string;
-    navigation: string;
-    clicked: boolean;
+  name: string;
+  navigation: string;
+  clicked: boolean;
 }

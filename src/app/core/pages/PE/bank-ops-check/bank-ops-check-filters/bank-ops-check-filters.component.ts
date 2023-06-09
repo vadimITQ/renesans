@@ -1,11 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import {
-  containInvalidSymbols,
-  earlierThen,
-  lessThanDateDiapason,
-  required,
-} from '../../../../../shared/validation/validators';
+import { containInvalidSymbols, earlierThen, lessThanDateDiapason, required } from '../../../../../shared/validation/validators';
 import { Validation } from '../../../../../shared/validation/types';
 import { ToastService } from '../../../../../shared/services/toast.service';
 import {
@@ -15,8 +10,8 @@ import {
   prepareSearchFilters,
 } from './bank-ops-check-filters.utils';
 import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
-import {IBankOpsCheckFilters} from "./bank-ops-check-filters.types";
-import {BankOpsCheckService} from "../../../../services/bank-ops-check/bank-ops-check.service";
+import { IBankOpsCheckFilters } from './bank-ops-check-filters.types';
+import { BankOpsCheckService } from '../../../../services/bank-ops-check/bank-ops-check.service';
 
 @Component({
   selector: 'app-bank-ops-check-filters',
@@ -41,7 +36,7 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
     private bankOpsCheckService: BankOpsCheckService,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private changeDetectionRef: ChangeDetectorRef
+    private changeDetectionRef: ChangeDetectorRef,
   ) {}
 
   ngOnDestroy(): void {
@@ -59,7 +54,6 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
     this.changeDetectionRef.detectChanges();
   }
 
-
   onClear() {
     this.filters = {
       ...defineDefaultFiltersValues(),
@@ -73,7 +67,6 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
   }
 
   validate(validateOnlyDates?: boolean): boolean {
-
     if (!validateOnlyDates) {
       const anyFilledValidation = anyFieldFilledValidator(this.filters);
 
@@ -86,12 +79,14 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
 
     if (!generalFieldsFilled(this.filters)) {
       const [dateFromValidation, dateToValidation] = [
-        this.filters.dateTimeTo && (required(this.filters.dateTimeFrom) ||
-          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»') || 
-          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40, ' ')),
-        this.filters.dateTimeFrom && (required(this.filters.dateTimeTo) ||
-          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40) || 
-          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, ' ')),
+        this.filters.dateTimeTo &&
+          (required(this.filters.dateTimeFrom) ||
+            earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»') ||
+            lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40, ' ')),
+        this.filters.dateTimeFrom &&
+          (required(this.filters.dateTimeTo) ||
+            lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40) ||
+            earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, ' ')),
       ];
 
       this.filtersValidation = {
@@ -111,7 +106,7 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
       ...this.filtersValidation,
       paymentID: containInvalidSymbols(this.filters.paymentID ?? ''),
       applicationID: containInvalidSymbols(this.filters.applicationID ?? ''),
-      applicationStatus: ""
+      applicationStatus: '',
     };
 
     return Object.values(this.filtersValidation).every(value => !Boolean(value));
@@ -125,5 +120,4 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
     this.bankOpsCheckService.filter(prepareSearchFilters(this.filters));
     this.bankOpsCheckService.$filters.next(this.filters);
   }
-
 }

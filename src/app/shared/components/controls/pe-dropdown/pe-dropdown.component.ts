@@ -1,59 +1,54 @@
-
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { IMultiSelectData } from "../pe-multiselect/pe-multiselect.component";
-import { MultiselectDatasetsService } from "src/app/shared/services/multiselect-datasets.service";
-import { IMultiCheckboxData } from "../pe-multi-checkbox/pe-multi-checkbox.component";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IMultiSelectData } from '../pe-multiselect/pe-multiselect.component';
+import { MultiselectDatasetsService } from 'src/app/shared/services/multiselect-datasets.service';
+import { IMultiCheckboxData } from '../pe-multi-checkbox/pe-multi-checkbox.component';
 
 @Component({
-    selector: "pe-dropdown",
-    templateUrl: "./pe-dropdown.component.html",
-    styleUrls: ["./pe-dropdown.component.scss"]
+  selector: 'pe-dropdown',
+  templateUrl: './pe-dropdown.component.html',
+  styleUrls: ['./pe-dropdown.component.scss'],
 })
 export class PeDropdownComponent {
-    
-    constructor(
-        private datasetService: MultiselectDatasetsService
-    ){}
+  constructor(private datasetService: MultiselectDatasetsService) {}
 
-    private _dataset!: IMultiSelectData[];
-    private _selected!: IMultiCheckboxData;
+  private _dataset!: IMultiSelectData[];
+  private _selected!: IMultiCheckboxData;
 
-    @Output() selectedChange: EventEmitter<IMultiCheckboxData> = new EventEmitter<IMultiCheckboxData>();
-    @Output() onSelected: EventEmitter<IMultiCheckboxData> = new EventEmitter<IMultiCheckboxData>();
-    @Output() onShowed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() selectedChange: EventEmitter<IMultiCheckboxData> = new EventEmitter<IMultiCheckboxData>();
+  @Output() selectValue: EventEmitter<IMultiCheckboxData> = new EventEmitter<IMultiCheckboxData>();
+  @Output() showed: EventEmitter<void> = new EventEmitter<void>();
 
-    @Input() placeholder: string = "";
+  @Input() placeholder: string = '';
 
-    @Input() label: string = "";
+  @Input() label: string = '';
 
-    @Input() set dataset(dataSet: any){ // !! (dataSet: MultiselectDataSets)
-        if (!!dataSet){
-            this._dataset = this.datasetService.getDataset(dataSet);
-        }
-        else {
-            this._dataset = [];
-        }
-    };
-
-    get dataset(): IMultiSelectData[]{
-        return this._dataset;
+  @Input() set dataset(dataSet: any) {
+    // !! (dataSet: MultiselectDataSets)
+    if (!!dataSet) {
+      this._dataset = this.datasetService.getDataset(dataSet);
+    } else {
+      this._dataset = [];
     }
+  }
 
-    @Input() get selected(): IMultiCheckboxData {
-        return this._selected;
-    }
+  get dataset(): IMultiSelectData[] {
+    return this._dataset;
+  }
 
-    set selected(selected: IMultiCheckboxData) {
-        this._selected = selected;
-        this.selectedChange.emit(selected);
-    }
+  @Input() get selected(): IMultiCheckboxData {
+    return this._selected;
+  }
 
-    onShow(): void {
-        this.onShowed.emit();
-    }
+  set selected(selected: IMultiCheckboxData) {
+    this._selected = selected;
+    this.selectedChange.emit(selected);
+  }
 
-    onChange(event: any): void {
-        this.onSelected.emit(event.value);
-    }
+  onShow(): void {
+    this.showed.emit();
+  }
 
+  onChange(event: any): void {
+    this.selectValue.emit(event.value);
+  }
 }

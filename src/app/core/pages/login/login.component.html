@@ -1,25 +1,14 @@
-
 <div class="login-form" [formGroup]="loginForm">
   <div class="login-form__title">
     <h4>Вход в WEB-интерфейс PE 2.0</h4>
   </div>
   <div class="login-form__login">
     <label>Логин</label>
-    <input 
-      pInputText
-      class="form-control"
-      [(ngModel)]="authentificationData.login" 
-      type="text"
-      formControlName="login" />
+    <input pInputText class="form-control" [(ngModel)]="authentificationData.login" type="text" formControlName="login" />
   </div>
   <div class="login-form__password">
     <label>Пароль</label>
-    <input 
-      pInputText
-      class="form-control" 
-      [(ngModel)]="authentificationData.password" 
-      type="password"
-      formControlName="password" />
+    <input pInputText class="form-control" [(ngModel)]="authentificationData.password" type="password" formControlName="password" />
   </div>
   <div *ngIf="showErrorMessage" class="login-form__error">
     <label class="alert login-form__alert-error">{{ errorMessage }}</label>

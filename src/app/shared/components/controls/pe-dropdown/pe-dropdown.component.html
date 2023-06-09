@@ -1,15 +1,15 @@
-
 <div class="pe-dropdown">
-    <label *ngIf="!!label">
-        {{label}}
-        <pe-indent [mBottom]="2"></pe-indent>
-    </label>
-    <p-dropdown
-        optionLabel="label"
-        [(ngModel)]="selected"
-        [options]="dataset"
-        [placeholder]="placeholder"
-        (onShow)="onShow()"
-        (onChange)="onChange($event)">
-    </p-dropdown>
+  <label *ngIf="!!label">
+    {{ label }}
+    <pe-indent [mBottom]="2"></pe-indent>
+  </label>
+  <p-dropdown
+    optionLabel="label"
+    [(ngModel)]="selected"
+    [options]="dataset"
+    [placeholder]="placeholder"
+    (onShow)="onShow()"
+    (onChange)="onChange($event)"
+  >
+  </p-dropdown>
 </div>

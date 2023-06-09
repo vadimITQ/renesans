@@ -14,11 +14,12 @@ export class PeInputComponent {
 
   _value!: any;
 
-  @Input() labelStyle!: { [key: string]: string };;
+  @Input() labelStyle!: { [key: string]: string };
   @Input() label: string = '';
   @Input() get value() {
     return this._value;
   }
+
   @Output() valueChange = new EventEmitter();
 
   set value(newValue) {

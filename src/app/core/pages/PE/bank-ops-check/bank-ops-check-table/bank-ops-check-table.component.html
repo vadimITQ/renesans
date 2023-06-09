@@ -43,7 +43,7 @@
           <td>
             <a *ngIf="hasAccessToBankOpsCheckDetails; else elseBlock" class="link" (click)="linkClick(bankOpsCheckItem.paymentId)">{{
               bankOpsCheckItem.docAmount
-              }}</a>
+            }}</a>
             <ng-template #elseBlock>{{ bankOpsCheckItem.docAmount }}</ng-template>
           </td>
         </tr>

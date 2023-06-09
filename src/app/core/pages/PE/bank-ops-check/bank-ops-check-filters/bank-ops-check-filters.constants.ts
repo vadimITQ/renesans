@@ -1,6 +1,5 @@
 import { IMultiCheckboxData } from '../../../../../shared/components/controls/pe-multi-checkbox/pe-multi-checkbox.component';
 
-
 export const applicationStatusOptions: IMultiCheckboxData[] = [
   { label: 'Ожидает рассмотрения BankOps', value: 'Ожидает рассмотрения BankOps' },
   { label: 'На рассмотрении BankOps', value: 'На рассмотрении BankOps' },

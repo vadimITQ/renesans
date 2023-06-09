@@ -18,7 +18,7 @@ export enum PaymentTypes {
   INC_MFO = 'Перевод в счет погашения займа МКК (проект МФО)',
   EXT_SWIFT = 'Исходящий SWIFT-перевод',
   IPT_UNDONE = 'Отмененный перевод в терминале',
-  INWARD_CLAIM = 'Онлайн зачисление внешнего перевода'
+  INWARD_CLAIM = 'Зачисление внешнего перевода'
 }
 
 export enum PaymentStatus {

@@ -19,12 +19,12 @@
   </pe-textarea>
   <pe-indent [mBottom]="8"></pe-indent>
   <div class="buttons" *ngIf="showCancelButton || showSaveButton">
-    <p-button *ngIf="showCancelButton" styleClass="p-button-danger" label="Отменить" (click)="cancelChanges()"> </p-button>
+    <p-button *ngIf="showCancelButton" styleClass="p-button-danger" [label]="'Отменить'" (click)="cancelChanges()"> </p-button>
     <pe-indent *ngIf="showSaveButton" [inline]="true" [mLeft]="3"></pe-indent>
     <p-button
       *ngIf="showSaveButton"
       styleClass="p-button-success"
-      label="Сохранить"
+      [label]="'Сохранить'"
       [disabled]="!filesUploaded"
       (click)="saveChanges()"
     >
@@ -32,3 +32,4 @@
   </div>
   <input #fileForm id="file" type="file" class="file" (change)="fileUpload($event)" hidden [multiple]="multipleFiles" />
 </p-dialog>
+

@@ -7,8 +7,8 @@ import { paymentStatusObj } from '../../../../../shared/variables/payment-status
 
 export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: DatePipe): ISearchPaymentTableData[] {
   return data.map(searchPayment => {
-    const debitPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc === 'Debit')[0] : null;
-    const creditPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc === 'Credit')[0] : null;
+    const debitPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc=== 'Debit')[0] : null;
+    const creditPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc=== 'Credit')[0]: null;
     const GLDocPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc === 'GLDoc')[0] : null;
     const plannedDate = datePipeRef
       ? datePipeRef.transform(DatePickerHelper.parseFromLocaleStringToDate(searchPayment.plannedDate), 'dd-MM-yyyy') ?? ''

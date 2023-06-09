@@ -51,7 +51,7 @@ export class PaymentEngineRolesGuard implements CanActivate {
           return false;
         }
       }
-      case RouterPath.AntiFraudCheck:
+    case RouterPath.AntiFraudCheck:
       case RouterPath.AntiFraudDetails: {
         if (this.peRolesService.hasAccessToAntiFraudCheck()) {
           return true;
@@ -64,8 +64,8 @@ export class PaymentEngineRolesGuard implements CanActivate {
       case RouterPath.AmlCheck:
       case RouterPath.AmlDetails: {
         if (this.peRolesService.hasAccessToAmlCheck()) {
-          return true;
-        } else {
+    return true;
+  }else {
           this.toastService.showErrorToast('Нет прав на взаимодействие с формой «AML проверка»');
           return false;
         }

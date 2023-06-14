@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, Observable, of, tap } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { ISearchPayment, ISearchPaymentsFiltersPayload } from './types';
@@ -7,6 +7,9 @@ import { ISearchPaymentFilterForm, ISearchPaymentFilters } from '../../pages/PE/
 import { Pagination, TableService } from '../../../shared/services/table.service';
 import { SearchPaymentsFilterUtils } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
 import { FormGroup } from '@angular/forms';
+import { ISearchPaymentTableData } from '../../pages/PE/search-payment/search-payment.types';
+import { CancelReason, ICancelPaymentResponse } from '../payment-order-w/types';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +18,8 @@ export class SearchPaymentService extends TableService<ISearchPayment, ISearchPa
   constructor(
     private paymentOrderWService: PaymentOrderWService, 
     private toastService: ToastService,
-    private searchPaymentUtils: SearchPaymentsFilterUtils
+    private searchPaymentUtils: SearchPaymentsFilterUtils,
+    private authService: AuthService
   ) {
     function getSearchPayments(payload: ISearchPaymentsFiltersPayload, pagination: Pagination) {
       return paymentOrderWService.getSearchPayments(payload, pagination).pipe(
@@ -48,4 +52,18 @@ export class SearchPaymentService extends TableService<ISearchPayment, ISearchPa
       }),
     );
   }
+
+  cancelPayments(payments: ISearchPaymentTableData[]): Observable<ICancelPaymentResponse[]> {
+    const $paymentStreams = payments.map(payment => {
+      return this.paymentOrderWService.cancelPayment({
+        cancelReason: CancelReason.CLIENT,
+        paymentID: payment.paymentID ?? "",
+        description: "",
+        channelName: 'PEW',
+        channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
+      });
+    });
+    return forkJoin($paymentStreams);
+  }
+
 }

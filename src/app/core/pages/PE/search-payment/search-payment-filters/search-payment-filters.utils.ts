@@ -92,7 +92,7 @@ export class SearchPaymentsFilterUtils {
       applicationID: applicationID.value,
       idPH: idPH.value,
       docID: docID.value,
-      linkedChequeId: linkedChequeId.value,
+      chequeId: linkedChequeId.value,
       docNum: docNum.value,
       account: account.value,
       chequeNumber: chequeNumber.value,

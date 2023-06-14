@@ -4,6 +4,7 @@
   <ng-container *ngIf="tableData">
     <p-table
       [value]="tableData"
+      [(selection)]="selectedPayments"
       [scrollable]="true"
       [autoLayout]="true"
       [paginator]="true"
@@ -22,6 +23,9 @@
     >
       <ng-template pTemplate="header">
         <tr class="tps-by-status__row-gray">
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
           <th pResizableColumn>ID PE</th>
           <th pResizableColumn *ngFor="let column of tableColumns">
             {{ column.header }}
@@ -31,8 +35,11 @@
       <ng-template pTemplate="body" let-searchPaymentItem>
         <tr style="height: 50px">
           <td>
+            <p-tableCheckbox [value]="searchPaymentItem"></p-tableCheckbox>
+          </td>
+          <td>
             <a *ngIf="hasAccessToViewTransferDetails; else elseBlock" class="link" (click)="paymentIdClick(searchPaymentItem.paymentId)">{{
-              searchPaymentItem.paymentId
+              searchPaymentItem.paymentID
             }}</a>
             <ng-template #elseBlock>{{ searchPaymentItem.paymentId }}</ng-template>
           </td>
@@ -44,6 +51,7 @@
     </p-table>
 
     <div>
+      <button pButton class="pe-button mr-2" label="Отменить" (click)="cancelPayments()"></button>
       <button pButton [loading]="searchPaymentService.$reportLoading.value" class="pe-button mr-2" [label]="'Сформировать отчет'" (click)="generateReport()"></button>
       <button pButton class="pe-button" [label]="'Сформировать отчет СБП'" (click)="generateSbpReport()" [disabled]="true"></button>
     </div>

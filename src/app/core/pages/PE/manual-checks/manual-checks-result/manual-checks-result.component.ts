@@ -60,16 +60,16 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   public cols = [
-    { field: 'paymentApplication.applicationID', header: 'ID PE' },
-    { field: 'plannedDate', header: 'ID заявки' },
-    { field: 'ipt.idPH', header: 'ID PH' },
-    { field: 'pmtCreationTime', header: 'Дата заявки в PE' },
-    { field: 'paymentApplication.amount', header: 'Дата исполнения платежа' },
-    { field: 'type', header: 'Сумма' },
-    { field: 'statusCode', header: 'Тип перевода' },
-    { field: 'statusCodePE', header: 'Статус PE' },
-    { field: 'paymentApplication.statusPE', header: 'Код статуса' },
-    { field: 'aymentApplication.channelIP', header: 'IP адрес' },
+    { field: 'paymentID', header: 'ID PE' },
+    { field: 'paymentApplication.applicationID', header: 'ID заявки' },
+    { field: 'paymentApplication.ipt.idPH', header: 'ID PH' },
+    { field: 'pmtCreationTime', header: 'Дата заявки' },
+    { field: 'plannedDate', header: 'Дата исполнения' },
+    { field: 'statusCodePE', header: 'Код статуса' },
+    { field: 'paymentApplication.amount', header: 'Сумма' },
+    { field: 'paymentApplication.type', header: 'Тип перевода' },
+    { field: 'statusDescriptionPE', header: 'Статус PE' },
+    { field: 'description', header: 'Детали' },
     { field: 'errorType', header: 'Тип ошибки' },
   ];
 
@@ -103,40 +103,37 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
 
   onHeaderCheckboxToggle(e: any) {}
 
-  back() {
-    this.peNavigationService.goBack();
-  }
-
   cancelPayments() {
+    const paymentIds: string[] = this.selection.map(selection => selection.paymentID ?? '');
+    const $paymentsToCancel = this.selection.map(selection =>
+      this.paymentOrderW.cancelPayment(
+        ObjectHelper.deleteUndefinedProperties({
+          cancelReason: CancelReason.CLIENT,
+          paymentID: selection.paymentID ?? '',
+          description: this.commentary ?? '',
+          channelName: 'PEW',
+          channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
+        } as ICancelPaymentPayload),
+      ),
+    );
+    if (!$paymentsToCancel?.length) {
+      this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на отмену');
+      return;
+    }
+
     this.dialogService.showConfirmDialog({
       message: 'Вы действительно хотите отменить платеж/перевод?',
       header: 'Подтверждение',
       accept: {
         label: 'Да',
         handler: () => {
-          const paymentIds: string[] = this.selection.map(selection => selection.paymentID ?? '');
-          const $paymentsToCancel = this.selection.map(selection =>
-            this.paymentOrderW.cancelPayment(
-              ObjectHelper.deleteUndefinedProperties({
-                cancelReason: CancelReason.CLIENT,
-                paymentID: selection.paymentID ?? '',
-                description: this.commentary ?? '',
-                channelName: 'PEW',
-                channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
-              } as ICancelPaymentPayload),
-            ),
-          );
-          if (!$paymentsToCancel?.length) {
-            this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на отмену');
-            return;
-          }
           this.loadingService
             .attach(forkJoin($paymentsToCancel))
             .then(response => {
               this.validateResponsesFromCancelPayment(response, paymentIds);
             })
             .catch(e => {
-              this.toasterService.showErrorToast('Ошибка сервера');
+              this.toasterService.showErrorToast("Внутренняя ошибка сервиса.");
             });
         },
       },
@@ -147,34 +144,35 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   resumePayments() {
+    const paymentIds: string[] = this.selection.map(selection => selection.paymentID ?? '');
+    const $paymentsToResume = this.selection.map(selection =>
+      this.paymentOrderW.resumePayment(
+        ObjectHelper.deleteUndefinedProperties({
+          paymentID: selection.paymentID ?? '',
+          channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
+          ResumeComment: this.commentary ?? '',
+          АpplicationChannelName: 'PEW',
+        } as IResumePaymentPayload),
+      ),
+    );
+    if (!$paymentsToResume?.length) {
+      this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на возобновление');
+      return;
+    }
+
     this.dialogService.showConfirmDialog({
       message: 'Вы действительно хотите возобновить обработку по платежу/переводу?',
       header: 'Подтверждение',
       accept: {
         label: 'Да',
         handler: () => {
-          const paymentIds: string[] = this.selection.map(selection => selection.paymentID ?? '');
-          const $paymentsToResume = this.selection.map(selection =>
-            this.paymentOrderW.resumePayment(
-              ObjectHelper.deleteUndefinedProperties({
-                paymentID: selection.paymentID ?? '',
-                channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
-                ResumeComment: this.commentary ?? '',
-                АpplicationChannelName: 'PEW',
-              } as IResumePaymentPayload),
-            ),
-          );
-          if (!$paymentsToResume?.length) {
-            this.toasterService.showWarnToast('Необходимо выбрать хотя бы один платеж/перевод на возобновление');
-            return;
-          }
           this.loadingService
             .attach(forkJoin($paymentsToResume))
             .then(response => {
               this.validateResponsesFromResumePayment(response, paymentIds);
             })
             .catch(e => {
-              this.toasterService.showErrorToast('Ошибка сервера');
+              this.toasterService.showErrorToast("Внутренняя ошибка сервиса.");
             });
         },
       },
@@ -224,13 +222,13 @@ export class ManualChecksResultComponent implements OnInit, OnDestroy {
   }
 
   tableRowStatusColor(paymentItem: SearchPaymentWithManualParse): string {
-    if(paymentItem.manualParse === 1 || !paymentItem.manualParse) {
-      return ''
+    if (paymentItem.manualParse === 1 || !paymentItem.manualParse) {
+      return '';
     }
-    if (successStatusList.includes(paymentItem.statusCode)) {
+    if (successStatusList.includes(paymentItem.statusCodePE)) {
       return '#FFCC00';
     }
-    if (failStatusList.includes(paymentItem.statusCode)) {
+    if (failStatusList.includes(paymentItem.statusCodePE)) {
       return 'red';
     }
     return '';

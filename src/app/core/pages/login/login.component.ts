@@ -14,7 +14,7 @@ import { LoginForm, LoginModel } from './login.types';
 export class LoginComponent {
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private fb: FormBuilder,
     private toastService: ToastService,
     private loadingService: LoadingService,
@@ -36,7 +36,7 @@ export class LoginComponent {
         return "";
       }
       if (failed){
-        return "Не удалось войти в систему. Попробуйте ещё раз";
+        return "Введён неверный логин или пароль. Попробуйте еще раз";
       }
     }
     return "";

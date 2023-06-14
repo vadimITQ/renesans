@@ -70,7 +70,7 @@ export class ManualChecksHelper {
       userAgent: null,
       channelIP: null,
       chequeNumber: null,
-      linkedChequeId: null,
+      chequeId: null,
       plannedDate: null,
       type: null,
     }

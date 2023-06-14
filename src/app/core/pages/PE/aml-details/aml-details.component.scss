@@ -1,0 +1,35 @@
+.pe-aml-details {
+  > .paragraph {
+    font-size: 1.1rem;
+  }
+
+  > .info-block {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+  }
+
+  > .manual-checks {
+    td.button-td {
+      width: 0;
+    }
+  }
+
+  > .paragraph > .badge {
+    user-select: none;
+    display: inline-block;
+  }
+
+  > .bottom-buttons {
+    display: flex;
+    gap: 30px
+  }
+}
+
+:host ::ng-deep {
+  p-button {
+    > button {
+      border-radius: 6px;
+    }
+  }
+}

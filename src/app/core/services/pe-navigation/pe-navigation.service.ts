@@ -24,7 +24,7 @@ export class PeNavigationService {
   }
 
   public goToLogin(logOut?: boolean){
-    logOut 
+    logOut
       ? this.authService.logout()
       : this.router.navigate([RouterPath.Login]);
   }
@@ -59,6 +59,10 @@ export class PeNavigationService {
 
   public goToAntiFraudDetails(id: number | string) {
     this.goToSpecificPath([RouterPath.AntiFraudDetails, '' + id]);
+  }
+
+  public goToAmlDetails(id: number | string){
+    this.goToSpecificPath([RouterPath.AmlDetails, '' + id])
   }
 
 }

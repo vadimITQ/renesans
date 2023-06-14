@@ -79,6 +79,7 @@ import { AntiFraudCheckTableComponent } from "src/app/core/pages/PE/anti-fraud-c
 import {AmlCheckComponent} from "./core/pages/PE/aml-check/aml-check.component";
 import {AmlCheckFiltersComponent} from "./core/pages/PE/aml-check/aml-check-filters/aml-check-filters.component";
 import {AmlCheckTableComponent} from "./core/pages/PE/aml-check/aml-check-table/aml-check-table.component";
+import {AmlDetailsComponent} from "./core/pages/PE/aml-details/aml-details.component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -110,6 +111,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     AmlCheckComponent,
     AmlCheckFiltersComponent,
     AmlCheckTableComponent,
+    AmlDetailsComponent,
     SearchPaymentFiltersComponent,
     SearchPaymentTableComponent,
     PeInputComponent,

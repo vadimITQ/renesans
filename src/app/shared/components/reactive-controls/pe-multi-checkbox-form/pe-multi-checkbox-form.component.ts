@@ -18,7 +18,8 @@ export class PeRMultiCheckboxComponent {
     @Input() title: string = '';
     @Input() horizontal: boolean = false;
     @Input() errorMessages: ErrorMesssagesList = globalMessages.multicheckboxValidation;
-    
+    @Input() disabled: boolean = false;
+
     @Input() set control(abstractControl: AbstractControl | FormControl) {
         if (PEReactiveHelper.isFormControl(abstractControl)){
             this._control = abstractControl;

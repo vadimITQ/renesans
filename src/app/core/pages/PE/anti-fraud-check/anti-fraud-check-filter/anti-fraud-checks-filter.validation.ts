@@ -22,7 +22,7 @@ export class AntiFraudChecksValidation {
       [ValidationErrorsEnum.AntiFraudChecksFilterNoValid]: "  "
     }
 
-    public validateFilter(group: FormGroup<AntiFraudCheckFilterForm>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
+    public validateFilter(group: FormGroup<AntiFraudCheckFilterForm>, calledBySearchButton: boolean = false): ValidationErrors | null {
       
         group.markAllAsTouched();
     
@@ -30,7 +30,7 @@ export class AntiFraudChecksValidation {
     
         PEGlobalValidators.validateDates(group);
         
-        if (triggeredBySubmitButton) {
+        if (calledBySearchButton) {
           this.validateOnEmpty(group);
         }
     

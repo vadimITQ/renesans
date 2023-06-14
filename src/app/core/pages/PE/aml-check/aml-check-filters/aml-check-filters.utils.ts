@@ -1,60 +1,84 @@
-import { sub } from 'date-fns';
-import { Validation } from '../../../../../shared/validation/types';
+import { subDays } from 'date-fns';
+import { IAmlCheckFiltersForm} from "./aml-check-filters.types";
+import { Injectable } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { IMultiCheckboxData } from 'src/app/shared/components/reactive-controls/pe-multi-checkbox-form/pe-r-multi-checkbox/pe-r-multi-checkbox.component';
+import { IAmlCheckFiltersPayload } from "src/app/core/services/aml-check/types";
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
-import {IAmlCheckFilters} from "./aml-check-filters.types";
-import {IAmlCheckFiltersPayload} from "../../../../services/aml-check/types";
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { PEGlobalValidators } from 'src/app/shared/components/reactive-controls/validations';
+import { AmlCheckFilterValidation } from './aml-check-filter.validation';
 
-export function defineDefaultFiltersValues(): IAmlCheckFilters {
-  const dateTo = new Date();
-  const dateFrom = sub(dateTo, { days: 3 });
+@Injectable({
+  providedIn: "root"
+})
+export class AmlCheckFiltersUtils {
 
-  return {
-    paymentID: null,
-    applicationID: null,
-    dateTimeFrom: DatePickerHelper.convertToDatePicker(dateFrom),
-    dateTimeTo: DatePickerHelper.convertToDatePicker(dateTo),
-    applicationStatus: [],
-    onlyExpired: false
-  };
-}
+  constructor(
+    private fb: FormBuilder,
+    private toast: ToastService,
+    private validation: AmlCheckFilterValidation
+  ){}
 
-export function anyFieldFilledValidator(filters: IAmlCheckFilters): Validation | null {
-  const { paymentID, applicationID, dateTimeFrom, dateTimeTo, applicationStatus } = filters;
-  const isAnyFieldFilled = [paymentID, applicationID, dateTimeFrom, dateTimeTo, applicationStatus.length].some(value => !!value);
-
-  if (!isAnyFieldFilled) {
-    return {
-      paymentID: ' ',
-      applicationID: ' ',
-      dateTimeFrom: ' ',
-      dateTimeTo: ' ',
-      applicationStatus: ' ',
-    };
+  createDefaultFilter(): FormGroup<IAmlCheckFiltersForm> {
+    const dateTo = new Date();
+    const dateFrom = subDays(dateTo, 3);
+    return this.fb.group<IAmlCheckFiltersForm>(
+      {
+        dateTimeFrom: new FormControl(dateFrom),
+        dateTimeTo: new FormControl(dateTo),
+        paymentID: new FormControl(null),
+        applicationID: new FormControl(null),
+        applicationStatus: new FormControl([], { nonNullable: true }),
+        onlyExpired: new FormControl<IMultiCheckboxData[]>([
+          {
+            label: "Только просроченные",
+            value: false
+          }
+        ], { nonNullable: true })
+      },
+      {
+        updateOn: 'change',
+        validators: (filter) => this.validation.validateFilter(filter as FormGroup<IAmlCheckFiltersForm>)
+      }
+    )
   }
 
-  return null;
-}
+  prepareFilterValues(filter: FormGroup<IAmlCheckFiltersForm>): IAmlCheckFiltersPayload {
+    
+    const {
+      dateTimeFrom,
+      dateTimeTo,
+      paymentID,
+      applicationID,
+      applicationStatus,
+      onlyExpired
+    } = filter.controls;
 
-export function generalFieldsFilled(filters: IAmlCheckFilters): boolean {
-  const { paymentID, applicationID, applicationStatus } = filters;
+    return {
+      applicationID: applicationID.value,
+      paymentID: paymentID.value,
+      dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? null),
+      dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? null),
+      applicationStatus: applicationStatus.value.map(v => v.value) ?? null,
+      onlyExpired: onlyExpired.value[0].value
+    };
 
-  return [paymentID, applicationID, applicationStatus.length].some(Boolean);
-}
+  }
 
-export function prepareSearchFilters({
-  paymentID,
-  applicationID,
-  dateTimeFrom,
-  dateTimeTo,
-  applicationStatus,
-  onlyExpired
-}: IAmlCheckFilters): IAmlCheckFiltersPayload {
-  return {
-    dateTimeFrom: !!dateTimeFrom ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom) : null,
-    dateTimeTo: !!dateTimeTo ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo) : null,
-    paymentID: !!paymentID ? paymentID : null,
-    applicationID: !!applicationID ? applicationID : null,
-    applicationStatus: applicationStatus?.length > 0 ? applicationStatus.map(v => v.value) : null,
-    onlyExpired
-  };
+  showErrorMessages(filter: FormGroup<IAmlCheckFiltersForm>): void {
+
+    const message = PEGlobalValidators.getErrorMessage(filter);
+
+    console.log(filter, message);
+    
+    if (!!message){
+      this.toast.showErrorToast(
+        message
+      );
+      return;
+    }
+
+  }
+
 }

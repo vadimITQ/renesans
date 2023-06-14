@@ -7,7 +7,7 @@ import { LoginComponent } from './core/pages/login/login.component';
 import { PaymentEngine } from './core/pages/PE/payment-engine.component';
 import { TestComponent } from './core/pages/test/test.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModuleModule } from './shared/modules/shared-module/shared-module.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'primeng/calendar';
@@ -143,6 +143,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
     AppRoutingModule,
     SharedModuleModule,
     BrowserAnimationsModule,

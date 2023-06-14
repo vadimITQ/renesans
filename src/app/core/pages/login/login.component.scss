@@ -1,4 +1,6 @@
 
+@import "/src/app/shared/styles/variables.scss";
+
 .login-form {
     width: -webkit-fill-available;
     position: absolute;
@@ -33,6 +35,10 @@
             outline: 0;
             border: 1px solid #999;
             min-height: 50px;
+
+            &.required {
+                border-color: $errorColor;
+            }
         }
     }
 

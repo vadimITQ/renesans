@@ -1,30 +1,34 @@
 
-<div class="login-form" [formGroup]="loginForm">
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="tryAuthenticateUser()">
   <div class="login-form__title">
     <h4>Вход в WEB-интерфейс PE 2.0</h4>
   </div>
   <div class="login-form__login">
     <label>Логин</label>
-    <input 
+    <input
+      id="login"
       pInputText
       class="form-control"
-      [(ngModel)]="authentificationData.login" 
       type="text"
+      [ngClass]="{'required': loginRequired }"
       formControlName="login" />
   </div>
-  <div class="login-form__password">
+  <div class="login-form__password"> 
     <label>Пароль</label>
-    <input 
+    <input
+      id="password"
       pInputText
-      class="form-control" 
-      [(ngModel)]="authentificationData.password" 
+      class="form-control"
       type="password"
+      [ngClass]="{'required': passwordRequired }"
       formControlName="password" />
   </div>
-  <div *ngIf="showErrorMessage" class="login-form__error">
-    <label class="alert login-form__alert-error">{{ errorMessage }}</label>
-  </div>
+  <ng-container *ngIf="loginForm.invalid && !!loginForm.errors && (loginForm.touched || loginForm.dirty)">
+    <div class="login-form__error" *ngIf="!!errorMessage">
+      <label class="alert login-form__alert-error">{{ errorMessage }}</label>
+    </div>
+  </ng-container>
   <div class="login-form__login-button">
-    <button pButton class="p-button-success p-button-rounded" [label]="'Вход'" (click)="tryAuthenticateUser()"></button>
+    <button pButton type="submit" class="p-button-success p-button-rounded" [label]="'Вход'"></button>
   </div>
-</div>
+</form>

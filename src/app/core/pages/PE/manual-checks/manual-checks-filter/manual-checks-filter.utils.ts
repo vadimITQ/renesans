@@ -77,20 +77,13 @@ export class ManualChecksHelper {
   }
 
   showErrorMessages(filter: FormGroup<ManualChecksFilter>) {
-    const errors = Object.keys(filter.errors ?? {});
 
-      if (errors.includes(GlobalReactiveErrorsEnum.ValidateOnEmpty)){
-        this.toast.showErrorToast(
-          this.validation.messages[GlobalReactiveErrorsEnum.ValidateOnEmpty]
-        );
-        return;
-      }
-
-      const message = PEGlobalValidators.getLastErrorMessage(filter);
-      if (!!message){
-        this.toast.showErrorToast(message);
-        return;
-      }
+    const message = PEGlobalValidators.getErrorMessage(filter);
+    
+    if (!!message){
+      this.toast.showErrorToast(message);
+      return;
+    }
 
   }
 

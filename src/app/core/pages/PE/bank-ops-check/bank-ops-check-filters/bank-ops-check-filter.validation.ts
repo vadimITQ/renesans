@@ -22,7 +22,7 @@ export class BankOpsCheckFilterValidation {
       [ValidationErrorsEnum.BankOpsCheckFilterNoValid]: " "
     }
 
-    public validateFilter(group: FormGroup<IBankOpsCheckFilterForm>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
+    public validateFilter(group: FormGroup<IBankOpsCheckFilterForm>, calledBySearchButton: boolean = false): ValidationErrors | null {
       
         group.markAllAsTouched();
     
@@ -30,7 +30,7 @@ export class BankOpsCheckFilterValidation {
     
         PEGlobalValidators.validateDates(group);
         
-        if (triggeredBySubmitButton) {
+        if (calledBySearchButton) {
           this.validateOnEmpty(group);
         }
     

@@ -42,7 +42,7 @@ export class DatePickerHelper {
     // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   }
 
-  public static convertToLocaleStringWithTimezone(isoDate: string): string | null {
+  public static convertToLocaleStringWithTimezone(isoDate: string | null): string | null {
     if (!isoDate){
       return null;
     }

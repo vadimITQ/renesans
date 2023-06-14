@@ -29,16 +29,16 @@ export class SearchPaymentFilterValidation {
       [ValidationErrorsEnum.SearchPaymentsFormNoValid]: "  "
     }
 
-    public validateFilter(group: FormGroup<ISearchPaymentFilterForm>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
+    public validateFilter(group: FormGroup<ISearchPaymentFilterForm>, calledBySearchButton: boolean = false): ValidationErrors | null {
 
         group.markAllAsTouched();
     
         PEReactiveHelper.clearErrors(group);
     
         PEGlobalValidators.validateDates(group);
-        PEGlobalValidators.validatePlannedDateWithToday(group.controls.plannedDate);
+        PEGlobalValidators.validatePlannedDateLessToday(group.controls.plannedDate);
         
-        if (triggeredBySubmitButton) {
+        if (calledBySearchButton) {
           this.validateOnEmpty(group);
         }
     

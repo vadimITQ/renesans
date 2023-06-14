@@ -1,58 +1,62 @@
-<div class="aml-check-filter">
+
+<div class="aml-check-filter" [formGroup]="filter">
+
   <h5>AML проверка</h5>
 
   <div class="input-row">
-    <pe-input
-      label="ID РЕ"
-      [(value)]="filters.paymentID"
-      [validationMessage]="filtersValidation['paymentID']"
-      [maxLength]="36" />
-    <pe-input
+    <pe-input-form 
+      [control]="filter.controls.paymentID" 
+      label="ID PE"
+      [maxLength]="36">
+    </pe-input-form>
+    <pe-input-form 
+      [control]="filter.controls.applicationID" 
       label="ID Заявки"
-      [(value)]="filters.applicationID"
-      [validationMessage]="filtersValidation['applicationID']"
-      [maxLength]="70"
-    />
+      [maxLength]="70">
+    </pe-input-form>
   </div>
 
   <div class="date-row">
-    <date-picker
-      [(date)]="filters.dateTimeFrom"
-      [validationMessage]="filtersValidation['dateTimeFrom']"
+    <pe-date-picker-form
+      [control]="filter.controls.dateTimeFrom"
       label="Дата/Время с"
-      (dateChange)="validate(true)"
-      [labelStyle]="{ width: '200px' }"
-    >
-    </date-picker>
+      [showTime]="false"
+      [labelStyle]="{ width: '200px' }">
+    </pe-date-picker-form>
   </div>
+
   <div class="date-row">
-    <date-picker
-      [(date)]="filters.dateTimeTo"
-      [validationMessage]="filtersValidation['dateTimeTo']"
+    <pe-date-picker-form
+      [control]="filter.controls.dateTimeTo"
       label="Дата/Время по"
-      (dateChange)="validate(true)"
-      [labelStyle]="{ width: '200px' }"
-    >
-    </date-picker>
+      [showTime]="false"
+      [labelStyle]="{ width: '200px' }">
+    </pe-date-picker-form>
   </div>
+
   <div class="multiselect-row">
     <div>
-      <pe-multiselect
+      <pe-multiselect-form
+        [control]="filter.controls.applicationStatus"
         [dataset]="multiselectDataSetsEnum.GetAmlApplicationStatuses"
-        placeholder="Выберите состояние заявки"
         label="Состояния заявки"
-        [labelStyle]="{ 'min-width': '225px', display: 'block' }"
-        [validationMessage]="filtersValidation['applicationStatus']"
-        [(selected)]="filters.applicationStatus"
-      >
-      </pe-multiselect>
+        placeholder="Выберите состояние заявки"
+        [labelStyle]="{ 'min-width': '225px', display: 'block' }">
+      </pe-multiselect-form>
     </div>
   </div>
+
   <div class="input-row">
-    <p-checkbox [binary]="true" [disabled]="!hasAccessToSearchOnlyExpired" label="Только просроченные" [value]="filters.onlyExpired" />
+    <pe-multi-checkbox-form
+      [control]="filter.controls.onlyExpired"
+      [disabled]="!hasAccessToSearchOnlyExpired"
+      [horizontal]="true">
+    </pe-multi-checkbox-form>
   </div>
+  
   <div>
-    <button pButton class="pe-button" [label]="'Очистить'" (click)="onClear()"></button>
-    <button pButton class="pe-button ml-2" [label]="'Найти'" (click)="onSearch()"></button>
+    <button pButton class="pe-button"      [label]="'Очистить'" (click)="onClear()"></button>
+    <button pButton class="pe-button ml-2" [label]="'Найти'"    (click)="onSearch()"></button>
   </div>
+
 </div>

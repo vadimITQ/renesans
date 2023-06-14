@@ -3,8 +3,8 @@
   <label>{{ title }}</label>
   <div [class]="{'checkboxes-container': true, 'checkboxes-container-vertical': horizontal}">
     <div class="checkbox" [ngClass]="{'formHasError': hasError }" *ngFor="let data of values">
-      <p-checkbox [name]="data.label" [(ngModel)]="data.value" [binary]="true" (onChange)="onValueChanged()" [inputId]="data.label"></p-checkbox>
-      <label [for]="data.label">{{ data.label }}</label>
+      <p-checkbox [disabled]="disabled" [name]="data.label" [(ngModel)]="data.value" [binary]="true" (onChange)="onValueChanged()" [inputId]="data.label"></p-checkbox>
+      <label [for]="data.label" [ngClass]="{'disabled': disabled}">{{ data.label }}</label>
     </div>
   </div>
 </div>

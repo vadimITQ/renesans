@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { PeNavigationService } from '../../services/pe-navigation/pe-navigation.service';
-import { LoginModel } from './login.types';
+import { LoginForm, LoginModel } from './login.types';
 
 @Component({
   selector: 'app-login',
@@ -25,36 +25,51 @@ export class LoginComponent {
     login: '',
     password: ''
   };
-  loginForm: FormGroup = this.createLoginForm();
-  showErrorMessage: boolean = false;
-
-  get _loginForm(){
-    return this.loginForm.get('login');
-  }
-  
-  get _passwordForm() {
-    return this.loginForm.get('password');
-  }
+  loginForm: FormGroup<LoginForm> = this.createLoginForm();
 
   get errorMessage(): string {
-    return "Не удалось войти в систему. Попробуйте ещё раз";
+    const errors = this.loginForm.errors;
+    if (!!errors){
+      const required = !!errors["required"] === true;
+      const failed = !!errors["failed"] === true;
+      if (required){
+        return "";
+      }
+      if (failed){
+        return "Не удалось войти в систему. Попробуйте ещё раз";
+      }
+    }
+    return "";
+  }
+
+  get loginRequired(): boolean {
+    return (this.loginForm.touched || this.loginForm.dirty) && this.loginForm.controls.login.hasError('required');
+  }
+
+  get passwordRequired(): boolean {
+    return (this.loginForm.touched || this.loginForm.dirty) && this.loginForm.controls.password.hasError('required');
   }
 
   createLoginForm(){
-    return this.fb.group({
+    return this.fb.group<LoginForm>({
       login: new FormControl(this.authentificationData.login, [Validators.required]),
       password: new FormControl(this.authentificationData.password,  [Validators.required])
-    })  
+    },{
+      updateOn: 'change'
+    });
   }
 
   tryAuthenticateUser(): void {
-    if (!this._loginForm?.value || !this._passwordForm?.value){
-      this.showErrorMessage = true;
+    if (!this.loginForm.controls.login.value || !this.loginForm.controls.password.value){
+      this.loginForm.setErrors({required: true});
       return;
     }
     this.loadingService.showLoading();
     this.authService
-      .login({ connectionName: this._loginForm.value, connectionPassword: this._passwordForm.value })
+      .login({ 
+          connectionName: this.loginForm.controls.login.value, 
+          connectionPassword: this.loginForm.controls.password.value 
+      })
       .subscribe({
         next: (response) => {
           if (response?.auth){
@@ -62,12 +77,12 @@ export class LoginComponent {
             this.peNavigationService.goToSearchPayment();
           }
           else{
-            this.showErrorMessage = true;
+            this.loginForm.setErrors({failed: true});
             return;
           }
         },
         error: (error) => {
-          this.showErrorMessage = true;
+          this.loginForm.setErrors({failed: true});
           this.loadingService.hideLoading();
         },
         complete: () => {

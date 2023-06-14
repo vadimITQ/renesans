@@ -8,7 +8,6 @@ import { DatePickerHelper } from "src/app/shared/components/controls/date-picker
 import { ToastService } from "src/app/shared/services/toast.service";
 import { PEGlobalValidators } from "src/app/shared/components/reactive-controls/validations";
 import { IMultiCheckboxData } from "src/app/shared/components/reactive-controls/pe-multi-checkbox-form/pe-r-multi-checkbox/pe-r-multi-checkbox.component";
-import { GlobalReactiveErrorsEnum } from "src/app/shared/components/reactive-controls/global-error-messages";
 
 @Injectable({
     providedIn: 'root'
@@ -60,16 +59,9 @@ export class AntiFraudChecksFilterUtils {
     }
 
     public showErrorMessages(filter: FormGroup<AntiFraudCheckFilterForm>): void {
-        const errors = Object.keys(filter.errors ?? {});
     
-        if (errors.includes(GlobalReactiveErrorsEnum.ValidateOnEmpty)) {
-          this.toast.showErrorToast(
-            this.validation.messages[GlobalReactiveErrorsEnum.ValidateOnEmpty]
-          );
-          return;
-        }
-    
-        const message = PEGlobalValidators.getLastErrorMessage(filter);
+        const message = PEGlobalValidators.getErrorMessage(filter);
+        
         if (!!message){
           this.toast.showErrorToast(
             message

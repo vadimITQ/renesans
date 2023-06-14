@@ -24,7 +24,7 @@ export class ManualChecksValidation {
     [ValidationErrorsEnum.ManualChecksFormNoValid]: "  "
   }
 
-  public validateFilter(group: FormGroup<ManualChecksFilter>, triggeredBySubmitButton: boolean = false): ValidationErrors | null {
+  public validateFilter(group: FormGroup<ManualChecksFilter>, calledBySearchButton: boolean = false): ValidationErrors | null {
 
     group.markAllAsTouched();
 
@@ -32,7 +32,7 @@ export class ManualChecksValidation {
 
     PEGlobalValidators.validateDates(group);
     
-    if (triggeredBySubmitButton) {
+    if (calledBySearchButton) {
       this.validateOnEmpty(group);
     }
 

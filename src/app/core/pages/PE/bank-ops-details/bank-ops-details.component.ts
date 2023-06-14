@@ -52,6 +52,8 @@ export class BankOpsDetailsComponent implements OnInit {
     }
 
     loadData() {
+        this.bankOpsGroup.disable();
+        this.bankOpsGroup.controls.commentary.enable();
         this.bankOpsDetailsService.getBankOpsDetails().subscribe(
             response => {
                 this.bankOpsDetailsData = response;

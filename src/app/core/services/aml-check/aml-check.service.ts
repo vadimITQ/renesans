@@ -4,8 +4,9 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { Pagination, TableService } from '../../../shared/services/table.service';
 import {IAmlCheck, IAmlCheckFiltersPayload} from "./types";
-import {IAmlCheckFilters} from "../../pages/PE/aml-check/aml-check-filters/aml-check-filters.types";
+import {IAmlCheckFiltersForm} from "../../pages/PE/aml-check/aml-check-filters/aml-check-filters.types";
 import {amlCheckTableMock} from "../../pages/PE/aml-check/aml-check-table/aml-check-table.mock";
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class AmlCheckService extends TableService<IAmlCheck, IAmlCheckFiltersPay
     super(getApplicationsList);
   }
 
-  public $filters: BehaviorSubject<IAmlCheckFilters | null> = new BehaviorSubject<IAmlCheckFilters | null>(null);
+  public $filter: BehaviorSubject<FormGroup<IAmlCheckFiltersForm> | null> = new BehaviorSubject<FormGroup<IAmlCheckFiltersForm> | null>(null);
   public $reportLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 }

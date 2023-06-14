@@ -1,6 +1,6 @@
 import { PEReactiveHelper } from "./utils";
 import { GlobalReactiveErrorsEnum, globalMessages } from "./global-error-messages";
-import { IFormGroupWithDates } from "./reactive-forms-modals";
+import { IFormGroupWithDates } from "./reactive-forms-types";
 import { FormControl, FormGroup } from "@angular/forms";
 import { format } from "date-fns";
 import { dateFormat } from "../controls/date-picker/date-picker.constants";
@@ -58,7 +58,7 @@ export class PEGlobalValidators {
 
     }
 
-    public static validatePlannedDateWithToday(control: FormControl<Date | null>): void {
+    public static validatePlannedDateLessToday(control: FormControl<Date | null>): void {
       if (!!control && !!control.value && PEReactiveHelper.isFormGroup(control.parent)){
         const today: Date = new Date();
         const plannedDate = control.value;
@@ -76,10 +76,14 @@ export class PEGlobalValidators {
       }
     }
 
-    public static getLastErrorMessage(group: FormGroup): string | null {
+    public static getErrorMessage(group: FormGroup): string | null {
       
       const errors = Object.keys(group.errors ?? {});
-  
+
+      if (errors.includes(GlobalReactiveErrorsEnum.ValidateOnEmpty)) {
+        return globalMessages.formValidations[GlobalReactiveErrorsEnum.ValidateOnEmpty];
+      }
+
       if (errors.includes(GlobalReactiveErrorsEnum.DateFromMoreThanDateTo)) {
         return globalMessages.datesValidation[GlobalReactiveErrorsEnum.DateFromMoreThanDateTo];
       }

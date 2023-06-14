@@ -10,6 +10,7 @@
       style="width: 100%"
       [class]="{'input-error': !control.valid && (control.dirty || control.touched)}"
       [maxLength]="maxLength"
+      [readOnly]="disabled"
       [disabled]="disabled"
       [allowedInputCharactersReg]="regExprValidation"
     />

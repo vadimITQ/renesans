@@ -3,7 +3,6 @@ import { AbstractControl, FormControl } from "@angular/forms";
 import { ErrorMesssagesList, globalMessages } from "../global-error-messages";
 import { Subscription } from "rxjs";
 import { PEReactiveHelper } from "../utils";
-import { PEGlobalValidators } from "../validations";
 
 @Component({
     selector: "pe-date-picker-form",

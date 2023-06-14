@@ -59,16 +59,9 @@ export class BankOpsCheckFilterUtils {
   }
 
   showErrorMessages(filter: FormGroup<IBankOpsCheckFilterForm>): void {
-    const errors = Object.keys(filter.errors ?? {});
 
-    if (errors.includes(GlobalReactiveErrorsEnum.ValidateOnEmpty)) {
-      this.toast.showErrorToast(
-        this.validation.messages[GlobalReactiveErrorsEnum.ValidateOnEmpty]
-      );
-      return;
-    }
-
-    const message = PEGlobalValidators.getLastErrorMessage(filter);
+    const message = PEGlobalValidators.getErrorMessage(filter);
+    
     if (!!message){
       this.toast.showErrorToast(
         message

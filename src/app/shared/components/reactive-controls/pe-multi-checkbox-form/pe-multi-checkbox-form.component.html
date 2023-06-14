@@ -4,7 +4,8 @@
         [formControl]="control" 
         [title]="title" 
         [horizontal]="horizontal"
-        [hasError]="(control.invalid && (control.dirty || control.touched)) && !!control.errors">
+        [hasError]="(control.invalid && (control.dirty || control.touched)) && !!control.errors"
+        [disabled]="disabled">
     </pe-r-multi-checkbox>
 
     <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">

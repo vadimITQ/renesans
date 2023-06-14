@@ -8,7 +8,8 @@ import { antiFraudDetails } from "../../pages/PE/anti-fraud-details/anti-fraud-d
 })
 export class AntiFraudDetailsService {
 
-    public getAntiFraudDetails(): Observable<any> {
+    public getAntiFraudDetails(): Observable<typeof antiFraudDetails> {
+        console.log(typeof antiFraudDetails);
         return of(antiFraudDetails).pipe(delay(2000));
     }
 

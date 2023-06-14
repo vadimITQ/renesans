@@ -31,6 +31,7 @@ export class PeRMultiCheckboxForm implements ControlValueAccessor {
     @Input() title: string = '';
     @Input() horizontal: boolean = false;
     @Input() hasError: boolean = false;
+    @Input() disabled: boolean = false;
 
     writeValue(values: IMultiCheckboxData[]): void {
         this.values = values;

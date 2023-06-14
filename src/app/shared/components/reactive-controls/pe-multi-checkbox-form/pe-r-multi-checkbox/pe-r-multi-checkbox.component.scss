@@ -1,6 +1,10 @@
 
 @import "/src/app/shared/styles/variables.scss";
 
+label.disabled {
+  opacity: 0.5;
+}
+
 .multi-checkbox{
     align-items: center;
     gap: 20px;

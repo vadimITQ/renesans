@@ -1,6 +1,19 @@
 import { IAmlDetails } from "./aml-details.types";
 
 export const amlDetailsMockData: IAmlDetails = {
+    info: {
+        IdPE: "test test test",
+        datePE: "test test test",
+        fioPayer: "test test test",
+        writeOffAccount: "-",
+        recipientFio: "-",
+        recipientAccount: "-",
+        recipientINN: "-",
+        recipientBankBIK: "test test test",
+        appointment: "test test test",
+        transferAmount: "-",
+        commentary: null
+    },
     automaticChecksData: [
         {
             rules: "Пройдена успешно",

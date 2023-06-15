@@ -5,7 +5,7 @@
     <pe-indent [mBottom]="3"></pe-indent>
 </div>
 
-<div class="pe-aml-details pe-border" *ngIf="hasAccessToComponent">
+<div class="pe-aml-details pe-border" [formGroup]="detailsForm" *ngIf="hasAccessToComponent">
 
     <h5>AML проверка: просмотр деталей по заявке</h5>
 
@@ -16,16 +16,16 @@
     </div>
 
     <div class="info-block">
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="ID PE"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Дата заявки PE"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'"              label="ФИО плательщика"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'"              label="Счёт списания"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'"              label="ФИО получателя/наименование организации"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Счёт получателя"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="ИНН получателя"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="БИК банка получателя"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Назначение"></pe-input>
-        <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Сумма перевода"></pe-input>
+        <pe-input-form [control]="detailsForm.controls.IdPE"                label="ID PE"                                   [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.datePE"              label="Дата заявки PE"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.fioPayer"            label="ФИО плательщика"                         [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.writeOffAccount"     label="Счёт списания"                           [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.recipientFio"        label="ФИО получателя/наименование организации" [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.recipientAccount"    label="Счёт получателя"                         [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.recipientINN"        label="ИНН получателя"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.recipientBankBIK"    label="БИК банка получателя"                    [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.appointment"         label="Назначение"                              [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.transferAmount"      label="Сумма перевода"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
     </div>
 
     <div class="paragraph">
@@ -204,7 +204,11 @@
     <pe-indent [mTop]="4"></pe-indent>
 
     <div class="commentary">
-        <pe-input label="Общий комментарий к документам" [maxLength]="250"></pe-input>
+        <pe-input-form
+            [control]="detailsForm.controls.commentary"
+            label="Общий комментарий к документам" 
+            [maxLength]="250">
+        </pe-input-form>
     </div>
 
     <pe-indent [mTop]="4"></pe-indent>

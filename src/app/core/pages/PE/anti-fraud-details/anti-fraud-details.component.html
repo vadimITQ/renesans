@@ -5,7 +5,7 @@
     <pe-indent [mBottom]="3"></pe-indent>
 </div>
 
-<div class="anti-fraud-details pe-border" *ngIf="hasAccessToComponent">
+<div class="anti-fraud-details pe-border" [formGroup]="form" *ngIf="hasAccessToComponent">
 
     <h5>AntiFraud проверка: просмотр деталей по заявке</h5>
 

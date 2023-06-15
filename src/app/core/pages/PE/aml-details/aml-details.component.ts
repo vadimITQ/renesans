@@ -1,12 +1,14 @@
 
 import { Component, OnInit } from "@angular/core";
 import { PeRolesService } from "src/app/core/services/auth/pe-roles.service";
-import { IAmlDetails } from "./aml-details.types";
+import { IAmlDetails, IAmlDetailsForm } from "./aml-details.types";
 import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
 import { LoadingService } from "src/app/shared/services/loading.service";
 import { FileUploadingModal, IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 import { ToastService } from "src/app/shared/services/toast.service";
-import {AmlDetailsService} from "../../../services/aml-check/aml-details.service";
+import { AmlDetailsService } from "../../../services/aml-check/aml-details.service";
+import { AmlDetailsUtils } from "./aml-details.utils";
+import { FormGroup } from "@angular/forms";
 
 @Component({
     selector: "app-aml-details",
@@ -19,9 +21,11 @@ export class AmlDetailsComponent implements OnInit {
         private peRolesService: PeRolesService,
         private amlDetailsService: AmlDetailsService,
         private loading: LoadingService,
-        private toast: ToastService
+        private toast: ToastService,
+        private utils: AmlDetailsUtils
     ) { }
 
+    public detailsForm: FormGroup<IAmlDetailsForm> = this.utils.createForm();
     public amlDetailsData: IAmlDetails | "loading" = "loading";
     public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
     public uploadingData: IPEUploadingData[] = [];
@@ -52,6 +56,7 @@ export class AmlDetailsComponent implements OnInit {
         this.amlDetailsService.getAmlDetails().subscribe(
             response => {
                 this.amlDetailsData = response;
+                this.detailsForm.setValue(response.info);
                 PaymentEngineHelper.scrollToTop();
             }
         );

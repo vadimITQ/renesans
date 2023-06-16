@@ -6,7 +6,8 @@ import { LoadingService } from '../../../../shared/services/loading.service';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 import {prepareTransferDetails} from "./view-transfer-details.utils";
-import {ITransferDetailsWithRetRefNumber} from "./view-transfer-details.types";
+import {ITransferDetailsWithRetRefNumber, ItransferDetailsForm} from "./view-transfer-details.types";
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -14,6 +15,8 @@ import {ITransferDetailsWithRetRefNumber} from "./view-transfer-details.types";
   styleUrls: ['./view-transfer-details.component.scss'],
 })
 export class ViewTransferDetailsComponent implements OnInit {
+  
+  transferDetailsForm: FormGroup<ItransferDetailsForm> = this.createForm();
   transferDetails: ITransferDetailsWithRetRefNumber = transferDetailDefaultValue;
   tableColumns = tableColumns;
 
@@ -22,7 +25,8 @@ export class ViewTransferDetailsComponent implements OnInit {
     private viewTransferDetailsService: ViewTransferDetailsService,
     private loadingService: LoadingService,
     private peNavigationService: PeNavigationService,
-    private peRolesService: PeRolesService
+    private peRolesService: PeRolesService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -40,7 +44,32 @@ export class ViewTransferDetailsComponent implements OnInit {
       if (!value) {
         return;
       }
+
       this.transferDetails = prepareTransferDetails(value);
+
+      const {statusHistory, ...details} = this.transferDetails;
+
+      this.transferDetailsForm.setValue(details);
+
+    });
+  }
+
+  createForm(): FormGroup<ItransferDetailsForm> {
+    return this.fb.group<ItransferDetailsForm>({
+      amount: new FormControl(null),
+      appCreationTime: new FormControl(null),
+      idPH: new FormControl(null),
+      operatorLegalName: new FormControl(null),
+      payeeAccount: new FormControl(null),
+      payeeBankBIC: new FormControl(null),
+      payeeInn: new FormControl(null),
+      payeeName: new FormControl(null),
+      payerAccount: new FormControl(null),
+      payerName: new FormControl(null),
+      paymentID: new FormControl(null),
+      paymentPurpose: new FormControl(null),
+      serviceName: new FormControl(null),
+      retRefNumber: new FormControl(null)
     });
   }
 
@@ -51,4 +80,5 @@ export class ViewTransferDetailsComponent implements OnInit {
   onBack() {
     this.peNavigationService.goBack();
   }
+  
 }

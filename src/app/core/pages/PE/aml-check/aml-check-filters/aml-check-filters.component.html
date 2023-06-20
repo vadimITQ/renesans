@@ -17,7 +17,7 @@
 
   <div class="date-row">
     <date-picker
-      [(date)]="filters.dateTimeFrom"
+      [(ngModel)]="filters.dateTimeFrom"
       [validationMessage]="filtersValidation['dateTimeFrom']"
       label="Дата/Время с"
       (dateChange)="validate(true)"
@@ -27,7 +27,7 @@
   </div>
   <div class="date-row">
     <date-picker
-      [(date)]="filters.dateTimeTo"
+      [(ngModel)]="filters.dateTimeTo"
       [validationMessage]="filtersValidation['dateTimeTo']"
       label="Дата/Время по"
       (dateChange)="validate(true)"

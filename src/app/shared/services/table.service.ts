@@ -1,16 +1,16 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export type Pagination = {
+export interface Pagination {
   offset: number;
   limit: number;
-};
+}
 
-type TableResponse<TData> = {
+interface TableResponse<TData> {
   count: number;
   limit: number | null;
   offset: number | null;
   data: TData[];
-};
+}
 
 type FetchTableDataFn<TData, TFilters> = (filters: TFilters, pagination: Pagination) => Observable<TableResponse<TData>>;
 
@@ -47,11 +47,12 @@ export class TableService<TData, TFilters> {
       throw new Error('Please, provide fetch table data function');
     }
     this.$loading.next(true);
-    this.fetchFn(this.filters, this.pagination).subscribe(response => {
+    const sub = this.fetchFn(this.filters, this.pagination).subscribe(response => {
       this.$tableData.next(response.data);
       this.count = response.count;
 
       this.$loading.next(false);
+      sub.unsubscribe();
     });
   }
 }

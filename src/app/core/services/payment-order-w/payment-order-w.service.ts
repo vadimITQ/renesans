@@ -53,14 +53,13 @@ export class PaymentOrderWService {
 
   public getPaymentsReport(filters?: ISearchPaymentsFiltersPayload): Observable<ArrayBuffer> {
     return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', filters, {
-      responseType: 'arraybuffer' as 'json'
+      responseType: 'arraybuffer' as 'json',
     });
   }
 
-  public getApplicationsList (filters: IBankOpsCheckFiltersPayload, pagination: Pagination): Observable<IBankOpsCheckResponse> {
+  public getApplicationsList(filters: IBankOpsCheckFiltersPayload, pagination: Pagination): Observable<IBankOpsCheckResponse> {
     return this.http.post<IBankOpsCheckResponse>(API_URL + '/getApplicationsList', filters, {
-      params: pagination ,
+      params: { ...pagination },
     });
   }
 }
-

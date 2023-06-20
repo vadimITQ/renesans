@@ -1,12 +1,11 @@
-
 export interface StandingOrderStatResponse {
-    standingOrdersCount: number;
-    plannedForDateCount: number;
-    processedCount: number;
-    successfullyProcessedCount: number;
-    failedProcessedCount: number;
-    processingCount: number;
-    monitoringDataRecord: MonitoringDataRecord[];
+  standingOrdersCount: number;
+  plannedForDateCount: number;
+  processedCount: number;
+  successfullyProcessedCount: number;
+  failedProcessedCount: number;
+  processingCount: number;
+  monitoringDataRecord: MonitoringDataRecord[];
 }
 
 export interface MonitoringDataRecord {

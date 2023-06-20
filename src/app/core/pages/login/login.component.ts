@@ -12,18 +12,17 @@ import { LoginForm, LoginModel } from './login.types';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private toastService: ToastService,
     private loadingService: LoadingService,
-    private peNavigationService: PeNavigationService
-  ) { }
+    private peNavigationService: PeNavigationService,
+  ) {}
 
   authentificationData: LoginModel = {
     login: '',
-    password: ''
+    password: '',
   };
   loginForm: FormGroup<LoginForm> = this.createLoginForm();
 
@@ -88,7 +87,7 @@ export class LoginComponent {
         complete: () => {
           this.loadingService.hideLoading();
         }
-      });
+      }
+    );
   }
-
 }

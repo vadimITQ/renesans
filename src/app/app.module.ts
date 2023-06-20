@@ -82,7 +82,7 @@ import {AmlCheckTableComponent} from "./core/pages/PE/aml-check/aml-check-table/
 import {AmlDetailsComponent} from "./core/pages/PE/aml-details/aml-details.component";
 import { PeCheckboxFormComponent } from "src/app/shared/components/reactive-controls/pe-checkbox-form/pe-checkbox-form.component";
 
-export function startPaymentEngine(initService: PaymentEngineInitializerService){
+export function startPaymentEngine(initService: PaymentEngineInitializerService) {
   return () => initService.init();
 }
 
@@ -165,12 +165,12 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     BadgeModule,
     DialogModule,
     TranslateModule.forRoot({
-      loader:{
+      loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
     AuthGuard,
@@ -189,8 +189,8 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
       provide: APP_INITIALIZER,
       useFactory: startPaymentEngine,
       multi: true,
-      deps: [PaymentEngineInitializerService]
-    }
+      deps: [PaymentEngineInitializerService],
+    },
   ],
   bootstrap: [AppComponent],
 })

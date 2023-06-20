@@ -2,7 +2,7 @@ import { FormControl } from "@angular/forms";
 import {ITransferDetails} from "../../../services/view-transfer-details/types";
 
 export interface ITransferDetailsWithRetRefNumber extends ITransferDetails {
-  retRefNumber: string
+  retRefNumber: string;
 }
 
 export interface ItransferDetailsForm {

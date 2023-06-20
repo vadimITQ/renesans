@@ -57,13 +57,12 @@ export class SearchPaymentService extends TableService<ISearchPayment, ISearchPa
     const $paymentStreams = payments.map(payment => {
       return this.paymentOrderWService.cancelPayment({
         cancelReason: CancelReason.CLIENT,
-        paymentID: payment.paymentID ?? "",
-        description: "",
+        paymentID: payment.paymentID ?? '',
+        description: '',
         channelName: 'PEW',
         channelUser: this.authService.user?.connectionName ?? 'Unknown_User',
       });
     });
     return forkJoin($paymentStreams);
   }
-
 }

@@ -5,21 +5,16 @@ import { AuthService } from '../auth/auth.service';
 import { Location } from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PeNavigationService {
-
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private location: Location
-  ) { }
+  constructor(private router: Router, private authService: AuthService, private location: Location) {}
 
   public goToSpecificPath(path: string[], extras?: NavigationExtras | undefined) {
     this.router.navigate([RouterPath.PaymentEngine, ...path], extras);
   }
 
-  public goToHome(){
+  public goToHome() {
     this.goToSearchPayment();
   }
 
@@ -29,15 +24,15 @@ export class PeNavigationService {
       : this.router.navigate([RouterPath.Login]);
   }
 
-  public goBack(){
+  public goBack() {
     this.location.back();
   }
 
-  public goToManualChecks(){
+  public goToManualChecks() {
     this.goToSpecificPath([RouterPath.ManualChecks]);
   }
 
-  public goToSearchPayment(){
+  public goToSearchPayment() {
     this.goToSpecificPath([RouterPath.SearchPayment]);
   }
 
@@ -64,5 +59,4 @@ export class PeNavigationService {
   public goToAmlDetails(id: number | string){
     this.goToSpecificPath([RouterPath.AmlDetails, '' + id])
   }
-
 }

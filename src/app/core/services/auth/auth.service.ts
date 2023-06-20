@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { delay, Observable, of, switchMap, tap } from 'rxjs';
+import { delay, Observable, of, tap } from 'rxjs';
 import { RouterPath } from '../../../shared/enums/router.enums';
 import { RolesService } from './roles.service';
 import { UserResponse, UserCredentials } from '../../../shared/models/auth-models';
@@ -24,10 +24,9 @@ export class AuthService {
   }
 
   public get user(): UserCredentials | null {
-    if (this.isLoggedIn){
+    if (this.isLoggedIn) {
       return this._user;
-    }
-    else{
+    } else {
       return null;
     }
   }
@@ -41,7 +40,7 @@ export class AuthService {
           this._user = credentials;
           localStorage.setItem('token', response.token);
         },
-        error: error => {},
+        error: () => {},
       }),
       delay(200),
     );
@@ -56,7 +55,7 @@ export class AuthService {
   }
 
   public handleUnauthorized() {
-    this.toastService.showWarnToast("Истекло время сессии, авторизуйтесь снова.", "Сообщение");
+    this.toastService.showWarnToast('Истекло время сессии, авторизуйтесь снова.', 'Сообщение');
     this.logout();
     // if (this._user) {
     //   this.login(this._user);
@@ -85,7 +84,7 @@ export class AuthService {
       this._user = {connectionName: userData!.userName, connectionPassword: ""};
       this._isLoggedIn = true;
       this.rolesService.userRoles = userData!.roles;
-    };
+    }
   }
 
   private GET_ALL_ROLES_FOR_TESTING(): void {
@@ -93,8 +92,8 @@ export class AuthService {
   }
 
   private AUTH_FOR_TESTING(credentials: UserCredentials): Observable<UserResponse> {
-
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0c3RfZnVsbF90ZXN0Iiwicm9sZXMiOiJbXSIsImV4cCI6MTY3OTQ4NzEyNywiaWF0IjoxNjc5NDAwNzI3LCJ1c2VybmFtZSI6InRzdF9mdWxsX3Rlc3QifQ.bn3d5maU3wT1q8YPZe3LmLooMGnw0GgXq5dkAagdeaNcXUJqmtnxszoxI2YP4ItOk8XitnjOxTxKjW28Lmu41Q';
+    const token =
+      'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0c3RfZnVsbF90ZXN0Iiwicm9sZXMiOiJbXSIsImV4cCI6MTY3OTQ4NzEyNywiaWF0IjoxNjc5NDAwNzI3LCJ1c2VybmFtZSI6InRzdF9mdWxsX3Rlc3QifQ.bn3d5maU3wT1q8YPZe3LmLooMGnw0GgXq5dkAagdeaNcXUJqmtnxszoxI2YP4ItOk8XitnjOxTxKjW28Lmu41Q';
     // localStorage.setItem('token', token);
     this._isLoggedIn = true;
     this._user = credentials;
@@ -105,7 +104,7 @@ export class AuthService {
       token,
     });
 
-    return this.authenticateUser("tst_full_test", "yiqH9iR5").pipe(
+    return this.authenticateUser('tst_full_test', 'yiqH9iR5').pipe(
       tap({
         next: response => {
           this._isLoggedIn = response.auth;
@@ -118,5 +117,4 @@ export class AuthService {
       delay(200),
     );
   }
-
 }

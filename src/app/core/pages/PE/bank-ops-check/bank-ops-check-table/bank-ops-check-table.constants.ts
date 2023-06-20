@@ -1,4 +1,4 @@
-import {IColumn} from "../../../../../shared/types/table.types";
+import { IColumn } from '../../../../../shared/types/table.types';
 
 export const bankOpsCheckTableColumns: IColumn[] = [
   {

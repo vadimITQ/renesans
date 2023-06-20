@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, delay, map,  of } from 'rxjs';
+import { BehaviorSubject, delay, of } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { Pagination, TableService } from '../../../shared/services/table.service';
@@ -14,7 +14,7 @@ import { FormGroup } from '@angular/forms';
 export class BankOpsCheckService extends TableService<IBankOpsCheck, IBankOpsCheckFiltersPayload> {
   constructor(private paymentOrderWService: PaymentOrderWService, private toastService: ToastService) {
     function getApplicationsList(payload: IBankOpsCheckFiltersPayload, pagination: Pagination) {
-      return of({...bankOpsCheckTableMock, data: bankOpsCheckTableMock.bankOpsChecks}).pipe(delay(1000))
+      return of({ ...bankOpsCheckTableMock, data: bankOpsCheckTableMock.bankOpsChecks }).pipe(delay(1000));
       // return paymentOrderWService.getApplicationsList(payload, pagination).pipe(
       //   map(value => ({ ...value, data: value.bankOpsChecks })),
       //   catchError(error => {
@@ -33,5 +33,4 @@ export class BankOpsCheckService extends TableService<IBankOpsCheck, IBankOpsChe
   public $filter: BehaviorSubject<FormGroup<IBankOpsCheckFilterForm> | null> = new BehaviorSubject<FormGroup<IBankOpsCheckFilterForm> | null>(null);
   public $filters: BehaviorSubject<IBankOpsCheckFilters | null> = new BehaviorSubject<IBankOpsCheckFilters | null>(null);
   public $reportLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
 }

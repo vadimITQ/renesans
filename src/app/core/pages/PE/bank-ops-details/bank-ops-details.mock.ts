@@ -1,4 +1,4 @@
-import { IBankOpsDetails } from "./bank-ops-details.types";
+import { IBankOpsDetails } from './bank-ops-details.types';
 
 export const bankOpsDetailsMockData: IBankOpsDetails = {
     infoBlock: {

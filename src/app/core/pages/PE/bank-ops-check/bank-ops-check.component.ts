@@ -14,5 +14,4 @@ export class BankOpsCheckComponent {
   get hasAccessToComponent(): boolean {
     return this.peRolesService.hasAccessToBankOpsCheck();
   }
-
 }

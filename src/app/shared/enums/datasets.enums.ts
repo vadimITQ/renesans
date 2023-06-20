@@ -1,4 +1,3 @@
-
 export enum MultiselectDataSets {
     GetReceivingChanelOptions = "GetReceivingChanelOptions",
     GetObjectTypeOptions = "GetObjectTypeOptions",

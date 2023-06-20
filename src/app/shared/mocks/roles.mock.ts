@@ -1,4 +1,4 @@
-import { RolesList } from "../enums/roles.enums";
+import { RolesList } from '../enums/roles.enums';
 
 export const userHasRoles = Object.values(RolesList);
-export const userNoRoles = [ ];
+export const userNoRoles = [];

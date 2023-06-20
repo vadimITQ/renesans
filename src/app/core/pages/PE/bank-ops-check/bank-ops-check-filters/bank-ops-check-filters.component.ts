@@ -49,5 +49,4 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
       this.bankOpsUtils.showErrorMessages(this.filter);
     }
   }
-
 }

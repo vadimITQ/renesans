@@ -1,5 +1,5 @@
-import {ITransferDetailsWithRetRefNumber} from "./view-transfer-details.types";
-import {IColumn} from "../../../../shared/types/table.types";
+import { ITransferDetailsWithRetRefNumber } from './view-transfer-details.types';
+import { IColumn } from '../../../../shared/types/table.types';
 
 export const tableColumns: IColumn[] = [
   {

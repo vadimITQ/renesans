@@ -3,16 +3,12 @@ import { ISearchPayment } from '../../../../services/search-payment/types';
 import { ISearchPaymentTableData } from '../search-payment.types';
 import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { DatePickerHelper } from '../../../../../shared/components/controls/date-picker/date-picker-helper';
-import {paymentStatusObj} from "../../../../../shared/variables/payment-status";
+import { paymentStatusObj } from '../../../../../shared/variables/payment-status';
 
 export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: DatePipe): ISearchPaymentTableData[] {
   return data.map(searchPayment => {
-    const debitPayDoc = !!searchPayment.payDocs
-      ? searchPayment.payDocs.filter(payDoc => payDoc?.dc.includes('D'))[0]
-      : null;
-    const creditPayDoc = !!searchPayment.payDocs
-      ? searchPayment.payDocs.filter(payDoc => payDoc?.dc.includes('C'))[0]
-      : null;
+    const debitPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc.includes('D'))[0] : null;
+    const creditPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc.includes('C'))[0] : null;
     const plannedDate = datePipeRef
       ? datePipeRef.transform(DatePickerHelper.parseFromLocaleStringToDate(searchPayment.plannedDate), 'dd-MM-yyyy') ?? ''
       : searchPayment.plannedDate;
@@ -25,7 +21,7 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
       pmtCreationTime,
       plannedDate,
       statusCodePE: searchPayment.statusCodePE,
-      statusDescriptionPE:paymentStatusObj[searchPayment.statusCodePE],
+      statusDescriptionPE: paymentStatusObj[searchPayment.statusCodePE],
       type: manualChecksTransferTypes.find(({ value }) => value === searchPayment.paymentApplication.type)?.label ?? '',
       amount: searchPayment.paymentApplication.amount,
       fee: searchPayment.paymentApplication.fee,
@@ -39,9 +35,9 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
       docID_C: creditPayDoc?.docID ?? '',
       cifID: searchPayment.paymentApplication.payer.user.cifID ?? '',
       applicationID: searchPayment.paymentApplication.applicationID,
-      referenceSbpTransactionId: searchPayment.paymentApplication.sbp.referenceSbpTransactionId,
-      sbpWorkflowType: searchPayment.paymentApplication.sbp.sbpWorkflowType,
-      idPH: searchPayment.paymentApplication.ipt.idPH,
+      referenceSbpTransactionId: searchPayment.paymentApplication.sbp?.referenceSbpTransactionId ?? '',
+      sbpWorkflowType: searchPayment.paymentApplication.sbp?.sbpWorkflowType ?? '',
+      idPH: searchPayment.paymentApplication.ipt?.idPH ?? '',
     };
   });
 }

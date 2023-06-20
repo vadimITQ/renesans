@@ -23,7 +23,7 @@
 
     <date-picker 
         label="Дата/время с"
-        [(date)]="antiFraudCheckFilter.dateFrom"
+        [(ngModel)]="antiFraudCheckFilter.dateFrom"
         [validationMessage]="validations['dateFrom']"
         (dateChange)="validateDates()"
         [labelStyle]="{ 'width': '130px' }"
@@ -34,7 +34,7 @@
 
     <date-picker 
         label="Дата/время по" 
-        [(date)]="antiFraudCheckFilter.dateTo"
+        [(ngModel)]="antiFraudCheckFilter.dateTo"
         [validationMessage]="validations['dateTo']"
         (dateChange)="validateDates()"
         [labelStyle]="{ 'width': '130px' }"

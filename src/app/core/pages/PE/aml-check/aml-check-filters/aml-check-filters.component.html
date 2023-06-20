@@ -47,11 +47,11 @@
   </div>
 
   <div class="input-row">
-    <pe-multi-checkbox-form
+    <pe-checkbox-form
+      label="Только просроченные"
       [control]="filter.controls.onlyExpired"
-      [disabled]="!hasAccessToSearchOnlyExpired"
-      [horizontal]="true">
-    </pe-multi-checkbox-form>
+      [disabled]="!hasAccessToSearchOnlyExpired">
+    </pe-checkbox-form>
   </div>
   
   <div>

@@ -33,6 +33,11 @@ const globalMessages_multicheckboxValidation: ErrorMesssagesList = {
   [GlobalReactiveErrorsEnum.EmptyError]: "  "
 }
 
+const globalMessages_checkboxValidation: ErrorMesssagesList = {
+  [GlobalReactiveErrorsEnum.Required]: "Поле обязательно к заполнению",
+  [GlobalReactiveErrorsEnum.EmptyError]: "  "
+}
+
 const globalMessages_multiselectValidation: ErrorMesssagesList = {
   [GlobalReactiveErrorsEnum.Required]: "Поле обязательно к заполнению",
   [GlobalReactiveErrorsEnum.EmptyError]: "  "
@@ -52,6 +57,7 @@ export const globalMessages = {
     datesValidation: globalMessages_datesValidation,
     inputValidation: globalMessages_inputValidation,
     multicheckboxValidation: globalMessages_multicheckboxValidation,
+    checkboxValidation: globalMessages_checkboxValidation,
     multiselectValidation: globalMessages_multiselectValidation,
     textareaValidation: globalMessages_textareaValidation,
     formValidations: globalMessages_form

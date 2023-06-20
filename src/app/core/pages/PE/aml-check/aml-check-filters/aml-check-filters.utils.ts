@@ -2,7 +2,6 @@ import { subDays } from 'date-fns';
 import { IAmlCheckFiltersForm} from "./aml-check-filters.types";
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { IMultiCheckboxData } from 'src/app/shared/components/reactive-controls/pe-multi-checkbox-form/pe-r-multi-checkbox/pe-r-multi-checkbox.component';
 import { IAmlCheckFiltersPayload } from "src/app/core/services/aml-check/types";
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -30,12 +29,7 @@ export class AmlCheckFiltersUtils {
         paymentID: new FormControl(null),
         applicationID: new FormControl(null),
         applicationStatus: new FormControl([], { nonNullable: true }),
-        onlyExpired: new FormControl<IMultiCheckboxData[]>([
-          {
-            label: "Только просроченные",
-            value: false
-          }
-        ], { nonNullable: true })
+        onlyExpired: new FormControl(false, { nonNullable: true })
       },
       {
         updateOn: 'change',
@@ -61,7 +55,7 @@ export class AmlCheckFiltersUtils {
       dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? null),
       dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? null),
       applicationStatus: applicationStatus.value.map(v => v.value) ?? null,
-      onlyExpired: onlyExpired.value[0].value
+      onlyExpired: onlyExpired.value
     };
 
   }

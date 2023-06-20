@@ -13,16 +13,13 @@
             [defaultLabel]="placeholder"
             [display]="displayType">
         </p-multiSelect>
-        <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
-            <ng-container *ngFor="let error of control.errors | keyvalue">
-                <ng-container *ngIf="error.value === true">
-                    <div 
-                        class="pe-multiselect__validationMessage error-message"
-                        [ngStyle]="{'left': labelWidth}">
-                        {{ errorMessages[error.key] }}
-                    </div>
-                </ng-container>
-            </ng-container>
-        </ng-container>
+        <pe-error-messages 
+            [control]="control" 
+            [errorMessagesList]="errorMessages"
+            [errorStyles]="{
+                'left': labelWidth,
+                'top': '43px'
+            }">
+        </pe-error-messages>
     </div>
 </div>

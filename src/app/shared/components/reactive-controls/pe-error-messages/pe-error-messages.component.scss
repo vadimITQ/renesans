@@ -1,0 +1,12 @@
+
+@import "/src/app/shared/styles/variables.scss";
+
+.error-message {
+    color: $errorColor;
+    position: absolute;
+    top: 40px;
+    left: 3px;
+    z-index: 999;
+    font-size: 13px;
+    line-height: 14px;
+}

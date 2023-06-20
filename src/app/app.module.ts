@@ -80,6 +80,7 @@ import {AmlCheckComponent} from "./core/pages/PE/aml-check/aml-check.component";
 import {AmlCheckFiltersComponent} from "./core/pages/PE/aml-check/aml-check-filters/aml-check-filters.component";
 import {AmlCheckTableComponent} from "./core/pages/PE/aml-check/aml-check-table/aml-check-table.component";
 import {AmlDetailsComponent} from "./core/pages/PE/aml-details/aml-details.component";
+import { PeCheckboxFormComponent } from "src/app/shared/components/reactive-controls/pe-checkbox-form/pe-checkbox-form.component";
 
 export function startPaymentEngine(initService: PaymentEngineInitializerService){
   return () => initService.init();
@@ -140,7 +141,8 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     AntiFraudCheckComponent,
     AntiFraudDetailsComponent,
     AntiFraudCheckFilterComponent,
-    AntiFraudCheckTableComponent
+    AntiFraudCheckTableComponent,
+    PeCheckboxFormComponent
   ],
   imports: [
     BrowserModule,

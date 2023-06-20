@@ -1,8 +1,12 @@
 
 @import "/src/app/shared/styles/variables.scss";
 
-label.disabled {
-  opacity: 0.5;
+label {
+  user-select: none;
+
+  &.disabled {
+    opacity: 0.5;
+  }
 }
 
 .multi-checkbox{
@@ -35,5 +39,6 @@ label.disabled {
     div.formHasError > p-checkbox > div.p-checkbox.p-component > div.p-checkbox-box {
         border-color: $errorColor;
     }
+
 }
   

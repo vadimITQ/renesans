@@ -1,5 +1,5 @@
 
-$errorColor:  #f44336;
+@import "/src/app/shared/styles/variables.scss";
 
 .pe-multiselect {
     position: relative;
@@ -14,13 +14,4 @@ $errorColor:  #f44336;
 
 :host ::ng-deep .multiselect-input-error .p-multiselect.p-component.p-multiselect-chip {
     border-color: $errorColor;
-}
-
-.error-message {
-    color: $errorColor;
-    position: absolute;
-    top: 43px;
-    z-index: 999;
-    font-size: 13px;
-    line-height: 14px;
 }

@@ -1,0 +1,13 @@
+
+@import "/src/app/shared/styles/variables.scss";
+
+:host ::ng-deep {
+    .pe-checkbox-form {
+        p-checkbox.hasError > div.p-checkbox.p-component > div.p-checkbox-box {
+            border-color: $errorColor;
+        }
+        p-checkbox label {
+            user-select: none;
+        }
+    }
+}

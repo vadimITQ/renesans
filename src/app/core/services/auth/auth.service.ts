@@ -40,12 +40,6 @@ export class AuthService {
           this.rolesService.userRoles = response.roles;
           this._user = credentials;
           localStorage.setItem('token', response.token);
-          localStorage.setItem('userData', JSON.stringify(
-            {
-              roles: response.roles,
-              userName: this._user.connectionName
-            } as UserData
-          ));
         },
         error: error => {},
       }),
@@ -58,7 +52,6 @@ export class AuthService {
     this._user = null;
     this.rolesService.clearRoles();
     localStorage.removeItem("token");
-    localStorage.removeItem("userData");
     this.router.navigate([RouterPath.Login]);
   }
 
@@ -78,9 +71,16 @@ export class AuthService {
   }
 
   public initNewSession() {
-    const userData: UserData | null = JSON.parse(localStorage.getItem("userData") ?? "{}") ?? null;
     const sessionId = localStorage.getItem("token");
-    // window.atob(sessionId?.split(".")[1] ?? "";
+    if (!sessionId){
+      this.logout();
+      return;
+    }
+    const tokenData = JSON.parse(window.atob(sessionId?.split(".")[1] ?? ''));
+    const userData: UserData = {
+      roles: !!tokenData?.roles ? tokenData.roles.split(","): [],
+      userName: !!tokenData?.username ? tokenData.username: "unknown_user"
+    };
     if (ObjectHelper.empty(userData) === false && !!sessionId) {
       this._user = {connectionName: userData!.userName, connectionPassword: ""};
       this._isLoggedIn = true;

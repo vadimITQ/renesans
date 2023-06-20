@@ -1,5 +1,6 @@
 
 <div class="pe-multi-checkbox">
+
     <pe-r-multi-checkbox 
         [formControl]="control" 
         [title]="title" 
@@ -8,11 +9,14 @@
         [disabled]="disabled">
     </pe-r-multi-checkbox>
 
-    <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
-      <ng-container *ngFor="let error of control.errors | keyvalue">
-        <ng-container *ngIf="error.value === true">
-          <span class="error-message">{{ errorMessages[error.key] }}</span>
-        </ng-container>
-      </ng-container>
-    </ng-container>
+    <pe-error-messages 
+      [control]="control" 
+      [errorMessagesList]="errorMessages"
+      [errorStyles]="{
+        'top': '43px',
+        'position': 'unset',
+        'left': 'unset'
+      }">
+    </pe-error-messages>
+
 </div>

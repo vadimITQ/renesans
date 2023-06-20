@@ -15,12 +15,10 @@
     ></textarea>
     <label for="textarea">{{ label }}</label>
   </span>
-  <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
-    <ng-container *ngFor="let error of control.errors | keyvalue">
-      <ng-container *ngIf="error.value === true">
-        <span class="error-message">{{ errorMessages[error.key] }}</span>
-      </ng-container>
-    </ng-container>
-  </ng-container>
+  <pe-error-messages 
+    [control]="control" 
+    [errorMessagesList]="errorMessages" 
+    [errorStyles]="{'position': 'unset'}">
+  </pe-error-messages>
 </div>
   

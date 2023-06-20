@@ -42,12 +42,12 @@
     <pe-indent [mBottom]="4"></pe-indent>
 
     <div class="anti-fraud-checkbox">
-
-        <pe-multi-checkbox-form 
+        
+        <pe-checkbox-form
             *ngIf="showCheckbox"
-            [horizontal]="true"
-            [control]="filter.controls.onlyExpired">
-        </pe-multi-checkbox-form>
+            [control]="filter.controls.onlyExpired"
+            label="Только просроченные">
+        </pe-checkbox-form>
 
         <pe-indent [mBottom]="5"></pe-indent>
 

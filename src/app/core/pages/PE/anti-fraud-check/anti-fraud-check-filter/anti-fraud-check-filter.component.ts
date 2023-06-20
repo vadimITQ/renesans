@@ -2,11 +2,9 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
 import { RolesService } from "src/app/core/services/auth/roles.service";
 import { MultiselectDataSets } from "src/app/shared/enums/datasets.enums";
-import { AntiFraudCheckFilter, AntiFraudCheckFilterForm } from "./anti-fraud-checks-filter.types";
+import { AntiFraudCheckFilterForm } from "./anti-fraud-checks-filter.types";
 import { AntiFraudChecksFilterUtils } from "./anti-fraud-checks-filter.utils";
-import { Validation } from "src/app/shared/validation/types";
 import { AntiFraudChecksValidation } from "./anti-fraud-checks-filter.validation";
-import { ToastService } from "src/app/shared/services/toast.service";
 import { AntiFraudCheckService } from "src/app/core/services/anti-fraud-checks/anti-fraud-check.service";
 import { FormGroup } from "@angular/forms";
 import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/utils";

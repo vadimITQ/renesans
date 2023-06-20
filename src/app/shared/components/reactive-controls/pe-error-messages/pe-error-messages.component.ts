@@ -12,7 +12,8 @@ export class PeErrorMessagesComponent {
     
     constructor(){}
 
-    @Input() errorMessagesList: ErrorMesssagesList = {};
     @Input() control!: AbstractControl;
+    @Input() errorMessagesList: ErrorMesssagesList = {};
+    @Input() errorStyles!: { [key: string]: string };
 
 }

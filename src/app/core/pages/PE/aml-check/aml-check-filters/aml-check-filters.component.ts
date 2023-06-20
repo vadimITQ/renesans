@@ -29,7 +29,8 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
   public multiselectDataSetsEnum = MultiselectDataSets;
 
   get hasAccessToSearchOnlyExpired() {
-    return this.peRolesService.hasAccessToSearchOnlyExpired();
+    return true;
+    // return this.peRolesService.hasAccessToSearchOnlyExpired();
   }
 
   ngOnDestroy(): void {

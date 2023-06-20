@@ -1,0 +1,18 @@
+
+<div class="pe-checkbox-form">
+    <p-checkbox 
+        [formControl]="control"
+        [label]="label"
+        [binary]="true"
+        [class.hasError]="hasError">
+    </p-checkbox>
+    <pe-error-messages 
+        [control]="control" 
+        [errorMessagesList]="errorMessages"
+        [errorStyles]="{
+          'top': '43px',
+          'position': 'unset',
+          'left': 'unset'
+        }">
+    </pe-error-messages>
+</div>

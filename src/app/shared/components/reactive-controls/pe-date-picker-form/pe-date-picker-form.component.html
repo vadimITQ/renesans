@@ -3,13 +3,11 @@
   <label [ngStyle]="labelStyle">{{ label }}</label>
   <div class="date-with-error-container">
     <p-calendar [disabled]="disabled" [formControl]="control" [showButtonBar]="true" [showTime]="showTime" [showSeconds]="true" dateFormat="dd/mm/yy" #datePickerRef></p-calendar>
-    <ng-container *ngIf="!control.valid && (control.dirty || control.touched)">
-      <ng-container *ngFor="let error of control.errors | keyvalue">
-        <ng-container *ngIf="error.value === true">
-          <span class="error-message">{{ errorMessages[error.key] }}</span>
-        </ng-container>
-      </ng-container>
-    </ng-container>
+    <pe-error-messages 
+      [control]="control" 
+      [errorMessagesList]="errorMessages"
+      [errorStyles]="{ 'width': '180%' }">
+    </pe-error-messages>
   </div>
   <i class="pi pi-calendar c-pointer" *ngIf="!disabled" (click)="datePickerRef.toggle()"></i>
 </div>

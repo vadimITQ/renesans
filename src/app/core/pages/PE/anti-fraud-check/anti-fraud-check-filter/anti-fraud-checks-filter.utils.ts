@@ -29,7 +29,7 @@ export class AntiFraudChecksFilterUtils {
             dateTimeFrom: new FormControl(dateFrom),
             dateTimeTo: new FormControl(dateTo),
             applicationStatus: new FormControl([], { nonNullable: true }),
-            onlyExpired: new FormControl<IMultiCheckboxData[]>([{label: 'Только просроченные', value: false}], { nonNullable: true }),
+            onlyExpired: new FormControl(false, { nonNullable: true }),
         }, {
             updateOn : 'change',
             validators: (group) => this.validation.validateFilter(group as FormGroup<AntiFraudCheckFilterForm>)
@@ -53,7 +53,7 @@ export class AntiFraudChecksFilterUtils {
            dateFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? ""),
            dateTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? ""),
            applicationStatus: applicationStatus.value,
-           onlyExpired: onlyExpired.value[0].value,
+           onlyExpired: onlyExpired.value,
         };
 
     }

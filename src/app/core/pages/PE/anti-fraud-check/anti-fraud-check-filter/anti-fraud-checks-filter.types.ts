@@ -9,7 +9,7 @@ export interface AntiFraudCheckFilterForm {
     dateTimeFrom: FormControl<Date | null>;
     dateTimeTo: FormControl<Date | null>;
     applicationStatus: FormControl<IMultiSelectData[]>;
-    onlyExpired: FormControl<IMultiCheckboxData[]>;
+    onlyExpired: FormControl<boolean>;
 }
 
 export interface AntiFraudCheckFilter {

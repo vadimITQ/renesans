@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginComponent } from './core/pages/login/login.component';
-import { PaymentEngine } from './core/pages/PE/payment-engine.component';
+import { PaymentEngineComponent } from 'src/app/core/pages/PE/payment-engine.component';
 import { TestComponent } from './core/pages/test/test.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -89,7 +89,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
 @NgModule({
   declarations: [
     AppComponent,
-    PaymentEngine,
+    PaymentEngineComponent,
     LoginComponent,
     TestComponent,
     NotFoundComponent,

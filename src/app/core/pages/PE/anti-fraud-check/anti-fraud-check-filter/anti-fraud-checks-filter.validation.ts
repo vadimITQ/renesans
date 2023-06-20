@@ -55,7 +55,7 @@ export class AntiFraudChecksValidation {
         
         if ((group.touched || group.dirty) && emptyValidation){
           Object.keys(group.controls).forEach(key => {
-            group.get(key)?.setErrors({ [GlobalReactiveErrorsEnum.Required]: true });
+            group.get(key)?.setErrors({ [GlobalReactiveErrorsEnum.EmptyError]: true });
           })
           group.setErrors(
             {

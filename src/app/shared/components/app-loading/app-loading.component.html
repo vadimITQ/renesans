@@ -1,9 +1,4 @@
-
 <div class="app-loading" *ngIf="this.loadingService.getLoadingState() | async">
-    <p-progressSpinner 
-        [style]="{width: '80px', height: '80px'}" 
-        styleClass="loading-spinner" 
-        strokeWidth="4">
-    </p-progressSpinner>
-    <div class="app-loading__background"></div>
+  <p-progressSpinner [style]="{ width: '80px', height: '80px' }" styleClass="loading-spinner" strokeWidth="4"> </p-progressSpinner>
+  <div class="app-loading__background"></div>
 </div>

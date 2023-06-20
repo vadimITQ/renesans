@@ -10,7 +10,7 @@ export interface ISearchPaymentsFiltersPayload {
   account: string | null;
   channelIP: string | null;
   chequeNumber: string | null;
-  linkedChequeId: string | null;
+  chequeId: string | null;
   plannedDate: string | null;
   statusCode: string[] | null;
   channelName: string[] | null;
@@ -18,69 +18,65 @@ export interface ISearchPaymentsFiltersPayload {
   type: string[] | null;
 }
 
-export type ApplicationChannel = {
+export interface ApplicationChannel {
   channelName: string;
   channelUser: string;
   channelIP: string;
   branchCode: string;
   iptID: string;
   iptAddress: string;
-};
+}
 
-export type ServicePaymentParameter = {
+export interface ServicePaymentParameter {
   code: string;
   displayName: string;
   value: string;
   hidden: boolean;
   paymentParameterType: string;
   displayValueName: string;
-};
+}
 
-export type User = {
-  account: string;
-  contractNumber: string;
-  sbpIdType: string;
-  sbpMtel: string;
-  bankBIC: string;
-  bankName: string;
-  bankSbpMemberId: string;
-  bankCorrAccount: string;
-  naturalName: string;
-  naturalSurname: string;
-  naturalPatronymic: string;
-  address: string;
-  cardNumber: string;
+export interface User {
+  cardNumber: string | null;
+  cifID: string | null;
   inn: string;
+  naturalName: string;
+  naturalPatronymic: string;
+  naturalSurname: string;
+  phoneNumber: string | null;
+  sbpMtel: string | null;
   status: string;
-  phoneNumber: string;
-  cifID: string;
-};
+}
 
-export type Entity = {
+export interface Requisites {
   account: string;
-  contractNumber: string;
-  sbpIdType: string;
-  sbpQrId: string;
+  address: string | null;
   bankBIC: string;
-  bankName: string;
-  bankSbpMemberId: string;
   bankCorrAccount: string;
-  legalName: string;
-  tradeName: string;
-  address: string;
-  sbpMerchantId: string;
-  tspAgentId: string;
-  legalEntityId: string;
-  ogrn: string;
-  kpp: string;
-};
+  bankName: string;
+  bankSbpMemberId: string | null;
+  contractNumber: string;
+  sbpIdType: string | null;
+}
 
-export type PayerOrPayee = {
+export interface Entity {
+  kpp: string | null;
+  legalEntityId: string | null;
+  legalName: string | null;
+  ogrn: string | null;
+  sbpMerchantId: string | null;
+  sbpQrId: string | null;
+  tradeName: string | null;
+  tspAgentId: string | null;
+}
+
+export interface PayerOrPayee {
   user: User;
+  requisites: Requisites;
   entity: Entity;
-};
+}
 
-export type Budget = {
+export interface Budget {
   budgetPaymentSubtype: string;
   oktmo: string;
   taxPayerStatus: string;
@@ -92,17 +88,17 @@ export type Budget = {
   uin: string;
   uip: string;
   kbk: string;
-};
+}
 
-export type Conversion = {
+export interface Conversion {
   targetAmount: number;
   targetCurrency: string;
   exchangeRate: number;
   scale: number;
   refScale: number;
-};
+}
 
-export type Bonus = {
+export interface Bonus {
   bonusMaxPercent: number;
   bonusAmount: number;
   bonusRub: number;
@@ -112,12 +108,12 @@ export type Bonus = {
   bonusTypeName: string;
   targetAmount: number;
   targetCurrency: string;
-};
+}
 
-export type SBP = {
+export interface SBP {
   sbpTransactionId: string;
   streamId: string;
-  referenceSbpTransactionId: string;
+  referenceSbpTransactionId: string | null;
   sbpWorkflowType: string;
   scenario: string;
   senderBankFraudScore: string;
@@ -129,17 +125,17 @@ export type SBP = {
   sbpFeeNSPK: number;
   legalEntityId: string;
   sbpCheckSum: string;
-};
+}
 
-export type Service = {
+export interface Service {
   serviceId: number;
   serviceName: string;
   serviceTypeId: string;
   serviceVersion: number;
   serviceTypeName: string;
-};
+}
 
-export type Operator = {
+export interface Operator {
   operatorId: string;
   operatorPaymentID: string;
   operatorLegalName: string;
@@ -149,16 +145,16 @@ export type Operator = {
   operatorINN: string;
   operatorRRCode: string;
   operatorName: string;
-};
+}
 
-export type ServicePayment = {
+export interface ServicePayment {
   service: Service;
   operator: Operator;
   sessionId: string;
   ekassirPayee: string;
-};
+}
 
-export type IPT = {
+export interface IPT {
   service: Service;
   glNdsAccount: string;
   glFeeIncomeAccount: string;
@@ -168,16 +164,16 @@ export type IPT = {
   linkedChequeNumber: string;
   linkedChequeId: string;
   paymentSubType: string;
-};
+}
 
-export type Check = {
+export interface Check {
   autoAMLCheckStatus: number;
   autoAntiFraudCheckStatus: number;
   autoBankOpsCheckStatus: number;
   manualAMLCheckStatus: number;
   manualAntiFraudCheckStatus: number;
   manualBankOpsCheckStatus: number;
-};
+}
 
 export interface IPaymentApplication {
   applicationChannel: ApplicationChannel;
@@ -187,9 +183,9 @@ export interface IPaymentApplication {
   budget: Budget;
   conversion: Conversion;
   bonus: Bonus;
-  sbp: SBP;
+  sbp: SBP | null;
   servicePayment: ServicePayment;
-  ipt: IPT;
+  ipt: IPT | null;
   check: Check;
   applicationID: string;
   appCreationTime: string;
@@ -208,16 +204,13 @@ export interface IPaymentApplication {
   transferPurpose: string;
   subscriptionPurpose: string;
   messageToReceiver: string;
-  statusDescriptionPe: string;
-  statusCodePE: string;
-  statusPE: string;
   parentID: string;
   parentType: string;
   paymentSubType: string;
   openDepositId: string;
 }
 
-export type PayDoc = {
+export interface PayDoc {
   docID: string;
   docNum: string;
   dc: string;
@@ -234,7 +227,7 @@ export type PayDoc = {
   docParentID: string | null;
   accntDeb: string | null;
   accntCre: string | null;
-};
+}
 
 export interface ISearchPayment {
   paymentApplication: IPaymentApplication;
@@ -248,7 +241,7 @@ export interface ISearchPayment {
   idW4: string;
   payerName: string;
   payerNameCBR: string;
-  statusCode: number;
+  statusCodePE: number;
   statusChangeTime: string;
   faults: (string | null)[];
   payDocs: PayDoc[] | null;
@@ -259,6 +252,10 @@ export interface ISearchPayment {
   eventTime: string | null;
   errorType: string | null;
   description: string | null;
+  dcHeader: string | null;
+  paymentPosting: string | null;
+  statusDescriptionPe: string | null;
+  statusPE: string | null;
   manualParse?: number | null;
   rowStatus?: string;
 }

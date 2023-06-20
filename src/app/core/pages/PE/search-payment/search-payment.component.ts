@@ -14,5 +14,4 @@ export class SearchPaymentComponent {
   get hasAccessToComponent(): boolean {
     return this.peRolesService.hasAccessToSearchPayment();
   }
-
 }

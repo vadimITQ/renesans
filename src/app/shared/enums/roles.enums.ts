@@ -1,4 +1,3 @@
-
 export enum RolesList {
     AP_TEST_PEWeb_STORDAPP = "AP.TEST.PEWeb.STORDAPP",
     AP_TEST_PE_Users = "AP.TEST.PE_Users",

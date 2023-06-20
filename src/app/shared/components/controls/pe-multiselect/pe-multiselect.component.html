@@ -1,21 +1,18 @@
-
 <div class="pe-multiselect">
-    <div class="pe-multiselect__label">
-        <label [ngStyle]="labelStyle" #labelRef>{{ label }}</label>
-    </div>
-    <div class="pe-multiselect__container">
-        <p-multiSelect
-            #multiselectRef
-            [ngClass]="{ 'multiselect-input-error': !!validationMessage }"
-            [options]="dataset"
-            [(ngModel)]="selected"
-            optionLabel="label"
-            [defaultLabel]="placeholder"
-            [display]="displayType">
-        </p-multiSelect>
-        <div 
-            class="pe-multiselect__validationMessage error-message"
-            [ngStyle]="{'left': labelWidth}">{{ validationMessage }}
-        </div>
-    </div>
+  <div class="pe-multiselect__label">
+    <label [ngStyle]="labelStyle" #labelRef>{{ label }}</label>
+  </div>
+  <div class="pe-multiselect__container">
+    <p-multiSelect
+      #multiselectRef
+      [ngClass]="{ 'multiselect-input-error': !!validationMessage }"
+      [options]="dataset"
+      [(ngModel)]="selected"
+      optionLabel="label"
+      [defaultLabel]="placeholder"
+      [display]="displayType"
+    >
+    </p-multiSelect>
+    <div class="pe-multiselect__validationMessage error-message" [ngStyle]="{ left: labelWidth }">{{ validationMessage }}</div>
+  </div>
 </div>

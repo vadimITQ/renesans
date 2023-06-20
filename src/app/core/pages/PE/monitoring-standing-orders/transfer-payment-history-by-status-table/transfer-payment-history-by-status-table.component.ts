@@ -5,20 +5,14 @@ import { MonitoringDataRecord, StandingOrderStatResponse } from 'src/app/shared/
 @Component({
   selector: 'app-transfer-payment-history-by-status-table',
   templateUrl: './transfer-payment-history-by-status-table.component.html',
-  styleUrls: ['./transfer-payment-history-by-status-table.component.scss']
+  styleUrls: ['./transfer-payment-history-by-status-table.component.scss'],
 })
 export class TransferPaymentHistoryByStatusTableComponent {
-
-  constructor(private msoService: MonitoringStandingOrdersService){ }
+  constructor(private msoService: MonitoringStandingOrdersService) {}
 
   @Input() monitoringDataRecord!: MonitoringDataRecord[] | null;
 
-  ngOnInit(): void { }
-
   onRowSelected(e: any) {
-    this.msoService
-      .$selectedMonitoringDataRecord
-      .next(<MonitoringDataRecord> e.data);
+    this.msoService.$selectedMonitoringDataRecord.next(<MonitoringDataRecord>e.data);
   }
-
 }

@@ -1,53 +1,53 @@
-
 <div class="tps-by-status">
-    <h5 class="mb-3">История перевода/платежа постатусно</h5>
+  <h5 class="mb-3">История перевода/платежа постатусно</h5>
 
-    <p-table
-        *ngIf="monitoringDataRecord"
-        [value]="monitoringDataRecord"
-        (onRowSelect)="onRowSelected($event)"
-        [resizableColumns]="true"
-        [columnResizeMode]="'expand'"
-        styleClass="p-datatable-gridlines">
-        <ng-template pTemplate="header">
-            <tr class="tps-by-status__row-gray">
-                <th style="width: 4rem"></th>
-                <th pResizableColumn>ID длительного поручения</th>
-                <th pResizableColumn>Начало действия</th>
-                <th pResizableColumn>Тип перевода\платежа</th>
-                <th pResizableColumn>Сумма</th>
-                <th pResizableColumn>Счет источник</th>
-                <th pResizableColumn>Счет приемник</th>
-                <th pResizableColumn>Срок действия</th>
-                <th pResizableColumn>Периодичность</th>
-                <th pResizableColumn>Ссылка на платеж/перевод</th>
-                <th pResizableColumn>Статус операции по распоряжению</th>
-                <th pResizableColumn>Описание ошибки</th>
-                <th pResizableColumn>Ссылка на заявку</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-tpsItem>
-            <tr>
-                <td>
-                    <p-tableRadioButton [value]="tpsItem"></p-tableRadioButton>
-                </td>
-                <td>{{ tpsItem.standingOrderId }}</td>
-                <td>{{ tpsItem.startDate | date: 'dd.MM.yyyy' }}</td>
-                <td>{{ tpsItem.storPmtType }}</td>
-                <td>{{ tpsItem.amount }}</td>
-                <td>{{ tpsItem.sourceAccount }}</td>
-                <td>{{ tpsItem.targetAccount }}</td>
-                <td>{{ tpsItem.planEndDate | date: 'dd.MM.yyyy' }}</td>
-                <td>{{ tpsItem.periodicity }}</td>
-                <td>{{ tpsItem.paymentId }}</td>
-                <td>{{ tpsItem.status }}</td>
-                <td>{{ tpsItem.errorDescription }}</td>
-                <td>
-                    <div *ngIf="tpsItem.storAppId === 'CREATE'"><a href="no-page">2342</a></div>
-                    <div *ngIf="tpsItem.storAppId === 'CANCEL'"><a href="no-page">2342</a></div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-    <pe-loading-spinner *ngIf="!monitoringDataRecord"></pe-loading-spinner>
+  <p-table
+    *ngIf="monitoringDataRecord"
+    [value]="monitoringDataRecord"
+    (onRowSelect)="onRowSelected($event)"
+    [resizableColumns]="true"
+    [columnResizeMode]="'expand'"
+    styleClass="p-datatable-gridlines"
+  >
+    <ng-template pTemplate="header">
+      <tr class="tps-by-status__row-gray">
+        <th style="width: 4rem"></th>
+        <th pResizableColumn>ID длительного поручения</th>
+        <th pResizableColumn>Начало действия</th>
+        <th pResizableColumn>Тип перевода\платежа</th>
+        <th pResizableColumn>Сумма</th>
+        <th pResizableColumn>Счет источник</th>
+        <th pResizableColumn>Счет приемник</th>
+        <th pResizableColumn>Срок действия</th>
+        <th pResizableColumn>Периодичность</th>
+        <th pResizableColumn>Ссылка на платеж/перевод</th>
+        <th pResizableColumn>Статус операции по распоряжению</th>
+        <th pResizableColumn>Описание ошибки</th>
+        <th pResizableColumn>Ссылка на заявку</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tpsItem>
+      <tr>
+        <td>
+          <p-tableRadioButton [value]="tpsItem"></p-tableRadioButton>
+        </td>
+        <td>{{ tpsItem.standingOrderId }}</td>
+        <td>{{ tpsItem.startDate | date : 'dd.MM.yyyy' }}</td>
+        <td>{{ tpsItem.storPmtType }}</td>
+        <td>{{ tpsItem.amount }}</td>
+        <td>{{ tpsItem.sourceAccount }}</td>
+        <td>{{ tpsItem.targetAccount }}</td>
+        <td>{{ tpsItem.planEndDate | date : 'dd.MM.yyyy' }}</td>
+        <td>{{ tpsItem.periodicity }}</td>
+        <td>{{ tpsItem.paymentId }}</td>
+        <td>{{ tpsItem.status }}</td>
+        <td>{{ tpsItem.errorDescription }}</td>
+        <td>
+          <div *ngIf="tpsItem.storAppId === 'CREATE'"><a href="no-page">2342</a></div>
+          <div *ngIf="tpsItem.storAppId === 'CANCEL'"><a href="no-page">2342</a></div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <pe-loading-spinner *ngIf="!monitoringDataRecord"></pe-loading-spinner>
 </div>

@@ -20,7 +20,9 @@ export function earlierThen(from: string | null, to: string | null, message?: st
   if (!parsedFrom || !parsedTo) {
     return null;
   }
-  return !isEqual(parsedFrom, parsedTo) && !isBefore(parsedFrom, parsedTo) ? message || `Должно быть раньше, чем ${format(parsedTo, dateFormat)}` : null;
+  return !isEqual(parsedFrom, parsedTo) && !isBefore(parsedFrom, parsedTo)
+    ? message || `Должно быть раньше, чем ${format(parsedTo, dateFormat)}`
+    : null;
 }
 
 export function laterThen(from: string | null, to: string | null): ValidationMessage {
@@ -38,12 +40,13 @@ export function laterOrEqualThen(from: string | null, to: string | null): Valida
   const parsedFrom = DatePickerHelper.convertToDate(from);
   const parsedTo = DatePickerHelper.convertToDate(to);
 
-  if (!parsedFrom || !parsedTo){
+  if (!parsedFrom || !parsedTo) {
     return null;
   }
 
-  return !isEqual(parsedFrom, parsedTo) && !isAfter(parsedTo, parsedFrom) ? `Не должно быть раньше, чем ${ format(parsedFrom, dateFormat) }` : null;
-
+  return !isEqual(parsedFrom, parsedTo) && !isAfter(parsedTo, parsedFrom)
+    ? `Не должно быть раньше, чем ${format(parsedFrom, dateFormat)}`
+    : null;
 }
 
 export function lessThanDateDiapason(from: string | null, to: string | null, diapason: number, message?: string): ValidationMessage {
@@ -54,7 +57,11 @@ export function lessThanDateDiapason(from: string | null, to: string | null, dia
   }
 
   const [fromDate, toDate] = parsedDates;
-  return differenceInCalendarDays(toDate ?? 0, fromDate ?? 0) > diapason ? message ? message: `Диапазон дат не должен превышать ${diapason} дней.` : null;
+  return differenceInCalendarDays(toDate ?? 0, fromDate ?? 0) > diapason
+    ? message
+      ? message
+      : `Диапазон дат не должен превышать ${diapason} дней.`
+    : null;
 }
 
 export function required(value: unknown, message?: string): ValidationMessage {
@@ -62,5 +69,13 @@ export function required(value: unknown, message?: string): ValidationMessage {
 }
 
 export function containInvalidSymbols(value: string): ValidationMessage {
-  return /[^а-яА-Яa-zA-Z0-9\s\-_]/ig.test(value) ? 'Поле содержит недопустимые символы' : null
+  return /[^а-яА-Яa-zA-Z0-9\s\-_]/gi.test(value) ? 'Поле содержит недопустимые символы' : null;
+}
+
+export function invalidIpAddress(value: string): ValidationMessage {
+  return /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/g.test(
+    value,
+  )
+    ? null
+    : 'Неверный формат IP адреса';
 }

@@ -31,7 +31,6 @@ export class MultiselectDatasetsService {
           return objectTypeOptions;
         } else {
           return [];
-
         }
       }
       case MultiselectDataSets.GetPaymentStatuses: {
@@ -65,18 +64,18 @@ export class MultiselectDatasetsService {
       case MultiselectDataSets.GetFileTypes: {
         return [
           {
-            label: "Файл",
-            value: "*"
+            label: 'Файл',
+            value: '*',
           },
           {
-            label: "pdf",
-            value: ".pdf"
+            label: 'pdf',
+            value: '.pdf',
           },
           {
-            label: "Эксель файл",
-            value: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-          }
-        ]
+            label: 'Эксель файл',
+            value: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          },
+        ];
       }
       case MultiselectDataSets.GetAntiFraudApplicationStatus: {
         if (this.validateDataset(antiFraudApplicationStatuses)) {

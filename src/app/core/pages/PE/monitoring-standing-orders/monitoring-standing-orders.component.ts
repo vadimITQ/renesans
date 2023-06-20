@@ -12,16 +12,15 @@ import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 @Component({
   selector: 'app-monitoring-standing-orders',
   templateUrl: './monitoring-standing-orders.component.html',
-  styleUrls: ['./monitoring-standing-orders.component.scss']
+  styleUrls: ['./monitoring-standing-orders.component.scss'],
 })
 export class MonitoringStandingOrdersComponent implements OnInit {
-
   constructor(
     private msoService: MonitoringStandingOrdersService,
     private datePipe: DatePipe,
     private dialogService: DialogService,
     private peNavigationService: PeNavigationService,
-    private peRolesService: PeRolesService
+    private peRolesService: PeRolesService,
   ) {}
 
   public $standingOrderStat: Observable<StandingOrderStatResponse> | null = null;
@@ -30,13 +29,10 @@ export class MonitoringStandingOrdersComponent implements OnInit {
   private ordersStat: OrdersStat = OrdersStat.ProcessedOrder;
 
   ngOnInit(): void {
-    this.msoService
-      .$selectedMonitoringDataRecord
-      .subscribe((selectedMonitoringDataRecord: MonitoringDataRecord) => {
-        if (!!selectedMonitoringDataRecord){
-
-        }
-      });
+    this.msoService.$selectedMonitoringDataRecord.subscribe((selectedMonitoringDataRecord: MonitoringDataRecord) => {
+      if (!!selectedMonitoringDataRecord) {
+      }
+    });
   }
 
   get hasAccessToComponent(): boolean {
@@ -47,7 +43,7 @@ export class MonitoringStandingOrdersComponent implements OnInit {
     this.$standingOrderStat = null;
     this.standingOrderStat = null;
     this.monitoringDataRecord = null;
-    if (executionDate){
+    if (executionDate) {
       this.$standingOrderStat = this.msoService.getStandingOrderStat();
       this.$standingOrderStat.subscribe(response => {
         this.standingOrderStat = response;
@@ -59,20 +55,20 @@ export class MonitoringStandingOrdersComponent implements OnInit {
   filterMonitoringDataRecord() {
     this.monitoringDataRecord = [];
     let filter: () => MonitoringDataRecord[];
-    switch(this.ordersStat){
-      case(OrdersStat.ProcessedOrder): {
+    switch (this.ordersStat) {
+      case OrdersStat.ProcessedOrder: {
         filter = () => this.standingOrderStat?.monitoringDataRecord ?? [];
         break;
       }
-      case(OrdersStat.SuccessfullyProcessed): {
+      case OrdersStat.SuccessfullyProcessed: {
         filter = () => this.standingOrderStat?.monitoringDataRecord ?? [];
         break;
       }
-      case(OrdersStat.FailedProcessed): {
+      case OrdersStat.FailedProcessed: {
         filter = () => this.standingOrderStat?.monitoringDataRecord ?? [];
         break;
       }
-      case(OrdersStat.Processing): {
+      case OrdersStat.Processing: {
         filter = () => this.standingOrderStat?.monitoringDataRecord ?? [];
         break;
       }
@@ -85,7 +81,7 @@ export class MonitoringStandingOrdersComponent implements OnInit {
   }
 
   onFilteringByOrdersStat(ordersStat: any) {
-    if (ordersStat >= 0){
+    if (ordersStat >= 0) {
       this.monitoringDataRecord = null;
       this.ordersStat = ordersStat as OrdersStat;
       setTimeout(() => {
@@ -128,54 +124,59 @@ export class MonitoringStandingOrdersComponent implements OnInit {
   }
 
   cancelStandingOrder() {
-    this.dialogService.showConfirmDialog(
-      {
-        message: "Вы действительно хотите отменить распоряжение ?",
-        header: "Подтверждение",
-        accept: {
-          label: "Да",
-          handler: () => { console.log("accepted") }
+    this.dialogService.showConfirmDialog({
+      message: 'Вы действительно хотите отменить распоряжение ?',
+      header: 'Подтверждение',
+      accept: {
+        label: 'Да',
+        handler: () => {
+          console.log('accepted');
         },
-        reject: {
-          label: "Нет",
-          handler: () => { console.log("rejected") }
-        }
-      }
-    );
+      },
+      reject: {
+        label: 'Нет',
+        handler: () => {
+          console.log('rejected');
+        },
+      },
+    });
   }
 
   processStandingOrderRequest() {
-    this.dialogService.showConfirmDialog(
-      {
-        message: "Вы действительно хотите повторить обработку по распоряжению ?",
-        header: "Подтверждение",
-        accept: {
-          label: "Да",
-          handler: () => { console.log("accepted") }
+    this.dialogService.showConfirmDialog({
+      message: 'Вы действительно хотите повторить обработку по распоряжению ?',
+      header: 'Подтверждение',
+      accept: {
+        label: 'Да',
+        handler: () => {
+          console.log('accepted');
         },
-        reject: {
-          label: "Нет",
-          handler: () => { console.log("rejected") }
-        }
-      }
-    );
+      },
+      reject: {
+        label: 'Нет',
+        handler: () => {
+          console.log('rejected');
+        },
+      },
+    });
   }
 
   cancelOperation() {
-    this.dialogService.showConfirmDialog(
-      {
-        message: "Вы действительно хотите отклонить операцию по распоряжению ?",
-        header: "Подтверждение",
-        accept: {
-          label: "Да",
-          handler: () => { console.log("accepted") }
+    this.dialogService.showConfirmDialog({
+      message: 'Вы действительно хотите отклонить операцию по распоряжению ?',
+      header: 'Подтверждение',
+      accept: {
+        label: 'Да',
+        handler: () => {
+          console.log('accepted');
         },
-        reject: {
-          label: "Нет",
-          handler: () => { console.log("rejected") }
-        }
-      }
-    );
+      },
+      reject: {
+        label: 'Нет',
+        handler: () => {
+          console.log('rejected');
+        },
+      },
+    });
   }
-
 }

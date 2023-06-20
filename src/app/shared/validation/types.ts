@@ -1,3 +1,5 @@
 export type ValidationMessage = string | null;
 
-export type Validation = { [key: string]: ValidationMessage };
+export interface Validation {
+  [key: string]: ValidationMessage;
+}

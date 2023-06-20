@@ -12,68 +12,64 @@ import { PeNavigationService } from '../../services/pe-navigation/pe-navigation.
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private fb: FormBuilder,
     private toastService: ToastService,
     private loadingService: LoadingService,
-    private peNavigationService: PeNavigationService
-  ) { }
+    private peNavigationService: PeNavigationService,
+  ) {}
 
   authentificationData: LoginModel = {
     login: '',
-    password: ''
+    password: '',
   };
+
   loginForm: FormGroup = this.createLoginForm();
   showErrorMessage: boolean = false;
 
-  get _loginForm(){
+  get _loginForm() {
     return this.loginForm.get('login');
   }
-  
+
   get _passwordForm() {
     return this.loginForm.get('password');
   }
 
   get errorMessage(): string {
-    return "Не удалось войти в систему. Попробуйте ещё раз";
+    return 'Введён неверный логин или пароль. Попробуйте еще раз';
   }
 
-  createLoginForm(){
+  createLoginForm() {
     return this.fb.group({
       login: new FormControl(this.authentificationData.login, [Validators.required]),
-      password: new FormControl(this.authentificationData.password,  [Validators.required])
-    })  
+      password: new FormControl(this.authentificationData.password, [Validators.required]),
+    });
   }
 
   tryAuthenticateUser(): void {
-    if (!this._loginForm?.value || !this._passwordForm?.value){
+    if (!this._loginForm?.value || !this._passwordForm?.value) {
       this.showErrorMessage = true;
       return;
     }
     this.loadingService.showLoading();
-    this.authService
-      .login({ connectionName: this._loginForm.value, connectionPassword: this._passwordForm.value })
-      .subscribe({
-        next: (response) => {
-          if (response?.auth){
-            this.toastService.showSuccessToast("Аутентификация пользователя прошла успешно");
-            this.peNavigationService.goToSearchPayment();
-          }
-          else{
-            this.showErrorMessage = true;
-            return;
-          }
-        },
-        error: (error) => {
+    this.authService.login({ connectionName: this._loginForm.value, connectionPassword: this._passwordForm.value }).subscribe({
+      next: response => {
+        if (response?.auth) {
+          this.toastService.showSuccessToast('Аутентификация пользователя прошла успешно');
+          this.peNavigationService.goToSearchPayment();
+        } else {
           this.showErrorMessage = true;
-          this.loadingService.hideLoading();
-        },
-        complete: () => {
-          this.loadingService.hideLoading();
+          return;
         }
-      });
+      },
+      error: () => {
+        this.showErrorMessage = true;
+        this.loadingService.hideLoading();
+      },
+      complete: () => {
+        this.loadingService.hideLoading();
+      },
+    });
   }
-
 }

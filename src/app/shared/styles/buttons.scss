@@ -1,21 +1,63 @@
+.btn-base {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 5px !important;
+}
 
 .btn-success {
-    &:hover {
-        background: #4caf50 !important;
-        opacity: 0.8 !important;
-    }
-    background-color: rgb(76, 175, 80) !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    border: none !important;
-    outline: none !important;
+  &:hover {
+    background: #4caf50 !important;
+    opacity: 0.8 !important;
+  }
+  background-color: rgb(76, 175, 80) !important;
+  @extend .btn-base;
+}
+
+.btn-clear {
+  &:hover {
+    background: #6e7c83 !important;
+    opacity: 0.8 !important;
+  }
+  background-color: #607D8B !important;
+  @extend .btn-base;
+}
+
+.btn-red {
+  &:hover {
+    background: #ff665e !important;
+    opacity: 0.8 !important;
+  }
+  background-color: #ff5d55 !important;
+  @extend .btn-base;
+}
+
+.btn-orange {
+  &:hover {
+    background: #e89338 !important;
+    opacity: 0.8 !important;
+  }
+  background-color: #d68227 !important;
+  @extend .btn-base;
 }
 
 .pe-button {
-    border-radius: 5px !important;
-    @extend .btn-success;
+  @extend .btn-success;
+}
+
+.pe-button-grey {
+  @extend .btn-clear;
+}
+
+.pe-button-red {
+  @extend .btn-red;
+}
+
+.pe-button-orange {
+  @extend .btn-orange;
 }
 
 .btn-round {
-    border-radius: 25px !important;
+  border-radius: 25px !important;
 }

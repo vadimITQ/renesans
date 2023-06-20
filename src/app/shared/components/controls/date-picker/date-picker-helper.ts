@@ -1,5 +1,5 @@
 import { DateHelper } from 'src/app/shared/classes/date-helper';
-import {format, isValid, parse, parseISO} from "date-fns";
+import { isValid, parseISO } from 'date-fns';
 
 export class DatePickerHelper {
   public static convertToDate(datePickerDate: string | null): Date | null {
@@ -45,23 +45,33 @@ export class DatePickerHelper {
   public static convertToLocaleStringWithTimezone(isoDate: string): string {
     const dateValue = new Date(isoDate);
 
-    const localeDateString = dateValue.toLocaleString('sv', { timeZoneName: 'short' });
-    const [date, time, timezone] = localeDateString.split(' ');
+    const localeDateString = dateValue.toLocaleString('ru-RU', { timeZoneName: 'short' });
+    let [date, time, timezone] = localeDateString.split(' ');
+
+    date = date.split('.').reverse().join('-');
+    date = date.replace(',', '');
 
     const timezoneWithSign = timezone.replace('GMT', '');
     const timezoneSign = timezoneWithSign.charAt(0);
     const timezoneValue = timezoneWithSign.replace(/[+-]/g, '');
-    const fullTimezoneValue = +timezoneValue < 10 ? `0${timezoneValue}` : timezoneValue
+    let fullTimezoneValue;
+    if (timezoneValue.includes(':')) {
+      const [firstPart, secondPart] = timezoneValue.split(':');
+      fullTimezoneValue = `${+firstPart < 10 ? `0${firstPart}` : firstPart}:${secondPart}`;
+    } else {
+      fullTimezoneValue = +timezoneValue < 10 ? `0${timezoneValue}` : timezoneValue;
+      fullTimezoneValue += ':00';
+    }
 
-        return `${date}T${time.substring(0,2).includes(':') ? `0${time}`: time}${timezoneSign}${fullTimezoneValue}:00`;
+    return `${date}T${time.substring(0, 2).includes(':') ? `0${time}` : time}${timezoneSign}${fullTimezoneValue}`;
   }
 
-  public static parseFromLocaleStringToDate(localeString: string | null):Date | null{
-    const parsedDate = parseISO(localeString ?? '')
+  public static parseFromLocaleStringToDate(localeString: string | null): Date | null {
+    const parsedDate = parseISO(localeString ?? '');
 
-    if(!isValid(parsedDate)) {
-      return null
+    if (!isValid(parsedDate)) {
+      return null;
     }
-    return parsedDate
+    return parsedDate;
   }
 }

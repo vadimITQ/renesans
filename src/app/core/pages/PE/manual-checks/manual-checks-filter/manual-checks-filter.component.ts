@@ -20,11 +20,7 @@ import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
   styleUrls: ['./manual-checks-filter.component.scss'],
 })
 export class ManualChecksFilterComponent implements OnInit, OnDestroy {
-  constructor(
-    private mcService: ManualChecksService, 
-    private changeDetectionRef: ChangeDetectorRef, 
-    private toastService: ToastService
-  ) {}
+  constructor(private mcService: ManualChecksService, private changeDetectionRef: ChangeDetectorRef, private toastService: ToastService) {}
 
   @ViewChild('dateFromRef') dateFromRef!: Calendar;
   @ViewChild('dateToRef') dateToRef!: Calendar;
@@ -86,8 +82,8 @@ export class ManualChecksFilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDateChange(dateFrom: string | null, dateTo: string | null) {
-    const { dateFromValidation, dateToValidation } = validateDates(dateFrom, dateTo);
+  onDateChange(dateFrom: Date | null, dateTo: Date | null) {
+    const { dateFromValidation, dateToValidation } = validateDates(dateFrom?.toISOString() ?? null, dateTo?.toISOString() ?? null);
     this.validations = {};
     this.validations['dateFrom'] = dateFromValidation;
     this.validations['dateTo'] = dateToValidation;

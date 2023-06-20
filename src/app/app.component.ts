@@ -8,19 +8,13 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  
   title = 'PE';
 
-  constructor(private translateService: TranslateService, private config: PrimeNGConfig){
-    this.translateService.setDefaultLang("ru");
-    this.translateService.use("ru");
-    this.translateService
-      .get('primeng')
-      .subscribe(
-        res => {
-          this.config.setTranslation(res);
-        }
-      );
+  constructor(private translateService: TranslateService, private config: PrimeNGConfig) {
+    this.translateService.setDefaultLang('ru');
+    this.translateService.use('ru');
+    this.translateService.get('primeng').subscribe(res => {
+      this.config.setTranslation(res);
+    });
   }
-
 }

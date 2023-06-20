@@ -1,11 +1,10 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { objectTypeOptions, receivingChanelOptions } from './search-payment-filters.constants';
-import { manualChecksTransferTypes } from '../../../../../shared/variables/manual-checks-transfer-types';
 import { SearchPaymentService } from '../../../../services/search-payment/search-payment.service';
 import { FormBuilder } from '@angular/forms';
 import {
   containInvalidSymbols,
   earlierThen,
+  invalidIpAddress,
   laterOrEqualThen,
   lessThanDateDiapason,
   required,
@@ -19,8 +18,6 @@ import {
   generalFieldsFilled,
   prepareSearchFilters,
 } from './search-payment-filters.utils';
-import { paymentStatuses } from 'src/app/shared/variables/payment-status';
-import { MultiselectDatasetsService } from 'src/app/shared/services/multiselect-datasets.service';
 import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 
 @Component({
@@ -47,7 +44,7 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     private searchPaymentService: SearchPaymentService,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private changeDetectionRef: ChangeDetectorRef
+    private changeDetectionRef: ChangeDetectorRef,
   ) {}
 
   ngOnDestroy(): void {
@@ -97,10 +94,11 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
 
     if (!generalFieldsFilled(this.filters)) {
       const [dateFromValidation, dateToValidation] = [
-        this.filters.dateTimeTo && (required(this.filters.dateTimeFrom) ||
-          earlierThen(this.filters.dateTimeFrom, this.filters.dateTimeTo, '«Дата/Время с» превышает «Дата/Время по»')),
-        this.filters.dateTimeFrom && (required(this.filters.dateTimeTo) ||
-          lessThanDateDiapason(this.filters.dateTimeFrom, this.filters.dateTimeTo, 40)),
+        this.filters.dateTimeTo &&
+          (required(this.filters.dateTimeFrom) ||
+            earlierThen(this.filters.dateTimeFrom?.toISOString() ?? null, this.filters.dateTimeTo.toISOString(), '«Дата/Время с» превышает «Дата/Время по»')),
+        this.filters.dateTimeFrom &&
+          (required(this.filters.dateTimeTo) || lessThanDateDiapason(this.filters.dateTimeFrom.toISOString(), this.filters.dateTimeTo?.toISOString() ?? null, 40)),
       ];
 
       this.filtersValidation = {
@@ -122,17 +120,18 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
       applicationID: containInvalidSymbols(this.filters.applicationID ?? ''),
       idPH: containInvalidSymbols(this.filters.idPH ?? ''),
       docID: containInvalidSymbols(this.filters.docID ?? ''),
-      linkedChequeId: containInvalidSymbols(this.filters.linkedChequeId ?? ''),
+      chequeId: containInvalidSymbols(this.filters.chequeId ?? ''),
       docNum: containInvalidSymbols(this.filters.docNum ?? ''),
       account: containInvalidSymbols(this.filters.account ?? ''),
       chequeNumber: containInvalidSymbols(this.filters.chequeNumber ?? ''),
       statusCode: containInvalidSymbols(this.filters.statusCode ?? ''),
       userAgent: containInvalidSymbols(this.filters.userAgent ?? ''),
-      plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate),
-      channelName: "",
-      codeStatuses: "",
-      parentType: "",
-      type: ""
+      plannedDate: laterOrEqualThen(this.dateNow.toISOString(), this.filters.plannedDate?.toISOString() ?? null),
+      channelIP: this.filters.channelIP ? invalidIpAddress(this.filters.channelIP) : null,
+      channelName: '',
+      codeStatuses: '',
+      parentType: '',
+      type: '',
     };
 
     return Object.values(this.filtersValidation).every(value => !Boolean(value));

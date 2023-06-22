@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LoginComponent } from './core/pages/login/login.component';
-import { PaymentEngine } from './core/pages/PE/payment-engine.component';
+import { PaymentEngineComponent } from './core/pages/PE/payment-engine.component';
 import { TestComponent } from './core/pages/test/test.component';
 import { NotFoundComponent } from './core/pages/not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +21,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { TransferPaymentHistoryByStatusTableComponent } from './core/pages/PE/monitoring-standing-orders/transfer-payment-history-by-status-table/transfer-payment-history-by-status-table.component';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MonitoringStandingOrdersGuard } from 'src/app/shared/guards/monitoring-standing-orders.guard';
 import { ManualChecksComponent } from './core/pages/PE/manual-checks/manual-checks.component';
@@ -69,7 +69,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
 @NgModule({
   declarations: [
     AppComponent,
-    PaymentEngine,
+    PaymentEngineComponent,
     LoginComponent,
     TestComponent,
     NotFoundComponent,
@@ -109,6 +109,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     PeDropdownComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,

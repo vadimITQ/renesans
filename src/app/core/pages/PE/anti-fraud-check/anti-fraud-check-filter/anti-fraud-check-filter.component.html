@@ -6,14 +6,14 @@
     <pe-indent [mBottom]="5"></pe-indent>
 
     <div class="id-inputs">
-        <pe-input 
-            label="ID PE" 
+        <pe-input
+            label="ID PE"
             [(value)]="antiFraudCheckFilter.IdPE"
             [validationMessage]="validations['IdPE']">
         </pe-input>
         <pe-indent [mRight]="5"></pe-indent>
-        <pe-input 
-            label="ID Заявки" 
+        <pe-input
+            label="ID Заявки"
             [(value)]="antiFraudCheckFilter.applicationId"
             [validationMessage]="validations['applicationId']">
         </pe-input>
@@ -21,7 +21,7 @@
 
     <pe-indent [mBottom]="4"></pe-indent>
 
-    <date-picker 
+    <date-picker
         label="Дата/время с"
         [(ngModel)]="antiFraudCheckFilter.dateFrom"
         [validationMessage]="validations['dateFrom']"
@@ -32,8 +32,8 @@
 
     <pe-indent [mBottom]="4"></pe-indent>
 
-    <date-picker 
-        label="Дата/время по" 
+    <date-picker
+        label="Дата/время по"
         [(ngModel)]="antiFraudCheckFilter.dateTo"
         [validationMessage]="validations['dateTo']"
         (DateChanged)="validateDates()"
@@ -43,7 +43,7 @@
 
     <pe-indent [mBottom]="4"></pe-indent>
 
-    <pe-multiselect 
+    <pe-multiselect
         label="Состояние заявки"
         placeholder="Выберите состояние заявки"
         [(selected)]="antiFraudCheckFilter.applicationStatus"
@@ -57,7 +57,8 @@
     <div class="anti-fraud-checkbox" [ngClass]="{ 'onlyExpired-error': !!validations['onlyExpired'] }">
         <p-checkbox
             *ngIf="showCheckbox"
-            label="Только просроченные" 
+            label="Только просроченные"
+            [disabled]="true"
             [(ngModel)]="antiFraudCheckFilter.onlyExpired"
             [binary]="true">
         </p-checkbox>
@@ -72,7 +73,7 @@
             styleClass="p-button-secondary p-button-outlined">
         </p-button>
         <pe-indent [inline]="true" [mRight]="5"></pe-indent>
-        <p-button 
+        <p-button
             (click)="search()"
             label="Найти">
         </p-button>

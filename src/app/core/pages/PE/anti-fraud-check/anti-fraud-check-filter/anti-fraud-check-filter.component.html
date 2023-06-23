@@ -25,7 +25,7 @@
         label="Дата/время с"
         [(ngModel)]="antiFraudCheckFilter.dateFrom"
         [validationMessage]="validations['dateFrom']"
-        (dateChange)="validateDates()"
+        (DateChanged)="validateDates()"
         [labelStyle]="{ 'width': '130px' }"
         [showTime]="false">
     </date-picker>
@@ -36,7 +36,7 @@
         label="Дата/время по" 
         [(ngModel)]="antiFraudCheckFilter.dateTo"
         [validationMessage]="validations['dateTo']"
-        (dateChange)="validateDates()"
+        (DateChanged)="validateDates()"
         [labelStyle]="{ 'width': '130px' }"
         [showTime]="false">
     </date-picker>

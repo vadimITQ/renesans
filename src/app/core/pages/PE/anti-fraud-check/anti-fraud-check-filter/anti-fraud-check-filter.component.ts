@@ -88,8 +88,8 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
     public validateDates(): boolean {
         this.validations = {};
         const { dateFromValidation, dateToValidation } = validateDates(
-            this.antiFraudCheckFilter.dateFrom, 
-            this.antiFraudCheckFilter.dateTo
+            this.antiFraudCheckFilter.dateFrom?.toISOString() ?? "", 
+            this.antiFraudCheckFilter.dateTo?.toISOString() ?? ""
         );
         this.validations["dateFrom"] = dateFromValidation;
         this.validations["dateTo"] = dateToValidation;

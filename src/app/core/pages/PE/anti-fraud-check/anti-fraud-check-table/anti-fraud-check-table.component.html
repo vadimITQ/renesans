@@ -32,7 +32,7 @@
               <th pResizableColumn>ID PE</th>
               <th pResizableColumn>ID заявки</th>
               <th pResizableColumn>Дата заявки в PE</th>
-              <th pResizableColumn>сумма AML</th>
+              <th pResizableColumn>Статус AML</th>
               <th pResizableColumn>Статус AntiFraud</th>
               <th pResizableColumn>Статус BankOps</th>
               <th pResizableColumn>Тип</th>
@@ -64,7 +64,7 @@
     <ng-container *ngIf="!tableData">
         <pe-loading-spinner *ngIf="antiFraudCheckService.$loading | async" [contentHeight]="'200px'"></pe-loading-spinner>
     </ng-container>
-    
+
 
 </div>
 

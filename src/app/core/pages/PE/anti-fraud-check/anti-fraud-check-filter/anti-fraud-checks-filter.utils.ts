@@ -12,8 +12,8 @@ export class AntiFraudChecksFilterUtils {
         return  {
             IdPE: "",
             applicationId: "",
-            dateFrom: dateFrom.toISOString(),
-            dateTo: dateTo.toISOString(),
+            dateFrom: dateFrom,
+            dateTo: dateTo,
             applicationStatus: [],
             onlyExpired: false
         }

@@ -4,8 +4,8 @@ import { IMultiSelectData } from "../../../../../shared/components/controls/pe-m
 export interface AntiFraudCheckFilter {
     IdPE: string;
     applicationId: string;
-    dateFrom: string | null;
-    dateTo: string | null;
+    dateFrom: Date | null;
+    dateTo: Date | null;
     applicationStatus: IMultiSelectData[];
     onlyExpired: boolean;
 }

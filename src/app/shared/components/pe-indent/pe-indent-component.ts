@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'pe-indent',
-  template: ` <div [style]="indents"></div> `,
+  template: ` <div [ngClass]="indents"></div> `,
   styles: [
     `
       div {

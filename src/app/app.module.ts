@@ -21,7 +21,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
 import { TransferPaymentHistoryByStatusTableComponent } from './core/pages/PE/monitoring-standing-orders/transfer-payment-history-by-status-table/transfer-payment-history-by-status-table.component';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MonitoringStandingOrdersGuard } from 'src/app/shared/guards/monitoring-standing-orders.guard';
 import { ManualChecksComponent } from './core/pages/PE/manual-checks/manual-checks.component';
@@ -60,7 +60,7 @@ import { PeIndentComponent } from './shared/components/pe-indent/pe-indent-compo
 import { BadgeModule } from 'primeng/badge';
 import { FileUploadingModalComponent } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.component';
 import { DialogModule } from 'primeng/dialog';
-import { PeDropdownComponent } from "src/app/shared/components/controls/pe-dropdown/pe-dropdown.component";
+import { PeDropdownComponent } from 'src/app/shared/components/controls/pe-dropdown/pe-dropdown.component';
 import { AntiFraudCheckComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check.component";
 import { AntiFraudDetailsComponent } from "src/app/core/pages/PE/anti-fraud-details/anti-fraud-details.component";
 import { AntiFraudCheckFilterComponent } from "src/app/core/pages/PE/anti-fraud-check/anti-fraud-check-filter/anti-fraud-check-filter.component";
@@ -125,6 +125,7 @@ export function startPaymentEngine(initService: PaymentEngineInitializerService)
     AntiFraudCheckTableComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,

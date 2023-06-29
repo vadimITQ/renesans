@@ -51,7 +51,7 @@ export class PaymentEngineRolesGuard implements CanActivate {
           return false;
         }
       }
-      case RouterPath.AntiFraudCheck:
+    case RouterPath.AntiFraudCheck:
       case RouterPath.AntiFraudDetails: {
         if (this.peRolesService.hasAccessToAntiFraudCheck()) {
           return true;

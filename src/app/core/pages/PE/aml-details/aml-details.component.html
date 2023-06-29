@@ -1,7 +1,7 @@
 
 <div class="pe-aml-header">
     <pe-indent [mTop]="4"></pe-indent>
-    <pe-back-arrow></pe-back-arrow>
+    <pe-back-arrow (listenBack)="back()"></pe-back-arrow>
     <pe-indent [mBottom]="3"></pe-indent>
 </div>
 
@@ -211,18 +211,21 @@
 
     <div class="bottom-buttons">
         <p-button
+            (click)="approve()"
             label="Подтвердить заявку"
             icon="pi pi-check"
             iconPos="right"
             styleClass="p-button-success">
         </p-button>
         <p-button
+            (click)="cancel()"
             label="Отклонить заявку"
             icon="pi pi-times"
             iconPos="right"
             styleClass="p-button-secondary">
         </p-button>
         <p-button
+            (click)="sendDocs()"
             label="Отправить документы"
             icon="pi pi-reply"
             iconPos="right"

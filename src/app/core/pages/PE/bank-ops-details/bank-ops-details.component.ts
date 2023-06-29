@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 import { BankOpsDetailsService } from 'src/app/core/services/bank-ops-check/bank-ops-details.service';
 import { IBankOpsDetails } from './bank-ops-details.types';
@@ -6,20 +6,29 @@ import { PaymentEngineHelper } from 'src/app/shared/classes/pe-helper';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { FileUploadingModal, IPEUploadingData } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.types';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bank-ops-details',
   templateUrl: './bank-ops-details.component.html',
   styleUrls: ['./bank-ops-details.component.scss'],
 })
-export class BankOpsDetailsComponent implements OnInit {
+export class BankOpsDetailsComponent implements OnInit, OnDestroy {
+
   constructor(
     private peRolesService: PeRolesService,
     private bankOpsDetailsService: BankOpsDetailsService,
     private loading: LoadingService,
     private toast: ToastService,
+    private aRoute: ActivatedRoute
   ) {}
 
+  public subscribtions: { [key: string]: Subscription | null } = {
+    routerParamsSubscribtion: null
+  };
+  public paymentID: string = '';
+  public readOnly: boolean = true;
   public bankOpsDetailsData: IBankOpsDetails | 'loading' = 'loading';
   public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
   public uploadingData: IPEUploadingData[] = [];
@@ -45,11 +54,44 @@ export class BankOpsDetailsComponent implements OnInit {
     this.loadData();
   }
 
+  ngOnDestroy(): void {
+    if (!!this.subscribtions['routerParamsSubscribtion']){
+      this.subscribtions['routerParamsSubscribtion'].unsubscribe();
+    }
+  }
+  
   loadData() {
-    this.bankOpsDetailsService.getBankOpsDetails().subscribe(response => {
-      this.bankOpsDetailsData = response;
-      PaymentEngineHelper.scrollToTop();
+    this.subscribtions['routerParamsSubscribtion'] = this.aRoute.params.subscribe(prms => {
+      this.paymentID = prms['id'];
+      this.bankOpsDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
+        this.readOnly = manualCheckModeResponse.readOnly;
+        if (!manualCheckModeResponse.readOnly){
+          this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '2');
+        }
+      });
+      this.bankOpsDetailsService.getBankOpsDetails().subscribe(response => {
+        this.bankOpsDetailsData = response;
+        PaymentEngineHelper.scrollToTop();
+      });
     });
+  }
+
+  approve() {
+    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '3');
+  }
+
+  cancel() {
+    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '5');
+  }
+
+  sendDocs() {
+    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '4');
+    this.uploadingData
+  }
+
+  requestSWIFT() {
+    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '6');
+    this.uploadingData
   }
 
   addDocument() {

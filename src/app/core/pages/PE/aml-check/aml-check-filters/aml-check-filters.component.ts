@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import {
   containInvalidSymbols,
   earlierThen,
@@ -40,7 +39,6 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
 
   constructor(
     private amlCheckService: AmlCheckService,
-    private fb: FormBuilder,
     private toastService: ToastService,
     private changeDetectionRef: ChangeDetectorRef,
     private peRolesService: PeRolesService,
@@ -60,7 +58,6 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
     }
     this.changeDetectionRef.detectChanges();
   }
-
 
   onClear() {
     this.filters = {

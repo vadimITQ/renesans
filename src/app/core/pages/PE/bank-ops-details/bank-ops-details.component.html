@@ -236,13 +236,32 @@
   <pe-indent [mTop]="4"></pe-indent>
 
   <div class="bottom-buttons">
-    <p-button class="bottom-button-approve" label="Подтвердить заявку" icon="pi pi-check" iconPos="right" styleClass="p-button-success">
-    </p-button>
-    <p-button class="bottom-button-cancel" label="Отклонить заявку" icon="pi pi-times" iconPos="right" styleClass="p-button-secondary">
-    </p-button>
-    <p-button class="bottom-button-send-docs" label="Отправить документы" icon="pi pi-reply" iconPos="right" styleClass="p-button-info">
+    <p-button
+      (click)="approve()"
+      class="bottom-button-approve" 
+      label="Подтвердить заявку" 
+      icon="pi pi-check" 
+      iconPos="right" 
+      styleClass="p-button-success">
     </p-button>
     <p-button
+      (click)="cancel()"
+      class="bottom-button-cancel" 
+      label="Отклонить заявку" 
+      icon="pi pi-times" 
+      iconPos="right" 
+      styleClass="p-button-secondary">
+    </p-button>
+    <p-button
+      (click)="sendDocs()"
+      class="bottom-button-send-docs" 
+      label="Отправить документы" 
+      icon="pi pi-reply" 
+      iconPos="right" 
+      styleClass="p-button-info">
+    </p-button>
+    <p-button
+      (click)="requestSWIFT()"
       class="bottom-button-request-swift"
       label="Запросить документы по SWIFT-платежу"
       icon="pi pi-file"

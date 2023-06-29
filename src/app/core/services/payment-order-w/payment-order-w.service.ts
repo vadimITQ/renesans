@@ -7,7 +7,7 @@ import { ISearchPaymentTableData } from '../../pages/PE/search-payment/search-pa
 import { API_URL } from '../../../shared/variables/http-constants';
 import { ITransferDetails } from '../view-transfer-details/types';
 import { IGetSearchPaymentsReportPayload, ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
-import { ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from './types';
+import { ICancelPaymentPayload, ICancelPaymentResponse, IGetManualCheckModePayload, IGetManualCheckModeResponse, IResumePaymentPayload, IResumePaymentResponse, ISaveManualCheckModePayload, ISaveManualCheckModeResponse } from './types';
 import { Pagination } from '../../../shared/services/table.service';
 import { IBankOpsCheckFiltersPayload, IBankOpsCheckResponse } from '../bank-ops-check/types';
 
@@ -62,4 +62,21 @@ export class PaymentOrderWService {
       params: { ...pagination },
     });
   }
+  
+  public getManualCheckMode(payload: IGetManualCheckModePayload): Observable<IGetManualCheckModeResponse> {
+    return this.http.get<IGetManualCheckModeResponse>(API_URL + '/getManualCheckMode', 
+      { 
+        params: { ...payload } 
+      }
+    );
+  }
+
+  public saveManualCheckMode(payload: ISaveManualCheckModePayload): Observable<ISaveManualCheckModeResponse> {
+    return this.http.post<ISaveManualCheckModeResponse>(API_URL + '/saveManualCheckMode', payload.manualCheck, {
+      params: {
+        paymentID: payload.paymentID
+      }
+    });
+  }
+
 }

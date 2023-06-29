@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { PeRolesService } from "src/app/core/services/auth/pe-roles.service";
 import { IAmlDetails } from "./aml-details.types";
 import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
@@ -7,21 +7,29 @@ import { LoadingService } from "src/app/shared/services/loading.service";
 import { FileUploadingModal, IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 import { ToastService } from "src/app/shared/services/toast.service";
 import {AmlDetailsService} from "../../../services/aml-check/aml-details.service";
+import { Subscription } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: "app-aml-details",
     templateUrl: "./aml-details.component.html",
     styleUrls: ["./aml-details.component.scss"]
 })
-export class AmlDetailsComponent implements OnInit {
+export class AmlDetailsComponent implements OnInit, OnDestroy {
 
     constructor(
         private peRolesService: PeRolesService,
         private amlDetailsService: AmlDetailsService,
         private loading: LoadingService,
-        private toast: ToastService
+        private toast: ToastService,
+        private aRoute: ActivatedRoute
     ) { }
 
+    public subscribtions: { [key: string]: Subscription | null } = {
+        getManualCheckMode: null
+    };
+    public paymentID: string = '';
+    public readOnly: boolean = true;
     public amlDetailsData: IAmlDetails | "loading" = "loading";
     public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
     public uploadingData: IPEUploadingData[] = [];
@@ -44,17 +52,49 @@ export class AmlDetailsComponent implements OnInit {
         }
     }
 
+    ngOnDestroy(): void {
+        if (!!this.subscribtions['routerParamsSubscribtion']){
+            this.subscribtions['routerParamsSubscribtion'].unsubscribe();
+        }
+    }
+
     ngOnInit(): void {
         this.loadData();
     }
 
     loadData() {
-        this.amlDetailsService.getAmlDetails().subscribe(
-            response => {
-                this.amlDetailsData = response;
-                PaymentEngineHelper.scrollToTop();
-            }
-        );
+        this.subscribtions['routerParamsSubscribtion'] = this.aRoute.params.subscribe(prms => {
+            this.paymentID = prms['id'];
+            this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(checkResponse => {
+                this.readOnly = checkResponse.readOnly;
+                if (!checkResponse.readOnly){
+                    this.amlDetailsService.saveManualCheckMode(this.paymentID, '2');
+                }
+            });
+            this.amlDetailsService.getAmlDetails().subscribe(
+                response => {
+                    this.amlDetailsData = response;
+                    PaymentEngineHelper.scrollToTop();
+                }
+            );
+        });
+    }
+
+    back() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '1');
+    }
+
+    approve() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '3');
+    }
+
+    cancel() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '5');
+    }
+    
+    sendDocs() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '4');
+        this.uploadingData
     }
 
     addDocument() {

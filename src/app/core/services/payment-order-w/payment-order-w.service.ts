@@ -6,7 +6,7 @@ import { manualChecksTableData } from 'src/app/shared/mocks/manual-checks-table.
 import { ISearchPaymentTableData } from '../../pages/PE/search-payment/search-payment.types';
 import { API_URL } from '../../../shared/variables/http-constants';
 import { ITransferDetails } from '../view-transfer-details/types';
-import { ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
+import { IGetSearchPaymentsReportPayload, ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
 import { ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from './types';
 import { Pagination } from '../../../shared/services/table.service';
 import { IBankOpsCheckFiltersPayload, IBankOpsCheckResponse } from '../bank-ops-check/types';
@@ -51,8 +51,8 @@ export class PaymentOrderWService {
     });
   }
 
-  public getPaymentsReport(filters?: ISearchPaymentsFiltersPayload): Observable<ArrayBuffer> {
-    return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', filters, {
+  public getPaymentsReport(payload: IGetSearchPaymentsReportPayload): Observable<ArrayBuffer> {
+    return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', payload, {
       responseType: 'arraybuffer' as 'json',
     });
   }

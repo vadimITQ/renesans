@@ -59,7 +59,14 @@
         [label]="'Сформировать отчет'"
         (click)="generateReport()"
       ></button>
-      <button pButton class="pe-button" [label]="'Сформировать отчет СБП'" (click)="generateSbpReport()" [disabled]="true"></button>
+      <button 
+        pButton 
+        class="pe-button" 
+        [label]="'Сформировать отчет СБП'" 
+        (click)="generateSbpReport()" 
+        [loading]="searchPaymentService.$reportLoading.value" 
+        [disabled]="false">
+      </button>
     </div>
   </ng-container>
   <pe-loading-spinner *ngIf="searchPaymentService.$loading.value && !tableData" [marginTop]="'10px'"></pe-loading-spinner>

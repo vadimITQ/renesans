@@ -114,9 +114,10 @@
     <button
       pButton
       class="pe-button ml-2"
+      [loading]="searchPaymentService.$reportLoading.value"
       [label]="'Найти и сформировать отчет СБП'"
       (click)="searchAndGenerateDoc()"
-      [disabled]="true"
+      [disabled]="false"
     ></button>
   </div>
 </div>

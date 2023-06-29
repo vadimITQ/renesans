@@ -271,3 +271,9 @@ export interface ISearchPaymentsResponse {
   offset: number | null;
   payments: IPayment[];
 }
+
+export interface IGetSearchPaymentsReportPayload {
+  isManualParse?: boolean;
+  isSBPReport?: boolean;
+  searchPayments: ISearchPaymentsFiltersPayload;
+}

@@ -19,6 +19,8 @@ import {
   prepareSearchFilters,
 } from './search-payment-filters.utils';
 import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
+import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-search-payment-filters',
@@ -41,10 +43,11 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   ipRegExp = /^([\d.]+)$/i;
 
   constructor(
-    private searchPaymentService: SearchPaymentService,
+    public searchPaymentService: SearchPaymentService,
     private fb: FormBuilder,
     private toastService: ToastService,
     private changeDetectionRef: ChangeDetectorRef,
+    private datePipe: DatePipe
   ) {}
 
   ngOnDestroy(): void {
@@ -158,9 +161,22 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     if (!this.validate()) {
       return;
     }
-    // todo: implement me after API update
-    // this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {
-    //   XlsxHelper.exportArrayToExcel(response.payments, Object.getOwnPropertyNames(response.payments[0]), 'Выгрузка_в_excel_test');
-    // });
+    this.searchPaymentService.filter(prepareSearchFilters(this.filters));
+    this.searchPaymentService.getPaymentsReport({
+      isSBPReport: true,
+      isManualParse: false,
+      searchPayments: prepareSearchFilters(this.filters)
+    }).subscribe(buffer => {
+      if (!!buffer) {
+        XlsxHelper.saveAsExcelFile(
+          buffer, 
+          `Отчет по СБП платежам_${ this.datePipe.transform(new Date(), "ddMMyyyy") }.xlsx`
+        );
+      }
+      else {
+        this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз');
+      }
+    });
   }
+  
 }

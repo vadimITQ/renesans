@@ -13,6 +13,7 @@ import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import { IColumn } from '../../../../../shared/types/table.types';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
+import { prepareSearchFilters } from '../search-payment-filters/search-payment-filters.utils';
 
 @Component({
   selector: 'app-search-payment-table',
@@ -43,13 +44,18 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   private paymentResponseStateSubscription!: Subscription;
 
   generateReport() {
-    this.searchPaymentService
-      .getPaymentsReport()
+    if (!!this.searchPaymentService.$filters.value) {
+      this.searchPaymentService.getPaymentsReport({
+        isSBPReport: false,
+        isManualParse: false,
+        searchPayments: prepareSearchFilters(this.searchPaymentService.$filters.value)
+      })
       .subscribe(value =>
         value
           ? XlsxHelper.saveAsExcelFile(value, `Отчет по платежам_${this.datePipe.transform(new Date(), 'ddMMYYYY')}`)
           : this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз'),
       );
+    }
   }
 
   paymentIdClick(id: string) {
@@ -57,13 +63,23 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   }
 
   generateSbpReport() {
-    this.searchPaymentService
-      .getPaymentsReport()
-      .subscribe(value =>
-        value
-          ? XlsxHelper.saveAsExcelFile(value, `Отчет по платежам_${this.datePipe.transform(new Date(), 'ddMMYYYY')}`)
-          : this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз'),
-      );
+    if (!!this.searchPaymentService.$filters.value) {
+      this.searchPaymentService.getPaymentsReport({
+        isSBPReport: true,
+        isManualParse: false,
+        searchPayments: prepareSearchFilters(this.searchPaymentService.$filters.value)
+      }).subscribe(buffer => {
+        if (!!buffer) {
+          XlsxHelper.saveAsExcelFile(
+            buffer, 
+            `Отчет по СБП платежам_${ this.datePipe.transform(new Date(), "ddMMyyyy") }.xlsx`
+          );
+        }
+        else {
+          this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз');
+        }
+      });
+    }
   }
 
   get hasAccessToViewTransferDetails() {

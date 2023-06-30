@@ -186,7 +186,7 @@ export interface IPaymentApplication {
   sbp: SBP | null;
   servicePayment: ServicePayment;
   ipt: IPT | null;
-  check: Check;
+  check: Check | null;
   applicationID: string;
   appCreationTime: string;
   statusCode: string;

@@ -8,14 +8,14 @@
     <div class="id-inputs">
         <pe-input
             label="ID PE"
-            [(value)]="antiFraudCheckFilter.IdPE"
-            [validationMessage]="validations['IdPE']">
+            [(value)]="antiFraudCheckFilter.paymentID"
+            [validationMessage]="validations['paymentID']">
         </pe-input>
         <pe-indent [mRight]="5"></pe-indent>
         <pe-input
             label="ID Заявки"
-            [(value)]="antiFraudCheckFilter.applicationId"
-            [validationMessage]="validations['applicationId']">
+            [(value)]="antiFraudCheckFilter.applicationID"
+            [validationMessage]="validations['applicationID']">
         </pe-input>
     </div>
 
@@ -23,8 +23,8 @@
 
     <date-picker
         label="Дата/время с"
-        [(ngModel)]="antiFraudCheckFilter.dateFrom"
-        [validationMessage]="validations['dateFrom']"
+        [(ngModel)]="antiFraudCheckFilter.dateTimeFrom"
+        [validationMessage]="validations['dateTimeFrom']"
         (DateChanged)="validateDates()"
         [labelStyle]="{ 'width': '130px' }"
         [showTime]="false">
@@ -34,8 +34,8 @@
 
     <date-picker
         label="Дата/время по"
-        [(ngModel)]="antiFraudCheckFilter.dateTo"
-        [validationMessage]="validations['dateTo']"
+        [(ngModel)]="antiFraudCheckFilter.dateTimeTo"
+        [validationMessage]="validations['dateTimeTo']"
         (DateChanged)="validateDates()"
         [labelStyle]="{ 'width': '130px' }"
         [showTime]="false">
@@ -46,9 +46,9 @@
     <pe-multiselect
         label="Состояние заявки"
         placeholder="Выберите состояние заявки"
-        [(selected)]="antiFraudCheckFilter.applicationStatus"
+        [(selected)]="antiFraudCheckFilter.manualAntiFraudCheckStatusList"
         [dataset]="multiselectDataSets.GetAntiFraudApplicationStatus"
-        [validationMessage]="validations['applicationStatus']"
+        [validationMessage]="validations['manualAntiFraudCheckStatusList']"
         [labelStyle]="{ 'width': '155px' }">
     </pe-multiselect>
 
@@ -59,7 +59,7 @@
             *ngIf="showCheckbox"
             label="Только просроченные"
             [disabled]="true"
-            [(ngModel)]="antiFraudCheckFilter.onlyExpired"
+            [(ngModel)]="antiFraudCheckFilter.agedOnly"
             [binary]="true">
         </p-checkbox>
 

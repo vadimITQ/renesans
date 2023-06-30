@@ -28,7 +28,7 @@
         >
           <ng-template pTemplate="header">
             <tr class="tps-by-status__row-gray">
-              <th pResizableColumn>Просрочка</th>
+              <th pResizableColumn *ngIf="hasAccessToSearchAgedOnly">Просрочка</th>
               <th pResizableColumn>ID PE</th>
               <th pResizableColumn>ID заявки</th>
               <th pResizableColumn>Дата заявки в PE</th>
@@ -41,19 +41,19 @@
           </ng-template>
           <ng-template pTemplate="body" let-antiFraudItem>
             <tr style="height: 50px">
-              <td>{{antiFraudItem.expireValue}}</td>
+              <td *ngIf="hasAccessToSearchAgedOnly">{{antiFraudItem.overdueDays}}</td>
               <td>
-                <div class="link" (click)="goToAntiFraudDetails(antiFraudItem.IdPE)">
-                    {{antiFraudItem.IdPE}}
+                <div class="link" (click)="goToAntiFraudDetails(antiFraudItem.applicationID)">
+                    {{antiFraudItem.paymentID}}
                 </div>
               </td>
-              <td>{{antiFraudItem.applicationId}}</td>
-              <td>{{antiFraudItem.dateTime | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
-              <td>{{antiFraudItem.amlStatus}}</td>
-              <td>{{antiFraudItem.antiFraudStatus}}</td>
-              <td>{{antiFraudItem.bankOpsStatus}}</td>
+              <td>{{antiFraudItem.applicationID}}</td>
+              <td>{{antiFraudItem.appCreationTime | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+              <td>{{antiFraudItem.manualAMLCheckStatus}}</td>
+              <td>{{antiFraudItem.manualAntiFraudCheckStatus}}</td>
+              <td>{{antiFraudItem.manualBankOpsCheckStatus}}</td>
               <td>{{antiFraudItem.type}}</td>
-              <td>{{antiFraudItem.docCount}}</td>
+              <td>{{antiFraudItem.numberOfDocuments}}</td>
             </tr>
           </ng-template>
         </p-table>

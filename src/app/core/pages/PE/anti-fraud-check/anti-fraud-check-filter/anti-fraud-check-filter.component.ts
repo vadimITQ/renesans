@@ -34,33 +34,34 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.log(this.antiFraudCheckService.$filter.value);
-        this.antiFraudCheckService.$filter.next(this.antiFraudCheckFilter);
+        console.log(this.antiFraudCheckService.$filters.value);
+        this.antiFraudCheckService.$filters.next(this.antiFraudCheckFilter);
     }
 
     ngOnInit(): void {
-        if (!!this.antiFraudCheckService.$filter.value){
-            this.antiFraudCheckFilter = this.antiFraudCheckService.$filter.value;
+        if (!!this.antiFraudCheckService.$filters.value){
+            this.antiFraudCheckFilter = this.antiFraudCheckService.$filters.value;
         }
         else {
             this.antiFraudCheckFilter = AntiFraudChecksFilterUtils.getDefaultFilter();
         }
-        
+
         this.changeDetector.detectChanges();
     }
 
     public clear(): void {
-        this.antiFraudCheckFilter = { 
+        this.antiFraudCheckFilter = {
             ...AntiFraudChecksFilterUtils.getDefaultFilter(),
-            dateFrom: null,
-            dateTo: null
+          dateTimeFrom: null,
+          dateTimeTo: null
         };
         this.validations = {};
     }
 
     public search(): void {
         if (this.valid()) {
-            this.antiFraudCheckService.filter(this.antiFraudCheckFilter);
+            this.antiFraudCheckService.filter(AntiFraudChecksFilterUtils.prepareAntiFraudFilters(this.antiFraudCheckFilter));
+            this.antiFraudCheckService.$filters.next(this.antiFraudCheckFilter);
         }
         else {
             console.log("filter is not valid");
@@ -88,14 +89,14 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
     public validateDates(): boolean {
         this.validations = {};
         const { dateFromValidation, dateToValidation } = validateDates(
-            this.antiFraudCheckFilter.dateFrom?.toISOString() ?? "", 
-            this.antiFraudCheckFilter.dateTo?.toISOString() ?? ""
+            this.antiFraudCheckFilter.dateTimeFrom?.toISOString() ?? "",
+            this.antiFraudCheckFilter.dateTimeTo?.toISOString() ?? ""
         );
-        this.validations["dateFrom"] = dateFromValidation;
-        this.validations["dateTo"] = dateToValidation;
-        if (!!this.validations["dateFrom"] || !!this.validations["dateTo"]) {
+        this.validations["dateTimeFrom"] = dateFromValidation;
+        this.validations["dateTimeTo"] = dateToValidation;
+        if (!!this.validations["dateTimeFrom"] || !!this.validations["dateTimeTo"]) {
             return false;
-        } 
+        }
         else {
             return true;
         }

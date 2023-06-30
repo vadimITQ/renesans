@@ -9,7 +9,13 @@ import { ITransferDetails } from '../view-transfer-details/types';
 import { IGetSearchPaymentsReportPayload, ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
 import { ICancelPaymentPayload, ICancelPaymentResponse, IGetManualCheckModePayload, IGetManualCheckModeResponse, IResumePaymentPayload, IResumePaymentResponse, ISaveManualCheckModePayload, ISaveManualCheckModeResponse } from './types';
 import { Pagination } from '../../../shared/services/table.service';
-import { IBankOpsCheckFiltersPayload, IBankOpsCheckResponse } from '../bank-ops-check/types';
+import {prepareFiltersToQuery, } from "../../../shared/utils/object";
+import {GetApplicationsListCheckType} from "../../../shared/enums/get-applications-list.enums";
+import {
+  IGetApplicationsListPayload,
+  IGetApplicationListResponse,
+} from "../../../shared/types/get-applications-list";
+import {IApplicationDetails} from "../../../shared/types/get-application-details";
 
 @Injectable({
   providedIn: 'root',
@@ -57,16 +63,16 @@ export class PaymentOrderWService {
     });
   }
 
-  public getApplicationsList(filters: IBankOpsCheckFiltersPayload, pagination: Pagination): Observable<IBankOpsCheckResponse> {
-    return this.http.post<IBankOpsCheckResponse>(API_URL + '/getApplicationsList', filters, {
-      params: { ...pagination },
+  public getApplicationsList(filters: IGetApplicationsListPayload, pagination: Pagination, checkType: GetApplicationsListCheckType): Observable<IGetApplicationListResponse> {
+    return this.http.get<IGetApplicationListResponse>(API_URL + '/getApplicationsList',{
+      params: { ...pagination, ...prepareFiltersToQuery(filters), checkType },
     });
   }
-  
+
   public getManualCheckMode(payload: IGetManualCheckModePayload): Observable<IGetManualCheckModeResponse> {
-    return this.http.get<IGetManualCheckModeResponse>(API_URL + '/getManualCheckMode', 
-      { 
-        params: { ...payload } 
+    return this.http.get<IGetManualCheckModeResponse>(API_URL + '/getManualCheckMode',
+      {
+        params: { ...payload }
       }
     );
   }
@@ -79,4 +85,7 @@ export class PaymentOrderWService {
     });
   }
 
+  public getApplicationDetails(applicationID: string): Observable<IApplicationDetails> {
+    return this.http.get<IApplicationDetails>(API_URL + `/getApplicationDetails/${applicationID}`);
+  }
 }

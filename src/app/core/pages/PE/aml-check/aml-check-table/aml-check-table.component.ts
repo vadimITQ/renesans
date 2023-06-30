@@ -49,7 +49,7 @@ export class AmlCheckTableComponent implements OnInit, OnDestroy {
 
 
   get hasAccessToSearchOnlyExpired() {
-    return this.peRolesService.hasAccessToSearchOnlyExpired();
+    return this.peRolesService.hasAccessToSearchAgedOnly();
   }
 
   ngOnInit(): void {

@@ -67,6 +67,7 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
     };
 
     this.filtersValidation = {};
+    this.amlCheckService.$tableData.next(null)
 
     this.changeDetectionRef.detectChanges();
   }

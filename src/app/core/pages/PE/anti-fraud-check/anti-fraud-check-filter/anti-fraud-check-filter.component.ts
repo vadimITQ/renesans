@@ -56,6 +56,7 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
           dateTimeTo: null
         };
         this.validations = {};
+        this.antiFraudCheckService.$tableData.next(null)
     }
 
     public search(): void {

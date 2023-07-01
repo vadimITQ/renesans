@@ -7,7 +7,7 @@ export const bankOpsCheckTableColumns: IColumn[] = [
   },
   {
     header: 'Дата заявки в PE',
-    field: 'appCreationTime',
+    field: 'pmtCreationTime',
   },
   {
     header: 'Статус AML',

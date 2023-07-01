@@ -31,12 +31,16 @@ export function prepareAntiFraudDetails(applicationDetails: IApplicationDetails 
     manualChecks: manualChecks.map(manualCheck => ({ ...manualCheck, status: ManualCheckStatus[+manualCheck.status] })),
     paymentID: payment.paymentID,
     pmtCreationTime: DatePickerHelper.format(DatePickerHelper.parseFromLocaleStringToDate(payment.pmtCreationTime)),
-    payerName: `${payment.paymentApplication.payer.user.naturalSurname} ${payment.paymentApplication.payer.user.naturalName} ${payment.paymentApplication.payer.user.naturalPatronymic}`,
-    payerAccount: payment.paymentApplication.payer.requisites.account,
-    payeeName: `${payment.paymentApplication.payee.user.naturalSurname} ${payment.paymentApplication.payee.user.naturalName} ${payment.paymentApplication.payee.user.naturalPatronymic}`,
-    payeeAccount: payment.paymentApplication.payee.requisites.account,
-    payeeINN: payment.paymentApplication.payee.user.inn,
-    payeeBIC: payment.paymentApplication.payee.requisites.bankBIC,
+    payerName: payment.paymentApplication.payer.user
+      ? `${payment.paymentApplication.payer.user.naturalSurname} ${payment.paymentApplication.payer.user.naturalName} ${payment.paymentApplication.payer.user.naturalPatronymic}`
+      : '',
+    payerAccount: payment.paymentApplication.payer.requisites?.account ?? '',
+    payeeName: payment.paymentApplication.payee.user
+      ? `${payment.paymentApplication.payee.user.naturalSurname} ${payment.paymentApplication.payee.user.naturalName} ${payment.paymentApplication.payee.user.naturalPatronymic}`
+      : '',
+    payeeAccount: payment.paymentApplication.payee.requisites?.account ?? '',
+    payeeINN: payment.paymentApplication.payee.user?.inn ?? '',
+    payeeBIC: payment.paymentApplication.payee.requisites?.bankBIC ?? '',
     paymentPurpose: payment.paymentApplication.paymentPurpose,
     amount: payment.paymentApplication.amount,
   };

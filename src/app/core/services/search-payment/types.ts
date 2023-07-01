@@ -71,9 +71,9 @@ export interface Entity {
 }
 
 export interface PayerOrPayee {
-  user: User;
-  requisites: Requisites;
-  entity: Entity;
+  user: User | null;
+  requisites: Requisites | null;
+  entity: Entity | null;
 }
 
 export interface Budget {

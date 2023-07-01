@@ -16,7 +16,7 @@
   <div class="info-block" *ngIf="!loading; else elseBlock">
     <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="antiFraudDetails.paymentID" label="ID PE"></pe-input>
     <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="antiFraudDetails.pmtCreationTime" label="Дата заявки PE"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="antiFraudDetails.payerName" label="ФИО плательщика"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="antiFraudDetails.payerName" label="ФИО плательщика/наименования организации"></pe-input>
     <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="antiFraudDetails.payerAccount" label="Счёт списания"></pe-input>
     <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="antiFraudDetails.payeeName" label="ФИО получателя/наименования организации"></pe-input>
     <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="antiFraudDetails.payeeAccount" label="Счёт получателя"></pe-input>

@@ -3,11 +3,11 @@ import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 import { BankOpsDetailsService } from 'src/app/core/services/bank-ops-check/bank-ops-details.service';
 import { IBankOpsDetails, IBankOpsDetailsRequestedDocs } from './bank-ops-details.types';
 import { PaymentEngineHelper } from 'src/app/shared/classes/pe-helper';
-import { LoadingService } from 'src/app/shared/services/loading.service';
 import { FileUploadingModal, IPEUploadingData } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.types';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { prepareBankOpsDetails } from './bank-ops-details.utils';
 import { Any, commentaryExpr } from 'src/app/shared/variables/pe-input-validations';
 import { IMultiSelectData } from 'src/app/shared/components/controls/pe-multiselect/pe-multiselect.component';
 
@@ -17,29 +17,29 @@ import { IMultiSelectData } from 'src/app/shared/components/controls/pe-multisel
   styleUrls: ['./bank-ops-details.component.scss'],
 })
 export class BankOpsDetailsComponent implements OnInit, OnDestroy {
-
   constructor(
+    private activatedRoute: ActivatedRoute,
     private peRolesService: PeRolesService,
     private bankOpsDetailsService: BankOpsDetailsService,
-    private loading: LoadingService,
     private toast: ToastService,
-    private aRoute: ActivatedRoute
   ) {}
 
   public subscribtions: { [key: string]: Subscription | null } = {
-    routerParamsSubscribtion: null
+    routerParamsSubscribtion: null,
   };
   public readonly FILES_COMMENTARY_REGEXPR = Any;
   public paymentID: string = '';
   public readOnly: boolean = true;
-  public bankOpsDetailsData: IBankOpsDetails | 'loading' = 'loading';
+  public bankOpsDetails: IBankOpsDetails = prepareBankOpsDetails(null);
   public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
   public labelsStyle: { [key: string]: string } = {
     'font-weight': '500',
   };
+  public loading: boolean = false;
   public commentary: string = '';
   public readonly COMMENTARY_EXPR = commentaryExpr;
 
+  public requestedDocsData:IBankOpsDetailsRequestedDocs[]=[]
   public bankOpsDetailsRequestedDocs: IBankOpsDetailsRequestedDocs = {
       commentaryAML: '',
       commentaryBankOps: '',
@@ -56,8 +56,8 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   }
 
   get docsDataCount(): string {
-    if (this.bankOpsDetailsData !== 'loading') {
-      return this.bankOpsDetailsData?.docsData?.length?.toString() ?? '0';
+    if (this.bankOpsDetails) {
+      return this.bankOpsDetails?.responsedDocuments?.length?.toString() ?? '0';
     } else {
       return '';
     }
@@ -68,28 +68,29 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadData();
-  }
+    const bankOpsDetailsId = this.activatedRoute.snapshot.paramMap.get('id');
 
-  ngOnDestroy(): void {
-    if (!!this.subscribtions['routerParamsSubscribtion']){
-      this.subscribtions['routerParamsSubscribtion'].unsubscribe();
+    if (!bankOpsDetailsId) {
+      return;
     }
-  }
-  
-  loadData() {
-    this.subscribtions['routerParamsSubscribtion'] = this.aRoute.params.subscribe(prms => {
-      this.paymentID = prms['id'];
+    this.loading = true;
+    this.bankOpsDetailsService.getBankOpsDetails(bankOpsDetailsId).subscribe(value => {
+      if (!value) {
+        this.loading = false;
+
+        return;
+      }
+      this.paymentID = value.payment.paymentID;
+      this.loading = false;
+
       this.bankOpsDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
         this.readOnly = manualCheckModeResponse.readOnly;
-        if (!manualCheckModeResponse.readOnly){
+        if (!manualCheckModeResponse.readOnly) {
           this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '2');
         }
       });
-      this.bankOpsDetailsService.getBankOpsDetails().subscribe(response => {
-        this.bankOpsDetailsData = response;
-        PaymentEngineHelper.scrollToTop();
-      });
+      this.bankOpsDetails = prepareBankOpsDetails(value);
+      PaymentEngineHelper.scrollToTop();
     });
   }
 
@@ -109,14 +110,19 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '6');
   }
 
+  ngOnDestroy(): void {
+    if (!!this.subscribtions['routerParamsSubscribtion']) {
+      this.subscribtions['routerParamsSubscribtion'].unsubscribe();
+    }
+  }
   addDocument() {
     this.uploadingModal.showModal();
   }
 
   onSave() {
-    this.loading.showLoading();
+    this.loading= true
     if (!this.filesUploaded) {
-      this.loading.hideLoading();
+      this.loading = false
       this.clearUploadingModal();
       return;
     }
@@ -125,10 +131,10 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       if (!!this.changeRef_BankOpsDetailsRequestedDocs) {
         this.changeUploadingItem(this.uploadingModal.getData());
         this.toast.showSuccessToast('Документ был успешно изменён');
-      } else if (this.bankOpsDetailsData !== 'loading') {
-        this.bankOpsDetailsData.requestedDocsData.push(this.bankOpsDetailsRequestedDocs);
+      } else if (this.bankOpsDetails) {
+        this.requestedDocsData.push(this.bankOpsDetailsRequestedDocs);
       }
-      this.loading.hideLoading();
+      this.loading = false
       this.clearUploadingModal();
     }, 1500);
   }
@@ -152,9 +158,8 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   }
 
   deleteUploadingItem(data: IBankOpsDetailsRequestedDocs) {
-    if (this.bankOpsDetailsData !== 'loading'){
-      this.bankOpsDetailsData.requestedDocsData = this.bankOpsDetailsData.requestedDocsData.filter(_data => _data !== data);
-    }
+      this.requestedDocsData = this.requestedDocsData.filter(value => value !== data);
+
   }
 
   editUploadingItem(row: IBankOpsDetailsRequestedDocs) {

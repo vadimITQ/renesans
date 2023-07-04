@@ -5,5 +5,5 @@ export interface IBankOpsCheckFilters {
   dateTimeTo: Date | null;
   paymentID: string | null;
   applicationID: string | null;
-  applicationStatus: IMultiSelectData[];
+  manualBankOpsCheckStatusList: IMultiSelectData[];
 }

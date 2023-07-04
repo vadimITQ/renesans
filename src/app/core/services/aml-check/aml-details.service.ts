@@ -1,7 +1,6 @@
 
 import { Injectable } from "@angular/core";
-import { Observable, delay, of } from "rxjs";
-import {amlDetailsMockData} from "../../pages/PE/aml-details/aml-details.mock";
+import { Observable } from "rxjs";
 import { PaymentOrderWService } from "../payment-order-w/payment-order-w.service";
 import { AuthService } from "../auth/auth.service";
 import { IGetManualCheckModeResponse } from "../payment-order-w/types";
@@ -12,24 +11,24 @@ import { IGetManualCheckModeResponse } from "../payment-order-w/types";
 export class AmlDetailsService {
 
     constructor(
-        private paymentOrderW: PaymentOrderWService,
+        private paymentOrderWService: PaymentOrderWService,
         private authService: AuthService
     ) {}
 
-    getAmlDetails() {
-        return of(amlDetailsMockData).pipe(delay(500));
+    getAmlDetails(id: string) {
+      return this.paymentOrderWService.getApplicationDetails(id);
     }
 
     getManualCheckMode(paymentID: string): Observable<IGetManualCheckModeResponse> {
-        return this.paymentOrderW.getManualCheckMode({
+        return this.paymentOrderWService.getManualCheckMode({
           paymentID: paymentID,
           checkType: 'AML',
           userLogin: this.authService.user?.connectionName ?? 'Unknown_User'
         });
       }
-  
+
       saveManualCheckMode(paymentID: string, status: string) {
-        return this.paymentOrderW.saveManualCheckMode({
+        return this.paymentOrderWService.saveManualCheckMode({
           paymentID: paymentID,
           manualCheck: {
             checkType: "AML",

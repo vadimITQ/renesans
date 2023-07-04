@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, delay, of } from 'rxjs';
+import {BehaviorSubject, catchError, map, of} from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { Pagination, TableService } from '../../../shared/services/table.service';
-import { IBankOpsCheck, IBankOpsCheckFiltersPayload } from './types';
 import { IBankOpsCheckFilters } from '../../pages/PE/bank-ops-check/bank-ops-check-filters/bank-ops-check-filters.types';
-import { bankOpsCheckTableMock } from '../../pages/PE/bank-ops-check/bank-ops-check-table/bank-ops-check-table.mock';
+import {GetApplicationsListCheckType} from "../../../shared/enums/get-applications-list.enums";
+import {IApplication, IGetApplicationsListPayload} from "../../../shared/types/get-applications-list";
 
 @Injectable({
   providedIn: 'root',
 })
-export class BankOpsCheckService extends TableService<IBankOpsCheck, IBankOpsCheckFiltersPayload> {
+export class BankOpsCheckService extends TableService<IApplication, IGetApplicationsListPayload> {
   constructor(private paymentOrderWService: PaymentOrderWService, private toastService: ToastService) {
-    function getApplicationsList(payload: IBankOpsCheckFiltersPayload, pagination: Pagination) {
-      return of({ ...bankOpsCheckTableMock, data: bankOpsCheckTableMock.bankOpsChecks }).pipe(delay(1000));
-      // return paymentOrderWService.getApplicationsList(payload, pagination).pipe(
-      //   map(value => ({ ...value, data: value.bankOpsChecks })),
-      //   catchError(error => {
-      //     if (error.status !== 401) {
-      //       toastService.showErrorToast(
-      //         'Внутренняя ошибка сервиса. Возникла ошибка при получении информации о платежах.',
-      //       );
-      //     }
-      //     return of(error);
-      //   }),
-      // );
+    function getApplicationsList(payload: IGetApplicationsListPayload, pagination: Pagination) {
+      return paymentOrderWService.getApplicationsList(payload, pagination,GetApplicationsListCheckType.BANK_OPS).pipe(
+        map(value => ({ ...value, data: value.applications })),
+        catchError(error => {
+          if (error.status !== 401) {
+            toastService.showErrorToast(
+              'Внутренняя ошибка сервиса. Возникла ошибка при получении информации о платежах.',
+            );
+          }
+          return of(error);
+        }),
+      );
     }
     super(getApplicationsList);
   }

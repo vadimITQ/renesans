@@ -32,19 +32,19 @@
       <ng-template pTemplate="body" let-bankOpsCheckItem>
         <tr style="height: 50px">
           <td>
-            <a *ngIf="hasAccessToBankOpsCheckDetails; else elseBlock" class="link" (click)="linkClick(bankOpsCheckItem.paymentId)">{{
-              bankOpsCheckItem.paymentId
+            <a *ngIf="hasAccessToBankOpsCheckDetails; else elseBlock" class="link" (click)="linkClick(bankOpsCheckItem.applicationID)">{{
+              bankOpsCheckItem.paymentID
             }}</a>
-            <ng-template #elseBlock>{{ bankOpsCheckItem.paymentId }}</ng-template>
+            <ng-template #elseBlock>{{ bankOpsCheckItem.paymentID }}</ng-template>
           </td>
           <td *ngFor="let column of tableColumns">
             {{ bankOpsCheckItem[column.field] }}
           </td>
           <td>
-            <a *ngIf="hasAccessToBankOpsCheckDetails; else elseBlock" class="link" (click)="linkClick(bankOpsCheckItem.paymentId)">{{
-              bankOpsCheckItem.docAmount
+            <a *ngIf="hasAccessToBankOpsCheckDetails; else elseBlock" class="link" (click)="linkClick(bankOpsCheckItem.applicationID)">{{
+              bankOpsCheckItem.numberOfDocuments
             }}</a>
-            <ng-template #elseBlock>{{ bankOpsCheckItem.docAmount }}</ng-template>
+            <ng-template #elseBlock>{{ bankOpsCheckItem.numberOfDocuments }}</ng-template>
           </td>
         </tr>
       </ng-template>

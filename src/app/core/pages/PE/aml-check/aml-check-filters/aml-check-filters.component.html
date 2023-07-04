@@ -20,7 +20,7 @@
       [(ngModel)]="filters.dateTimeFrom"
       [validationMessage]="filtersValidation['dateTimeFrom']"
       label="Дата/Время с"
-      (dateChange)="validate(true)"
+      (DateChanged)="validate(true)"
       [labelStyle]="{ width: '200px' }"
     >
     </date-picker>
@@ -30,7 +30,7 @@
       [(ngModel)]="filters.dateTimeTo"
       [validationMessage]="filtersValidation['dateTimeTo']"
       label="Дата/Время по"
-      (dateChange)="validate(true)"
+      (DateChanged)="validate(true)"
       [labelStyle]="{ width: '200px' }"
     >
     </date-picker>
@@ -42,14 +42,14 @@
         placeholder="Выберите состояние заявки"
         label="Состояния заявки"
         [labelStyle]="{ 'min-width': '225px', display: 'block' }"
-        [validationMessage]="filtersValidation['applicationStatus']"
-        [(selected)]="filters.applicationStatus"
+        [validationMessage]="filtersValidation['applicationStatuses']"
+        [(selected)]="filters.applicationStatuses"
       >
       </pe-multiselect>
     </div>
   </div>
   <div class="input-row">
-    <p-checkbox [binary]="true" [disabled]="!hasAccessToSearchOnlyExpired" label="Только просроченные" [value]="filters.onlyExpired" />
+    <p-checkbox [binary]="true" [disabled]="!hasAccessToSearchAgedOnly" label="Только просроченные" [value]="filters.agedOnly" />
   </div>
   <div>
     <button pButton class="pe-button" [label]="'Очистить'" (click)="onClear()"></button>

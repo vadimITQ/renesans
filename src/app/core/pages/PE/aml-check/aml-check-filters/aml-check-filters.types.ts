@@ -5,6 +5,6 @@ export interface IAmlCheckFilters {
   dateTimeTo: Date | null;
   paymentID: string | null;
   applicationID: string | null;
-  applicationStatus: IMultiSelectData[];
-  onlyExpired: boolean;
+  applicationStatuses: IMultiSelectData[];
+  agedOnly: boolean;
 }

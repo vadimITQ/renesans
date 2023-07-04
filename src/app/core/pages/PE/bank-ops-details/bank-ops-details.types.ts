@@ -1,28 +1,21 @@
+import { IApplicationDetails } from '../../../../shared/types/get-application-details';
 import { IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 
-export interface IBankOpsDetails {
-  automaticChecksData: IBankOpsDetailsAutomaticChecks[];
-  manualChecksData: IBankOpsDetailsManualChecks[];
-  docsData: IBankOpsDetailsDocs[];
-  requestedDocsData: IBankOpsDetailsRequestedDocs[];
-}
-
-export interface IBankOpsDetailsAutomaticChecks {
-  status: string;
-  rules: string | string[];
-}
-
-export interface IBankOpsDetailsManualChecks {
-  type: string;
-  status: string;
-  login: string;
-  startData: string;
-  endData: string;
-}
-
-export interface IBankOpsDetailsDocs {
-  docID: string;
-  fileData: string;
+export interface IBankOpsDetails
+  extends Pick<
+    IApplicationDetails,
+    'autoChecks' | 'manualChecks' | 'requestedDocuments'  | 'responsedDocuments'
+  > {
+  paymentID: string;
+  pmtCreationTime: string;
+  payerName: string;
+  payerAccount: string;
+  payeeName: string;
+  payeeAccount: string;
+  payeeINN: string;
+  payeeBIC: string;
+  paymentPurpose: string;
+  amount: number;
 }
 
 export interface IBankOpsDetailsRequestedDocs {

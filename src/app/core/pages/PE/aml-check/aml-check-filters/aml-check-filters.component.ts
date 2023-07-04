@@ -118,7 +118,7 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
   }
 
 
-  get hasAccessToSearchOnlyExpired() {
+  get hasAccessToSearchAgedOnly() {
     return this.peRolesService.hasAccessToSearchAgedOnly();
   }
 

@@ -13,18 +13,21 @@
     <pe-indent [mBottom]="5"></pe-indent>
   </div>
 
-  <div class="info-block">
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="ID PE"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Дата заявки PE"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'" label="ФИО плательщика"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'" label="Счёт списания"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'-'" label="ФИО получателя/наименование организации"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Счёт получателя"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="ИНН получателя"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="БИК банка получателя"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Назначение"></pe-input>
-    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="'test test test'" label="Сумма перевода"></pe-input>
+  <div class="info-block" *ngIf="!loading; else elseBlock">
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.paymentID" label="ID PE"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.pmtCreationTime" label="Дата заявки PE"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.payerName" label="ФИО плательщика"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.payerAccount" label="Счёт списания"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.payeeName" label="ФИО получателя/наименование организации"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.payeeAccount" label="Счёт получателя"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.payeeINN" label="ИНН получателя"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.payeeBIC" label="БИК банка получателя"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.paymentPurpose" label="Назначение"></pe-input>
+    <pe-input [labelStyle]="labelsStyle" [disabled]="true" [value]="bankOpsDetails.amount" label="Сумма перевода"></pe-input>
   </div>
+  <ng-template #elseBlock >
+    <pe-loading-spinner ></pe-loading-spinner>
+  </ng-template>
 
   <div class="paragraph">
     <pe-indent [mTop]="4"></pe-indent>
@@ -34,8 +37,8 @@
 
   <div class="automatic-checks">
     <p-table
-      *ngIf="bankOpsDetailsData !== 'loading'"
-      [value]="bankOpsDetailsData.automaticChecksData"
+      *ngIf="!loading"
+      [value]="bankOpsDetails.autoChecks"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"
@@ -61,7 +64,7 @@
         </tr>
       </ng-template>
     </p-table>
-    <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+    <pe-loading-spinner *ngIf="loading"></pe-loading-spinner>
   </div>
 
   <div class="paragraph">
@@ -72,8 +75,8 @@
 
   <div class="manual-checks">
     <p-table
-      *ngIf="bankOpsDetailsData !== 'loading'"
-      [value]="bankOpsDetailsData.manualChecksData"
+      *ngIf="!loading"
+      [value]="bankOpsDetails.manualChecks"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"
@@ -94,13 +97,13 @@
       <ng-template pTemplate="body" let-detailsItem>
         <tr>
           <td>
-            {{ detailsItem.type }}
+            {{ detailsItem.checkType }}
           </td>
           <td>
             {{ detailsItem.status }}
           </td>
           <td>
-            {{ detailsItem.login }}
+            {{ detailsItem.userLogin }}
           </td>
           <td>
             {{ detailsItem.startData | date : 'dd.MM.yyyy HH:mm' }}
@@ -111,7 +114,7 @@
         </tr>
       </ng-template>
     </p-table>
-    <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+    <pe-loading-spinner *ngIf="loading"></pe-loading-spinner>
   </div>
 
   <div class="paragraph">
@@ -126,8 +129,8 @@
 
   <div class="docs">
     <p-table
-      *ngIf="bankOpsDetailsData !== 'loading'"
-      [value]="bankOpsDetailsData.docsData"
+      *ngIf="loading"
+      [value]="bankOpsDetails.responsedDocuments"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"
@@ -138,8 +141,8 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>ID документа</th>
-          <th>Дата и время вложения</th>
+          <th>ID приложенного документа</th>
+          <th>Дата и время вложения документа</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-detailsItem>
@@ -148,12 +151,12 @@
             {{ detailsItem.docID }}
           </td>
           <td style="width: 50%">
-            {{ detailsItem.fileData }}
+            {{ detailsItem.responseTime | date : 'dd.MM.yyyy HH:mm' }}
           </td>
         </tr>
       </ng-template>
     </p-table>
-    <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+    <pe-loading-spinner *ngIf="loading"></pe-loading-spinner>
   </div>
 
   <div class="paragraph">
@@ -164,7 +167,7 @@
 
   <div class="requested-docs">
     <p-button
-      *ngIf="bankOpsDetailsData !== 'loading'"
+      *ngIf="!loading"
       [label]="'Добавить документ'"
       styleClass="p-button-info p-button-sm"
       (click)="addDocument()"
@@ -174,8 +177,8 @@
     <pe-indent [mBottom]="4"></pe-indent>
 
     <p-table
-      *ngIf="bankOpsDetailsData !== 'loading'"
-      [value]="bankOpsDetailsData.requestedDocsData"
+      *ngIf="!loading"
+      [value]="requestedDocsData"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"
@@ -225,7 +228,7 @@
         </tr>
       </ng-template>
     </p-table>
-    <pe-loading-spinner *ngIf="bankOpsDetailsData === 'loading'"></pe-loading-spinner>
+    <pe-loading-spinner *ngIf="loading"></pe-loading-spinner>
   </div>
 
   <pe-indent [mTop]="4"></pe-indent>
@@ -239,26 +242,26 @@
   <div class="bottom-buttons">
     <p-button
       (click)="approve()"
-      class="bottom-button-approve" 
-      label="Подтвердить заявку" 
-      icon="pi pi-check" 
-      iconPos="right" 
+      class="bottom-button-approve"
+      label="Подтвердить заявку"
+      icon="pi pi-check"
+      iconPos="right"
       styleClass="p-button-success">
     </p-button>
     <p-button
       (click)="cancel()"
-      class="bottom-button-cancel" 
-      label="Отклонить заявку" 
-      icon="pi pi-times" 
-      iconPos="right" 
+      class="bottom-button-cancel"
+      label="Отклонить заявку"
+      icon="pi pi-times"
+      iconPos="right"
       styleClass="p-button-secondary">
     </p-button>
     <p-button
       (click)="sendDocs()"
-      class="bottom-button-send-docs" 
-      label="Отправить документы" 
-      icon="pi pi-reply" 
-      iconPos="right" 
+      class="bottom-button-send-docs"
+      label="Отправить документы"
+      icon="pi pi-reply"
+      iconPos="right"
       styleClass="p-button-info">
     </p-button>
     <p-button
@@ -284,18 +287,18 @@
     height: '500px'
   }">
   <pe-indent [mBottom]="7"></pe-indent>
-    <pe-textarea 
+    <pe-textarea
        [(value)]="bankOpsDetailsRequestedDocs.commentaryBankOps"
        [rows]="5"
-       label="Комментарий BankOps" 
+       label="Комментарий BankOps"
        [regExprValidation]="FILES_COMMENTARY_REGEXPR"
        [maxLength]="250">
     </pe-textarea>
     <pe-indent [mTop]="5"></pe-indent>
-    <pe-textarea 
+    <pe-textarea
         [(value)]="bankOpsDetailsRequestedDocs.commentaryAML"
         [rows]="5"
-        label="Комментарий AML" 
+        label="Комментарий AML"
         [disabled]="true"
         [regExprValidation]="FILES_COMMENTARY_REGEXPR"
         [maxLength]="250">

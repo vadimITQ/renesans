@@ -1,28 +1,22 @@
 import { IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 
-export interface IAmlDetails {
-    automaticChecksData: IAmlDetailsAutomaticChecks[];
-    manualChecksData: IAmlDetailsManualChecks[];
-    docsData: IAmlDetailsDocs[];
-    requestedDocsData: IAmlDetailsRequestedDocs[];
-}
+import { IApplicationDetails } from '../../../../shared/types/get-application-details';
 
-export interface IAmlDetailsAutomaticChecks {
-    status: string;
-    rules: string | string[];
-}
-
-export interface IAmlDetailsManualChecks {
-    type: string;
-    status: string;
-    login: string;
-    startData: string;
-    endData: string;
-}
-
-export interface IAmlDetailsDocs {
-    docID: string;
-    fileData: string;
+export interface IAmlDetails
+  extends Pick<
+    IApplicationDetails,
+    'autoChecks' | 'manualChecks' | 'requestedDocuments'  | 'responsedDocuments'
+    > {
+  paymentID: string;
+  pmtCreationTime: string;
+  payerName: string;
+  payerAccount: string;
+  payeeName: string;
+  payeeAccount: string;
+  payeeINN: string;
+  payeeBIC: string;
+  paymentPurpose: string;
+  amount: number;
 }
 
 export interface IAmlDetailsRequestedDocs {

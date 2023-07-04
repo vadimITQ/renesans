@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { bankOpsDetailsMockData } from '../../pages/PE/bank-ops-details/bank-ops-details.mock';
-import { Observable, delay, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
 import { IGetManualCheckModeResponse } from '../payment-order-w/types';
 import { AuthService } from '../auth/auth.service';
@@ -11,16 +10,16 @@ import { AuthService } from '../auth/auth.service';
 export class BankOpsDetailsService {
 
   constructor(
-    private paymentOrderW: PaymentOrderWService,
+    private paymentOrderWService: PaymentOrderWService,
     private authService: AuthService
   ){}
 
-  getBankOpsDetails() {
-    return of(bankOpsDetailsMockData).pipe(delay(500));
+  public getBankOpsDetails(id: string) {
+    return this.paymentOrderWService.getApplicationDetails(id);
   }
 
   getManualCheckMode(paymentID: string): Observable<IGetManualCheckModeResponse> {
-    return this.paymentOrderW.getManualCheckMode({
+    return this.paymentOrderWService.getManualCheckMode({
       paymentID: paymentID,
       checkType: 'BANK_OPS',
       userLogin: this.authService.user?.connectionName ?? 'Unknown_User'
@@ -28,7 +27,7 @@ export class BankOpsDetailsService {
   }
 
   saveManualCheckMode(paymentID: string, status: string) {
-    return this.paymentOrderW.saveManualCheckMode({
+    return this.paymentOrderWService.saveManualCheckMode({
       paymentID: paymentID,
       manualCheck: {
         checkType: "BANK_OPS",
@@ -36,5 +35,4 @@ export class BankOpsDetailsService {
       }
     });
   }
-
 }

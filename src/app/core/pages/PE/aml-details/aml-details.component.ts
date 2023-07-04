@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { PeRolesService } from "src/app/core/services/auth/pe-roles.service";
 import { IAmlDetails, IAmlDetailsRequestedDocs } from "./aml-details.types";
 import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
-import { LoadingService } from "src/app/shared/services/loading.service";
 import { FileUploadingModal, IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 import { ToastService } from "src/app/shared/services/toast.service";
 import {AmlDetailsService} from "../../../services/aml-check/aml-details.service";
 import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
+import {prepareAmlDetails} from "./aml-details.utils";
 import { IMultiSelectData } from "src/app/shared/components/controls/pe-multiselect/pe-multiselect.component";
 import { Any } from "src/app/shared/variables/pe-input-validations";
 
@@ -22,21 +22,24 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private peRolesService: PeRolesService,
         private amlDetailsService: AmlDetailsService,
-        private loading: LoadingService,
         private toast: ToastService,
-        private aRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
     ) { }
 
-    public subscribtions: { [key: string]: Subscription | null } = {
+    public subscriptions: { [key: string]: Subscription | null } = {
         getManualCheckMode: null
     };
     public paymentID: string = '';
     public readOnly: boolean = true;
-    public amlDetailsData: IAmlDetails | "loading" = "loading";
+    public amlDetails: IAmlDetails =  prepareAmlDetails(null);
     public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
     public labelsStyle: { [key: string]: string } = {
         "font-weight": "500"
     };
+  public loading: boolean = false;
+
+  public requestedDocsData:IAmlDetailsRequestedDocs[] =[]
+    public uploadingDataForChanges: IPEUploadingData | null = null;
     public amlDetailsRequestedDocs: IAmlDetailsRequestedDocs = {
         commentaryAML: '',
         commentaryBankOps: '',
@@ -53,8 +56,8 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     }
 
     get docsDataCount(): string {
-        if (this.amlDetailsData !== "loading"){
-            return this.amlDetailsData?.docsData?.length?.toString() ?? "0";
+        if (this.amlDetails){
+            return this.amlDetails?.responsedDocuments?.length?.toString() ?? "0";
         }
         else{
             return "";
@@ -66,32 +69,55 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        if (!!this.subscribtions['routerParamsSubscribtion']){
-            this.subscribtions['routerParamsSubscribtion'].unsubscribe();
+        if (!!this.subscriptions['routerParamsSubscribtion']){
+            this.subscriptions['routerParamsSubscribtion'].unsubscribe();
         }
     }
 
     ngOnInit(): void {
-        this.loadData();
-    }
 
-    loadData() {
-        this.subscribtions['routerParamsSubscribtion'] = this.aRoute.params.subscribe(prms => {
-            this.paymentID = prms['id'];
-            this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(checkResponse => {
-                this.readOnly = checkResponse.readOnly;
-                if (!checkResponse.readOnly){
-                    this.amlDetailsService.saveManualCheckMode(this.paymentID, '2');
-                }
-            });
-            this.amlDetailsService.getAmlDetails().subscribe(
-                response => {
-                    this.amlDetailsData = response;
-                    PaymentEngineHelper.scrollToTop();
-                }
-            );
+      const amlDetailsId = this.activatedRoute.snapshot.paramMap.get('id');
+
+      if (!amlDetailsId) {
+        return;
+      }
+      this.loading = true;
+      this.amlDetailsService.getAmlDetails(amlDetailsId).subscribe(value => {
+        if (!value) {
+          this.loading = false;
+
+          return;
+        }
+        this.paymentID = value.payment.paymentID;
+        this.loading = false;
+
+        this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
+          this.readOnly = manualCheckModeResponse.readOnly;
+          if (!manualCheckModeResponse.readOnly) {
+            this.amlDetailsService.saveManualCheckMode(this.paymentID, '2');
+          }
         });
-    }
+        this.amlDetails = prepareAmlDetails(value);
+        PaymentEngineHelper.scrollToTop();
+      });    }
+
+    // loadData() {
+    //     this.subscribtions['routerParamsSubscribtion'] = this.activatedRoute.params.subscribe(prms => {
+    //         this.paymentID = prms['id'];
+    //         this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(checkResponse => {
+    //             this.readOnly = checkResponse.readOnly;
+    //             if (!checkResponse.readOnly){
+    //                 this.amlDetailsService.saveManualCheckMode(this.paymentID, '2');
+    //             }
+    //         });
+    //         this.amlDetailsService.getAmlDetails().subscribe(
+    //             response => {
+    //                 this.amlDetails = response;
+    //                 PaymentEngineHelper.scrollToTop();
+    //             }
+    //         );
+    //     });
+    // }
 
     back() {
         this.amlDetailsService.saveManualCheckMode(this.paymentID, '1');
@@ -104,7 +130,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     cancel() {
         this.amlDetailsService.saveManualCheckMode(this.paymentID, '5');
     }
-    
+
     sendDocs() {
         this.amlDetailsService.saveManualCheckMode(this.paymentID, '4');
     }
@@ -114,9 +140,9 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     }
 
     onSave(){
-        this.loading.showLoading();
+      this.loading = true;
         if (!this.filesUploaded){
-            this.loading.hideLoading();
+          this.loading = false;
             this.clearUploadingModal();
             return;
         }
@@ -126,13 +152,13 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
                 this.changeUploadingItem(this.uploadingModal.getData());
                 this.toast.showSuccessToast("Документ был успешно изменён");
             }
-            else if (this.amlDetailsData !== 'loading'){
-                this.amlDetailsData.requestedDocsData.push(this.amlDetailsRequestedDocs);
+            else {
+                this.requestedDocsData.push(this.amlDetailsRequestedDocs);
             }
-            this.loading.hideLoading();
+          this.loading = false;
             this.uploadingModal.hideModal();
             this.clearUploadingModal();
-            console.log(this.amlDetailsData);
+            console.log(this.amlDetails);
         }, 1500);
     }
 
@@ -155,9 +181,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     }
 
     deleteUploadingItem(data: IAmlDetailsRequestedDocs) {
-        if (this.amlDetailsData !== 'loading'){
-            this.amlDetailsData.requestedDocsData = this.amlDetailsData.requestedDocsData.filter(_data => _data !== data);
-        }
+            this.requestedDocsData = this.requestedDocsData.filter(value => value !== data);
     }
 
     editUploadingItem(row: IAmlDetailsRequestedDocs) {

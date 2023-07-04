@@ -2,7 +2,7 @@ import { sub } from 'date-fns';
 import { Validation } from '../../../../../shared/validation/types';
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 import { IBankOpsCheckFilters } from './bank-ops-check-filters.types';
-import { IBankOpsCheckFiltersPayload } from '../../../../services/bank-ops-check/types';
+import { IGetApplicationsListPayload } from '../../../../../shared/types/get-applications-list';
 
 export function defineDefaultFiltersValues(): IBankOpsCheckFilters {
   const dateTimeTo = new Date();
@@ -13,13 +13,13 @@ export function defineDefaultFiltersValues(): IBankOpsCheckFilters {
     applicationID: null,
     dateTimeFrom,
     dateTimeTo,
-    applicationStatus: [],
+    manualBankOpsCheckStatusList: [],
   };
 }
 
 export function anyFieldFilledValidator(filters: IBankOpsCheckFilters): Validation | null {
-  const { paymentID, applicationID, dateTimeFrom, dateTimeTo, applicationStatus } = filters;
-  const isAnyFieldFilled = [paymentID, applicationID, dateTimeFrom, dateTimeTo, applicationStatus.length].some(value => !!value);
+  const { paymentID, applicationID, dateTimeFrom, dateTimeTo, manualBankOpsCheckStatusList } = filters;
+  const isAnyFieldFilled = [paymentID, applicationID, dateTimeFrom, dateTimeTo, manualBankOpsCheckStatusList.length].some(value => !!value);
 
   if (!isAnyFieldFilled) {
     return {
@@ -35,9 +35,9 @@ export function anyFieldFilledValidator(filters: IBankOpsCheckFilters): Validati
 }
 
 export function generalFieldsFilled(filters: IBankOpsCheckFilters): boolean {
-  const { paymentID, applicationID, applicationStatus } = filters;
+  const { paymentID, applicationID, manualBankOpsCheckStatusList } = filters;
 
-  return [paymentID, applicationID, applicationStatus.length].some(Boolean);
+  return [paymentID, applicationID, manualBankOpsCheckStatusList.length].some(Boolean);
 }
 
 export function prepareSearchFilters({
@@ -45,13 +45,13 @@ export function prepareSearchFilters({
   applicationID,
   dateTimeFrom,
   dateTimeTo,
-  applicationStatus,
-}: IBankOpsCheckFilters): IBankOpsCheckFiltersPayload {
+  manualBankOpsCheckStatusList,
+}: IBankOpsCheckFilters): IGetApplicationsListPayload {
   return {
-    dateTimeFrom: !!dateTimeFrom ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.toISOString()) : null,
-    dateTimeTo: !!dateTimeTo ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.toISOString()) : null,
-    paymentID: !!paymentID ? paymentID : null,
-    applicationID: !!applicationID ? applicationID : null,
-    applicationStatus: applicationStatus?.length > 0 ? applicationStatus.map(v => v.value) : null,
+    dateTimeFrom: !!dateTimeFrom ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.toISOString()) : undefined,
+    dateTimeTo: !!dateTimeTo ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.toISOString()) : undefined,
+    paymentID: !!paymentID ? paymentID : undefined,
+    applicationID: !!applicationID ? applicationID : undefined,
+    manualBankOpsCheckStatusList: manualBankOpsCheckStatusList?.length > 0 ? manualBankOpsCheckStatusList.map(v => v.value) : undefined,
   };
 }

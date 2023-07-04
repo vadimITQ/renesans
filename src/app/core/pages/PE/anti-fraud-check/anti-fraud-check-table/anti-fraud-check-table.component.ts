@@ -1,8 +1,9 @@
 
 import { Component, OnInit } from "@angular/core";
 import { AntiFraudCheckService } from "src/app/core/services/anti-fraud-checks/anti-fraud-check.service";
-import { AntiFraudChecksItem } from "./anti-fraud-check-table.types";
 import { PeNavigationService } from "src/app/core/services/pe-navigation/pe-navigation.service";
+import {IApplication} from "../../../../../shared/types/get-applications-list";
+import {PeRolesService} from "../../../../services/auth/pe-roles.service";
 
 @Component({
     selector: "pe-anti-fraud-check-table",
@@ -13,10 +14,11 @@ export class AntiFraudCheckTableComponent implements OnInit {
 
     constructor(
         public antiFraudCheckService: AntiFraudCheckService,
-        public peNavigationService: PeNavigationService
+        public peNavigationService: PeNavigationService,
+        private peRolesService: PeRolesService,
     ) {}
 
-    tableData: AntiFraudChecksItem[] | null = null;
+    tableData: IApplication[] | null = null;
 
     ngOnInit(): void {
         this.loadData();
@@ -32,4 +34,8 @@ export class AntiFraudCheckTableComponent implements OnInit {
         this.peNavigationService.goToAntiFraudDetails(idPE);
     }
 
+
+  get hasAccessToSearchAgedOnly() {
+    return this.peRolesService.hasAccessToSearchAgedOnly();
+  }
 }

@@ -34,7 +34,7 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
       docNum_C: creditPayDoc?.docNum ?? '',
       docStatus_C: creditPayDoc?.docStatus ?? '',
       docID_C: creditPayDoc?.accntCre || GLDocPayDoc?.accntCre || debitPayDoc?.accntCre || '',
-      cifID: searchPayment.paymentApplication.payer.user.cifID ?? '',
+      cifID: searchPayment.paymentApplication.payer.user?.cifID ?? '',
       applicationID: searchPayment.paymentApplication.applicationID,
       referenceSbpTransactionId: searchPayment.paymentApplication.sbp?.referenceSbpTransactionId ?? '',
       sbpWorkflowType: searchPayment.paymentApplication.sbp?.sbpWorkflowType ?? '',

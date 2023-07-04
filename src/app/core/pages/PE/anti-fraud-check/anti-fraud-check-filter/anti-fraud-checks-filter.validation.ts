@@ -6,14 +6,14 @@ export class AntiFraudChecksValidation {
 
     static validateAnyField(filter: AntiFraudCheckFilter): Validation | null {
         let validation: Validation | null = null;
-        if (!filter.IdPE && !filter.applicationId && !filter.dateFrom && !filter.dateTo){
+        if (!filter.paymentID && !filter.applicationID && !filter.dateTimeFrom && !filter.dateTimeTo){
             validation = {};
-            validation['IdPE'] = '  ';
-            validation['applicationId'] = '  ';
-            validation['dateFrom'] = '  ';
-            validation['dateTo'] = '  ';
-            !filter.applicationStatus || !filter.applicationStatus.length ? validation['applicationStatus'] = '  ': '';
-            !filter.onlyExpired ? validation['onlyExpired'] = '  ': '';
+            validation['paymentID'] = '  ';
+            validation['applicationID'] = '  ';
+            validation['dateTimeFrom'] = '  ';
+            validation['dateTimeTo'] = '  ';
+            !filter.manualAntiFraudCheckStatusList || !filter.manualAntiFraudCheckStatusList.length ? validation['manualAntiFraudCheckStatusList'] = '  ': '';
+            !filter.agedOnly ? validation['agedOnly'] = '  ': '';
         }
         return validation;
     }

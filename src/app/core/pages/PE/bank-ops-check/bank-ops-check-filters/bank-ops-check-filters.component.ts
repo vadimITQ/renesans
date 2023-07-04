@@ -62,6 +62,7 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
     };
 
     this.filtersValidation = {};
+    this.bankOpsCheckService.$tableData.next(null)
 
     this.changeDetectionRef.detectChanges();
   }

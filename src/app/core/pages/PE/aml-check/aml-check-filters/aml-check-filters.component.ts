@@ -67,6 +67,7 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
     };
 
     this.filtersValidation = {};
+    this.amlCheckService.$tableData.next(null)
 
     this.changeDetectionRef.detectChanges();
   }
@@ -118,7 +119,7 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
 
 
   get hasAccessToSearchOnlyExpired() {
-    return this.peRolesService.hasAccessToSearchOnlyExpired();
+    return this.peRolesService.hasAccessToSearchAgedOnly();
   }
 
   onSearch() {

@@ -5,14 +5,14 @@ import { IBankOpsCheckFilters } from './bank-ops-check-filters.types';
 import { IBankOpsCheckFiltersPayload } from '../../../../services/bank-ops-check/types';
 
 export function defineDefaultFiltersValues(): IBankOpsCheckFilters {
-  const dateTo = new Date();
-  const dateFrom = sub(dateTo, { days: 3 });
+  const dateTimeTo = new Date();
+  const dateTimeFrom = sub(dateTimeTo, { days: 3 });
 
   return {
     paymentID: null,
     applicationID: null,
-    dateTimeFrom: DatePickerHelper.convertToDatePicker(dateFrom),
-    dateTimeTo: DatePickerHelper.convertToDatePicker(dateTo),
+    dateTimeFrom,
+    dateTimeTo,
     applicationStatus: [],
   };
 }
@@ -48,8 +48,8 @@ export function prepareSearchFilters({
   applicationStatus,
 }: IBankOpsCheckFilters): IBankOpsCheckFiltersPayload {
   return {
-    dateTimeFrom: !!dateTimeFrom ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom) : null,
-    dateTimeTo: !!dateTimeTo ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo) : null,
+    dateTimeFrom: !!dateTimeFrom ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.toISOString()) : null,
+    dateTimeTo: !!dateTimeTo ? DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.toISOString()) : null,
     paymentID: !!paymentID ? paymentID : null,
     applicationID: !!applicationID ? applicationID : null,
     applicationStatus: applicationStatus?.length > 0 ? applicationStatus.map(v => v.value) : null,

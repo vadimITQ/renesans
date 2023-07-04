@@ -4,22 +4,18 @@ import { IMultiSelectData } from "../../../../../shared/components/controls/pe-m
 export const antiFraudApplicationStatuses: IMultiSelectData[] = [
     {
         label: "Ожидает рассмотрения AntiFraud",
-        value: "Ожидает рассмотрения AntiFraud"
+        value: "1"
     },
     {
         label: "На рассмотрении AntiFraud",
-        value: "На рассмотрении AntiFraud"
-    },
-    {
-        label: "Запрошены документы AntiFraud",
-        value: "Запрошены документы AntiFraud"
+        value: "2"
     },
     {
         label: "Подтверждена AntiFraud",
-        value: "Подтверждена AntiFraud"
+        value: "3"
     },
     {
         label: "Отклонена AntiFraud",
-        value: "Отклонена AntiFraud"
+        value: "5"
     }
 ];

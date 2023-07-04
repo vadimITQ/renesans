@@ -1,3 +1,5 @@
+import {isAfter, isSameDay} from 'date-fns';
+
 export class DateHelper {
   public static dateValid(date: Date | null): boolean {
     return date !== null && !Number.isNaN(date.getTime());
@@ -31,7 +33,9 @@ export class DateHelper {
   public static validateDates(dateFrom: Date | null, dateTo: Date | null, maxDiffInDays?: number): DatesValidationReasons {
     if (!DateHelper.dateValid(dateFrom) || !DateHelper.dateValid(dateTo)) return DatesValidationReasons.DatesInvalid;
 
-    if (dateFrom!.getTime() > dateTo!.getTime()) return DatesValidationReasons.DateFromMoreThanDateTo;
+    if (!isSameDay(dateTo!, dateFrom!) && !isAfter(dateTo!, dateFrom!)) {
+      return DatesValidationReasons.DateFromMoreThanDateTo
+    };
 
     if (maxDiffInDays && (DateHelper.getDiffInDays(dateFrom, dateTo) ?? 0) > maxDiffInDays)
       return DatesValidationReasons.InvalidDatesDifference;

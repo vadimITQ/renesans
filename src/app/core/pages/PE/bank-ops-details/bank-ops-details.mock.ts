@@ -49,15 +49,6 @@ export const bankOpsDetailsMockData: IBankOpsDetails = {
     },
   ],
   requestedDocsData: [
-    {
-      commentary: 'Какой-то комментарий',
-      docType: 'Документ, подтверждающий право перехода',
-      fileData: null,
-    },
-    {
-      commentary: 'Какой-то комментарий',
-      docType: 'Счёт, на основании которого произвёлся платёж',
-      fileData: null,
-    },
+    
   ],
 };

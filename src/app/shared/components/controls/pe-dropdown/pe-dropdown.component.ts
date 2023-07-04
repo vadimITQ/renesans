@@ -22,6 +22,8 @@ export class PeDropdownComponent {
 
   @Input() label: string = '';
 
+  @Input() disabled: boolean = false;
+
   @Input() set dataset(dataSet: any) {
     // !! (dataSet: MultiselectDataSets)
     if (!!dataSet) {

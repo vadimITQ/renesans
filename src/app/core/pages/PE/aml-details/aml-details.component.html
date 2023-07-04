@@ -147,7 +147,7 @@
 
         <p-table
             *ngIf="amlDetailsData !== 'loading'"
-            [value]="uploadingData"
+            [value]="amlDetailsData.requestedDocsData"
             [scrollable]="true"
             [autoLayout]="true"
             [resizableColumns]="true"
@@ -161,7 +161,10 @@
                         Тип документа
                     </th>
                     <th>
-                        Комментарий
+                        Комментарий BankOps
+                    </th>
+                    <th>
+                        Комментарий AML
                     </th>
                     <th></th>
                     <th></th>
@@ -170,11 +173,14 @@
             <ng-template pTemplate="body" let-data>
                 <tr>
                     <td style="width: 35%">
-                        {{data.docType.label}}: <br />
-                        <ng-container *ngFor="let file of data.files">{{ file.file.name }}<br/></ng-container>
+                        {{data.filesData.docType.label}}: <br />
+                        <ng-container *ngFor="let file of data.filesData.files">{{ file.file.name }}<br/></ng-container>
                     </td>
-                    <td style="width: 60%">
-                        {{data.commentary}}
+                    <td style="width: 30%">
+                        {{data.commentaryBankOps}}
+                    </td>
+                    <td style="width: 30%">
+                        {{data.commentaryAML}}
                     </td>
                     <td class="button-td">
                         <p-button
@@ -238,16 +244,39 @@
 </div>
 
 <pe-file-uploading-modal
-    [uploadingModal]="uploadingModal"
+    [modal]="uploadingModal"
     [(show)]="uploadingModal.show"
     [multipleFiles]="true"
-    [showCancelModal]="false"
-    [showCancelButton]="true"
-    [showSaveButton]="true"
     [style]="{
         width: '450px',
         height: '500px'
-    }"
-    (cancel)="onCancel()"
-    (save)="onSave($event)">
+    }">
+    <pe-indent [mBottom]="7"></pe-indent>
+    <pe-textarea 
+        [(value)]="amlDetailsRequestedDocs.commentaryAML" 
+        [rows]="5"
+        label="Комментарий AML" 
+        [regExprValidation]="FILES_COMMENTARY_REGEXPR"
+        [maxLength]="250">
+    </pe-textarea>
+    <pe-indent [mTop]="5"></pe-indent>
+    <pe-textarea 
+       [(value)]="amlDetailsRequestedDocs.commentaryBankOps" 
+       [rows]="5"
+       label="Комментарий BankOps"
+       [disabled]="true"
+       [regExprValidation]="FILES_COMMENTARY_REGEXPR"
+       [maxLength]="250">
+    </pe-textarea>
+    <pe-indent [mBottom]="3"></pe-indent>
+    <div class="files-modal-buttons">
+        <p-button styleClass="p-button-danger" [label]="'Отменить'" (click)="onCancel()"> </p-button>
+        <pe-indent [inline]="true" [mLeft]="3"></pe-indent>
+        <p-button
+          styleClass="p-button-success"
+          [label]="'Сохранить'"
+          [disabled]="!filesUploaded"
+          (click)="onSave()">
+        </p-button>
+      </div>
 </pe-file-uploading-modal>

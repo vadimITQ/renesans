@@ -175,19 +175,19 @@
 
     <p-table
       *ngIf="bankOpsDetailsData !== 'loading'"
-      [value]="uploadingData"
+      [value]="bankOpsDetailsData.requestedDocsData"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"
       [showCurrentPageReport]="true"
       [lazy]="true"
       [columnResizeMode]="'expand'"
-      styleClass="p-datatable-gridlines p-datatable-sm"
-    >
+      styleClass="p-datatable-gridlines p-datatable-sm">
       <ng-template pTemplate="header">
         <tr>
           <th>Тип документа</th>
-          <th>Комментарий</th>
+          <th>Комментарий BankOps</th>
+          <th>Комментарий AML</th>
           <th></th>
           <th></th>
         </tr>
@@ -196,10 +196,13 @@
         <tr>
           <td style="width: 35%">
             {{ data.docType.label }}: <br />
-            <ng-container *ngFor="let file of data.files">{{ file.file.name }}<br /></ng-container>
+            <ng-container *ngFor="let file of data.filesData.files">{{ file.file.name }}<br /></ng-container>
           </td>
-          <td style="width: 60%">
-            {{ data.commentary }}
+          <td style="width: 30%">
+            {{ data.commentaryBankOps }}
+          </td>
+          <td style="width: 30%">
+            {{ data.commentaryAML }}
           </td>
           <td class="button-td">
             <p-button
@@ -207,8 +210,7 @@
               icon="pi pi-user-edit"
               iconPos="right"
               (click)="editUploadingItem(data)"
-              styleClass="p-button-sm p-button-outlined p-button-success"
-            >
+              styleClass="p-button-sm p-button-outlined p-button-success">
             </p-button>
           </td>
           <td class="button-td">
@@ -217,8 +219,7 @@
               icon="pi pi-trash"
               iconPos="right"
               (click)="deleteUploadingItem(data)"
-              styleClass="p-button-sm p-button-outlined p-button-danger"
-            >
+              styleClass="p-button-sm p-button-outlined p-button-danger">
             </p-button>
           </td>
         </tr>
@@ -230,7 +231,7 @@
   <pe-indent [mTop]="4"></pe-indent>
 
   <div class="commentary">
-    <pe-input label="Общий комментарий к документам" [maxLength]="250"></pe-input>
+    <pe-input [(value)]="commentary" label="Общий комментарий к документам" [maxLength]="250"></pe-input>
   </div>
 
   <pe-indent [mTop]="4"></pe-indent>
@@ -275,17 +276,39 @@
 </div>
 
 <pe-file-uploading-modal
-  [uploadingModal]="uploadingModal"
+  [modal]="uploadingModal"
   [(show)]="uploadingModal.show"
   [multipleFiles]="true"
-  [showCancelModal]="false"
-  [showCancelButton]="true"
-  [showSaveButton]="true"
   [style]="{
     width: '450px',
     height: '500px'
-  }"
-  (cancel)="onCancel()"
-  (save)="onSave($event)"
->
+  }">
+  <pe-indent [mBottom]="7"></pe-indent>
+    <pe-textarea 
+       [(value)]="bankOpsDetailsRequestedDocs.commentaryBankOps"
+       [rows]="5"
+       label="Комментарий BankOps" 
+       [regExprValidation]="FILES_COMMENTARY_REGEXPR"
+       [maxLength]="250">
+    </pe-textarea>
+    <pe-indent [mTop]="5"></pe-indent>
+    <pe-textarea 
+        [(value)]="bankOpsDetailsRequestedDocs.commentaryAML"
+        [rows]="5"
+        label="Комментарий AML" 
+        [disabled]="true"
+        [regExprValidation]="FILES_COMMENTARY_REGEXPR"
+        [maxLength]="250">
+    </pe-textarea>
+    <pe-indent [mBottom]="3"></pe-indent>
+  <div class="buttons">
+    <p-button styleClass="p-button-danger" [label]="'Отменить'" (click)="onCancel()"> </p-button>
+    <pe-indent [inline]="true" [mLeft]="3"></pe-indent>
+    <p-button
+      styleClass="p-button-success"
+      [label]="'Сохранить'"
+      [disabled]="!filesUploaded"
+      (click)="onSave()">
+    </p-button>
+  </div>
 </pe-file-uploading-modal>

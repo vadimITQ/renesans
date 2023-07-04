@@ -1,3 +1,4 @@
+import { IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 
 export interface IAmlDetails {
     automaticChecksData: IAmlDetailsAutomaticChecks[];
@@ -25,7 +26,7 @@ export interface IAmlDetailsDocs {
 }
 
 export interface IAmlDetailsRequestedDocs {
-    docType: string;
-    commentary: string;
-    fileData: any;
+    filesData: IPEUploadingData;
+    commentaryBankOps: string;
+    commentaryAML: string;
 }

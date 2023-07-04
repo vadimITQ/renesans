@@ -1,13 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 import { BankOpsDetailsService } from 'src/app/core/services/bank-ops-check/bank-ops-details.service';
-import { IBankOpsDetails } from './bank-ops-details.types';
+import { IBankOpsDetails, IBankOpsDetailsRequestedDocs } from './bank-ops-details.types';
 import { PaymentEngineHelper } from 'src/app/shared/classes/pe-helper';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { FileUploadingModal, IPEUploadingData } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.types';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Any, commentaryExpr } from 'src/app/shared/variables/pe-input-validations';
+import { IMultiSelectData } from 'src/app/shared/components/controls/pe-multiselect/pe-multiselect.component';
 
 @Component({
   selector: 'app-bank-ops-details',
@@ -27,16 +29,27 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   public subscribtions: { [key: string]: Subscription | null } = {
     routerParamsSubscribtion: null
   };
+  public readonly FILES_COMMENTARY_REGEXPR = Any;
   public paymentID: string = '';
   public readOnly: boolean = true;
   public bankOpsDetailsData: IBankOpsDetails | 'loading' = 'loading';
   public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
-  public uploadingData: IPEUploadingData[] = [];
   public labelsStyle: { [key: string]: string } = {
     'font-weight': '500',
   };
+  public commentary: string = '';
+  public readonly COMMENTARY_EXPR = commentaryExpr;
 
-  public uploadingDataForChanges: IPEUploadingData | null = null;
+  public bankOpsDetailsRequestedDocs: IBankOpsDetailsRequestedDocs = {
+      commentaryAML: '',
+      commentaryBankOps: '',
+      filesData: {
+          docType: {} as IMultiSelectData,
+          files: []
+      }
+  };
+
+  public changeRef_BankOpsDetailsRequestedDocs: IBankOpsDetailsRequestedDocs | null = null;
 
   get hasAccessToComponent(): boolean {
     return this.peRolesService.hasAccessToBankOpsDetails();
@@ -48,6 +61,10 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     } else {
       return '';
     }
+  }
+
+  get filesUploaded(): boolean {
+    return !!this.uploadingModal.files.length;
   }
 
   ngOnInit(): void {
@@ -86,33 +103,30 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
 
   sendDocs() {
     this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '4');
-    this.uploadingData
   }
 
   requestSWIFT() {
     this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '6');
-    this.uploadingData
   }
 
   addDocument() {
     this.uploadingModal.showModal();
   }
 
-  onSave(data: IPEUploadingData) {
+  onSave() {
     this.loading.showLoading();
-    if (!data.files.length) {
+    if (!this.filesUploaded) {
       this.loading.hideLoading();
       this.clearUploadingModal();
       return;
     }
+    this.bankOpsDetailsRequestedDocs.filesData = this.uploadingModal.getData();
     setTimeout(() => {
-      if (!!this.uploadingDataForChanges) {
-        this.changeUploadingItem(data);
+      if (!!this.changeRef_BankOpsDetailsRequestedDocs) {
+        this.changeUploadingItem(this.uploadingModal.getData());
         this.toast.showSuccessToast('Документ был успешно изменён');
-        console.log(this.uploadingDataForChanges);
-      } else {
-        this.uploadingData.push(data);
-        console.log(this.uploadingData);
+      } else if (this.bankOpsDetailsData !== 'loading') {
+        this.bankOpsDetailsData.requestedDocsData.push(this.bankOpsDetailsRequestedDocs);
       }
       this.loading.hideLoading();
       this.clearUploadingModal();
@@ -120,34 +134,51 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   }
 
   changeUploadingItem(data: IPEUploadingData) {
-    if (!this.uploadingDataForChanges) {
+    if (!this.changeRef_BankOpsDetailsRequestedDocs) {
       return;
     }
-    const docTypeIsChanged = this.uploadingDataForChanges.docType !== data.docType;
-    this.uploadingDataForChanges.commentary = data.commentary;
-    this.uploadingDataForChanges.docType = data.docType;
+    const docTypeIsChanged = this.changeRef_BankOpsDetailsRequestedDocs.filesData.docType !== data.docType;
+    this.changeRef_BankOpsDetailsRequestedDocs.commentaryAML = this.bankOpsDetailsRequestedDocs.commentaryAML;
+    this.changeRef_BankOpsDetailsRequestedDocs.commentaryBankOps = this.bankOpsDetailsRequestedDocs.commentaryBankOps;
+    this.changeRef_BankOpsDetailsRequestedDocs.filesData.docType = data.docType;
     if (docTypeIsChanged || !!data.files.length) {
-      this.uploadingDataForChanges.files = data.files;
+      this.changeRef_BankOpsDetailsRequestedDocs.filesData.files = data.files;
     }
   }
 
   onCancel() {
+    this.uploadingModal.hideModal();
     this.clearUploadingModal();
   }
 
-  deleteUploadingItem(data: IPEUploadingData) {
-    this.uploadingData = this.uploadingData.filter(_data => _data !== data);
+  deleteUploadingItem(data: IBankOpsDetailsRequestedDocs) {
+    if (this.bankOpsDetailsData !== 'loading'){
+      this.bankOpsDetailsData.requestedDocsData = this.bankOpsDetailsData.requestedDocsData.filter(_data => _data !== data);
+    }
   }
 
-  editUploadingItem(data: IPEUploadingData) {
-    this.uploadingDataForChanges = data;
-    this.uploadingModal.setData(data);
+  editUploadingItem(row: IBankOpsDetailsRequestedDocs) {
+    this.changeRef_BankOpsDetailsRequestedDocs = row;
+    this.bankOpsDetailsRequestedDocs = {
+      commentaryAML: row.commentaryAML,
+      commentaryBankOps: row.commentaryBankOps,
+      filesData: row.filesData
+    };
+    this.uploadingModal.setData(row.filesData);
     this.uploadingModal.showModal();
   }
 
   clearUploadingModal() {
-    this.uploadingDataForChanges = null;
-    this.uploadingModal.hideModal();
     this.uploadingModal.clear();
+    this.bankOpsDetailsRequestedDocs = {
+        commentaryAML: '',
+        commentaryBankOps: '',
+        filesData: {
+            docType: {} as IMultiSelectData,
+            files: []
+        }
+    };
+    this.changeRef_BankOpsDetailsRequestedDocs = null;
   }
+
 }

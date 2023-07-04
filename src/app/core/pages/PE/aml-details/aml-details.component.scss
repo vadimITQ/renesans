@@ -33,3 +33,18 @@
     }
   }
 }
+
+:host .files-modal-buttons {
+  ::ng-deep {
+    p-button {
+        > button {
+            border-radius: 6px;
+            width: 120px;
+        }
+    }
+  }
+  .buttons {
+    display: flex;
+    justify-content: end;
+  }
+}

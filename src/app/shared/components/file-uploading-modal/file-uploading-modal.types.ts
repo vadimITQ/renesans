@@ -1,36 +1,50 @@
 import { IMultiSelectData } from '../controls/pe-multiselect/pe-multiselect.component';
 
 export class FileUploadingModal {
+
   constructor(public show: boolean, public header: string, public data: IPEUploadingData) {}
 
-  showModal() {
+  get files(): PEUploadingFileList {
+    return this.data.files;
+  }
+
+  get docType(): IMultiSelectData | null {
+    return this.data.docType;
+  }
+
+  public showModal() {
     this.show = true;
   }
 
-  hideModal() {
+  public hideModal() {
     this.show = false;
   }
-
-  setData(data: IPEUploadingData): void {
+  
+  public setData(data: IPEUploadingData): void {
     this.data = {
-      commentary: data.commentary,
       docType: data.docType,
       files: [...data.files],
     };
   }
 
-  setState(state: FileUploadingModal): void {
+  public getData(): IPEUploadingData {
+    return {
+      docType: this.data.docType,
+      files: [...this.data.files]
+    };
+  }
+  
+  public setState(state: FileUploadingModal): void {
     this.setData(state.data);
     this.header = state.header;
     this.show = state.show;
   }
 
-  clear() {
+  public clear() {
     const defaultModal = FileUploadingModal.createDefaultModal();
     this.show = defaultModal.show;
     this.header = defaultModal.header;
     this.data = {
-      commentary: defaultModal.data.commentary,
       docType: defaultModal.data.docType,
       files: defaultModal.data.files,
     };
@@ -42,11 +56,11 @@ export class FileUploadingModal {
 
   static createDefaultModal(): FileUploadingModal {
     return new FileUploadingModal(false, 'Добавление документа', {
-      commentary: '',
       docType: {} as IMultiSelectData,
       files: [],
     });
   }
+
 }
 
 export interface IFileUploadingModal {
@@ -58,7 +72,6 @@ export interface IFileUploadingModal {
 export interface IPEUploadingData {
   files: PEUploadingFileList;
   docType: IMultiSelectData;
-  commentary: string;
 }
 
 export type PEUploadingFileList = PEUploadingFile[];

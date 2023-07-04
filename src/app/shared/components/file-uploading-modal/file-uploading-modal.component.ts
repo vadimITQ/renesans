@@ -13,24 +13,21 @@ import { DEFAULT_MODAL_STYLE } from './file-uploading-modal.variables';
   styleUrls: ['./file-uploading-modal.component.scss'],
 })
 export class FileUploadingModalComponent {
+  
   constructor(private toast: ToastService, private loading: LoadingService) {}
 
   @ViewChild('fileForm', { static: true }) fileForm!: ElementRef<HTMLInputElement>;
 
-  @Input() uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
-  @Input() style: { [key: string]: string } = DEFAULT_MODAL_STYLE;
-  @Input() showCancelModal: boolean = true;
-  @Input() showCancelButton: boolean = true;
-  @Input() showSaveButton: boolean = true;
+  @Input() modal: FileUploadingModal = FileUploadingModal.createDefaultModal();
   @Input() multipleFiles: boolean = false;
+  @Input() disabled: boolean = false;
+  @Input() closable: boolean = true;
+  @Input() style: { [key: string]: string } = DEFAULT_MODAL_STYLE;
 
-  @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
-  @Output() save: EventEmitter<IPEUploadingData> = new EventEmitter<IPEUploadingData>();
-  @Output() showChange: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() getUploadigData: EventEmitter<IPEUploadingData> = new EventEmitter<IPEUploadingData>();
+  @Output() showChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  public commentaryRegExpr = new RegExp('');
-  public multiselectDataSetsEnum = MultiselectDataSets;
+  public readonly fileTypes = MultiselectDataSets.GetFileTypes;
   private _show: boolean = false;
 
   @Input() get show(): boolean {
@@ -42,26 +39,12 @@ export class FileUploadingModalComponent {
     this.showChange.emit(showValue);
   }
 
-  get filesUploaded(): boolean {
-    return !!this.uploadingModal.data.files.length;
-  }
-
-  addFile(event: IMultiSelectData) {
+  openFileDialog(event: IMultiSelectData) {
     setTimeout(() => {
-      this.uploadingModal.data.files = [];
+      this.modal.data.files = [];
       this.fileForm.nativeElement.accept = event.value;
       this.fileForm.nativeElement.click();
     });
-  }
-
-  cancelChanges() {
-    this.cancel.emit();
-  }
-
-  saveChanges() {
-    if (this.filesUploaded) {
-      this.save.emit(this.uploadingModal.data);
-    }
   }
 
   fileUpload(e: Event): void {
@@ -69,15 +52,14 @@ export class FileUploadingModalComponent {
     if (!htmlInputElement.files?.length) {
       return;
     }
-
     if (htmlInputElement.files.length > 0) {
       this.loading.attach(
         FileHelper.readPEUploadingFileList(htmlInputElement.files).then(uploadingFileList => {
           uploadingFileList.forEach(file => {
             this.toast.showSuccessToast(`Добавлен файл ${file.file?.name ?? ''}`);
           });
-          this.uploadingModal.data.files = uploadingFileList;
-          this.getUploadigData.emit(this.uploadingModal.data);
+          this.modal.data.files = uploadingFileList;
+          this.getUploadigData.emit(this.modal.data);
           htmlInputElement.value = ''; // for detecting same file
         }),
       );
@@ -85,7 +67,8 @@ export class FileUploadingModalComponent {
   }
 
   onDropdownShowed(): void {
-    this.uploadingModal.data.files = [];
-    this.uploadingModal.data.docType = {} as IMultiSelectData;
+    this.modal.data.files = [];
+    this.modal.data.docType = {} as IMultiSelectData;
   }
+
 }

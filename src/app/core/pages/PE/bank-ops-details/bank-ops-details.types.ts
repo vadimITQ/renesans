@@ -1,3 +1,5 @@
+import { IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
+
 export interface IBankOpsDetails {
   automaticChecksData: IBankOpsDetailsAutomaticChecks[];
   manualChecksData: IBankOpsDetailsManualChecks[];
@@ -24,7 +26,7 @@ export interface IBankOpsDetailsDocs {
 }
 
 export interface IBankOpsDetailsRequestedDocs {
-  docType: string;
-  commentary: string;
-  fileData: any;
+  filesData: IPEUploadingData;
+  commentaryBankOps: string;
+  commentaryAML: string;
 }

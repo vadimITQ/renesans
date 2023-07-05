@@ -16,6 +16,7 @@ import {
   IGetApplicationListResponse,
 } from "../../../shared/types/get-applications-list";
 import {IApplicationDetails} from "../../../shared/types/get-application-details";
+import { ObjectHelper } from 'src/app/shared/classes/object-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +59,11 @@ export class PaymentOrderWService {
   }
 
   public getPaymentsReport(payload: IGetSearchPaymentsReportPayload): Observable<ArrayBuffer> {
-    return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', payload, {
+    return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', payload.searchPayments , {
+      params: ObjectHelper.deleteUndefinedProperties({
+        isManualParse: payload.isManualParse ?? undefined,
+        isSBPReport: payload.isSBPReport ?? undefined
+      }),
       responseType: 'arraybuffer' as 'json',
     });
   }

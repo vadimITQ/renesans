@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { prepareBankOpsDetails } from './bank-ops-details.utils';
 import { Any, commentaryExpr } from 'src/app/shared/variables/pe-input-validations';
 import { IMultiSelectData } from 'src/app/shared/components/controls/pe-multiselect/pe-multiselect.component';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-bank-ops-details',
@@ -22,6 +23,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     private peRolesService: PeRolesService,
     private bankOpsDetailsService: BankOpsDetailsService,
     private toast: ToastService,
+    private loadingService: LoadingService
   ) {}
 
   public subscribtions: { [key: string]: Subscription | null } = {
@@ -120,9 +122,9 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSave() {
-    this.loading= true
+    this.loadingService.showLoading();
     if (!this.filesUploaded) {
-      this.loading = false
+      this.loadingService.hideLoading();
       this.clearUploadingModal();
       return;
     }
@@ -134,7 +136,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       } else if (this.bankOpsDetails) {
         this.requestedDocsData.push(this.bankOpsDetailsRequestedDocs);
       }
-      this.loading = false
+      this.loadingService.hideLoading();
       this.clearUploadingModal();
     }, 1500);
   }

@@ -198,7 +198,7 @@
       <ng-template pTemplate="body" let-data>
         <tr>
           <td style="width: 35%">
-            {{ data.docType.label }}: <br />
+            <ng-container *ngIf="data.filesData">{{ data.filesData.docType.label }}: <br /></ng-container>
             <ng-container *ngFor="let file of data.filesData.files">{{ file.file.name }}<br /></ng-container>
           </td>
           <td style="width: 30%">

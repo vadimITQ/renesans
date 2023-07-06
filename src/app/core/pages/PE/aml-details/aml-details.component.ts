@@ -11,6 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import {prepareAmlDetails} from "./aml-details.utils";
 import { IMultiSelectData } from "src/app/shared/components/controls/pe-multiselect/pe-multiselect.component";
 import { Any } from "src/app/shared/variables/pe-input-validations";
+import { LoadingService } from "src/app/shared/services/loading.service";
 
 @Component({
     selector: "app-aml-details",
@@ -24,6 +25,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         private amlDetailsService: AmlDetailsService,
         private toast: ToastService,
         private activatedRoute: ActivatedRoute,
+        private loadingService: LoadingService
     ) { }
 
     public subscriptions: { [key: string]: Subscription | null } = {
@@ -140,9 +142,9 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     }
 
     onSave(){
-      this.loading = true;
+      this.loadingService.showLoading();
         if (!this.filesUploaded){
-          this.loading = false;
+            this.loadingService.hideLoading();
             this.clearUploadingModal();
             return;
         }
@@ -155,11 +157,11 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
             else {
                 this.requestedDocsData.push(this.amlDetailsRequestedDocs);
             }
-          this.loading = false;
+            this.loadingService.hideLoading();
             this.uploadingModal.hideModal();
             this.clearUploadingModal();
             console.log(this.amlDetails);
-        }, 1500);
+        }, 500);
     }
 
     changeUploadingItem(data: IPEUploadingData) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { tableColumns, transferDetailDefaultValue } from './view-transfer-details.constants';
+import { tableColumns } from './view-transfer-details.constants';
 import { ViewTransferDetailsService } from '../../../services/view-transfer-details/view-transfer-details.service';
 import { LoadingService } from '../../../../shared/services/loading.service';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
@@ -14,7 +14,7 @@ import { ITransferDetailsWithRetRefNumber } from './view-transfer-details.types'
   styleUrls: ['./view-transfer-details.component.scss'],
 })
 export class ViewTransferDetailsComponent implements OnInit {
-  transferDetails: ITransferDetailsWithRetRefNumber = transferDetailDefaultValue;
+  transferDetails: ITransferDetailsWithRetRefNumber = prepareTransferDetails(null);
   tableColumns = tableColumns;
 
   constructor(
@@ -33,8 +33,7 @@ export class ViewTransferDetailsComponent implements OnInit {
     }
 
     this.loadingService.showLoading();
-    this.viewTransferDetailsService.getTransferDetails(currentTransferDetailsId).subscribe();
-    this.viewTransferDetailsService.$transferDetailsState.subscribe(value => {
+    this.viewTransferDetailsService.getTransferDetails(currentTransferDetailsId).subscribe(value => {
       this.loadingService.hideLoading();
 
       if (!value) {

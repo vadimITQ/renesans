@@ -1,4 +1,3 @@
-import { ITransferDetailsWithRetRefNumber } from './view-transfer-details.types';
 import { IColumn } from '../../../../shared/types/table.types';
 
 export const tableColumns: IColumn[] = [
@@ -24,20 +23,3 @@ export const tableColumns: IColumn[] = [
   },
 ];
 
-export const transferDetailDefaultValue: ITransferDetailsWithRetRefNumber = {
-  amount: '0.00',
-  appCreationTime: null,
-  retRefNumber: '',
-  idPH: '',
-  operatorLegalName: '',
-  payeeAccount: '',
-  payeeBankBIC: '',
-  payeeInn: '',
-  payeeName: '',
-  payerAccount: '',
-  payerName: '',
-  paymentID: '',
-  paymentPurpose: '',
-  serviceName: '',
-  statusHistory: [],
-};

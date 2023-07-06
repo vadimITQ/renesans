@@ -11,6 +11,7 @@
       [disabled]="disabled"
       [(ngModel)]="value"
       [allowedInputCharactersReg]="regExprValidation"
+      [disableCharactersValidation]="disabled"
     />
     <label [ngStyle]="labelStyle" for="input">{{ label }}</label>
   </span>

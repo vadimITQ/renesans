@@ -5,7 +5,26 @@ import { paymentStatusObj } from '../../../../shared/variables/payment-status';
 import { ITransferDetailsWithRetRefNumber } from './view-transfer-details.types';
 import { covertToSeparatedNumber } from '../../../../shared/utils/number';
 
-export function prepareTransferDetails(transferDetails: ITransferDetails): ITransferDetailsWithRetRefNumber {
+export function prepareTransferDetails(transferDetails: ITransferDetails | null): ITransferDetailsWithRetRefNumber {
+  if (!transferDetails) {
+    return {
+      amount: '0,00',
+      appCreationTime: '',
+      retRefNumber: '',
+      idPH: '',
+      operatorLegalName: '',
+      payeeAccount: '',
+      payeeBankBIC: '',
+      payeeInn: '',
+      payeeName: '',
+      payerAccount: '',
+      payerName: '',
+      paymentID: '',
+      paymentPurpose: '',
+      serviceName: '',
+      statusHistory: [],
+    };
+  }
   return {
     ...transferDetails,
     appCreationTime: transferDetails.appCreationTime ? format(new Date(transferDetails.appCreationTime), dateFormatWithDotsAndTime) : '',

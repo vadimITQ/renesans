@@ -47,11 +47,11 @@ export class BankOpsCheckFilterValidation {
         applicationID,
         dateTimeFrom,
         dateTimeTo,
-        applicationStatus
+        manualBankOpsCheckStatusList
       } = group.controls;
 
       const emptyValidation = [
-        paymentID.value, applicationID.value, dateTimeFrom.value, dateTimeTo.value, applicationStatus.value?.length
+        paymentID.value, applicationID.value, dateTimeFrom.value, dateTimeTo.value, manualBankOpsCheckStatusList.value?.length
       ].every(v => !v);
 
       if ((group.touched || group.dirty) && emptyValidation){

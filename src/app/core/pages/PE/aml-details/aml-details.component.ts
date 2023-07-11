@@ -10,7 +10,6 @@ import { AmlDetailsUtils } from "./aml-details.utils";
 import { FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { prepareAmlDetails } from "./aml-details.utils";
 import { IMultiSelectData } from "src/app/shared/components/controls/pe-multiselect/pe-multiselect.component";
 import { Any } from "src/app/shared/variables/pe-input-validations";
 import { LoadingService } from "src/app/shared/services/loading.service";
@@ -31,8 +30,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute
     ) { }
 
-    public detailsForm: FormGroup<IAmlDetailsForm> = this.utils.createForm();
-    public amlDetails: IAmlDetails =  prepareAmlDetails(null);
+    public detailsForm: FormGroup<IAmlDetailsForm> = this.utils.createEmptyForm();
     public paymentID: string = '';
     public readOnly: boolean = true;
     public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
@@ -63,11 +61,11 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     }
 
     get docsDataCount(): string {
-        if (this.amlDetails){
-            return this.amlDetails?.responsedDocuments?.length?.toString() ?? "0";
+        if (!!this.detailsForm.controls.responsedDocuments){
+            return this.detailsForm.controls.responsedDocuments.length?.toString() ?? "0";
         }
         else{
-            return "";
+            return '';
         }
     }
 
@@ -103,24 +101,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
             this.amlDetailsService.saveManualCheckMode(this.paymentID, '2');
           }
         });
-        this.amlDetails = prepareAmlDetails(value);
-        const { 
-            paymentID, pmtCreationTime, payerName, payerAccount, payeeName, 
-            payeeAccount, payeeINN, payeeBIC, paymentPurpose, amount 
-        } = this.amlDetails;
-        this.detailsForm.setValue({
-            amount: amount,
-            payeeAccount: payeeAccount,
-            payeeBIC: payeeBIC,
-            payeeINN: payeeINN,
-            payeeName: payeeName,
-            payerAccount: payerAccount,
-            payerName: payerName,
-            paymentID: paymentID,
-            paymentPurpose: paymentPurpose,
-            pmtCreationTime: pmtCreationTime,
-            commentary: '',
-        });
+        this.detailsForm = this.utils.prepareAmlDetailsForm(value);
         PaymentEngineHelper.scrollToTop();
       });
     }
@@ -164,7 +145,6 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
             this.loadingService.hideLoading();
             this.uploadingModal.hideModal();
             this.clearUploadingModal();
-            console.log(this.amlDetails);
         }, 500);
     }
 

@@ -1,8 +1,8 @@
-import { FormControl } from "@angular/forms";
+import { FormArray, FormControl } from "@angular/forms";
 
 import { IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 
-import { IApplicationDetails } from '../../../../shared/types/get-application-details';
+import { IApplicationDetails, IAutoCheck, IManualCheck, IRequestedDocument, IResponsedDocument } from '../../../../shared/types/get-application-details';
 
 export interface IAmlDetailsForm {
   paymentID: FormControl<string | null>;
@@ -16,6 +16,10 @@ export interface IAmlDetailsForm {
   paymentPurpose: FormControl<string | null>;
   amount: FormControl<number | null>;
   commentary: FormControl<string | null>;
+  autoChecks: FormArray<FormControl<IAutoCheck | null>>;
+  manualChecks: FormArray<FormControl<IManualCheck | null>>;
+  requestedDocuments: FormArray<FormControl<IRequestedDocument | null>>;
+  responsedDocuments: FormArray<FormControl<IResponsedDocument | null>>;
 }
 
 export interface IAmlDetails

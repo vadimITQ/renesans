@@ -6,7 +6,7 @@ export interface IBankOpsCheckFilterForm {
   dateTimeTo: FormControl<Date | null>;
   paymentID: FormControl<string | null>;
   applicationID: FormControl<string | null>;
-  applicationStatus: FormControl<IMultiSelectData[]>;
+  manualBankOpsCheckStatusList: FormControl<IMultiSelectData[]>;
 }
 
 export interface IBankOpsCheckFilters {

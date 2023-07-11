@@ -19,7 +19,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   
   constructor(
-    private searchPaymentService: SearchPaymentService,
+    public searchPaymentService: SearchPaymentService,
     private changeDetectionRef: ChangeDetectorRef,
     private searchPaymentsUtils: SearchPaymentsFilterUtils,
     private validation: SearchPaymentFilterValidation,

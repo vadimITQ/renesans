@@ -40,7 +40,7 @@
     <div class="automatic-checks">
       <p-table
         *ngIf="!loading"
-        [value]="amlDetails.autoChecks"
+        [value]="detailsForm.controls.autoChecks.value"
         [scrollable]="true"
         [autoLayout]="true"
         [resizableColumns]="true"
@@ -79,7 +79,7 @@
   <div class="manual-checks">
     <p-table
       *ngIf="!loading"
-      [value]="amlDetails.manualChecks"
+      [value]="detailsForm.controls.manualChecks.value"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"

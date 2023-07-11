@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { searchPaymentTableColumns } from './search-payment-table.constants';
-import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
+import { XlsxHelper } from 'src/app/shared/classes/xlsx-helper';
 import { SearchPaymentService } from 'src/app/core/services/search-payment/search-payment.service';
 import { Subscription } from 'rxjs';
 import { ISearchPaymentTableData } from '../search-payment.types';
@@ -72,7 +72,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
       }).subscribe(buffer => {
         if (!!buffer) {
           XlsxHelper.saveAsExcelFile(
-            buffer, 
+            buffer,
             `Отчет по СБП платежам_${ this.datePipe.transform(new Date(), "ddMMyyyy") }.xlsx`
           );
         }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { OrdersStat } from 'src/app/shared/enums/orders-Stat.enums';
+import { OrdersStat } from 'src/app/shared/enums/orders-stat.enums';
 import { StandingOrderStatResponse } from '../monitoring-standing-orders.types';
 
 @Component({

@@ -50,7 +50,7 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
     public search(): void {
         this.validation.validateFilter(this.filter, true);
         if (this.filter.valid) {
-            this.antiFraudCheckService.filter(this.utils.prepareFilterValues(this.filter));
+            this.antiFraudCheckService.filter(this.utils.prepareAntiFraudFilters(this.filter));
         }
         else {
             this.utils.showErrorMessages(this.filter);

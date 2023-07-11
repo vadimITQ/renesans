@@ -3,23 +3,23 @@ import {IColumn} from "../../../../../shared/types/table.types";
 export const amlCheckTableColumns: IColumn[] = [
   {
     header: 'ID Заявки',
-    field: 'applicationId',
+    field: 'applicationID',
   },
   {
-    header: 'Дата заявки в PE',
-    field: 'appCreationTime',
+    header: 'Дата заявки PE',
+    field: 'pmtCreationTime',
   },
   {
     header: 'Статус AML',
-    field: 'statusAml',
+    field: 'manualAMLCheckStatus',
   },
   {
     header: 'Статус AntiFraud',
-    field: 'statusAntiFraud',
+    field: 'manualAntiFraudCheckStatus',
   },
   {
     header: 'Статус BankOps',
-    field: 'statusBankOps',
+    field: 'manualBankOpsCheckStatus',
   },
   {
     header: 'Тип',
@@ -27,6 +27,6 @@ export const amlCheckTableColumns: IColumn[] = [
   },
   {
     header: 'Количество приложенных документов',
-    field: 'docAmount',
+    field: 'numberOfDocuments',
   },
 ];

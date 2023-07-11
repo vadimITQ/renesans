@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, forkJoin, map, Observable, of, tap } from 'rxjs';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PaymentOrderWService } from '../payment-order-w/payment-order-w.service';
-import { ISearchPayment, ISearchPaymentsFiltersPayload } from './types';
+import { IGetSearchPaymentsReportPayload, ISearchPayment, ISearchPaymentsFiltersPayload } from './types';
 import { ISearchPaymentFilterForm, ISearchPaymentFilters } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.types';
 import { Pagination, TableService } from '../../../shared/services/table.service';
 import { SearchPaymentsFilterUtils } from '../../pages/PE/search-payment/search-payment-filters/search-payment-filters.utils';
@@ -41,12 +41,12 @@ export class SearchPaymentService extends TableService<ISearchPayment, ISearchPa
   public $filter: BehaviorSubject<FormGroup<ISearchPaymentFilterForm>> = new BehaviorSubject<FormGroup<ISearchPaymentFilterForm>>(this.searchPaymentUtils.createDefaultFilterFormGroup());
   public $reportLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  public getPaymentsReport(): Observable<ArrayBuffer | null> {
+  public getPaymentsReport(prms: IGetSearchPaymentsReportPayload): Observable<ArrayBuffer | null> {
     if (!this.$filter.value) {
       return of(null);
     }
     this.$reportLoading.next(true);
-    return this.paymentOrderWService.getPaymentsReport(this.searchPaymentUtils.prepareSearchFilters(this.$filter.value)).pipe(
+    return this.paymentOrderWService.getPaymentsReport(prms).pipe(
       tap(() => {
         this.$reportLoading.next(false);
       }),

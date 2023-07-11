@@ -37,7 +37,7 @@
   <div class="multiselect-row">
     <div>
       <pe-multiselect-form
-        [control]="filter.controls.applicationStatus"
+        [control]="filter.controls.applicationStatuses"
         [dataset]="multiselectDataSetsEnum.GetAmlApplicationStatuses"
         label="Состояния заявки"
         placeholder="Выберите состояние заявки"
@@ -49,8 +49,8 @@
   <div class="input-row">
     <pe-checkbox-form
       label="Только просроченные"
-      [control]="filter.controls.onlyExpired"
-      [disabled]="!hasAccessToSearchOnlyExpired">
+      [control]="filter.controls.agedOnly"
+      [disabled]="!hasAccessToSearchAgedOnly">
     </pe-checkbox-form>
   </div>
   

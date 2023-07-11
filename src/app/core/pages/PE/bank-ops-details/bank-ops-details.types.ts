@@ -1,58 +1,44 @@
-import { FormControl } from "@angular/forms"
+import { FormArray, FormControl } from "@angular/forms"
+import { IApplicationDetails, IAutoCheck, IManualCheck, IRequestedDocument, IResponsedDocument } from '../../../../shared/types/get-application-details';
+import { IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 
 export interface IBankOpsFormGroup {
-    IdPE: FormControl<string | null>;
-    PeDate: FormControl<string | null>;
-    FioPayment: FormControl<string | null>;
-    writeOffAccount: FormControl<string | null>;
-    fioRecipient: FormControl<string | null>;
-    accountRecipient: FormControl<string | null>;
-    InnRecipient: FormControl<string | null>;
-    bikBankRecipient: FormControl<string | null>;
-    appointment: FormControl<string | null>;
-    transferAmount: FormControl<string | null>;
-    commentary: FormControl<string | null>;
+  paymentID: FormControl<string | null>;
+  pmtCreationTime: FormControl<string | null>;
+  payerName: FormControl<string | null>;
+  payerAccount: FormControl<string | null>;
+  payeeName: FormControl<string | null>;
+  payeeAccount: FormControl<string | null>;
+  payeeINN: FormControl<string | null>;
+  payeeBIC: FormControl<string | null>;
+  paymentPurpose: FormControl<string | null>;
+  amount: FormControl<number | null>;
+  autoChecks: FormArray<FormControl<IAutoCheck | null>>;
+  manualChecks: FormArray<FormControl<IManualCheck | null>>;
+  requestedDocuments: FormArray<FormControl<IRequestedDocument | null>>;
+  responsedDocuments: FormArray<FormControl<IResponsedDocument | null>>;
+  commentary: FormControl<string | null>;
 }
 
-export interface IBankOpsDetails {
-    infoBlock: {
-        IdPE: string | null;
-        PeDate: string | null;
-        FioPayment: string | null;
-        writeOffAccount: string | null;
-        fioRecipient: string | null;
-        accountRecipient: string | null;
-        InnRecipient: string | null;
-        bikBankRecipient: string | null;
-        appointment: string | null;
-        transferAmount: string | null;
-    };
-    automaticChecksData: IBankOpsDetailsAutomaticChecks[];
-    manualChecksData: IBankOpsDetailsManualChecks[];
-    docsData: IBankOpsDetailsDocs[];
-    requestedDocsData: IBankOpsDetailsRequestedDocs[];
-}
-
-export interface IBankOpsDetailsAutomaticChecks {
-  status: string;
-  rules: string | string[];
-}
-
-export interface IBankOpsDetailsManualChecks {
-  type: string;
-  status: string;
-  login: string;
-  startData: string;
-  endData: string;
-}
-
-export interface IBankOpsDetailsDocs {
-  docID: string;
-  fileData: string;
+export interface IBankOpsDetails
+  extends Pick<
+    IApplicationDetails,
+    'autoChecks' | 'manualChecks' | 'requestedDocuments'  | 'responsedDocuments'
+  > {
+  paymentID: string;
+  pmtCreationTime: string;
+  payerName: string;
+  payerAccount: string;
+  payeeName: string;
+  payeeAccount: string;
+  payeeINN: string;
+  payeeBIC: string;
+  paymentPurpose: string;
+  amount: number;
 }
 
 export interface IBankOpsDetailsRequestedDocs {
-  docType: string;
-  commentary: string;
-  fileData: any;
+  filesData: IPEUploadingData;
+  commentaryBankOps: string;
+  commentaryAML: string;
 }

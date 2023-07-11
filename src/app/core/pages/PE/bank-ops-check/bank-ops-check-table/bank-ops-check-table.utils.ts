@@ -1,7 +1,9 @@
-import { IBankOpsCheck, IBankOpsCheckResponse } from '../../../../services/bank-ops-check/types';
+import { DatePickerHelper } from '../../../../../shared/components/controls/date-picker/date-picker-helper';
+import { IApplication } from '../../../../../shared/types/get-applications-list';
 
-export function prepareBankOpsCheckData(bankOpsResponse: IBankOpsCheckResponse): IBankOpsCheck[] {
-  const { bankOpsChecks } = bankOpsResponse;
-
-  return bankOpsChecks;
+export function prepareBankOpsCheckData(applications: IApplication[]): IApplication[] {
+  return applications.map(value => ({
+    ...value,
+    appCreationTime: DatePickerHelper.format(DatePickerHelper.parseFromLocaleStringToDate(value.appCreationTime)),
+  }));
 }

@@ -6,9 +6,9 @@
     <pe-indent [mBottom]="5"></pe-indent>
 
     <div class="id-inputs">
-        <pe-input-form label="ID PE" [control]="filter.controls.IdPE"></pe-input-form>
+        <pe-input-form label="ID PE" [control]="filter.controls.paymentID"></pe-input-form>
         <pe-indent [mRight]="5"></pe-indent>
-        <pe-input-form label="ID Заявки" [control]="filter.controls.applicationId"></pe-input-form>
+        <pe-input-form label="ID Заявки" [control]="filter.controls.applicationID"></pe-input-form>
     </div>
 
     <pe-indent [mBottom]="4"></pe-indent>
@@ -34,7 +34,7 @@
     <pe-multiselect-form
         label="Состояние заявки"
         placeholder="Выберите состояние заявки"
-        [control]="filter.controls.applicationStatus"
+        [control]="filter.controls.manualAntiFraudCheckStatusList"
         [dataset]="multiselectDataSets.GetAntiFraudApplicationStatus"
         [labelStyle]="{ 'width': '155px', display: 'block' }">
     </pe-multiselect-form>
@@ -45,7 +45,8 @@
         
         <pe-checkbox-form
             *ngIf="showCheckbox"
-            [control]="filter.controls.onlyExpired"
+            [control]="filter.controls.agedOnly"
+            [disabled]="true",
             label="Только просроченные">
         </pe-checkbox-form>
 
@@ -60,7 +61,7 @@
             styleClass="p-button-secondary p-button-outlined">
         </p-button>
         <pe-indent [inline]="true" [mRight]="5"></pe-indent>
-        <p-button 
+        <p-button
             (click)="search()"
             label="Найти">
         </p-button>

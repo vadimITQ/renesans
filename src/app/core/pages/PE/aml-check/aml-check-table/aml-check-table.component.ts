@@ -6,8 +6,9 @@ import { DatePipe } from '@angular/common';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import { IColumn } from '../../../../../shared/types/table.types';
-import {AmlCheckService} from "../../../../services/aml-check/aml-check.service";
-import {IAmlCheck} from "../../../../services/aml-check/types";
+import { AmlCheckService } from '../../../../services/aml-check/aml-check.service';
+import { IApplication } from '../../../../../shared/types/get-applications-list';
+import { prepareAmlCheckData } from './aml-check-table.utils';
 
 @Component({
   selector: 'app-aml-check-table',
@@ -30,13 +31,12 @@ export class AmlCheckTableComponent implements OnInit, OnDestroy {
   }
 
   public tableColumns: IColumn[] = amlCheckTableColumns;
-  public tableData: IAmlCheck[] | null = null;
-  public amlCheckResponse: IAmlCheck[] | null = [];
+  public tableData: IApplication[] | null = null;
+  public amlCheckResponse: IApplication[] | null = [];
   private paymentResponseStateSubscription!: Subscription;
 
   linkClick(id: string) {
-    // todo: implement me
-    this.peNavigationService.goToAmlDetails(2);
+    this.peNavigationService.goToAmlDetails(id);
   }
 
   get hasAccessToViewTransferDetails() {
@@ -47,9 +47,8 @@ export class AmlCheckTableComponent implements OnInit, OnDestroy {
     return true;
   }
 
-
-  get hasAccessToSearchOnlyExpired() {
-    return this.peRolesService.hasAccessToSearchOnlyExpired();
+  get hasAccessToSearchAgedOnly() {
+    return this.peRolesService.hasAccessToSearchAgedOnly();
   }
 
   ngOnInit(): void {
@@ -59,7 +58,7 @@ export class AmlCheckTableComponent implements OnInit, OnDestroy {
     }
     this.paymentResponseStateSubscription = this.amlCheckService.$tableData.subscribe(amlCheckResponse => {
       this.amlCheckResponse = amlCheckResponse;
-      this.tableData = amlCheckResponse;
+      this.tableData = amlCheckResponse ? prepareAmlCheckData(amlCheckResponse) : null;
     });
   }
 }

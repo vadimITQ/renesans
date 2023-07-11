@@ -25,7 +25,7 @@ export const tableColumns: IColumn[] = [
 ];
 
 export const transferDetailDefaultValue: ITransferDetailsWithRetRefNumber = {
-  amount: 0,
+  amount: '0.00',
   appCreationTime: null,
   retRefNumber: '',
   idPH: '',

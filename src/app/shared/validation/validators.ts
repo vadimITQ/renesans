@@ -1,7 +1,6 @@
 import { isBefore, isAfter, differenceInCalendarDays, format, isEqual } from 'date-fns';
 import { ValidationMessage } from './types';
 import { dateFormat } from '../components/controls/date-picker/date-picker.constants';
-import { DatePickerHelper } from '../components/controls/date-picker/date-picker-helper';
 
 function parseDates(from: string | null, to: string | null): { fromDate: Date; toDate: Date } | null {
   if (!from || !to) {
@@ -13,50 +12,35 @@ function parseDates(from: string | null, to: string | null): { fromDate: Date; t
   return { fromDate, toDate };
 }
 
-export function earlierThen(from: string | null, to: string | null, message?: string): ValidationMessage {
-  const parsedFrom = DatePickerHelper.convertToDate(from);
-  const parsedTo = DatePickerHelper.convertToDate(to);
-
-  if (!parsedFrom || !parsedTo) {
+export function earlierThen(from: Date | null, to: Date | null, message?: string): ValidationMessage {
+  if (!from || !to) {
     return null;
   }
-  return !isEqual(parsedFrom, parsedTo) && !isBefore(parsedFrom, parsedTo)
-    ? message || `Должно быть раньше, чем ${format(parsedTo, dateFormat)}`
+  return !isEqual(from, to) && !isBefore(from, to)
+    ? message || `Должно быть раньше, чем ${format(to, dateFormat)}`
     : null;
 }
 
-export function laterThen(from: string | null, to: string | null): ValidationMessage {
-  const parsedFrom = DatePickerHelper.convertToDate(from);
-  const parsedTo = DatePickerHelper.convertToDate(to);
-
-  if (!parsedFrom || !parsedTo) {
+export function laterThen(from: Date | null, to: Date | null): ValidationMessage {
+  if (!from || !to) {
     return null;
   }
 
-  return !isAfter(parsedTo, parsedFrom) ? `Должно быть позже, чем ${format(parsedFrom, dateFormat)}` : null;
+  return !isAfter(to, from) ? `Должно быть позже, чем ${format(from, dateFormat)}` : null;
 }
 
-export function laterOrEqualThen(from: string | null, to: string | null): ValidationMessage {
-  const parsedFrom = DatePickerHelper.convertToDate(from);
-  const parsedTo = DatePickerHelper.convertToDate(to);
+export function laterOrEqualThen(from: Date | null, to: Date | null): ValidationMessage {
 
-  if (!parsedFrom || !parsedTo) {
+  if (!from || !to) {
     return null;
   }
 
-  return !isEqual(parsedFrom, parsedTo) && !isAfter(parsedTo, parsedFrom)
-    ? `Не должно быть раньше, чем ${format(parsedFrom, dateFormat)}`
+  return !isEqual(from, to) && !isAfter(to, from)
+    ? `Не должно быть раньше, чем ${format(from, dateFormat)}`
     : null;
 }
 
-export function lessThanDateDiapason(from: string | null, to: string | null, diapason: number, message?: string): ValidationMessage {
-  const parsedDates = [DatePickerHelper.convertToDate(from), DatePickerHelper.convertToDate(to)];
-
-  if (!parsedDates) {
-    return null;
-  }
-
-  const [fromDate, toDate] = parsedDates;
+export function lessThanDateDiapason(fromDate: Date | null, toDate: Date | null, diapason: number, message?: string): ValidationMessage {
   return differenceInCalendarDays(toDate ?? 0, fromDate ?? 0) > diapason
     ? message
       ? message

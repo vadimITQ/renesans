@@ -1,123 +1,217 @@
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { PeRolesService } from "src/app/core/services/auth/pe-roles.service";
-import { IAmlDetails, IAmlDetailsForm } from "./aml-details.types";
+import { IAmlDetails, IAmlDetailsForm, IAmlDetailsRequestedDocs } from "./aml-details.types";
 import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
-import { LoadingService } from "src/app/shared/services/loading.service";
 import { FileUploadingModal, IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { AmlDetailsService } from "../../../services/aml-check/aml-details.service";
 import { AmlDetailsUtils } from "./aml-details.utils";
 import { FormGroup } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
+import { prepareAmlDetails } from "./aml-details.utils";
+import { IMultiSelectData } from "src/app/shared/components/controls/pe-multiselect/pe-multiselect.component";
+import { Any } from "src/app/shared/variables/pe-input-validations";
+import { LoadingService } from "src/app/shared/services/loading.service";
 
 @Component({
     selector: "app-aml-details",
     templateUrl: "./aml-details.component.html",
     styleUrls: ["./aml-details.component.scss"]
 })
-export class AmlDetailsComponent implements OnInit {
+export class AmlDetailsComponent implements OnInit, OnDestroy {
 
     constructor(
         private peRolesService: PeRolesService,
         private amlDetailsService: AmlDetailsService,
-        private loading: LoadingService,
+        private loadingService: LoadingService,
         private toast: ToastService,
-        private utils: AmlDetailsUtils
+        private utils: AmlDetailsUtils,
+        private activatedRoute: ActivatedRoute
     ) { }
 
     public detailsForm: FormGroup<IAmlDetailsForm> = this.utils.createForm();
-    public amlDetailsData: IAmlDetails | "loading" = "loading";
+    public amlDetails: IAmlDetails =  prepareAmlDetails(null);
+    public paymentID: string = '';
+    public readOnly: boolean = true;
     public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
-    public uploadingData: IPEUploadingData[] = [];
     public labelsStyle: { [key: string]: string } = {
         "font-weight": "500"
     };
+    public loading: boolean = false;
 
+    public subscriptions: { [key: string]: Subscription | null } = {
+        getManualCheckMode: null
+    };
+
+    public requestedDocsData:IAmlDetailsRequestedDocs[] =[]
     public uploadingDataForChanges: IPEUploadingData | null = null;
+    public amlDetailsRequestedDocs: IAmlDetailsRequestedDocs = {
+        commentaryAML: '',
+        commentaryBankOps: '',
+        filesData: {
+            docType: {} as IMultiSelectData,
+            files: []
+        }
+    };
+    public readonly FILES_COMMENTARY_REGEXPR = Any;
+    public changeRef_AMLDetailsRequestedDocs: IAmlDetailsRequestedDocs | null = null;
 
     get hasAccessToComponent(): boolean {
         return this.peRolesService.hasAccessToAmlDetails();
     }
 
     get docsDataCount(): string {
-        if (this.amlDetailsData !== "loading"){
-            return this.amlDetailsData?.docsData?.length?.toString() ?? "0";
+        if (this.amlDetails){
+            return this.amlDetails?.responsedDocuments?.length?.toString() ?? "0";
         }
         else{
             return "";
         }
     }
 
-    ngOnInit(): void {
-        this.loadData();
+    get filesUploaded(): boolean {
+        return !!this.uploadingModal.files.length;
     }
 
-    loadData() {
-        this.amlDetailsService.getAmlDetails().subscribe(
-            response => {
-                this.amlDetailsData = response;
-                this.detailsForm.setValue(response.info);
-                PaymentEngineHelper.scrollToTop();
-            }
-        );
+    ngOnDestroy(): void {
+        if (!!this.subscriptions['routerParamsSubscribtion']){
+            this.subscriptions['routerParamsSubscribtion'].unsubscribe();
+        }
+    }
+
+    ngOnInit(): void {
+
+      const amlDetailsId = this.activatedRoute.snapshot.paramMap.get('id');
+
+      if (!amlDetailsId) {
+        return;
+      }
+      this.loading = true;
+      this.amlDetailsService.getAmlDetails(amlDetailsId).subscribe(value => {
+        if (!value) {
+          this.loading = false;
+          return;
+        }
+        this.paymentID = value.payment.paymentID;
+        this.loading = false;
+
+        this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
+          this.readOnly = manualCheckModeResponse.readOnly;
+          if (!manualCheckModeResponse.readOnly) {
+            this.amlDetailsService.saveManualCheckMode(this.paymentID, '2');
+          }
+        });
+        this.amlDetails = prepareAmlDetails(value);
+        const { 
+            paymentID, pmtCreationTime, payerName, payerAccount, payeeName, 
+            payeeAccount, payeeINN, payeeBIC, paymentPurpose, amount 
+        } = this.amlDetails;
+        this.detailsForm.setValue({
+            amount: amount,
+            payeeAccount: payeeAccount,
+            payeeBIC: payeeBIC,
+            payeeINN: payeeINN,
+            payeeName: payeeName,
+            payerAccount: payerAccount,
+            payerName: payerName,
+            paymentID: paymentID,
+            paymentPurpose: paymentPurpose,
+            pmtCreationTime: pmtCreationTime,
+            commentary: '',
+        });
+        PaymentEngineHelper.scrollToTop();
+      });
+    }
+
+    back() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '1');
+    }
+
+    approve() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '3');
+    }
+
+    cancel() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '5');
+    }
+
+    sendDocs() {
+        this.amlDetailsService.saveManualCheckMode(this.paymentID, '4');
     }
 
     addDocument() {
         this.uploadingModal.showModal();
     }
 
-    onSave(data: IPEUploadingData){
-        this.loading.showLoading();
-        if (!data.files.length){
-            this.loading.hideLoading();
+    onSave(){
+      this.loadingService.showLoading();
+        if (!this.filesUploaded){
+            this.loadingService.hideLoading();
             this.clearUploadingModal();
             return;
         }
+        this.amlDetailsRequestedDocs.filesData = this.uploadingModal.getData();
         setTimeout(() => {
-            if (!!this.uploadingDataForChanges){
-                this.changeUploadingItem(data);
+            if (!!this.changeRef_AMLDetailsRequestedDocs){
+                this.changeUploadingItem(this.uploadingModal.getData());
                 this.toast.showSuccessToast("Документ был успешно изменён");
-                console.log(this.uploadingDataForChanges);
             }
-            else{
-                this.uploadingData.push(data);
-                console.log(this.uploadingData);
+            else {
+                this.requestedDocsData.push(this.amlDetailsRequestedDocs);
             }
-            this.loading.hideLoading();
+            this.loadingService.hideLoading();
+            this.uploadingModal.hideModal();
             this.clearUploadingModal();
-        }, 1500);
+            console.log(this.amlDetails);
+        }, 500);
     }
 
     changeUploadingItem(data: IPEUploadingData) {
-        if (!this.uploadingDataForChanges){
+        if (!this.changeRef_AMLDetailsRequestedDocs){
             return;
         }
-        const docTypeIsChanged = this.uploadingDataForChanges.docType !== data.docType;
-        this.uploadingDataForChanges.commentary = data.commentary;
-        this.uploadingDataForChanges.docType = data.docType;
+        const docTypeIsChanged = this.changeRef_AMLDetailsRequestedDocs.filesData.docType !== data.docType;
+        this.changeRef_AMLDetailsRequestedDocs.commentaryAML = this.amlDetailsRequestedDocs.commentaryAML;
+        this.changeRef_AMLDetailsRequestedDocs.commentaryBankOps = this.amlDetailsRequestedDocs.commentaryBankOps;
+        this.changeRef_AMLDetailsRequestedDocs.filesData.docType = data.docType;
         if (docTypeIsChanged || !!data.files.length){
-            this.uploadingDataForChanges.files = data.files;
+            this.changeRef_AMLDetailsRequestedDocs.filesData.files = data.files;
         }
     }
 
     onCancel(){
+        this.uploadingModal.hideModal();
         this.clearUploadingModal();
     }
 
-    deleteUploadingItem(data: IPEUploadingData) {
-        this.uploadingData = this.uploadingData.filter(_data => _data !== data);
+    deleteUploadingItem(data: IAmlDetailsRequestedDocs) {
+            this.requestedDocsData = this.requestedDocsData.filter(value => value !== data);
     }
 
-    editUploadingItem(data: IPEUploadingData) {
-        this.uploadingDataForChanges = data;
-        this.uploadingModal.setData(data);
+    editUploadingItem(row: IAmlDetailsRequestedDocs) {
+        this.changeRef_AMLDetailsRequestedDocs = row;
+        this.amlDetailsRequestedDocs = {
+            commentaryAML: row.commentaryAML,
+            commentaryBankOps: row.commentaryBankOps,
+            filesData: row.filesData
+        }
+        this.uploadingModal.setData(row.filesData);
         this.uploadingModal.showModal();
     }
 
     clearUploadingModal() {
-        this.uploadingDataForChanges = null;
-        this.uploadingModal.hideModal();
         this.uploadingModal.clear();
+        this.amlDetailsRequestedDocs = {
+            commentaryAML: '',
+            commentaryBankOps: '',
+            filesData: {
+                docType: {} as IMultiSelectData,
+                files: []
+            }
+        };
+        this.changeRef_AMLDetailsRequestedDocs = null;
     }
 
 }

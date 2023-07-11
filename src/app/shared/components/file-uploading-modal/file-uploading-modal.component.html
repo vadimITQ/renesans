@@ -1,34 +1,19 @@
-<p-dialog [header]="uploadingModal.header" [(visible)]="show" [style]="style" [closable]="showCancelModal">
+
+<p-dialog [header]="modal.header" [(visible)]="show" [style]="style" [closable]="closable">
+  
   <pe-dropdown
     label="Тип документа"
-    [(selected)]="uploadingModal.data.docType"
-    [dataset]="multiselectDataSetsEnum.GetFileTypes"
     placeholder="Выберите тип документа"
-    (selectValue)="addFile($event)"
-    (showed)="onDropdownShowed()"
-  >
+    [(selected)]="modal.data.docType"
+    [dataset]="fileTypes"
+    [disabled]="disabled"
+    (selectValue)="openFileDialog($event)"
+    (showed)="onDropdownShowed()">
   </pe-dropdown>
-  <pe-indent [mBottom]="7"></pe-indent>
-  <pe-textarea
-    label="Комментарий"
-    disableCharactersValidation
-    [regExprValidation]="commentaryRegExpr"
-    [(value)]="uploadingModal.data.commentary"
-    [rows]="10"
-  >
-  </pe-textarea>
-  <pe-indent [mBottom]="8"></pe-indent>
-  <div class="buttons" *ngIf="showCancelButton || showSaveButton">
-    <p-button *ngIf="showCancelButton" styleClass="p-button-danger" [label]="'Отменить'" (click)="cancelChanges()"> </p-button>
-    <pe-indent *ngIf="showSaveButton" [inline]="true" [mLeft]="3"></pe-indent>
-    <p-button
-      *ngIf="showSaveButton"
-      styleClass="p-button-success"
-      [label]="'Сохранить'"
-      [disabled]="!filesUploaded"
-      (click)="saveChanges()"
-    >
-    </p-button>
-  </div>
+
+  <ng-content></ng-content>
+
   <input #fileForm id="file" type="file" class="file" (change)="fileUpload($event)" hidden [multiple]="multipleFiles" />
+
 </p-dialog>
+

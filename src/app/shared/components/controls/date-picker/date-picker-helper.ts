@@ -1,5 +1,6 @@
 import { DateHelper } from 'src/app/shared/classes/date-helper';
-import { isValid, parseISO } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns';
+import { dateFormat, dateFormatWithTime } from './date-picker.constants';
 
 export class DatePickerHelper {
   public static convertToDate(datePickerDate: string | null): Date | null {
@@ -76,5 +77,9 @@ export class DatePickerHelper {
       return null;
     }
     return parsedDate;
+  }
+
+  public static format(date: Date | null, withTime: boolean = true): string {
+    return date ? format(date, withTime ? dateFormatWithTime : dateFormat) : '';
   }
 }

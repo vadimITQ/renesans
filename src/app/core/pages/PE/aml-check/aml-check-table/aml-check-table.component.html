@@ -22,7 +22,7 @@
     >
       <ng-template pTemplate="header">
         <tr class="tps-by-status__row-gray">
-          <th pResizableColumn *ngIf="hasAccessToSearchOnlyExpired">Просрочка</th>
+          <th pResizableColumn *ngIf="hasAccessToSearchAgedOnly">Просрочка</th>
           <th pResizableColumn>ID PE</th>
           <th pResizableColumn *ngFor="let column of tableColumns">
             {{ column.header }}
@@ -31,12 +31,12 @@
       </ng-template>
       <ng-template pTemplate="body" let-amlCheckItem>
         <tr style="height: 50px">
-          <td *ngIf="hasAccessToSearchOnlyExpired">{{amlCheckItem.expired}}</td>
+          <td *ngIf="hasAccessToSearchAgedOnly">{{amlCheckItem.overdueDays}}</td>
           <td>
-            <a *ngIf="hasAccessToAmlCheckDetails; else elseBlock" class="link" (click)="linkClick(amlCheckItem.paymentId)">{{
-              amlCheckItem.paymentId
+            <a *ngIf="hasAccessToAmlCheckDetails; else elseBlock" class="link" (click)="linkClick(amlCheckItem.applicationID)">{{
+              amlCheckItem.paymentID
             }}</a>
-            <ng-template #elseBlock>{{ amlCheckItem.paymentId }}</ng-template>
+            <ng-template #elseBlock>{{ amlCheckItem.paymentID }}</ng-template>
           </td>
           <td *ngFor="let column of tableColumns">
             {{ amlCheckItem[column.field] }}

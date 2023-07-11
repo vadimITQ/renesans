@@ -28,8 +28,8 @@ export class AmlCheckFiltersUtils {
         dateTimeTo: new FormControl(dateTo),
         paymentID: new FormControl(null),
         applicationID: new FormControl(null),
-        applicationStatus: new FormControl([], { nonNullable: true }),
-        onlyExpired: new FormControl(false, { nonNullable: true })
+        applicationStatuses: new FormControl([], { nonNullable: true }),
+        agedOnly: new FormControl(false, { nonNullable: true })
       },
       {
         updateOn: 'change',
@@ -45,8 +45,8 @@ export class AmlCheckFiltersUtils {
       dateTimeTo,
       paymentID,
       applicationID,
-      applicationStatus,
-      onlyExpired
+      applicationStatuses,
+      agedOnly
     } = filter.controls;
 
     return {
@@ -54,8 +54,8 @@ export class AmlCheckFiltersUtils {
       paymentID: paymentID.value,
       dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? null),
       dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? null),
-      applicationStatus: applicationStatus.value.map(v => v.value) ?? null,
-      onlyExpired: onlyExpired.value
+      applicationStatus: applicationStatuses.value.map(v => v.value) ?? null,
+      onlyExpired: agedOnly.value
     };
 
   }

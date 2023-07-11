@@ -7,6 +7,7 @@
     optionLabel="label"
     [(ngModel)]="selected"
     [options]="dataset"
+    [disabled]="disabled"
     [placeholder]="placeholder"
     (onShow)="onShow()"
     (onChange)="onChange($event)"

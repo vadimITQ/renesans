@@ -1,32 +1,37 @@
 
-import { FormControl } from "@angular/forms";
+import { FormArray, FormControl } from "@angular/forms";
+import { IApplicationDetails, IManualCheck } from '../../../../shared/types/get-application-details';
 
-export interface AntiFraudDetailsForm {
-    IdPE: FormControl<string | null>;
-    paymentDatePE: FormControl<string | null>;
-    fioPayer: FormControl<string | null>;
-    writeOffAccount: FormControl<string | null>;
-    recipientFio: FormControl<string | null>;
-    recipientAccount: FormControl<string | null>;
-    recipientINN: FormControl<string | null>;
-    recipientBankBIK: FormControl<string | null>;
-    appointment: FormControl<string | null>;
-    transferAmount: FormControl<string | null>;
-    ip: FormControl<string | null>;
-    userAgent: FormControl<string | null>;
+export interface IAntiFraudAutoCheck {
+  status: string;
+  rules: string;
 }
 
-export interface AntiFraudDetails {
-    IdPE: string | null;
-    paymentDatePE: string | null;
-    fioPayer: string | null;
-    writeOffAccount: string | null;
-    recipientFio: string | null;
-    recipientAccount: string | null;
-    recipientINN: string | null;
-    recipientBankBIK: string | null;
-    appointment: string | null;
-    transferAmount: string | null;
-    ip: string | null;
-    userAgent: string | null;
+export interface AntiFraudDetailsForm {
+  autoChecks: FormArray<FormControl<IAntiFraudAutoCheck | null>>,
+  manualChecks: FormArray<FormControl<IManualCheck | null>>,
+  paymentID: FormControl<string | null>,
+  pmtCreationTime: FormControl<string | null>,
+  payerName: FormControl<string | null>,
+  payerAccount: FormControl<string | null>,
+  payeeName: FormControl<string | null>,
+  payeeAccount: FormControl<string | null>,
+  payeeINN: FormControl<string | null>,
+  payeeBIC: FormControl<string | null>,
+  paymentPurpose: FormControl<string | null>,
+  amount: FormControl<number | null>
+}
+
+export interface IAntiFraudDetails extends Pick<IApplicationDetails, 'manualChecks'> {
+  autoChecks: IAntiFraudAutoCheck[];
+  paymentID: string;
+  pmtCreationTime: string;
+  payerName: string;
+  payerAccount: string;
+  payeeName: string;
+  payeeAccount: string;
+  payeeINN: string;
+  payeeBIC: string;
+  paymentPurpose: string;
+  amount: number;
 }

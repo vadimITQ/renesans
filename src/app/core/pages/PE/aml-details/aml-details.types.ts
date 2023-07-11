@@ -1,61 +1,42 @@
 import { FormControl } from "@angular/forms";
 
+import { IPEUploadingData } from "src/app/shared/components/file-uploading-modal/file-uploading-modal.types";
+
+import { IApplicationDetails } from '../../../../shared/types/get-application-details';
+
 export interface IAmlDetailsForm {
-    IdPE: FormControl<string | null>;
-    datePE: FormControl<string | null>;
-    fioPayer: FormControl<string | null>;
-    writeOffAccount: FormControl<string | null>;
-    recipientFio: FormControl<string | null>;
-    recipientAccount: FormControl<string | null>;
-    recipientINN: FormControl<string | null>;
-    recipientBankBIK: FormControl<string | null>;
-    appointment: FormControl<string | null>;
-    transferAmount: FormControl<string | null>;  
-    commentary: FormControl<string | null>;
+  paymentID: FormControl<string | null>;
+  pmtCreationTime: FormControl<string | null>;
+  payerName: FormControl<string | null>;
+  payerAccount: FormControl<string | null>;
+  payeeName: FormControl<string | null>;
+  payeeAccount: FormControl<string | null>;
+  payeeINN: FormControl<string | null>;
+  payeeBIC: FormControl<string | null>;
+  paymentPurpose: FormControl<string | null>;
+  amount: FormControl<number | null>;
+  commentary: FormControl<string | null>;
 }
 
-export interface IAmlDetails {
-    info: IAmlInfo;
-    automaticChecksData: IAmlDetailsAutomaticChecks[];
-    manualChecksData: IAmlDetailsManualChecks[];
-    docsData: IAmlDetailsDocs[];
-    requestedDocsData: IAmlDetailsRequestedDocs[];
-}
-
-export interface IAmlInfo {
-    IdPE: string | null;
-    datePE: string | null;
-    fioPayer: string | null;
-    writeOffAccount: string | null;
-    recipientFio: string | null;
-    recipientAccount: string | null;
-    recipientINN: string | null;
-    recipientBankBIK: string | null;
-    appointment: string | null;
-    transferAmount: string | null;
-    commentary: string | null;
-}
-
-export interface IAmlDetailsAutomaticChecks {
-    status: string;
-    rules: string | string[];
-}
-
-export interface IAmlDetailsManualChecks {
-    type: string;
-    status: string;
-    login: string;
-    startData: string;
-    endData: string;
-}
-
-export interface IAmlDetailsDocs {
-    docID: string;
-    fileData: string;
+export interface IAmlDetails
+  extends Pick<
+    IApplicationDetails,
+    'autoChecks' | 'manualChecks' | 'requestedDocuments'  | 'responsedDocuments'
+    > {
+  paymentID: string;
+  pmtCreationTime: string;
+  payerName: string;
+  payerAccount: string;
+  payeeName: string;
+  payeeAccount: string;
+  payeeINN: string;
+  payeeBIC: string;
+  paymentPurpose: string;
+  amount: number;
 }
 
 export interface IAmlDetailsRequestedDocs {
-    docType: string;
-    commentary: string;
-    fileData: any;
+  filesData: IPEUploadingData;
+  commentaryBankOps: string;
+  commentaryAML: string;
 }

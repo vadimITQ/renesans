@@ -71,9 +71,9 @@ export interface Entity {
 }
 
 export interface PayerOrPayee {
-  user: User;
-  requisites: Requisites;
-  entity: Entity;
+  user: User | null;
+  requisites: Requisites | null;
+  entity: Entity | null;
 }
 
 export interface Budget {
@@ -186,7 +186,7 @@ export interface IPaymentApplication {
   sbp: SBP | null;
   servicePayment: ServicePayment;
   ipt: IPT | null;
-  check: Check;
+  check: Check | null;
   applicationID: string;
   appCreationTime: string;
   statusCode: string;
@@ -270,4 +270,10 @@ export interface ISearchPaymentsResponse {
   limit: number | null;
   offset: number | null;
   payments: IPayment[];
+}
+
+export interface IGetSearchPaymentsReportPayload {
+  isManualParse?: boolean;
+  isSBPReport?: boolean;
+  searchPayments: ISearchPaymentsFiltersPayload;
 }

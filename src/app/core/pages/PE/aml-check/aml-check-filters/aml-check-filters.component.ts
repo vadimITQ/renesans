@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import {
   AmlCheckFiltersUtils,
 } from './aml-check-filters.utils';
@@ -9,6 +8,7 @@ import {AmlCheckService} from "../../../../services/aml-check/aml-check.service"
 import {PeRolesService} from "../../../../services/auth/pe-roles.service";
 import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
 import { AmlCheckFilterValidation } from "./aml-check-filter.validation";
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-aml-check-filters',
@@ -46,6 +46,10 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
 
   onClear() {
     PEReactiveHelper.resetForm(this.filter);
+  }
+
+  get hasAccessToSearchAgedOnly() {
+    return this.peRolesService.hasAccessToSearchAgedOnly();
   }
 
   onSearch() {

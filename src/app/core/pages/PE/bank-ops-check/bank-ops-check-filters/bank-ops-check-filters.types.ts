@@ -10,9 +10,9 @@ export interface IBankOpsCheckFilterForm {
 }
 
 export interface IBankOpsCheckFilters {
-  dateTimeFrom: string | null;
-  dateTimeTo: string | null;
+  dateTimeFrom: Date | null;
+  dateTimeTo: Date | null;
   paymentID: string | null;
   applicationID: string | null;
-  applicationStatus: IMultiSelectData[];
+  manualBankOpsCheckStatusList: IMultiSelectData[];
 }

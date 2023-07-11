@@ -1,3 +1,4 @@
+
 export enum CancelReason {
   CLIENT = 'CLIENT',
   FRAUD = 'FRAUD',
@@ -43,4 +44,29 @@ export interface IResumePaymentResponse {
   errorCode?: string;
   errorMessage?: string;
   attrErrors: any;
+}
+
+export interface IGetManualCheckModePayload {
+  paymentID: string;
+  checkType: string;
+  userLogin: string;
+}
+
+export interface IGetManualCheckModeResponse {
+  readOnly: boolean;
+}
+
+export interface ISaveManualCheckModePayload {
+  paymentID: string;
+  manualCheck: {
+    checkType: string;
+    status: string;
+    userLogin?: string;
+    startDate?: string;
+    endDate?: string;
+  };
+}
+
+export interface ISaveManualCheckModeResponse {
+
 }

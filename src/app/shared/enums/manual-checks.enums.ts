@@ -44,6 +44,7 @@ export enum PaymentStatus {
   CancelEarlyCredAuthERR = "(803) Ошибка при отмене 'ранней' авторизации кредита в АБС-получателе",
   CancelEarlyCredAuthOK = "(809) Отмена 'ранней' авторизации кредита в АБС-получателе выполнена успешно",
   AMLCheckERR = '(810) Отмена по итогам автопроверки AML',
+  PaymentTrasferToSbpPostponed = '(811) Платеж на обработке в СБП',
   BankOpsCheckERR = '(830) Отмена по итогам автопроверки BankOps',
   AFSCheckERR = '(850) Отмена по итогам автопроверки AntiFraud',
   AutomaticChecksERR = '(855) Системная ошибка на этапе автоматических проверок',

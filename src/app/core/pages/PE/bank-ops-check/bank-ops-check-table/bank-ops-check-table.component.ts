@@ -7,7 +7,8 @@ import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navi
 import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import { IColumn } from '../../../../../shared/types/table.types';
 import { BankOpsCheckService } from '../../../../services/bank-ops-check/bank-ops-check.service';
-import { IBankOpsCheck } from '../../../../services/bank-ops-check/types';
+import { IApplication } from '../../../../../shared/types/get-applications-list';
+import { prepareBankOpsCheckData } from './bank-ops-check-table.utils';
 
 @Component({
   selector: 'app-bank-ops-check-table',
@@ -30,13 +31,13 @@ export class BankOpsCheckTableComponent implements OnInit, OnDestroy {
   }
 
   public tableColumns: IColumn[] = bankOpsCheckTableColumns;
-  public tableData: IBankOpsCheck[] | null = null;
-  public bankOpsCheckResponse: IBankOpsCheck[] | null = [];
+  public tableData: IApplication[] | null = null;
+  public bankOpsCheckResponse: IApplication[] | null = [];
   private paymentResponseStateSubscription!: Subscription;
 
   linkClick(id: string) {
     // todo: implement me
-    this.peNavigationService.goToBankOpsDetails(2);
+    this.peNavigationService.goToBankOpsDetails(id);
   }
 
   get hasAccessToViewTransferDetails() {
@@ -52,9 +53,9 @@ export class BankOpsCheckTableComponent implements OnInit, OnDestroy {
     if (this.bankOpsCheckResponse.length > 0) {
       this.tableData = this.bankOpsCheckResponse;
     }
-    this.paymentResponseStateSubscription = this.bankOpsCheckService.$tableData.subscribe(backOpsCheckResponse => {
-      this.bankOpsCheckResponse = backOpsCheckResponse;
-      this.tableData = backOpsCheckResponse;
+    this.paymentResponseStateSubscription = this.bankOpsCheckService.$tableData.subscribe(bankOpsCheckResponse => {
+      this.bankOpsCheckResponse = bankOpsCheckResponse;
+      this.tableData = bankOpsCheckResponse ? prepareBankOpsCheckData(bankOpsCheckResponse) : null;
     });
   }
 }

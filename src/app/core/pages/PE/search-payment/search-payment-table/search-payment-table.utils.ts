@@ -7,8 +7,9 @@ import { paymentStatusObj } from '../../../../../shared/variables/payment-status
 
 export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: DatePipe): ISearchPaymentTableData[] {
   return data.map(searchPayment => {
-    const debitPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc.includes('D'))[0] : null;
-    const creditPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc.includes('C'))[0] : null;
+    const debitPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc=== 'Debit')[0] : null;
+    const creditPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc=== 'Credit')[0]: null;
+    const GLDocPayDoc = !!searchPayment.payDocs ? searchPayment.payDocs.filter(payDoc => payDoc?.dc === 'GLDoc')[0] : null;
     const plannedDate = datePipeRef
       ? datePipeRef.transform(DatePickerHelper.parseFromLocaleStringToDate(searchPayment.plannedDate), 'dd-MM-yyyy') ?? ''
       : searchPayment.plannedDate;
@@ -28,12 +29,12 @@ export function prepareSearchPaymentsData(data: ISearchPayment[], datePipeRef?: 
       sourceSystem: searchPayment.sourceSystem,
       docNum_D: debitPayDoc?.docNum ?? '',
       docStatus_D: debitPayDoc?.docStatus ?? '',
-      docID_D: debitPayDoc?.docID ?? '',
+      docID_D: debitPayDoc?.accntDeb || GLDocPayDoc?.accntDeb || '',
       targetSystem: searchPayment.targetSystem,
       docNum_C: creditPayDoc?.docNum ?? '',
       docStatus_C: creditPayDoc?.docStatus ?? '',
-      docID_C: creditPayDoc?.docID ?? '',
-      cifID: searchPayment.paymentApplication.payer.user.cifID ?? '',
+      docID_C: creditPayDoc?.accntCre || GLDocPayDoc?.accntCre || debitPayDoc?.accntCre || '',
+      cifID: searchPayment.paymentApplication.payer.user?.cifID ?? '',
       applicationID: searchPayment.paymentApplication.applicationID,
       referenceSbpTransactionId: searchPayment.paymentApplication.sbp?.referenceSbpTransactionId ?? '',
       sbpWorkflowType: searchPayment.paymentApplication.sbp?.sbpWorkflowType ?? '',

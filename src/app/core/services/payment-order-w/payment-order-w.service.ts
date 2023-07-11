@@ -5,11 +5,17 @@ import { manualChecksTableData } from 'src/app/shared/mocks/manual-checks-table.
 import { ISearchPaymentTableData } from '../../pages/PE/search-payment/search-payment.types';
 import { API_URL } from '../../../shared/variables/http-constants';
 import { ITransferDetails } from '../view-transfer-details/types';
-import { ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
-import { ICancelPaymentPayload, ICancelPaymentResponse, IResumePaymentPayload, IResumePaymentResponse } from './types';
+import { IGetSearchPaymentsReportPayload, ISearchPaymentsFiltersPayload, ISearchPaymentsResponse } from '../search-payment/types';
+import { ICancelPaymentPayload, ICancelPaymentResponse, IGetManualCheckModePayload, IGetManualCheckModeResponse, IResumePaymentPayload, IResumePaymentResponse, ISaveManualCheckModePayload, ISaveManualCheckModeResponse } from './types';
 import { Pagination } from '../../../shared/services/table.service';
-import {IBankOpsCheckFiltersPayload, IBankOpsCheckResponse} from "../bank-ops-check/types";
 import { GetPaymentsResponse } from '../../pages/PE/manual-checks/manual-checks-filter/manual-checks-filter.types';
+import {prepareFiltersToQuery, } from "../../../shared/utils/object";
+import {GetApplicationsListCheckType} from "../../../shared/enums/get-applications-list.enums";
+import {
+  IGetApplicationsListPayload,
+  IGetApplicationListResponse,
+} from "../../../shared/types/get-applications-list";
+import {IApplicationDetails} from "../../../shared/types/get-application-details";
 
 @Injectable({
   providedIn: 'root',
@@ -51,15 +57,35 @@ export class PaymentOrderWService {
     });
   }
 
-  public getPaymentsReport(filters?: ISearchPaymentsFiltersPayload): Observable<ArrayBuffer> {
-    return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', filters, {
+  public getPaymentsReport(payload: IGetSearchPaymentsReportPayload): Observable<ArrayBuffer> {
+    return this.http.post<ArrayBuffer>(API_URL + '/paymentsReport', payload, {
       responseType: 'arraybuffer' as 'json',
     });
   }
 
-  public getApplicationsList(filters: IBankOpsCheckFiltersPayload, pagination: Pagination): Observable<IBankOpsCheckResponse> {
-    return this.http.post<IBankOpsCheckResponse>(API_URL + '/getApplicationsList', filters, {
-      params: { ...pagination },
+  public getApplicationsList(filters: IGetApplicationsListPayload, pagination: Pagination, checkType: GetApplicationsListCheckType): Observable<IGetApplicationListResponse> {
+    return this.http.get<IGetApplicationListResponse>(API_URL + '/getApplicationsList',{
+      params: { ...pagination, ...prepareFiltersToQuery(filters), checkType },
     });
+  }
+
+  public getManualCheckMode(payload: IGetManualCheckModePayload): Observable<IGetManualCheckModeResponse> {
+    return this.http.get<IGetManualCheckModeResponse>(API_URL + '/getManualCheckMode',
+      {
+        params: { ...payload }
+      }
+    );
+  }
+
+  public saveManualCheckMode(payload: ISaveManualCheckModePayload): Observable<ISaveManualCheckModeResponse> {
+    return this.http.post<ISaveManualCheckModeResponse>(API_URL + '/saveManualCheckMode', payload.manualCheck, {
+      params: {
+        paymentID: payload.paymentID
+      }
+    });
+  }
+
+  public getApplicationDetails(applicationID: string): Observable<IApplicationDetails> {
+    return this.http.get<IApplicationDetails>(API_URL + `/getApplicationDetails/${applicationID}`);
   }
 }

@@ -7,6 +7,9 @@ import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 import { SearchPaymentFilterValidation } from './search-payment-filter.validation';
 import { ipRegExp } from 'src/app/shared/variables/pe-input-validations';
 import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
+import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
+import { DatePipe } from '@angular/common';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-search-payment-filters',
@@ -19,7 +22,9 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
     private searchPaymentService: SearchPaymentService,
     private changeDetectionRef: ChangeDetectorRef,
     private searchPaymentsUtils: SearchPaymentsFilterUtils,
-    private validation: SearchPaymentFilterValidation
+    private validation: SearchPaymentFilterValidation,
+    private datePipe: DatePipe,
+    private toastService: ToastService
   ) {}
 
   public filter: FormGroup<ISearchPaymentFilterForm> = this.searchPaymentsUtils.createDefaultFilterFormGroup();
@@ -52,10 +57,25 @@ export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
   }
 
   searchAndGenerateDoc() {
-    // todo: implement me after API update
-    // this.searchPaymentService.getSearchPayments(prepareSearchFilters(this.filters)).subscribe(response => {
-    //   XlsxHelper.exportArrayToExcel(response.payments, Object.getOwnPropertyNames(response.payments[0]), 'Выгрузка_в_excel_test');
-    // });
+    if (this.filter.valid) {
+      return;
+    }
+    this.searchPaymentService.filter(this.searchPaymentsUtils.prepareSearchFilters(this.filter));
+    this.searchPaymentService.getPaymentsReport({
+      isSBPReport: true,
+      isManualParse: false,
+      searchPayments: this.searchPaymentsUtils.prepareSearchFilters(this.filter)
+    }).subscribe(buffer => {
+      if (!!buffer) {
+        XlsxHelper.saveAsExcelFile(
+          buffer,
+          `Отчет по СБП платежам_${ this.datePipe.transform(new Date(), "ddMMyyyy") }.xlsx`
+        );
+      }
+      else {
+        this.toastService.showErrorToast('Не удалось сформировать отчёт. Попробуйте еще раз');
+      }
+    });
   }
 
 }

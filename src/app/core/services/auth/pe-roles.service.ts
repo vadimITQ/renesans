@@ -63,7 +63,8 @@ export class PeRolesService {
     return this.hasAccessToAmlCheck();
   }
 
-  hasAccessToSearchOnlyExpired(): boolean {
+  hasAccessToSearchAgedOnly(): boolean {
     return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_AMLControl, ProdRolesList.AP_PEWeb_AMLControl);
   }
+  
 }

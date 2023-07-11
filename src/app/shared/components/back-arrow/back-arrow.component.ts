@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 
 const DEFAULT_ICON_STYLE = {
@@ -22,8 +22,10 @@ export class PeBackArrowComponent {
   @Input() labelStyle: { [styleKey: string]: string } = DEFAULT_LABEL_STYLE;
   @Input() iconStyle: { [styleKey: string]: string } = DEFAULT_ICON_STYLE;
   @Input() animate: boolean = true;
+  @Output() listenBack: EventEmitter<void> = new EventEmitter<void>();
 
   public goBack() {
     this.peNavigation.goBack();
+    this.listenBack.emit();
   }
 }

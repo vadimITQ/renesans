@@ -1,13 +1,12 @@
-
 <div class="pe-aml-header">
-    <pe-indent [mTop]="4"></pe-indent>
-    <pe-back-arrow></pe-back-arrow>
-    <pe-indent [mBottom]="3"></pe-indent>
+  <pe-indent [mTop]="4"></pe-indent>
+  <pe-back-arrow (listenBack)="back()"></pe-back-arrow>
+  <pe-indent [mBottom]="3"></pe-indent>
 </div>
 
 <div class="pe-aml-details pe-border" [formGroup]="detailsForm" *ngIf="hasAccessToComponent">
 
-    <h5>AML проверка: просмотр деталей по заявке</h5>
+   <h5>AML проверка: просмотр деталей по заявке</h5>
 
     <div class="paragraph">
         <pe-indent [mTop]="3"></pe-indent>
@@ -15,240 +14,234 @@
         <pe-indent [mBottom]="5"></pe-indent>
     </div>
 
-    <div class="info-block">
-        <pe-input-form [control]="detailsForm.controls.IdPE"                label="ID PE"                                   [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.datePE"              label="Дата заявки PE"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.fioPayer"            label="ФИО плательщика"                         [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.writeOffAccount"     label="Счёт списания"                           [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.recipientFio"        label="ФИО получателя/наименование организации" [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.recipientAccount"    label="Счёт получателя"                         [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.recipientINN"        label="ИНН получателя"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.recipientBankBIK"    label="БИК банка получателя"                    [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.appointment"         label="Назначение"                              [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
-        <pe-input-form [control]="detailsForm.controls.transferAmount"      label="Сумма перевода"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+    <div class="info-block" *ngIf="!loading; else elseBlock">
+        <pe-input-form [control]="detailsForm.controls.paymentID"         label="ID PE"                                   [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.pmtCreationTime"   label="Дата заявки PE"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.payerName"         label="ФИО плательщика"                         [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.payerAccount"      label="Счёт списания"                           [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.payeeName"         label="ФИО получателя/наименование организации" [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.payeeAccount"      label="Счёт получателя"                         [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.payeeINN"          label="ИНН получателя"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.payeeBIC"          label="БИК банка получателя"                    [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.paymentPurpose"    label="Назначение"                              [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
+        <pe-input-form [control]="detailsForm.controls.amount"            label="Сумма перевода"                          [labelStyle]="labelsStyle" [disabled]="true"></pe-input-form>
     </div>
+
+    <ng-template #elseBlock>
+      <pe-loading-spinner></pe-loading-spinner>
+    </ng-template>
 
     <div class="paragraph">
         <pe-indent [mTop]="4"></pe-indent>
         Автоматические проверки
         <pe-indent [mBottom]="4"></pe-indent>
     </div>
-
+  
     <div class="automatic-checks">
-        <p-table
-            *ngIf="amlDetailsData !== 'loading'"
-            [value]="amlDetailsData.automaticChecksData"
-            [scrollable]="true"
-            [autoLayout]="true"
-            [resizableColumns]="true"
-            [showCurrentPageReport]="true"
-            [lazy]="true"
-            [columnResizeMode]="'expand'"
-            styleClass="p-datatable-gridlines p-datatable-sm">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>
-                        Статус автоматических проверок AML
-                    </th>
-                    <th>
-                        Сработавшие правила автоматических проверок AML
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-detailsItem>
-                <tr>
-                    <td>
-                        {{detailsItem.status}}
-                    </td>
-                    <td>
-                        {{detailsItem.rules}}
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-        <pe-loading-spinner *ngIf="amlDetailsData === 'loading'"></pe-loading-spinner>
+      <p-table
+        *ngIf="!loading"
+        [value]="amlDetails.autoChecks"
+        [scrollable]="true"
+        [autoLayout]="true"
+        [resizableColumns]="true"
+        [showCurrentPageReport]="true"
+        [lazy]="true"
+        [columnResizeMode]="'expand'"
+        styleClass="p-datatable-gridlines p-datatable-sm"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Статус автоматических проверок AML</th>
+            <th>Сработавшие правила автоматических проверок AML</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-detailsItem>
+          <tr>
+            <td>
+              {{ detailsItem.status }}
+            </td>
+            <td>
+              {{ detailsItem.rules }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <pe-loading-spinner *ngIf="loading"></pe-loading-spinner>
     </div>
 
-    <div class="paragraph">
-        <pe-indent [mTop]="4"></pe-indent>
-        Ручные проверки
-        <pe-indent [mBottom]="4"></pe-indent>
-    </div>
-
-    <div class="manual-checks">
-        <p-table
-            *ngIf="amlDetailsData !== 'loading'"
-            [value]="amlDetailsData.manualChecksData"
-            [scrollable]="true"
-            [autoLayout]="true"
-            [resizableColumns]="true"
-            [showCurrentPageReport]="true"
-            [lazy]="true"
-            [columnResizeMode]="'expand'"
-            styleClass="p-datatable-gridlines p-datatable-sm">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>
-                        Тип проверки
-                    </th>
-                    <th>
-                        Статус
-                    </th>
-                    <th>
-                        Логин пользователя
-                    </th>
-                    <th>
-                        Дата начала рассмотрения
-                    </th>
-                    <th>
-                        Дата окончания рассмотрения
-                    </th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-detailsItem>
-                <tr>
-                    <td>
-                        {{detailsItem.type}}
-                    </td>
-                    <td>
-                        {{detailsItem.status}}
-                    </td>
-                    <td>
-                        {{detailsItem.login}}
-                    </td>
-                    <td>
-                        {{detailsItem.startData | date : "dd.MM.yyyy HH:mm"}}
-                    </td>
-                    <td>
-                        {{detailsItem.endData | date : "dd.MM.yyyy HH:mm"}}
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-        <pe-loading-spinner *ngIf="amlDetailsData === 'loading'"></pe-loading-spinner>
-    </div>
-
-    <div class="paragraph">
-        <pe-indent [mTop]="4"></pe-indent>
-        Запрошенные документы
-        <pe-indent [mBottom]="3"></pe-indent>
-    </div>
-
-    <div class="requested-docs">
-
-        <p-button
-            *ngIf="amlDetailsData !== 'loading'"
-            [label]="'Добавить документ'"
-            styleClass="p-button-info p-button-sm"
-            (click)="addDocument()">
-        </p-button>
-
-        <pe-indent [mBottom]="4"></pe-indent>
-
-        <p-table
-            *ngIf="amlDetailsData !== 'loading'"
-            [value]="uploadingData"
-            [scrollable]="true"
-            [autoLayout]="true"
-            [resizableColumns]="true"
-            [showCurrentPageReport]="true"
-            [lazy]="true"
-            [columnResizeMode]="'expand'"
-            styleClass="p-datatable-gridlines p-datatable-sm">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>
-                        Тип документа
-                    </th>
-                    <th>
-                        Комментарий
-                    </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data>
-                <tr>
-                    <td style="width: 35%">
-                        {{data.docType.label}}: <br />
-                        <ng-container *ngFor="let file of data.files">{{ file.file.name }}<br/></ng-container>
-                    </td>
-                    <td style="width: 60%">
-                        {{data.commentary}}
-                    </td>
-                    <td class="button-td">
-                        <p-button
-                            label="Редактировать"
-                            icon="pi pi-user-edit"
-                            iconPos="right"
-                            (click)="editUploadingItem(data)"
-                            styleClass="p-button-sm p-button-outlined p-button-success">
-                        </p-button>
-                    </td>
-                    <td class="button-td">
-                        <p-button
-                            label="Удалить"
-                            icon="pi pi-trash"
-                            iconPos="right"
-                            (click)="deleteUploadingItem(data)"
-                            styleClass="p-button-sm p-button-outlined p-button-danger">
-                        </p-button>
-                    </td>
-                </tr>
-            </ng-template>
-        </p-table>
-        <pe-loading-spinner *ngIf="amlDetailsData === 'loading'"></pe-loading-spinner>
-
-    </div>
-
+    
+  <div class="paragraph">
     <pe-indent [mTop]="4"></pe-indent>
+    Ручные проверки
+    <pe-indent [mBottom]="4"></pe-indent>
+  </div>
 
-    <div class="commentary">
-        <pe-input-form
-            [control]="detailsForm.controls.commentary"
-            label="Общий комментарий к документам" 
-            [maxLength]="250">
-        </pe-input-form>
-    </div>
+  <div class="manual-checks">
+    <p-table
+      *ngIf="!loading"
+      [value]="amlDetails.manualChecks"
+      [scrollable]="true"
+      [autoLayout]="true"
+      [resizableColumns]="true"
+      [showCurrentPageReport]="true"
+      [lazy]="true"
+      [columnResizeMode]="'expand'"
+      styleClass="p-datatable-gridlines p-datatable-sm"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Тип проверки</th>
+          <th>Статус</th>
+          <th>Логин пользователя</th>
+          <th>Дата начала рассмотрения</th>
+          <th>Дата окончания рассмотрения</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-detailsItem>
+        <tr>
+          <td>
+            {{ detailsItem.checkType }}
+          </td>
+          <td>
+            {{ detailsItem.status }}
+          </td>
+          <td>
+            {{ detailsItem.userLogin }}
+          </td>
+          <td>
+            {{ detailsItem.startData | date : 'dd.MM.yyyy HH:mm' }}
+          </td>
+          <td>
+            {{ detailsItem.endData | date : 'dd.MM.yyyy HH:mm' }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <pe-loading-spinner *ngIf="loading"></pe-loading-spinner>
+  </div>
 
+  <div class="paragraph">
     <pe-indent [mTop]="4"></pe-indent>
+    Запрошенные документы
+    <pe-indent [mBottom]="3"></pe-indent>
+  </div>
 
-    <div class="bottom-buttons">
-        <p-button
-            label="Подтвердить заявку"
-            icon="pi pi-check"
-            iconPos="right"
-            styleClass="p-button-success">
-        </p-button>
-        <p-button
-            label="Отклонить заявку"
-            icon="pi pi-times"
-            iconPos="right"
-            styleClass="p-button-secondary">
-        </p-button>
-        <p-button
-            label="Отправить документы"
-            icon="pi pi-reply"
-            iconPos="right"
-            styleClass="p-button-info">
-        </p-button>
-    </div>
+  <div class="requested-docs">
+    <p-button *ngIf="!loading" [label]="'Добавить документ'" styleClass="p-button-info p-button-sm" (click)="addDocument()"> </p-button>
 
-    <pe-indent [mBottom]="2"></pe-indent>
+    <pe-indent [mBottom]="4"></pe-indent>
 
+    <p-table
+      *ngIf="!loading"
+      [value]="requestedDocsData"
+      [scrollable]="true"
+      [autoLayout]="true"
+      [resizableColumns]="true"
+      [showCurrentPageReport]="true"
+      [lazy]="true"
+      [columnResizeMode]="'expand'"
+      styleClass="p-datatable-gridlines p-datatable-sm"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Тип документа</th>
+          <th>Комментарий BankOps</th>
+          <th>Комментарий AML</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr>
+          <td style="width: 35%">
+            {{ data.filesData.docType.label }}: <br />
+            <ng-container *ngFor="let file of data.filesData.files">{{ file.file.name }}<br /></ng-container>
+          </td>
+          <td style="width: 30%">
+            {{ data.commentaryBankOps }}
+          </td>
+          <td style="width: 30%">
+            {{ data.commentaryAML }}
+          </td>
+          <td class="button-td">
+            <p-button
+              label="Редактировать"
+              icon="pi pi-user-edit"
+              iconPos="right"
+              (click)="editUploadingItem(data)"
+              styleClass="p-button-sm p-button-outlined p-button-success"
+            >
+            </p-button>
+          </td>
+          <td class="button-td">
+            <p-button
+              label="Удалить"
+              icon="pi pi-trash"
+              iconPos="right"
+              (click)="deleteUploadingItem(data)"
+              styleClass="p-button-sm p-button-outlined p-button-danger"
+            >
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <pe-loading-spinner *ngIf="loading"></pe-loading-spinner>
+  </div>
+
+  <pe-indent [mTop]="4"></pe-indent>
+
+  <div class="commentary">
+    <pe-input-form
+        [control]="detailsForm.controls.commentary"
+        label="Общий комментарий к документам" 
+        [maxLength]="250">
+    </pe-input-form>
+  </div>
+
+  <pe-indent [mTop]="4"></pe-indent>
+
+  <div class="bottom-buttons">
+    <p-button (click)="approve()" label="Подтвердить заявку" icon="pi pi-check" iconPos="right" styleClass="p-button-success"> </p-button>
+    <p-button (click)="cancel()" label="Отклонить заявку" icon="pi pi-times" iconPos="right" styleClass="p-button-secondary"> </p-button>
+    <p-button (click)="sendDocs()" label="Отправить документы" icon="pi pi-reply" iconPos="right" styleClass="p-button-info"> </p-button>
+  </div>
+
+  <pe-indent [mBottom]="2"></pe-indent>
 </div>
 
 <pe-file-uploading-modal
-    [uploadingModal]="uploadingModal"
-    [(show)]="uploadingModal.show"
-    [multipleFiles]="true"
-    [showCancelModal]="false"
-    [showCancelButton]="true"
-    [showSaveButton]="true"
-    [style]="{
-        width: '450px',
-        height: '500px'
-    }"
-    (cancel)="onCancel()"
-    (save)="onSave($event)">
+  [modal]="uploadingModal"
+  [(show)]="uploadingModal.show"
+  [multipleFiles]="true"
+  [style]="{
+    width: '450px',
+    height: '500px'
+  }"
+>
+  <pe-indent [mBottom]="7"></pe-indent>
+  <pe-textarea
+    [(value)]="amlDetailsRequestedDocs.commentaryAML"
+    [rows]="5"
+    label="Комментарий AML"
+    [regExprValidation]="FILES_COMMENTARY_REGEXPR"
+    [maxLength]="250"
+  >
+  </pe-textarea>
+  <pe-indent [mTop]="5"></pe-indent>
+  <pe-textarea
+    [(value)]="amlDetailsRequestedDocs.commentaryBankOps"
+    [rows]="5"
+    label="Комментарий BankOps"
+    [disabled]="true"
+    [regExprValidation]="FILES_COMMENTARY_REGEXPR"
+    [maxLength]="250"
+  >
+  </pe-textarea>
+  <pe-indent [mBottom]="3"></pe-indent>
+  <div class="files-modal-buttons">
+    <p-button styleClass="p-button-danger" [label]="'Отменить'" (click)="onCancel()"> </p-button>
+    <pe-indent [inline]="true" [mLeft]="3"></pe-indent>
+    <p-button styleClass="p-button-success" [label]="'Сохранить'" [disabled]="!filesUploaded" (click)="onSave()"> </p-button>
+  </div>
 </pe-file-uploading-modal>

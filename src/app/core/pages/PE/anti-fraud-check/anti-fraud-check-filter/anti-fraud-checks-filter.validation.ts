@@ -40,17 +40,21 @@ export class AntiFraudChecksValidation {
 
     public validateOnEmpty(group: FormGroup<AntiFraudCheckFilterForm>): void {
         const { 
-            IdPE,
-            applicationId,
+            paymentID,
+            applicationID,
             dateTimeFrom,
-            dateTimeTo
+            dateTimeTo,
+            agedOnly,
+            manualAntiFraudCheckStatusList
         } = group.controls;
 
         const emptyValidation = [
-            IdPE.value,
-            applicationId.value,
+            paymentID.value,
+            applicationID.value,
             dateTimeFrom.value,
-            dateTimeTo.value
+            dateTimeTo.value,
+            !!agedOnly.value,
+            !!manualAntiFraudCheckStatusList.value.length
         ].every(v => !v);
         
         if ((group.touched || group.dirty) && emptyValidation){

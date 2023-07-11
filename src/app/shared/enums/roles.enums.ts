@@ -3,9 +3,9 @@ export enum RolesList {
     AP_TEST_PE_Users = "AP.TEST.PE_Users",
     AP_TEST_PEWeb_ManualChecks = "AP.TEST.PEWeb.ManualChecks",
     AP_TEST_PEWeb_BankOps = "AP.TEST.PEWeb.BankOps",
-    AP_TEST_PEWeb_AntiFraud = "AP.TEST.PEWeb.AntiFraud",
     AP_TEST_PEWeb_AML= "AP.PEWeb.AML",
-    AP_TEST_PEWeb_AMLControl = "AP.TEST.PEWeb.AMLControl"
+    AP_TEST_PEWeb_AMLControl = "AP.TEST.PEWeb.AMLControl",
+    AP_TEST_PEWeb_AntiFraud = "AP.TEST.PEWeb.AntiFraud"
 }
 
 export enum ProdRolesList {

@@ -102,7 +102,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       
       this.bankOpsGroup.disable();
       this.bankOpsGroup.controls.commentary.enable();
-      this.bankOpsGroup.setValue({...prepareBankOpsDetails(value), commentary: null});
+      this.bankOpsGroup.patchValue({...prepareBankOpsDetails(value), commentary: null});
       PaymentEngineHelper.scrollToTop();
     });
 

@@ -40,7 +40,7 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
         if (!!this.antiFraudCheckService.$filter.value){
             this.filter = this.antiFraudCheckService.$filter.value;
         }
-        this.changeDetector.detectChanges();
+        // this.changeDetector.detectChanges();
     }
 
     public clear(): void {

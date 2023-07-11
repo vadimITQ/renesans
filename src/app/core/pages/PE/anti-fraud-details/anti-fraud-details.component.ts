@@ -6,6 +6,7 @@ import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AntiFraudDetailsForm, IAntiFraudAutoCheck } from "./anti-fraud-details.types";
 import { ActivatedRoute } from '@angular/router';
+import { IAntiFraudDetails } from './anti-fraud-details.types';
 import { prepareAntiFraudDetails } from './anti-fraud-details.utils';
 import { Subscription } from 'rxjs';
 import { IManualCheck } from "src/app/shared/types/get-application-details";
@@ -88,7 +89,22 @@ export class AntiFraudDetailsComponent implements OnInit, OnDestroy {
       });
       this.subscriptions['getManualCheckMode'] = getManualCheckMode;
 
-      this.form.setValue(prepareAntiFraudDetails(value));
+      const antiFraudDeatails = prepareAntiFraudDetails(value);
+      
+      this.form.patchValue({
+        amount: antiFraudDeatails.amount,
+        payeeAccount: antiFraudDeatails.payeeAccount,
+        payeeBIC: antiFraudDeatails.payeeBIC,
+        payeeINN: antiFraudDeatails.payeeINN,
+        payeeName: antiFraudDeatails.payeeName,
+        payerAccount: antiFraudDeatails.payerAccount,
+        payerName: antiFraudDeatails.payerName,
+        paymentID: antiFraudDeatails.paymentID,
+        paymentPurpose: antiFraudDeatails.paymentPurpose,
+        pmtCreationTime: antiFraudDeatails.pmtCreationTime,
+        autoChecks: antiFraudDeatails.autoChecks,
+        manualChecks: antiFraudDeatails.manualChecks, 
+      });
 
       PaymentEngineHelper.scrollToTop();
     });
@@ -106,5 +122,5 @@ export class AntiFraudDetailsComponent implements OnInit, OnDestroy {
   cancel() {
     this.antiFraudDetailsService.saveManualCheckMode(this.paymentID, '5');
   }
-
+  
 }

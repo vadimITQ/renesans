@@ -2,11 +2,11 @@ import { subDays } from 'date-fns';
 import { IAmlCheckFiltersForm} from "./aml-check-filters.types";
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { IAmlCheckFiltersPayload } from "src/app/core/services/aml-check/types";
 import { DatePickerHelper } from 'src/app/shared/components/controls/date-picker/date-picker-helper';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { PEGlobalValidators } from 'src/app/shared/components/reactive-controls/validations';
 import { AmlCheckFilterValidation } from './aml-check-filter.validation';
+import { IGetApplicationsListPayload } from 'src/app/shared/types/get-applications-list';
 
 @Injectable({
   providedIn: "root"
@@ -38,7 +38,7 @@ export class AmlCheckFiltersUtils {
     )
   }
 
-  prepareFilterValues(filter: FormGroup<IAmlCheckFiltersForm>): IAmlCheckFiltersPayload {
+  prepareFilterValues(filter: FormGroup<IAmlCheckFiltersForm>): IGetApplicationsListPayload {
     
     const {
       dateTimeFrom,
@@ -50,12 +50,12 @@ export class AmlCheckFiltersUtils {
     } = filter.controls;
 
     return {
-      applicationID: applicationID.value,
-      paymentID: paymentID.value,
-      dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? null),
-      dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? null),
-      applicationStatus: applicationStatuses.value.map(v => v.value) ?? null,
-      onlyExpired: agedOnly.value
+      applicationID: applicationID.value ?? undefined,
+      paymentID: paymentID.value ?? undefined,
+      dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? null) ?? undefined,
+      dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? null) ?? undefined,
+      applicationStatuses: applicationStatuses.value.map(v => v.value) ?? undefined,
+      agedOnly: agedOnly.value
     };
 
   }

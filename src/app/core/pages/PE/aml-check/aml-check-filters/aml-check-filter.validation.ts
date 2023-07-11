@@ -35,9 +35,9 @@ export class AmlCheckFilterValidation {
 
     validateOnEmpty(filter: FormGroup<IAmlCheckFiltersForm>) {
 
-        const { applicationID, applicationStatus, dateTimeFrom, dateTimeTo, onlyExpired, paymentID } = filter.controls;
+        const { applicationID, applicationStatuses, dateTimeFrom, dateTimeTo, agedOnly, paymentID } = filter.controls;
 
-        const validateOnEmpty = !!applicationID.value || !!applicationStatus.value.length || !!dateTimeFrom.value || !!dateTimeTo.value || !!onlyExpired.value || !!paymentID.value;
+        const validateOnEmpty = !!applicationID.value || !!applicationStatuses.value.length || !!dateTimeFrom.value || !!dateTimeTo.value || !!agedOnly.value || !!paymentID.value;
 
         if (!validateOnEmpty) {
             Object.keys(filter.controls).forEach(k => {

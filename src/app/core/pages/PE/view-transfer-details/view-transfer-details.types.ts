@@ -7,7 +7,7 @@ export interface ITransferDetailsWithRetRefNumber extends Omit<ITransferDetails,
 }
 
 export interface ItransferDetailsForm {
-  amount: FormControl<number | null>;
+  amount: FormControl<string | null>;
   appCreationTime: FormControl<string | null>;
   idPH: FormControl<string | null>;
   operatorLegalName: FormControl<string | null>;

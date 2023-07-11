@@ -49,7 +49,24 @@ export class ViewTransferDetailsComponent implements OnInit {
 
       const {statusHistory, ...details} = this.transferDetails;
 
-      this.transferDetailsForm.setValue(details);
+      this.transferDetailsForm.setValue(
+        {
+          amount: details.amount,
+          appCreationTime: details.appCreationTime,
+          idPH: details.idPH,
+          operatorLegalName: details.operatorLegalName,
+          payeeAccount: details.payeeAccount,
+          payeeBankBIC: details.payeeBankBIC,
+          payeeInn: details.payeeInn,
+          payeeName: details.payeeName,
+          payerAccount: details.payerAccount,
+          payerName: details.payerName,
+          paymentID: details.paymentID,
+          paymentPurpose: details.paymentPurpose,
+          retRefNumber: details.retRefNumber,
+          serviceName: details.serviceName
+        }
+      );
 
     });
   }

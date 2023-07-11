@@ -13,7 +13,7 @@ import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import { IColumn } from '../../../../../shared/types/table.types';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
-import { prepareSearchFilters } from '../search-payment-filters/search-payment-filters.utils';
+import { SearchPaymentsFilterUtils } from '../search-payment-filters/search-payment-filters.utils';
 
 @Component({
   selector: 'app-search-payment-table',
@@ -29,6 +29,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
     private datePipe: DatePipe,
     private peNavigationService: PeNavigationService,
     private peRolesService: PeRolesService,
+    private utils: SearchPaymentsFilterUtils
   ) {}
 
   ngOnDestroy(): void {
@@ -44,11 +45,11 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   private paymentResponseStateSubscription!: Subscription;
 
   generateReport() {
-    if (!!this.searchPaymentService.$filters.value) {
+    if (!!this.searchPaymentService.$filter.value) {
       this.searchPaymentService.getPaymentsReport({
         isSBPReport: false,
         isManualParse: false,
-        searchPayments: prepareSearchFilters(this.searchPaymentService.$filters.value)
+        searchPayments: this.utils.prepareSearchFilters(this.searchPaymentService.$filter.value)
       })
       .subscribe(value =>
         value
@@ -63,11 +64,11 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
   }
 
   generateSbpReport() {
-    if (!!this.searchPaymentService.$filters.value) {
+    if (!!this.searchPaymentService.$filter.value) {
       this.searchPaymentService.getPaymentsReport({
         isSBPReport: true,
         isManualParse: false,
-        searchPayments: prepareSearchFilters(this.searchPaymentService.$filters.value)
+        searchPayments: this.utils.prepareSearchFilters(this.searchPaymentService.$filter.value)
       }).subscribe(buffer => {
         if (!!buffer) {
           XlsxHelper.saveAsExcelFile(

@@ -1,9 +1,11 @@
+
 export interface IGetApplicationsListPayload {
   paymentID?: string;
   agedOnly?: boolean;
   applicationID?: string;
   dateTimeFrom?: string;
   dateTimeTo?: string;
+  applicationStatuses?: string[];
   manualAMLCheckStatusList?: string[];
   manualAntiFraudCheckStatusList?: string[];
   manualBankOpsCheckStatusList?: string[];

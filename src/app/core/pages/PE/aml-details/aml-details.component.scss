@@ -22,7 +22,7 @@
 
   > .bottom-buttons {
     display: flex;
-    gap: 30px
+    gap: 30px;
   }
 }
 
@@ -37,10 +37,10 @@
 :host .files-modal-buttons {
   ::ng-deep {
     p-button {
-        > button {
-            border-radius: 6px;
-            width: 120px;
-        }
+      > button {
+        border-radius: 6px;
+        width: 120px;
+      }
     }
   }
   .buttons {

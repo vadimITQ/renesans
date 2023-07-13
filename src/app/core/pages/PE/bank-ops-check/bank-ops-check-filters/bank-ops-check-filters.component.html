@@ -2,31 +2,17 @@
   <h5>BankOps проверка</h5>
 
   <div class="input-row">
-    <pe-input-form 
-      label="ID PE"
-      [control]="filter.controls.paymentID"
-      [maxLength]="36">
-    </pe-input-form>
-    <pe-input-form 
-      label="ID Заявки"
-      [control]="filter.controls.applicationID"
-      [maxLength]="70">
-    </pe-input-form>
+    <pe-input-form label="ID PE" [control]="filter.controls.paymentID" [maxLength]="36"> </pe-input-form>
+    <pe-input-form label="ID Заявки" [control]="filter.controls.applicationID" [maxLength]="70"> </pe-input-form>
   </div>
 
   <div class="date-row">
-    <pe-date-picker-form 
-      [control]="filter.controls.dateTimeFrom"
-      label="Дата/Время с"
-      [labelStyle]="{ width: '200px' }">
+    <pe-date-picker-form [control]="filter.controls.dateTimeFrom" label="Дата/Время с" [labelStyle]="{ width: '200px' }">
     </pe-date-picker-form>
   </div>
-  
+
   <div class="date-row">
-    <pe-date-picker-form 
-      [control]="filter.controls.dateTimeTo"
-      label="Дата/Время по"
-      [labelStyle]="{ width: '200px' }">
+    <pe-date-picker-form [control]="filter.controls.dateTimeTo" label="Дата/Время по" [labelStyle]="{ width: '200px' }">
     </pe-date-picker-form>
   </div>
 
@@ -37,14 +23,14 @@
         [dataset]="multiselectDataSetsEnum.GetApplicationStatuses"
         placeholder="Выберите состояние заявки"
         label="Состояния заявки"
-        [labelStyle]="{ 'min-width': '225px', display: 'block' }">
+        [labelStyle]="{ 'min-width': '225px', display: 'block' }"
+      >
       </pe-multiselect-form>
     </div>
   </div>
 
   <div>
-    <button pButton class="pe-button" [label]="'Очистить'" (click)="onClear()"></button>
+    <button pButton class="pe-button-grey" [label]="'Очистить'" (click)="onClear()"></button>
     <button pButton class="pe-button ml-2" [label]="'Найти'" (click)="onSearch()"></button>
   </div>
-
 </div>

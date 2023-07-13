@@ -1,13 +1,11 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AmlCheckFiltersUtils,
-} from './aml-check-filters.utils';
+import { AmlCheckFiltersUtils } from './aml-check-filters.utils';
 import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
-import {IAmlCheckFiltersForm} from "./aml-check-filters.types";
-import {AmlCheckService} from "../../../../services/aml-check/aml-check.service";
-import {PeRolesService} from "../../../../services/auth/pe-roles.service";
+import { IAmlCheckFiltersForm } from './aml-check-filters.types';
+import { AmlCheckService } from '../../../../services/aml-check/aml-check.service';
+import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
-import { AmlCheckFilterValidation } from "./aml-check-filter.validation";
+import { AmlCheckFilterValidation } from './aml-check-filter.validation';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -16,13 +14,12 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./aml-check-filters.component.scss'],
 })
 export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
-  
   constructor(
     private amlCheckService: AmlCheckService,
     private changeDetectionRef: ChangeDetectorRef,
     private peRolesService: PeRolesService,
     private amlUtils: AmlCheckFiltersUtils,
-    private validation: AmlCheckFilterValidation
+    private validation: AmlCheckFilterValidation,
   ) {}
 
   public filter: FormGroup<IAmlCheckFiltersForm> = this.amlUtils.createDefaultFilter();
@@ -46,6 +43,7 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
 
   onClear() {
     PEReactiveHelper.resetForm(this.filter);
+    this.amlCheckService.$tableData.next(null);
   }
 
   get hasAccessToSearchAgedOnly() {
@@ -53,16 +51,12 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
-
     this.validation.validateFilter(this.filter, true);
 
-    if (this.filter.valid){
+    if (this.filter.valid) {
       this.amlCheckService.filter(this.amlUtils.prepareFilterValues(this.filter));
-    }
-    else {
+    } else {
       this.amlUtils.showErrorMessages(this.filter);
     }
-
   }
-
 }

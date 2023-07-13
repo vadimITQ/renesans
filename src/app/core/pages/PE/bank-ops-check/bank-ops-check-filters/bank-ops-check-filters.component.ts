@@ -38,6 +38,7 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
 
   onClear() {
     PEReactiveHelper.resetForm(this.filter)
+    this.bankOpsCheckService.$tableData.next(null)
   }
 
   onSearch() {

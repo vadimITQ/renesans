@@ -1,36 +1,18 @@
-
 <div class="aml-check-filter" [formGroup]="filter">
-
   <h5>AML проверка</h5>
 
   <div class="input-row">
-    <pe-input-form 
-      [control]="filter.controls.paymentID" 
-      label="ID PE"
-      [maxLength]="36">
-    </pe-input-form>
-    <pe-input-form 
-      [control]="filter.controls.applicationID" 
-      label="ID Заявки"
-      [maxLength]="70">
-    </pe-input-form>
+    <pe-input-form [control]="filter.controls.paymentID" label="ID PE" [maxLength]="36"> </pe-input-form>
+    <pe-input-form [control]="filter.controls.applicationID" label="ID Заявки" [maxLength]="70"> </pe-input-form>
   </div>
 
   <div class="date-row">
-    <pe-date-picker-form
-      [control]="filter.controls.dateTimeFrom"
-      label="Дата/Время с"
-      [showTime]="false"
-      [labelStyle]="{ width: '200px' }">
+    <pe-date-picker-form [control]="filter.controls.dateTimeFrom" label="Дата/Время с" [showTime]="false" [labelStyle]="{ width: '200px' }">
     </pe-date-picker-form>
   </div>
 
   <div class="date-row">
-    <pe-date-picker-form
-      [control]="filter.controls.dateTimeTo"
-      label="Дата/Время по"
-      [showTime]="false"
-      [labelStyle]="{ width: '200px' }">
+    <pe-date-picker-form [control]="filter.controls.dateTimeTo" label="Дата/Время по" [showTime]="false" [labelStyle]="{ width: '200px' }">
     </pe-date-picker-form>
   </div>
 
@@ -41,22 +23,19 @@
         [dataset]="multiselectDataSetsEnum.GetAmlApplicationStatuses"
         label="Состояния заявки"
         placeholder="Выберите состояние заявки"
-        [labelStyle]="{ 'min-width': '225px', display: 'block' }">
+        [labelStyle]="{ 'min-width': '225px', display: 'block' }"
+      >
       </pe-multiselect-form>
     </div>
   </div>
 
   <div class="input-row">
-    <pe-checkbox-form
-      label="Только просроченные"
-      [control]="filter.controls.agedOnly"
-      [disabled]="!hasAccessToSearchAgedOnly">
+    <pe-checkbox-form label="Только просроченные" [control]="filter.controls.agedOnly" [disabled]="!hasAccessToSearchAgedOnly">
     </pe-checkbox-form>
   </div>
-  
-  <div>
-    <button pButton class="pe-button"      [label]="'Очистить'" (click)="onClear()"></button>
-    <button pButton class="pe-button ml-2" [label]="'Найти'"    (click)="onSearch()"></button>
-  </div>
 
+  <div>
+    <button pButton class="pe-button-grey" [label]="'Очистить'" (click)="onClear()"></button>
+    <button pButton class="pe-button ml-2" [label]="'Найти'" (click)="onSearch()"></button>
+  </div>
 </div>

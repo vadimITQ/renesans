@@ -37,7 +37,7 @@ export class AmlCheckFilterValidation {
 
         const { applicationID, applicationStatuses, dateTimeFrom, dateTimeTo, agedOnly, paymentID } = filter.controls;
 
-        const validateOnEmpty = !!applicationID.value || !!applicationStatuses.value.length || !!dateTimeFrom.value || !!dateTimeTo.value || !!agedOnly.value || !!paymentID.value;
+        const validateOnEmpty = !!applicationID.value || !!applicationStatuses.value?.length || !!dateTimeFrom.value || !!dateTimeTo.value || !!agedOnly.value || !!paymentID.value;
 
         if (!validateOnEmpty) {
             Object.keys(filter.controls).forEach(k => {

@@ -22,9 +22,13 @@ export class PeBackArrowComponent {
   @Input() labelStyle: { [styleKey: string]: string } = DEFAULT_LABEL_STYLE;
   @Input() iconStyle: { [styleKey: string]: string } = DEFAULT_ICON_STYLE;
   @Input() animate: boolean = true;
+  @Input() disable: boolean = false;
   @Output() listenBack: EventEmitter<void> = new EventEmitter<void>();
 
   public goBack() {
+    if (this.disable){
+      return;
+    }
     this.peNavigation.goBack();
     this.listenBack.emit();
   }

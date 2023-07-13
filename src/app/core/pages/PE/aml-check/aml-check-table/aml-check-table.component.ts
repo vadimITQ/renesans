@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { amlCheckTableColumns } from './aml-check-table.constants';
 import { Subscription } from 'rxjs';
 import { ToastService } from '../../../../../shared/services/toast.service';
-import { DatePipe } from '@angular/common';
 import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navigation.service';
 import { PeRolesService } from '../../../../services/auth/pe-roles.service';
 import { IColumn } from '../../../../../shared/types/table.types';
@@ -16,10 +15,10 @@ import { prepareAmlCheckData } from './aml-check-table.utils';
   styleUrls: ['./aml-check-table.component.scss'],
 })
 export class AmlCheckTableComponent implements OnInit, OnDestroy {
+  
   constructor(
     public amlCheckService: AmlCheckService,
     private toastService: ToastService,
-    private datePipe: DatePipe,
     private peNavigationService: PeNavigationService,
     private peRolesService: PeRolesService,
   ) {}
@@ -32,7 +31,8 @@ export class AmlCheckTableComponent implements OnInit, OnDestroy {
 
   public tableColumns: IColumn[] = amlCheckTableColumns;
   public tableData: IApplication[] | null = null;
-  public amlCheckResponse: IApplication[] | null = [];
+  public amlCheckResponse: IApplication[] | null | undefined = [];
+  public skipFirst: boolean = true;
   private paymentResponseStateSubscription!: Subscription;
 
   linkClick(id: string) {
@@ -59,6 +59,12 @@ export class AmlCheckTableComponent implements OnInit, OnDestroy {
     this.paymentResponseStateSubscription = this.amlCheckService.$tableData.subscribe(amlCheckResponse => {
       this.amlCheckResponse = amlCheckResponse;
       this.tableData = amlCheckResponse ? prepareAmlCheckData(amlCheckResponse) : null;
+      if (this.skipFirst){
+        this.skipFirst = false;
+      }
+      else if (amlCheckResponse !== undefined && !this.tableData?.length) {
+        this.toastService.showWarnToast('Ничего не найдено, проверьте параметры запроса и интервалы дат');
+      }
     });
   }
 }

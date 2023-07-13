@@ -7,9 +7,12 @@ import { Observable } from 'rxjs/internal/Observable';
   selector: '[allowedInputCharactersReg]',
 })
 export class AllowedInputCharactersDirective implements OnDestroy {
+
   @Input() allowedInputCharactersReg!: RegExp;
 
   @Input() disableCharactersValidation: boolean = false;
+
+  @Input() disabled!: boolean;
 
   private bindKeypressEventSubscribtion!: Subscription;
 
@@ -24,7 +27,7 @@ export class AllowedInputCharactersDirective implements OnDestroy {
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
-    if (this.disableCharactersValidation) {
+    if (this.disableCharactersValidation || this.disabled) {
       return;
     }
     if (this.allowedInputCharactersReg) {
@@ -37,18 +40,18 @@ export class AllowedInputCharactersDirective implements OnDestroy {
   }
 
   private listenCtrlV() {
-    if (this.disableCharactersValidation) {
+    if (this.disableCharactersValidation || this.disabled) {
       return;
     }
     this.bindKeypressEventSubscribtion = this.bindKeypressEvent().subscribe(($event: KeyboardEvent) => this.onCtrvPressed($event));
   }
 
   private onCtrvPressed($event: KeyboardEvent) {
-    if (this.disableCharactersValidation) {
+    if (this.disableCharactersValidation || this.disabled) {
       return;
     }
     const valid = this.allowedInputCharactersReg.test(this.ngControl.value);
-    if (!valid && !!this.ngControl.value) {
+    if (!valid && !!this.ngControl.value && !!this.ngControl.value.split) {
       let result = '';
       (this.ngControl.value as string).split('').forEach(char => {
         const validCharacter = this.allowedInputCharactersReg.test(char);

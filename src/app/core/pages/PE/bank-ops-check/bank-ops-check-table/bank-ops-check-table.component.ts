@@ -16,6 +16,7 @@ import { prepareBankOpsCheckData } from './bank-ops-check-table.utils';
   styleUrls: ['./bank-ops-check-table.component.scss'],
 })
 export class BankOpsCheckTableComponent implements OnInit, OnDestroy {
+  
   constructor(
     public bankOpsCheckService: BankOpsCheckService,
     private toastService: ToastService,
@@ -32,7 +33,8 @@ export class BankOpsCheckTableComponent implements OnInit, OnDestroy {
 
   public tableColumns: IColumn[] = bankOpsCheckTableColumns;
   public tableData: IApplication[] | null = null;
-  public bankOpsCheckResponse: IApplication[] | null = [];
+  public bankOpsCheckResponse: IApplication[] | null | undefined = [];
+  private skipFirst: boolean = true;
   private paymentResponseStateSubscription!: Subscription;
 
   linkClick(id: string) {
@@ -56,6 +58,12 @@ export class BankOpsCheckTableComponent implements OnInit, OnDestroy {
     this.paymentResponseStateSubscription = this.bankOpsCheckService.$tableData.subscribe(bankOpsCheckResponse => {
       this.bankOpsCheckResponse = bankOpsCheckResponse;
       this.tableData = bankOpsCheckResponse ? prepareBankOpsCheckData(bankOpsCheckResponse) : null;
+      if (this.skipFirst){
+        this.skipFirst = false;
+      }
+      else if (bankOpsCheckResponse !== undefined && !this.tableData?.length) {
+        this.toastService.showWarnToast('Ничего не найдено, проверьте параметры запроса и интервалы дат');
+      }
     });
   }
 }

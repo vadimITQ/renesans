@@ -54,7 +54,7 @@ export class AntiFraudChecksValidation {
             dateTimeFrom.value,
             dateTimeTo.value,
             !!agedOnly.value,
-            !!manualAntiFraudCheckStatusList.value.length
+            !!manualAntiFraudCheckStatusList.value?.length
         ].every(v => !v);
         
         if ((group.touched || group.dirty) && emptyValidation){

@@ -1,7 +1,7 @@
 
 <div class="pe-bank-ops-header" [formGroup]="bankOpsGroup">
     <pe-indent [mTop]="4"></pe-indent>
-    <pe-back-arrow></pe-back-arrow>
+    <pe-back-arrow (listenBack)="back()"></pe-back-arrow>
     <pe-indent [mBottom]="3"></pe-indent>
 </div>
 
@@ -17,7 +17,7 @@
   <div class="info-block" *ngIf="!loading; else elseBlock">
       <pe-input-form [control]="bankOpsGroup.controls.paymentID"        label="ID PE"                                    [labelStyle]="labelsStyle" [disabled]="true" ></pe-input-form>
       <pe-input-form [control]="bankOpsGroup.controls.pmtCreationTime"  label="Дата заявки PE"                           [labelStyle]="labelsStyle" [disabled]="true" ></pe-input-form>
-      <pe-input-form [control]="bankOpsGroup.controls.payerName"        label="ФИО плательщика"                          [labelStyle]="labelsStyle" [disabled]="true" ></pe-input-form>
+      <pe-input-form [control]="bankOpsGroup.controls.payerName"        label="ФИО плательщика/наименование организации" [labelStyle]="labelsStyle" [disabled]="true" ></pe-input-form>
       <pe-input-form [control]="bankOpsGroup.controls.payerAccount"     label="Счёт списания"                            [labelStyle]="labelsStyle" [disabled]="true" ></pe-input-form>
       <pe-input-form [control]="bankOpsGroup.controls.payeeName"        label="ФИО получателя/наименование организации"  [labelStyle]="labelsStyle" [disabled]="true" ></pe-input-form>
       <pe-input-form [control]="bankOpsGroup.controls.payeeAccount"     label="Счёт получателя"                          [labelStyle]="labelsStyle" [disabled]="true" ></pe-input-form>
@@ -142,8 +142,8 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th>ID приложенного документа</th>
-          <th>Дата и время вложения документа</th>
+          <th>ID документа</th>
+          <th>Дата и время вложения</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-detailsItem>
@@ -163,13 +163,14 @@
   <div class="paragraph">
     <pe-indent [mTop]="4"></pe-indent>
     Запрошенные документы
-    <pe-indent [mBottom]="3"></pe-indent>
+    <pe-indent [mBottom]="4"></pe-indent>
   </div>
 
   <div class="requested-docs">
     <p-button
       *ngIf="!loading"
       [label]="'Добавить документ'"
+      [disabled]="readOnly"
       styleClass="p-button-info p-button-sm"
       (click)="addDocument()"
     >
@@ -213,6 +214,7 @@
               label="Редактировать"
               icon="pi pi-user-edit"
               iconPos="right"
+              [disabled]="editFilesDisabled"
               (click)="editUploadingItem(data)"
               styleClass="p-button-sm p-button-outlined p-button-success">
             </p-button>
@@ -222,6 +224,7 @@
               label="Удалить"
               icon="pi pi-trash"
               iconPos="right"
+              [disabled]="deleteFilesDisabled"
               (click)="deleteUploadingItem(data)"
               styleClass="p-button-sm p-button-outlined p-button-danger">
             </p-button>
@@ -235,7 +238,11 @@
   <pe-indent [mTop]="4"></pe-indent>
 
   <div class="commentary">
-    <pe-input-form [control]="bankOpsGroup.controls.commentary" label="Общий комментарий к документам" [maxLength]="250"></pe-input-form>
+    <pe-input-form 
+      [control]="bankOpsGroup.controls.commentary" 
+      [disabled]="readOnly"
+      label="Общий комментарий к документам" 
+      [maxLength]="250"></pe-input-form>
   </div>
 
   <pe-indent [mTop]="4"></pe-indent>
@@ -243,6 +250,7 @@
   <div class="bottom-buttons">
     <p-button
       (click)="approve()"
+      [disabled]="readOnly"
       class="bottom-button-approve"
       label="Подтвердить заявку"
       icon="pi pi-check"
@@ -251,6 +259,7 @@
     </p-button>
     <p-button
       (click)="cancel()"
+      [disabled]="readOnly"
       class="bottom-button-cancel"
       label="Отклонить заявку"
       icon="pi pi-times"
@@ -259,6 +268,7 @@
     </p-button>
     <p-button
       (click)="sendDocs()"
+      [disabled]="readOnly"
       class="bottom-button-send-docs"
       label="Отправить документы"
       icon="pi pi-reply"
@@ -267,12 +277,12 @@
     </p-button>
     <p-button
       (click)="requestSWIFT()"
+      [disabled]="readOnly"
       class="bottom-button-request-swift"
       label="Запросить документы по SWIFT-платежу"
       icon="pi pi-file"
       iconPos="right"
-      styleClass="p-button-info"
-    >
+      styleClass="p-button-info">
     </p-button>
   </div>
 

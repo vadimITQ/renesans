@@ -6,7 +6,7 @@ export interface IAmlCheckFiltersForm {
   dateTimeTo: FormControl<Date | null>;
   paymentID: FormControl<string | null>;
   applicationID: FormControl<string | null>;
-  applicationStatuses: FormControl<IMultiSelectData[]>;
+  applicationStatuses: FormControl<IMultiSelectData[] | null>;
   agedOnly: FormControl<boolean>;
 }
 

@@ -7,6 +7,6 @@ export interface AntiFraudCheckFilterForm {
   applicationID: FormControl<string | null>;
   dateTimeFrom: FormControl<Date | null>;
   dateTimeTo: FormControl<Date | null>;
-  manualAntiFraudCheckStatusList: FormControl<IMultiSelectData[]>;
+  manualAntiFraudCheckStatusList: FormControl<IMultiSelectData[] | null>;
   agedOnly: FormControl<boolean>;
 }

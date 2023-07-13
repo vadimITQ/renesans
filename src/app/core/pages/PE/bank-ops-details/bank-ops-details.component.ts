@@ -2,9 +2,9 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { PeRolesService } from "src/app/core/services/auth/pe-roles.service";
 import { BankOpsDetailsService } from "src/app/core/services/bank-ops-check/bank-ops-details.service";
-import { IBankOpsDetails, IBankOpsFormGroup } from "./bank-ops-details.types";
+import { IBankOpsFormGroup } from "./bank-ops-details.types";
 import { PaymentEngineHelper } from "src/app/shared/classes/pe-helper";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { IBankOpsDetailsRequestedDocs } from './bank-ops-details.types';
 import { FileUploadingModal, IPEUploadingData } from 'src/app/shared/components/file-uploading-modal/file-uploading-modal.types';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -15,6 +15,8 @@ import { Any, commentaryExpr } from 'src/app/shared/variables/pe-input-validatio
 import { IMultiSelectData } from 'src/app/shared/components/controls/pe-multiselect/pe-multiselect.component';
 import { LoadingService } from 'src/app/shared/services/loading.service';
 import { IAutoCheck, IManualCheck, IRequestedDocument, IResponsedDocument } from "src/app/shared/types/get-application-details";
+import { PeConfig } from "src/app/shared/config/config";
+import { PeNavigationService } from "src/app/core/services/pe-navigation/pe-navigation.service";
 
 @Component({
   selector: 'app-bank-ops-details',
@@ -29,7 +31,8 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       private toast: ToastService,
       private fb: FormBuilder,
       private activatedRoute: ActivatedRoute,
-      private loadingService: LoadingService
+      private loadingService: LoadingService,
+      private peNavigation: PeNavigationService
   ) { }
   
   public bankOpsGroup: FormGroup<IBankOpsFormGroup> = this.createEmptyForm();
@@ -46,6 +49,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   };
   public loading: boolean = false;
   public commentary: string = '';
+  public startDate: Date | null = null;
   public readonly COMMENTARY_EXPR = commentaryExpr;
 
   public requestedDocsData:IBankOpsDetailsRequestedDocs[] = [];
@@ -75,35 +79,60 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     return !!this.uploadingModal.files.length;
   }
 
+  get deleteFilesDisabled(): boolean {
+    return this.readOnly;
+  }
+
+  get editFilesDisabled(): boolean {
+    return this.readOnly;
+  }
+
+  get showDocs(): boolean {
+    return true;
+    // return EXT_SWIFT
+  }
+
+  get applicationExpired(): boolean { 
+    if (!!this.startDate){
+      const diff = new Date().getTime() - this.startDate.getTime();
+      return (diff / 1000) > PeConfig.manualBankOpsCheckTimeOut;
+    }
+    else {
+      return false;
+    }
+  }
 
   loadData() {
 
     const bankOpsDetailsId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.bankOpsGroup.disable();
 
     if (!bankOpsDetailsId) {
       return;
     }
     this.loading = true;
     this.bankOpsDetailsService.getBankOpsDetails(bankOpsDetailsId).subscribe(value => {
+
       if (!value) {
         this.loading = false;
-
         return;
       }
+
       this.paymentID = value.payment.paymentID;
       this.loading = false;
 
       this.bankOpsDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
         this.readOnly = manualCheckModeResponse.readOnly;
         if (!manualCheckModeResponse.readOnly) {
-          this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '2');
+          this.bankOpsGroup.enable();
+          this.startDate = new Date();
+          this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '2').subscribe();
         }
       });
       
-      this.bankOpsGroup.disable();
-      this.bankOpsGroup.controls.commentary.enable();
       this.bankOpsGroup.patchValue({...prepareBankOpsDetails(value), commentary: null});
       PaymentEngineHelper.scrollToTop();
+
     });
 
   }
@@ -132,20 +161,50 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     this.loadData();
   }
 
+  back() {
+    if (!this.readOnly) {
+      
+    }
+  }
+
   approve() {
-    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '3');
+    if (this.readOnly){return};
+    if (this.applicationExpired){
+        this.toast.showWarnToast('Время, отведенное на обработку заявки, истекло. Откройте заявку на рассмотрение повторно');
+    }
+    else {
+      this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '3').subscribe(() => this.peNavigation.goBack());
+    }
   }
 
   cancel() {
-    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '5');
+    if (this.readOnly){return};
+    if (this.applicationExpired){
+        this.toast.showWarnToast('Время, отведенное на обработку заявки, истекло. Откройте заявку на рассмотрение повторно');
+    }
+    else {
+      this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '5').subscribe(() => this.peNavigation.goBack());
+    }
   }
 
   sendDocs() {
-    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '4');
+    if (this.readOnly){return};
+    if (this.applicationExpired){
+        this.toast.showWarnToast('Время, отведенное на обработку заявки, истекло. Откройте заявку на рассмотрение повторно');
+    }
+    else {
+      this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '4').subscribe(() => this.peNavigation.goBack());
+    }
   }
 
   requestSWIFT() {
-    this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '6');
+    if (this.readOnly){return};
+    if (this.applicationExpired){
+        this.toast.showWarnToast('Время, отведенное на обработку заявки, истекло. Откройте заявку на рассмотрение повторно');
+    }
+    else {
+      this.bankOpsDetailsService.saveManualCheckMode(this.paymentID, '6').subscribe(() => this.peNavigation.goBack());
+    }
   }
 
   ngOnDestroy(): void {
@@ -154,6 +213,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     }
   }
   addDocument() {
+    if (this.readOnly){return;}
     this.uploadingModal.showModal();
   }
 

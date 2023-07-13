@@ -15,7 +15,7 @@ interface TableResponse<TData> {
 type FetchTableDataFn<TData, TFilters> = (filters: TFilters, pagination: Pagination) => Observable<TableResponse<TData>>;
 
 export class TableService<TData, TFilters> {
-  $tableData: BehaviorSubject<TData[] | null> = new BehaviorSubject<TData[] | null>(null);
+  $tableData: BehaviorSubject<TData[] | null | undefined> = new BehaviorSubject<TData[] | null | undefined>(null);
   $loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private readonly fetchFn: FetchTableDataFn<TData, TFilters> | null = null;
@@ -48,6 +48,11 @@ export class TableService<TData, TFilters> {
     }
     this.$loading.next(true);
     const sub = this.fetchFn(this.filters, this.pagination).subscribe(response => {
+      if (('error' in response)){
+        this.$loading.next(false);
+        sub.unsubscribe();
+        return;
+      }
       this.$tableData.next(response.data);
       this.count = response.count;
 

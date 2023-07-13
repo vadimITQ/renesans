@@ -46,6 +46,7 @@ export class AmlCheckFiltersComponent implements OnInit, OnDestroy {
 
   onClear() {
     PEReactiveHelper.resetForm(this.filter);
+    this.amlCheckService.$tableData.next(undefined);
   }
 
   get hasAccessToSearchAgedOnly() {

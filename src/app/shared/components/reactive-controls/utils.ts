@@ -14,6 +14,13 @@ export class PEReactiveHelper {
         formGroup.reset();
     }
 
+    static extractValues(formGroup: FormGroup): any {
+        return Object.keys(formGroup.controls).reduce((p, key) => {
+            p[key] = formGroup.get(key)?.value ?? null;
+            return p;
+        }, {} as any);
+    }
+
     static triggerControlsValidations(formGroup: FormGroup): void {
         Object.keys(formGroup.controls).forEach(key => {
             const control = formGroup.get(key);

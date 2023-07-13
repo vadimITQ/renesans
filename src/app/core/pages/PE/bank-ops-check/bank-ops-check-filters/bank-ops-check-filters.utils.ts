@@ -28,7 +28,7 @@ export class BankOpsCheckFilterUtils {
         dateTimeFrom: new FormControl(dateFrom),
         dateTimeTo: new FormControl(dateTo),
         paymentID: new FormControl(""),
-        manualBankOpsCheckStatusList: new FormControl([], { nonNullable: true })
+        manualBankOpsCheckStatusList: new FormControl([{ label: 'Ожидает рассмотрения BankOps', value: '1' }])
       },
       {
         validators: (group) => this.validation.validateFilter(group as FormGroup<IBankOpsCheckFilterForm>),
@@ -52,7 +52,7 @@ export class BankOpsCheckFilterUtils {
       paymentID: paymentID.value ?? undefined,
       dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? '') ?? undefined,
       dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? '') ?? undefined,
-      manualBankOpsCheckStatusList: manualBankOpsCheckStatusList.value.map(v => v.value) ?? undefined
+      manualBankOpsCheckStatusList: manualBankOpsCheckStatusList.value?.map(v => v.value) ?? undefined
     };
 
   }

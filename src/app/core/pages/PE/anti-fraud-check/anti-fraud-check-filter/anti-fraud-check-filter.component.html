@@ -17,7 +17,7 @@
         label="Дата/время с"
         [control]="filter.controls.dateTimeFrom"
         [labelStyle]="{ 'width': '130px' }"
-        [showTime]="false">
+        [showTime]="true">
     </pe-date-picker-form>
 
     <pe-indent [mBottom]="4"></pe-indent>
@@ -26,7 +26,7 @@
         label="Дата/время по"
         [control]="filter.controls.dateTimeTo"
         [labelStyle]="{ 'width': '130px' }"
-        [showTime]="false">
+        [showTime]="true">
     </pe-date-picker-form>
 
     <pe-indent [mBottom]="4"></pe-indent>
@@ -44,9 +44,8 @@
     <div class="anti-fraud-checkbox">
         
         <pe-checkbox-form
-            *ngIf="showCheckbox"
             [control]="filter.controls.agedOnly"
-            [disabled]="true"
+            [disabled]="!hasAccessToAgedOnly"
             label="Только просроченные">
         </pe-checkbox-form>
 

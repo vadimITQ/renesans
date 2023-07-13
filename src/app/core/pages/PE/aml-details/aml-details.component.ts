@@ -7,12 +7,15 @@ import { FileUploadingModal, IPEUploadingData } from "src/app/shared/components/
 import { ToastService } from "src/app/shared/services/toast.service";
 import { AmlDetailsService } from "../../../services/aml-check/aml-details.service";
 import { AmlDetailsUtils } from "./aml-details.utils";
-import { FormGroup } from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { IMultiSelectData } from "src/app/shared/components/controls/pe-multiselect/pe-multiselect.component";
 import { Any } from "src/app/shared/variables/pe-input-validations";
 import { LoadingService } from "src/app/shared/services/loading.service";
+import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/utils";
+import { PeConfig } from "src/app/shared/config/config";
+import { PeNavigationService } from "src/app/core/services/pe-navigation/pe-navigation.service";
 
 @Component({
     selector: "app-aml-details",
@@ -27,12 +30,15 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         private loadingService: LoadingService,
         private toast: ToastService,
         private utils: AmlDetailsUtils,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private toastService: ToastService,
+        private peNavigation: PeNavigationService
     ) { }
 
     public detailsForm: FormGroup<IAmlDetailsForm> = this.utils.createEmptyForm();
     public paymentID: string = '';
     public readOnly: boolean = true;
+    public startDate: Date | null = null;
     public uploadingModal: FileUploadingModal = FileUploadingModal.createDefaultModal();
     public labelsStyle: { [key: string]: string } = {
         "font-weight": "500"
@@ -73,6 +79,24 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         return !!this.uploadingModal.files.length;
     }
 
+    get deleteFilesDisabled(): boolean {
+        return this.readOnly;
+    }
+
+    get editFilesDisabled(): boolean {
+        return this.readOnly;
+    }
+
+    get applicationExpired(): boolean { 
+      if (!!this.startDate){
+        const diff = new Date().getTime() - this.startDate.getTime();
+        return (diff / 1000) > PeConfig.manualAMLCheckTimeOut;
+      }
+      else {
+        return false;
+      }
+    }
+
     ngOnDestroy(): void {
         if (!!this.subscriptions['routerParamsSubscribtion']){
             this.subscriptions['routerParamsSubscribtion'].unsubscribe();
@@ -82,6 +106,8 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
       const amlDetailsId = this.activatedRoute.snapshot.paramMap.get('id');
+
+      this.detailsForm.disable();
 
       if (!amlDetailsId) {
         return;
@@ -94,35 +120,59 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         }
         this.paymentID = value.payment.paymentID;
         this.loading = false;
-
         this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
           this.readOnly = manualCheckModeResponse.readOnly;
           if (!manualCheckModeResponse.readOnly) {
-            this.amlDetailsService.saveManualCheckMode(this.paymentID, '2');
+            this.detailsForm.enable();
+            this.startDate = new Date();
+            this.amlDetailsService.saveManualCheckMode(this.paymentID, '2').subscribe();
           }
         });
-        this.detailsForm = this.utils.prepareAmlDetailsForm(value);
+        this.detailsForm.patchValue(PEReactiveHelper.extractValues(this.utils.prepareAmlDetailsForm(value)));
         PaymentEngineHelper.scrollToTop();
       });
     }
 
     back() {
-        this.amlDetailsService.saveManualCheckMode(this.paymentID, '1');
+        if (!this.readOnly){
+            this.amlDetailsService.saveManualCheckMode(this.paymentID, '1').subscribe();
+        }
     }
 
     approve() {
-        this.amlDetailsService.saveManualCheckMode(this.paymentID, '3');
+        if (this.readOnly){return};
+        if (this.applicationExpired){
+            this.toastService.showWarnToast('Время, отведенное на обработку заявки, истекло. Откройте заявку на рассмотрение повторно');
+        }
+        else {
+            this.amlDetailsService.saveManualCheckMode(this.paymentID, '3').subscribe(() => this.peNavigation.goBack());
+        }
     }
 
     cancel() {
-        this.amlDetailsService.saveManualCheckMode(this.paymentID, '5');
+        if (this.readOnly){return};
+        if (this.applicationExpired){
+            this.toastService.showWarnToast('Время, отведенное на обработку заявки, истекло. Откройте заявку на рассмотрение повторно');
+        }
+        else {
+            this.amlDetailsService.saveManualCheckMode(this.paymentID, '5').subscribe(() => this.peNavigation.goBack());
+        }
     }
 
     sendDocs() {
-        this.amlDetailsService.saveManualCheckMode(this.paymentID, '4');
+        if (this.readOnly){return};
+        if (this.applicationExpired){
+            this.toastService.showWarnToast('Время, отведенное на обработку заявки, истекло. Откройте заявку на рассмотрение повторно');
+        }
+        else { 
+            this.amlDetailsService.saveManualCheckMode(this.paymentID, '4').subscribe(() => this.peNavigation.goBack());   
+        }
     }
 
     addDocument() {
+        if (this.readOnly){
+            return;
+        }
         this.uploadingModal.showModal();
     }
 

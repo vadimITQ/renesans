@@ -40,7 +40,7 @@ export class SearchPaymentTableComponent implements OnInit, OnDestroy {
 
   public tableColumns: IColumn[] = searchPaymentTableColumns;
   public tableData: ISearchPaymentTableData[] | null = null;
-  public paymentResponse: ISearchPayment[] | null = [];
+  public paymentResponse: ISearchPayment[] | null | undefined = [];
   public selectedPayments: ISearchPaymentTableData[] = [];
   private paymentResponseStateSubscription!: Subscription;
 

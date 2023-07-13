@@ -8,6 +8,7 @@ import { AntiFraudChecksValidation } from "./anti-fraud-checks-filter.validation
 import { AntiFraudCheckService } from "src/app/core/services/anti-fraud-checks/anti-fraud-check.service";
 import { FormGroup } from "@angular/forms";
 import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/utils";
+import { PeRolesService } from "src/app/core/services/auth/pe-roles.service";
 
 @Component({
     selector: "pe-anti-fraud-check-filter",
@@ -17,19 +18,17 @@ import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/ut
 export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
 
     constructor(
-        private rolesService: RolesService,
-        private changeDetector: ChangeDetectorRef,
         private antiFraudCheckService: AntiFraudCheckService,
         private utils: AntiFraudChecksFilterUtils,
-        private validation: AntiFraudChecksValidation
+        private validation: AntiFraudChecksValidation,
+        private peRolesService: PeRolesService
     ) {}
 
     public multiselectDataSets: typeof MultiselectDataSets = MultiselectDataSets;
     public filter: FormGroup<AntiFraudCheckFilterForm> = this.utils.createDefaultFilter();
 
-    get showCheckbox(): boolean {
-        return true;
-        return this.rolesService.hasRole("AP.PEWeb.AntiFraudControl");
+    get hasAccessToAgedOnly(): boolean {
+        return this.peRolesService.hasAccessToSearchAgedOnly_AntiFraud();
     }
 
     ngOnDestroy(): void {
@@ -40,11 +39,11 @@ export class AntiFraudCheckFilterComponent implements OnInit, OnDestroy {
         if (!!this.antiFraudCheckService.$filter.value){
             this.filter = this.antiFraudCheckService.$filter.value;
         }
-        // this.changeDetector.detectChanges();
     }
 
     public clear(): void {
         PEReactiveHelper.resetForm(this.filter);
+        this.antiFraudCheckService.$tableData.next(undefined);
     }
 
     public search(): void {

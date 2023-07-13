@@ -31,7 +31,7 @@ export class AntiFraudChecksFilterUtils {
             applicationID: new FormControl(""),
             dateTimeFrom: new FormControl(dateFrom),
             dateTimeTo: new FormControl(dateTo),
-            manualAntiFraudCheckStatusList: new FormControl(manualAntiFraudCheckStatusList, { nonNullable: true }),
+            manualAntiFraudCheckStatusList: new FormControl(manualAntiFraudCheckStatusList),
             agedOnly: new FormControl(false, { nonNullable: true }),
         }, {
             updateOn : 'change',

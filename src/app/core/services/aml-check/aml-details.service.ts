@@ -27,14 +27,14 @@ export class AmlDetailsService {
         });
       }
 
-      saveManualCheckMode(paymentID: string, status: string) {
-        return this.paymentOrderWService.saveManualCheckMode({
-          paymentID: paymentID,
-          manualCheck: {
-            checkType: "AML",
-            status: status
-          }
-        });
-      }
+    saveManualCheckMode(paymentID: string, status: string) {
+      return this.paymentOrderWService.saveManualCheckMode({
+        paymentID: paymentID,
+        manualCheck: {
+          checkType: "AML",
+          status: status
+        }
+      });
+    }
 
 }

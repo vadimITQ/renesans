@@ -32,6 +32,7 @@ export class BankOpsCheckFiltersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.bankOpsCheckService.$filter.value) {
       this.filter = this.bankOpsCheckService.$filter.value;
+      this.bankOpsService.$tableData.next(undefined);
     }
     this.changeDetectionRef.detectChanges();
   }

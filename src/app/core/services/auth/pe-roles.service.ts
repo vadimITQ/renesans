@@ -66,5 +66,9 @@ export class PeRolesService {
   hasAccessToSearchAgedOnly(): boolean {
     return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_AMLControl, ProdRolesList.AP_PEWeb_AMLControl);
   }
+
+  hasAccessToSearchAgedOnly_AntiFraud(): boolean {
+    return this.rolesService.hasSomeOfRoles(RolesList.AP_TEST_PEWeb_AntiFraudControl, ProdRolesList.AP_PEWeb_AntiFraudControl); 
+  }
   
 }

@@ -28,7 +28,7 @@ export class AmlCheckFiltersUtils {
         dateTimeTo: new FormControl(dateTo),
         paymentID: new FormControl(null),
         applicationID: new FormControl(null),
-        applicationStatuses: new FormControl([], { nonNullable: true }),
+        applicationStatuses: new FormControl([{ label: 'Ожидает рассмотрения AML', value: '1' }]),
         agedOnly: new FormControl(false, { nonNullable: true })
       },
       {
@@ -54,7 +54,7 @@ export class AmlCheckFiltersUtils {
       paymentID: paymentID.value ?? undefined,
       dateTimeFrom: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeFrom.value?.toISOString() ?? null) ?? undefined,
       dateTimeTo: DatePickerHelper.convertToLocaleStringWithTimezone(dateTimeTo.value?.toISOString() ?? null) ?? undefined,
-      applicationStatuses: applicationStatuses.value.map(v => v.value) ?? undefined,
+      applicationStatuses: applicationStatuses.value?.map(v => v.value) ?? undefined,
       agedOnly: agedOnly.value
     };
 

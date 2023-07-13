@@ -7,7 +7,7 @@ import { MultiselectDataSets } from 'src/app/shared/enums/datasets.enums';
 import { SearchPaymentFilterValidation } from './search-payment-filter.validation';
 import { ipRegExp } from 'src/app/shared/variables/pe-input-validations';
 import { PEReactiveHelper } from 'src/app/shared/components/reactive-controls/utils';
-import { XlsxHelper } from 'src/app/shared/classes/xlsx-Helper';
+import { XlsxHelper } from 'src/app/shared/classes/xlsx-helper';
 import { DatePipe } from '@angular/common';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
@@ -17,7 +17,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
   styleUrls: ['./search-payment-filters.component.scss'],
 })
 export class SearchPaymentFiltersComponent implements OnInit, OnDestroy {
-  
+
   constructor(
     public searchPaymentService: SearchPaymentService,
     private changeDetectionRef: ChangeDetectorRef,

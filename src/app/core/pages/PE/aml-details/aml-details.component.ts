@@ -16,6 +16,7 @@ import { LoadingService } from "src/app/shared/services/loading.service";
 import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/utils";
 import { PeConfig } from "src/app/shared/config/config";
 import { PeNavigationService } from "src/app/core/services/pe-navigation/pe-navigation.service";
+import { executeRequestedDocsCommentary } from "src/app/core/services/payment-order-w/utils";
 
 @Component({
     selector: "app-aml-details",
@@ -113,13 +114,17 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         return;
       }
       this.loading = true;
-      this.amlDetailsService.getAmlDetails(amlDetailsId).subscribe(value => {
-        if (!value) {
+      this.amlDetailsService.getAmlDetails(amlDetailsId).subscribe(application => {
+
+        if (!application) {
           this.loading = false;
           return;
         }
-        this.paymentID = value.payment.paymentID;
+
+        executeRequestedDocsCommentary(application);
+        this.paymentID = application.payment.paymentID;
         this.loading = false;
+
         this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
           this.readOnly = manualCheckModeResponse.readOnly;
           if (!manualCheckModeResponse.readOnly) {
@@ -128,8 +133,10 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
             this.amlDetailsService.saveManualCheckMode(this.paymentID, '2').subscribe();
           }
         });
-        this.detailsForm.patchValue(PEReactiveHelper.extractValues(this.utils.prepareAmlDetailsForm(value)));
+
+        this.detailsForm.patchValue(PEReactiveHelper.extractValues(this.utils.prepareAmlDetailsForm(application)));
         PaymentEngineHelper.scrollToTop();
+
       });
     }
 

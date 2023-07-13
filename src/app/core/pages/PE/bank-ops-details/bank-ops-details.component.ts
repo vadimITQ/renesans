@@ -17,6 +17,7 @@ import { LoadingService } from 'src/app/shared/services/loading.service';
 import { IAutoCheck, IManualCheck, IRequestedDocument, IResponsedDocument } from "src/app/shared/types/get-application-details";
 import { PeConfig } from "src/app/shared/config/config";
 import { PeNavigationService } from "src/app/core/services/pe-navigation/pe-navigation.service";
+import { executeRequestedDocsCommentary } from "src/app/core/services/payment-order-w/utils";
 
 @Component({
   selector: 'app-bank-ops-details',
@@ -111,14 +112,15 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       return;
     }
     this.loading = true;
-    this.bankOpsDetailsService.getBankOpsDetails(bankOpsDetailsId).subscribe(value => {
+    this.bankOpsDetailsService.getBankOpsDetails(bankOpsDetailsId).subscribe(application => {
 
-      if (!value) {
+      if (!application) {
         this.loading = false;
         return;
       }
 
-      this.paymentID = value.payment.paymentID;
+      executeRequestedDocsCommentary(application);
+      this.paymentID = application.payment.paymentID;
       this.loading = false;
 
       this.bankOpsDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
@@ -130,7 +132,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
         }
       });
       
-      this.bankOpsGroup.patchValue({...prepareBankOpsDetails(value), commentary: null});
+      this.bankOpsGroup.patchValue({...prepareBankOpsDetails(application), commentary: null});
       PaymentEngineHelper.scrollToTop();
 
     });

@@ -20,6 +20,8 @@ export interface IRequestedDocument {
   userLogin: string;
   requestTime: string;
   department: string;
+  amlCommentary: string;
+  bankOpsCommentary: string;
 }
 export interface IResponsedDocument {
   docID: string;

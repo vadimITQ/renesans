@@ -1,4 +1,6 @@
+import { IBankOpsDetailsRequestedDocs } from 'src/app/core/pages/PE/bank-ops-details/bank-ops-details.types';
 import { ISearchPayment } from '../../core/services/search-payment/types';
+import { IPEUploadingData } from '../components/file-uploading-modal/file-uploading-modal.types';
 
 export interface IAutoCheck {
   autoAMLRule: string;
@@ -20,9 +22,9 @@ export interface IRequestedDocument {
   userLogin: string;
   requestTime: string;
   department: string;
-  amlCommentary: string;
-  bankOpsCommentary: string;
+  docs?: IBankOpsDetailsRequestedDocs;
 }
+
 export interface IResponsedDocument {
   docID: string;
   responseTime: string;

@@ -17,6 +17,9 @@ import { PEReactiveHelper } from "src/app/shared/components/reactive-controls/ut
 import { PeConfig } from "src/app/shared/config/config";
 import { PeNavigationService } from "src/app/core/services/pe-navigation/pe-navigation.service";
 import { executeRequestedDocsCommentary } from "src/app/core/services/payment-order-w/utils";
+import { DatePickerHelper } from "src/app/shared/components/controls/date-picker/date-picker-helper";
+import { AuthService } from "src/app/core/services/auth/auth.service";
+import { IRequestedDocument } from "src/app/shared/types/get-application-details";
 
 @Component({
     selector: "app-aml-details",
@@ -33,7 +36,8 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         private utils: AmlDetailsUtils,
         private activatedRoute: ActivatedRoute,
         private toastService: ToastService,
-        private peNavigation: PeNavigationService
+        private peNavigation: PeNavigationService,
+        private authService: AuthService
     ) { }
 
     public detailsForm: FormGroup<IAmlDetailsForm> = this.utils.createEmptyForm();
@@ -45,13 +49,11 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         "font-weight": "500"
     };
     public loading: boolean = false;
-
+    public readonly FILES_COMMENTARY_REGEXPR = Any;
     public subscriptions: { [key: string]: Subscription | null } = {
         getManualCheckMode: null
     };
 
-    public requestedDocsData:IAmlDetailsRequestedDocs[] =[]
-    public uploadingDataForChanges: IPEUploadingData | null = null;
     public amlDetailsRequestedDocs: IAmlDetailsRequestedDocs = {
         commentaryAML: '',
         commentaryBankOps: '',
@@ -60,7 +62,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
             files: []
         }
     };
-    public readonly FILES_COMMENTARY_REGEXPR = Any;
+    public changeRef_docRow: IRequestedDocument | null = null;
     public changeRef_AMLDetailsRequestedDocs: IAmlDetailsRequestedDocs | null = null;
 
     get hasAccessToComponent(): boolean {
@@ -80,14 +82,6 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         return !!this.uploadingModal.files.length;
     }
 
-    get deleteFilesDisabled(): boolean {
-        return this.readOnly;
-    }
-
-    get editFilesDisabled(): boolean {
-        return this.readOnly;
-    }
-
     get applicationExpired(): boolean { 
       if (!!this.startDate){
         const diff = new Date().getTime() - this.startDate.getTime();
@@ -98,6 +92,14 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
       }
     }
 
+    public editFilesDisabled(doc: IRequestedDocument | null): boolean {
+      return this.readOnly || !!doc?.docID;
+    }
+
+    public deleteFilesDisabled(doc: IRequestedDocument | null): boolean {
+      return this.readOnly || !!doc?.docID;
+    }
+    
     ngOnDestroy(): void {
         if (!!this.subscriptions['routerParamsSubscribtion']){
             this.subscriptions['routerParamsSubscribtion'].unsubscribe();
@@ -126,6 +128,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         this.loading = false;
 
         this.amlDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
+          manualCheckModeResponse.readOnly = false;
           this.readOnly = manualCheckModeResponse.readOnly;
           if (!manualCheckModeResponse.readOnly) {
             this.detailsForm.enable();
@@ -197,7 +200,18 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
                 this.toast.showSuccessToast("Документ был успешно изменён");
             }
             else {
-                this.requestedDocsData.push(this.amlDetailsRequestedDocs);
+                this.detailsForm.controls.requestedDocuments.push(new FormControl<IRequestedDocument | null>({
+                  docID: '',
+                  department: 'BANK_OPS',
+                  docType: `${this.amlDetailsRequestedDocs.filesData.docType.label}: \n${this.amlDetailsRequestedDocs.filesData.files.map(file => (file.file?.name ?? '') + '\n')}`,
+                  requestTime: DatePickerHelper.convertToLocaleStringWithTimezone(new Date().toISOString()) ?? '',
+                  userLogin: this.authService.user?.connectionName ?? '',
+                  docs: {
+                    commentaryAML: this.amlDetailsRequestedDocs.commentaryAML,
+                    commentaryBankOps: this.amlDetailsRequestedDocs.commentaryBankOps,
+                    filesData: this.amlDetailsRequestedDocs.filesData
+                  }
+                }));
             }
             this.loadingService.hideLoading();
             this.uploadingModal.hideModal();
@@ -206,16 +220,19 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
     }
 
     changeUploadingItem(data: IPEUploadingData) {
-        if (!this.changeRef_AMLDetailsRequestedDocs){
-            return;
-        }
-        const docTypeIsChanged = this.changeRef_AMLDetailsRequestedDocs.filesData.docType !== data.docType;
-        this.changeRef_AMLDetailsRequestedDocs.commentaryAML = this.amlDetailsRequestedDocs.commentaryAML;
-        this.changeRef_AMLDetailsRequestedDocs.commentaryBankOps = this.amlDetailsRequestedDocs.commentaryBankOps;
-        this.changeRef_AMLDetailsRequestedDocs.filesData.docType = data.docType;
-        if (docTypeIsChanged || !!data.files.length){
-            this.changeRef_AMLDetailsRequestedDocs.filesData.files = data.files;
-        }
+      if (!this.changeRef_AMLDetailsRequestedDocs){
+          return;
+      }
+      const docTypeIsChanged = this.changeRef_AMLDetailsRequestedDocs.filesData.docType !== data.docType;
+      this.changeRef_AMLDetailsRequestedDocs.commentaryAML = this.amlDetailsRequestedDocs.commentaryAML;
+      this.changeRef_AMLDetailsRequestedDocs.commentaryBankOps = this.amlDetailsRequestedDocs.commentaryBankOps;
+      this.changeRef_AMLDetailsRequestedDocs.filesData.docType = data.docType;
+      if (docTypeIsChanged || !!data.files.length){
+          this.changeRef_AMLDetailsRequestedDocs.filesData.files = data.files;
+      }
+      if (!!this.changeRef_docRow){
+        this.changeRef_docRow.docType = `${this.amlDetailsRequestedDocs.filesData.docType.label}: \n${this.amlDetailsRequestedDocs.filesData.files.map(file => (file.file?.name ?? '') + '\n')}` ?? '';
+      }
     }
 
     onCancel(){
@@ -223,20 +240,29 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
         this.clearUploadingModal();
     }
 
-    deleteUploadingItem(data: IAmlDetailsRequestedDocs) {
-            this.requestedDocsData = this.requestedDocsData.filter(value => value !== data);
+    deleteUploadingItem(data: IRequestedDocument | null, index: number) {
+      if (this.deleteFilesDisabled(data)){
+        return;
+      }
+      this.detailsForm.controls.requestedDocuments.removeAt(index);
     }
 
-    editUploadingItem(row: IAmlDetailsRequestedDocs) {
-        this.changeRef_AMLDetailsRequestedDocs = row;
-        this.amlDetailsRequestedDocs = {
-            commentaryAML: row.commentaryAML,
-            commentaryBankOps: row.commentaryBankOps,
-            filesData: row.filesData
+    editUploadingItem(row: IRequestedDocument | null) {
+        if (this.editFilesDisabled(row)){
+          return;
         }
-        this.uploadingModal.setData(row.filesData);
-        this.uploadingModal.showModal();
-    }
+        if (!!row?.docs){
+          this.changeRef_docRow = row;
+          this.changeRef_AMLDetailsRequestedDocs = row.docs;
+          this.amlDetailsRequestedDocs = {
+            commentaryAML: row.docs.commentaryAML,
+            commentaryBankOps: row.docs.commentaryBankOps,
+            filesData: row.docs.filesData
+          };
+          this.uploadingModal.setData(row.docs.filesData);
+          this.uploadingModal.showModal();  
+        }
+      }
 
     clearUploadingModal() {
         this.uploadingModal.clear();
@@ -249,6 +275,7 @@ export class AmlDetailsComponent implements OnInit, OnDestroy {
             }
         };
         this.changeRef_AMLDetailsRequestedDocs = null;
+        this.changeRef_docRow = null;
     }
 
 }

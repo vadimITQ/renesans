@@ -18,6 +18,8 @@ import { IAutoCheck, IManualCheck, IRequestedDocument, IResponsedDocument } from
 import { PeConfig } from "src/app/shared/config/config";
 import { PeNavigationService } from "src/app/core/services/pe-navigation/pe-navigation.service";
 import { executeRequestedDocsCommentary } from "src/app/core/services/payment-order-w/utils";
+import { DatePickerHelper } from "src/app/shared/components/controls/date-picker/date-picker-helper";
+import { AuthService } from "src/app/core/services/auth/auth.service";
 
 @Component({
   selector: 'app-bank-ops-details',
@@ -33,7 +35,8 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       private fb: FormBuilder,
       private activatedRoute: ActivatedRoute,
       private loadingService: LoadingService,
-      private peNavigation: PeNavigationService
+      private peNavigation: PeNavigationService,
+      private authService: AuthService
   ) { }
   
   public bankOpsGroup: FormGroup<IBankOpsFormGroup> = this.createEmptyForm();
@@ -53,7 +56,6 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
   public startDate: Date | null = null;
   public readonly COMMENTARY_EXPR = commentaryExpr;
 
-  public requestedDocsData:IBankOpsDetailsRequestedDocs[] = [];
   public bankOpsDetailsRequestedDocs: IBankOpsDetailsRequestedDocs = {
       commentaryAML: '',
       commentaryBankOps: '',
@@ -62,6 +64,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
           files: []
       }
   };
+  public changeRef_docRow: IRequestedDocument | null = null;
   public changeRef_BankOpsDetailsRequestedDocs: IBankOpsDetailsRequestedDocs | null = null;
 
   get hasAccessToComponent(): boolean {
@@ -80,14 +83,6 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     return !!this.uploadingModal.files.length;
   }
 
-  get deleteFilesDisabled(): boolean {
-    return this.readOnly;
-  }
-
-  get editFilesDisabled(): boolean {
-    return this.readOnly;
-  }
-
   get showDocs(): boolean {
     return true;
     // return EXT_SWIFT
@@ -101,6 +96,14 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     else {
       return false;
     }
+  }
+
+  public editFilesDisabled(doc: IRequestedDocument | null): boolean {
+    return this.readOnly || !!doc?.docID;
+  }
+
+  public deleteFilesDisabled(doc: IRequestedDocument | null): boolean {
+    return this.readOnly || !!doc?.docID;
   }
 
   loadData() {
@@ -124,6 +127,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       this.loading = false;
 
       this.bankOpsDetailsService.getManualCheckMode(this.paymentID).subscribe(manualCheckModeResponse => {
+        manualCheckModeResponse.readOnly = false;
         this.readOnly = manualCheckModeResponse.readOnly;
         if (!manualCheckModeResponse.readOnly) {
           this.bankOpsGroup.enable();
@@ -214,6 +218,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       this.subscribtions['routerParamsSubscribtion'].unsubscribe();
     }
   }
+
   addDocument() {
     if (this.readOnly){return;}
     this.uploadingModal.showModal();
@@ -231,8 +236,20 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
       if (!!this.changeRef_BankOpsDetailsRequestedDocs) {
         this.changeUploadingItem(this.uploadingModal.getData());
         this.toast.showSuccessToast('Документ был успешно изменён');
-      } {
-        this.requestedDocsData.push(this.bankOpsDetailsRequestedDocs);
+      } 
+      else {
+        this.bankOpsGroup.controls.requestedDocuments.push(new FormControl<IRequestedDocument | null>({
+          docID: '',
+          department: 'BANK_OPS',
+          docType: `${this.bankOpsDetailsRequestedDocs.filesData.docType.label}: \n${this.bankOpsDetailsRequestedDocs.filesData.files.map(file => (file.file?.name ?? '') + '\n')}`,
+          requestTime: DatePickerHelper.convertToLocaleStringWithTimezone(new Date().toISOString()) ?? '',
+          userLogin: this.authService.user?.connectionName ?? '',
+          docs: {
+            commentaryAML: this.bankOpsDetailsRequestedDocs.commentaryAML,
+            commentaryBankOps: this.bankOpsDetailsRequestedDocs.commentaryBankOps,
+            filesData: this.bankOpsDetailsRequestedDocs.filesData
+          }
+        }));
       }
       this.loadingService.hideLoading();
       this.clearUploadingModal();
@@ -250,6 +267,9 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     if (docTypeIsChanged || !!data.files.length) {
       this.changeRef_BankOpsDetailsRequestedDocs.filesData.files = data.files;
     }
+    if (!!this.changeRef_docRow){
+      this.changeRef_docRow.docType = `${this.bankOpsDetailsRequestedDocs.filesData.docType.label}: \n${this.bankOpsDetailsRequestedDocs.filesData.files.map(file => (file.file?.name ?? '') + '\n')}` ?? '';
+    }
   }
 
   onCancel() {
@@ -257,20 +277,28 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
     this.clearUploadingModal();
   }
 
-  deleteUploadingItem(data: IBankOpsDetailsRequestedDocs) {
-      this.requestedDocsData = this.requestedDocsData.filter(value => value !== data);
-
+  deleteUploadingItem(data: IRequestedDocument | null, index: number) {
+    if (this.deleteFilesDisabled(data)){
+      return;
+    }
+    this.bankOpsGroup.controls.requestedDocuments.removeAt(index);
   }
 
-  editUploadingItem(row: IBankOpsDetailsRequestedDocs) {
-    this.changeRef_BankOpsDetailsRequestedDocs = row;
-    this.bankOpsDetailsRequestedDocs = {
-      commentaryAML: row.commentaryAML,
-      commentaryBankOps: row.commentaryBankOps,
-      filesData: row.filesData
-    };
-    this.uploadingModal.setData(row.filesData);
-    this.uploadingModal.showModal();
+  editUploadingItem(row: IRequestedDocument | null) {
+    if (this.editFilesDisabled(row)){
+      return;
+    }
+    if (!!row?.docs){
+      this.changeRef_docRow = row;
+      this.changeRef_BankOpsDetailsRequestedDocs = row.docs;
+      this.bankOpsDetailsRequestedDocs = {
+        commentaryAML: row.docs.commentaryAML,
+        commentaryBankOps: row.docs.commentaryBankOps,
+        filesData: row.docs.filesData
+      };
+      this.uploadingModal.setData(row.docs.filesData);
+      this.uploadingModal.showModal();  
+    }
   }
 
   clearUploadingModal() {
@@ -284,6 +312,7 @@ export class BankOpsDetailsComponent implements OnInit, OnDestroy {
         }
     };
     this.changeRef_BankOpsDetailsRequestedDocs = null;
+    this.changeRef_docRow = null;
   }
   
 }

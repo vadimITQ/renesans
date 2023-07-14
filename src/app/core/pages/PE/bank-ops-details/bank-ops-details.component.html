@@ -46,8 +46,7 @@
       [showCurrentPageReport]="true"
       [lazy]="true"
       [columnResizeMode]="'expand'"
-      styleClass="p-datatable-gridlines p-datatable-sm"
-    >
+      styleClass="p-datatable-gridlines p-datatable-sm">
       <ng-template pTemplate="header">
         <tr>
           <th>Статус автоматических проверок BankOps</th>
@@ -131,7 +130,7 @@
   <div class="docs">
     <p-table
       *ngIf="loading"
-      [value]="bankOpsGroup.controls.requestedDocuments.value"
+      [value]="bankOpsGroup.controls.responsedDocuments.value"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"
@@ -180,7 +179,7 @@
 
     <p-table
       *ngIf="!loading"
-      [value]="requestedDocsData"
+      [value]="bankOpsGroup.controls.requestedDocuments.value"
       [scrollable]="true"
       [autoLayout]="true"
       [resizableColumns]="true"
@@ -197,24 +196,27 @@
           <th></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-data>
+      <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
         <tr>
-          <td style="width: 35%">
-            <ng-container *ngIf="data.filesData">{{ data.filesData.docType.label }}: <br /></ng-container>
-            <ng-container *ngFor="let file of data.filesData.files">{{ file.file.name }}<br /></ng-container>
+          <td style="width: 35%; white-space: pre-line;">
+            {{ data.docType }}
           </td>
           <td style="width: 30%">
-            {{ data.commentaryBankOps }}
+            <ng-container *ngIf="data.docs">
+              {{ data.docs.commentaryBankOps }}
+            </ng-container>
           </td>
           <td style="width: 30%">
-            {{ data.commentaryAML }}
+            <ng-container *ngIf="data.docs">
+              {{ data.docs.commentaryAML }}
+            </ng-container>
           </td>
           <td class="button-td">
             <p-button
               label="Редактировать"
               icon="pi pi-user-edit"
               iconPos="right"
-              [disabled]="editFilesDisabled"
+              [disabled]="editFilesDisabled(data)"
               (click)="editUploadingItem(data)"
               styleClass="p-button-sm p-button-outlined p-button-success">
             </p-button>
@@ -224,8 +226,8 @@
               label="Удалить"
               icon="pi pi-trash"
               iconPos="right"
-              [disabled]="deleteFilesDisabled"
-              (click)="deleteUploadingItem(data)"
+              [disabled]="deleteFilesDisabled(data)"
+              (click)="deleteUploadingItem(data, rowIndex)"
               styleClass="p-button-sm p-button-outlined p-button-danger">
             </p-button>
           </td>

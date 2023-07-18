@@ -8,6 +8,7 @@ import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 import {prepareTransferDetails} from "./view-transfer-details.utils";
 import {ITransferDetailsWithRetRefNumber, ItransferDetailsForm} from "./view-transfer-details.types";
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -19,6 +20,7 @@ export class ViewTransferDetailsComponent implements OnInit {
   transferDetailsForm: FormGroup<ItransferDetailsForm> = this.createForm();
   transferDetails: ITransferDetailsWithRetRefNumber = transferDetailDefaultValue;
   tableColumns = tableColumns;
+  readonly statuses = paymentStatusObj;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,6 +48,12 @@ export class ViewTransferDetailsComponent implements OnInit {
       }
 
       this.transferDetails = prepareTransferDetails(value);
+      this.transferDetails.statusHistory?.forEach(history => {
+        if (!!history.codeStatus && !history.statusComment){
+          history.statusComment = this.statuses[history.codeStatus];
+        }
+      });
+      console.log(this.transferDetails);
 
       const {statusHistory, ...details} = this.transferDetails;
 

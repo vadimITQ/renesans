@@ -7,6 +7,7 @@ import { PeNavigationService } from 'src/app/core/services/pe-navigation/pe-navi
 import { PeRolesService } from 'src/app/core/services/auth/pe-roles.service';
 import { prepareTransferDetails } from './view-transfer-details.utils';
 import { ITransferDetailsWithRetRefNumber } from './view-transfer-details.types';
+import { paymentStatusObj } from 'src/app/shared/variables/payment-status';
 
 @Component({
   selector: 'app-view-transfer-details',
@@ -14,8 +15,10 @@ import { ITransferDetailsWithRetRefNumber } from './view-transfer-details.types'
   styleUrls: ['./view-transfer-details.component.scss'],
 })
 export class ViewTransferDetailsComponent implements OnInit {
+
   transferDetails: ITransferDetailsWithRetRefNumber = prepareTransferDetails(null);
   tableColumns = tableColumns;
+  readonly statuses = paymentStatusObj;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,6 +43,11 @@ export class ViewTransferDetailsComponent implements OnInit {
         return;
       }
       this.transferDetails = prepareTransferDetails(value);
+      this.transferDetails.statusHistory?.forEach(history => {
+        if (!!history.codeStatus && !history.statusComment){
+          history.statusComment = this.statuses[history.codeStatus];
+        }
+      });
     });
   }
 
